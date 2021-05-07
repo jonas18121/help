@@ -103,6 +103,10 @@ telecharger maker-bundle
 
     - composer require symfony/maker-bundle --dev
 
+ou
+
+    - composer require make --dev
+
 si on veut voir la liste de commande que propose maker-bundle une fois installer
 
     - php bin/console list make
@@ -257,7 +261,7 @@ et pour executé notre fixtures
 
 ## fzaninotto/faker
 
-    > composer require fzaninotto/faker
+    > composer require fzaninotto/faker --dev
 
 ## ParamConverter
 
