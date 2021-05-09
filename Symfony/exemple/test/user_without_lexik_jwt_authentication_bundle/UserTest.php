@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
+// site http://httpbin.org/bearer
+
 class UserTest extends AbstractEndPoint
 {
     private string $user_payload = '{"email" : "%s", "password" : "password" }';
