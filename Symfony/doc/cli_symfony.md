@@ -492,9 +492,13 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 
 
 
-## API Plateforme
+## API Plateform
 
     > composer require api
+
+## une version précise de API plateform
+
+    > composer require api-platform/core:v2.5 --with-all-dependencies 
 
 ## lexik/jwt-authentication-bundle
 
@@ -510,3 +514,14 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 
     > composer require test --dev
 
+### Créer une base de données dans un environnement de test
+
+    > php bin/console doctrine:database:create --env=test
+
+### Créer la structure des tables dans la base de données qui est dans un environnement de test
+
+    > php bin/console doctrine:schema:update --env=test --force
+
+### Envoyer des fixtures dans la base de données qui est dans un environnement de test
+
+    > php bin/console doctrine:fixtures:load --env=test
