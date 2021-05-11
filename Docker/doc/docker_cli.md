@@ -100,9 +100,25 @@ https://docs.docker.com/engine/reference/commandline/exec/
 
     > docker image ls
 
+### Lister toutes les images
+
+    > docker images -a
+
 ### Supprimer une ou plusieurs images
 
     > docker image rm <id_de_image>
+
+    ou si, ça ne passe pas, il faut forcer
+
+    > docker image rm <id_de_image>
+
+### Supprimer une ou plusieurs images via leur ID
+
+    > docker rmi <id_de_image>
+
+    ou si, ça ne passe pas, il faut forcer
+
+    > docker rmi <id_de_image> --force
 
 ### Créer une image à partir d'un Dockerfile
 
@@ -118,9 +134,21 @@ https://docs.docker.com/engine/reference/commandline/exec/
 
     > docker container ls
 
-### Lister tout les container mêm ceux qui ne sont pas actif
+### Lister tout les containers même ceux qui ne sont pas actif
 
     > docker container ls -a
+
+### Lister les containers et les filtrer selon leur statut : créé, redémarré, en cours d'exécution, en pause ou quitté
+
+    > docker ps -a
+
+### Consulter la liste des conteneurs quittés, utilisez le drapeau -f
+
+    > docker ps -a -f status=exited
+
+### Utilisez -q pour transmettre les ID à la commande docker rm, afin de Supprimer tous les conteneurs quittés
+
+    > docker rm $(docker ps -a -f status=exited -q)
 
 ### Créer un container à partir d'une image (le contaire sera inactif tant qu'on l'aura pas ativer)
 
@@ -129,3 +157,29 @@ https://docs.docker.com/engine/reference/commandline/exec/
 ### Créer un container à partir d'une image et le démarrer en mode actif
 
     > docker run -it <nom_de_image>
+
+### Supprimer un conteneur
+
+    > docker rm <ID_ou_nom_du_conteneur>
+
+### Supprimer un conteneur et son volume
+
+    > docker rm -v <container_name>
+
+### Pour supprimer en plus tous les conteneurs arrêtés et toutes les images non utilisées
+
+    >docker system prune -a
+
+
+    
+
+
+## Les volumes
+
+### voir les volumes 
+
+    > docker volume ls
+
+### Supprimer un volume
+
+    > docker volume rm <nom_volume>
