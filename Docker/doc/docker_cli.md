@@ -67,6 +67,10 @@
 
     > docker-compose kill
 
+### Construire/Reconstruire les conteneurs à partir des services
+
+    > docker-compose up --build
+
 
 
 
