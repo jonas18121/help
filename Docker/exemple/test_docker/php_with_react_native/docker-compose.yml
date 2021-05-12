@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+
+    ########### FRONTEND #############
+
+    react-native: 
+        build: react-native
+        expose:
+            - 19000
+            - 19001
+            - 8081
+        container_name: wallky_react_native
+        volumes:
+            - ./mobile/react-native:/var/mobile/react-native
+        ports: 
+            - "19000:19000"
+            - "19001:19001"
+            - "8081:8081"
+        networks:
+            - mobile
+
+    ########### BACKEND #############
+
+    db:
+        image: mysql
+        container_name: wallky_mysql
+        restart: always
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        networks:
+            - backend
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: wallky_phpmyadmin
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - 8080:80
+        environment:
+            PMA_HOST: db
+        networks:
+            - backend
+    www:
+        build: php
+        container_name: wallky_www
+        expose:
+            - 8741
+        ports:
+            - "8741:80"
+        volumes:
+            - ./php/vhosts:/etc/apache2/sites-enabled
+            - ./api:/var/www/api
+        user: '1000:1000' 
+        restart: always
+        networks:
+            - backend
+
+networks:
+    mobile:
+    backend:
+volumes:
+    db-data:
