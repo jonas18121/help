@@ -57,3 +57,7 @@ ou
 ## Installer expo-constants
 
     > expo install expo-constants
+
+## Installer expo-font
+
+    > expo install expo-font
