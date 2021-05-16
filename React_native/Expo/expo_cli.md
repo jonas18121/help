@@ -52,3 +52,8 @@ ou
 ou 
 
     > npm web
+
+
+## Installer expo-constants
+
+    > expo install expo-constants

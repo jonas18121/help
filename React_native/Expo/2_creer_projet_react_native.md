@@ -19,6 +19,14 @@ et bien d'autre
 
     > cd <nom_du_projet>
 
+## démarrer le projet a la fois sur iOS, Android, web react-native et symfony
+
+    > exp start
+
+ou 
+
+    > exp start -s <mon_email>
+
 ## démarrer le projet a la fois sur iOS, Android, web
 
     > expo start
