@@ -53,6 +53,10 @@ ou
 
     > npm web
 
+## Netoyer le cache et redémarrer
+
+    > expo r -c
+
 
 ## Installer expo-constants
 
