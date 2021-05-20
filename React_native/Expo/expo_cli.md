@@ -53,6 +53,10 @@ ou
 
     > npm web
 
+## Netoyer le cache et redémarrer
+
+    > expo r -c
+
 
 ## Installer expo-constants
 
@@ -61,3 +65,17 @@ ou
 ## Installer expo-font
 
     > expo install expo-font
+
+
+## Installer AsyncStorage
+
+Site : https://docs.expo.io/versions/latest/sdk/async-storage/
+
+    > expo install @react-native-async-storage/async-storage
+
+Pour l'importer :
+
+Site : https://react-native-async-storage.github.io/async-storage/docs/usage/
+
+    import AsyncStorage from '@react-native-async-storage/async-storage';
+
