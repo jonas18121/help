@@ -34,5 +34,31 @@ Ou
     > yarn add @react-navigation/stack
 
 
+## Installer AsyncStorage
+
+    > yarn add @react-native-async-storage/async-storage
+
+ou
+
+    > npm install @react-native-async-storage/async-storage
+
+ou
+
+    > expo install @react-native-async-storage/async-storage
+
+### Pour l'importer
+
+    import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+## Installer Google auth
+
+    > expo install expo-google-app-auth
+
+### Pour l'importer
+
+    import * as Google from 'expo-google-app-auth';
+
+
 
 
