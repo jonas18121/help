@@ -73,9 +73,24 @@ Site : https://docs.expo.io/versions/latest/sdk/async-storage/
 
     > expo install @react-native-async-storage/async-storage
 
-Pour l'importer :
+###  Pour l'importer :
 
 Site : https://react-native-async-storage.github.io/async-storage/docs/usage/
 
     import AsyncStorage from '@react-native-async-storage/async-storage';
 
+## Installer Google auth
+
+    > expo install expo-google-app-auth
+
+### Pour l'importer
+
+    import * as Google from 'expo-google-app-auth';
+
+## Installer la permission pour la geolocalisation
+
+    > expo install expo-permissions
+
+###  Pour l'importer :
+
+    import * as Permissions from 'expo-permissions';
