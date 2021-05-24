@@ -62,5 +62,19 @@ ou
     import * as Google from 'expo-google-app-auth';
 
 
+## Installer la permission pour la geolocalisation c'est dépréssier utiliser plutot expo-media-library
+
+    > expo install expo-permissions
+
+### Pour l'importer :
+
+    import * as Permissions from 'expo-permissions';
 
 
+## Installer la permission pour la geolocalisation et les médiadu téléphone 
+
+    > expo install expo-media-library
+
+### Pour l'importer :
+
+    import * as MediaLibrary from 'expo-media-library';
