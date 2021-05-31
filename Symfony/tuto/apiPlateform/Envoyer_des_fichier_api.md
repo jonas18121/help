@@ -38,7 +38,7 @@ Dans `User.php`
 
 3) Il faut permettre a apiPlateform d'accepter les fichiers au format `multipart/form-data` car il ne l'accepte pas de base, donc aller dans `api_plateform.yaml`
 
-- `"deserialize"=false,` on va géré l'hydratation de l'entité manuellement donc on met deserialize sur false pour le désactiver
+4) `"deserialize"=false,` on va géré l'hydratation de l'entité manuellement donc on met deserialize sur false pour le désactiver
 
 - En ligne de commande on 
     
@@ -48,15 +48,15 @@ Dans `User.php`
 
     - puis on fait la migration en bdd
 
-4) Comme c'est des images qu'on va permettre, on install `VichUploaderBundle`
+5) Comme c'est des images qu'on va permettre, on install `VichUploaderBundle`
 
     > composer require vich/uploader-bundle
 
     pour excuter la reccette , on dit oui Y
 
-5) On va dans `vich_uploader.yaml` et on fait le configuration qu'il faut
+6) On va dans `vich_uploader.yaml` et on fait le configuration qu'il faut
 
-6) `use Vich\UploaderBundle\Mapping\Annotation as Vich;` on importe Vich
+7) `use Vich\UploaderBundle\Mapping\Annotation as Vich;` on importe Vich
 
 - On met l'annotation `@Vich\Uploadable` pour la class User pour dire qu'il contiendra des fichiers uploader
 
@@ -74,11 +74,11 @@ Dans `User.php`
 
 Arriver jusque la tout est bon ça fonctionne, on va finnioller les choses maintenant
 
-7) On cree manuellement une propriété ` $fileUrl;` de type `string` avec getter et setter, afin d'avoir le chemin de l'image
+8) On cree manuellement une propriété ` $fileUrl;` de type `string` avec getter et setter, afin d'avoir le chemin de l'image
 
-8) on cree un normalizer personnaliser, Aller dans `Serializer/UserImageNormalizer.php`
+9) on cree un normalizer personnaliser, Aller dans `Serializer/UserImageNormalizer.php`
 
-9) Ici on ajoute et configure `"openapi_context"` pour bien guider les utilisateurs de cette api pour qu'il comprennent que dans cette url `"/users/{id}/image"` on aura des données format multipart/form-data avec un file de type string et de format binary 
+10) Ici on ajoute et configure `"openapi_context"` pour bien guider les utilisateurs de cette api pour qu'il comprennent que dans cette url `"/users/{id}/image"` on aura des données format multipart/form-data avec un file de type string et de format binary 
 
      "openapi_context"={
     *                  "requestBody"={
