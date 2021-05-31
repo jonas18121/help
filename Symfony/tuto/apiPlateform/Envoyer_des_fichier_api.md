@@ -565,6 +565,9 @@ Dans `Serializer/UserImageNormalizer.php`
     {
         use NormalizerAwareTrait;
 
+        /**
+        * pour savoir si on a dèjà appeler ce normalizer ou pas
+        */
         private const ALREADY_CALLED = 'AppUserImageNormalizerAlreadyCalled';
 
         private StorageInterface $storage;
@@ -574,13 +577,22 @@ Dans `Serializer/UserImageNormalizer.php`
             $this->storage = $storage;
         }
 
+        /**
+        * étape 1
+        * Si la valeur de self::ALREADY_CALLED n'est pas déjà dans le context et que $data est une instance de User
+        * on peut continuer la normalisation
+        *
+        */
         public function supportsNormalization($data, $format = null, array $context = [])
         {
             return !isset($context[self::ALREADY_CALLED]) && $data instanceof User;
         }
 
         /**
-        * Undocumented function
+        * étape 2
+        * 
+        * mettre l'url dans $object->setFileUrl() de User
+        * et mettre self::ALREADY_CALLED dans le contexte pour eviter le boucle infini
         *
         * @param User $object
         */
