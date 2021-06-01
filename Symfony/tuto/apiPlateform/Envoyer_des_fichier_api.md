@@ -541,7 +541,7 @@ site : https://symfony.com/doc/current/serializer/custom_normalizer.html
 
 - `return !isset($context[self::ALREADY_CALLED]) && $data instanceof User;`, Si dans le context, on na pas encore cette valeur `self::ALREADY_CALLED` et que $data est une instance de User, on peut continuer la normalisation
 
-- ` normalize()` pour mettre l'url dans $object->setFileUrl() de User  et mettre self::ALREADY_CALLED dans le contexte pour eviter le boucle infini
+- ` normalize()` pour mettre l'url du fichier dans $object->setFileUrl() de User  et mettre self::ALREADY_CALLED dans le contexte pour eviter le boucle infini
 
 
 Cette erreur: veut dire de bien écrire les argument de ces function, par exemple enlever string a l'argument $format
@@ -591,7 +591,7 @@ Dans `Serializer/UserImageNormalizer.php`
         /**
         * étape 2
         * 
-        * mettre l'url dans $object->setFileUrl() de User
+        * mettre l'url du fichier dans $object->setFileUrl() de User
         * et mettre self::ALREADY_CALLED dans le contexte pour eviter le boucle infini
         *
         * @param User $object
