@@ -94,3 +94,11 @@ Site : https://react-native-async-storage.github.io/async-storage/docs/usage/
 ###  Pour l'importer :
 
     import * as Permissions from 'expo-permissions';
+
+### Installer Axios
+
+    > expo install axios
+
+###  Pour l'importer :
+
+    import axios from 'axios';
