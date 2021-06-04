@@ -92,7 +92,7 @@ ou
 
 - On importe `rootReducer` depuis le fichier './reducers/rootReducer', pour mettre `rootReducer` à la racine
 
-- `createStore(rootReducer)`, on exporte `createStore` avec `rootReducer` comme paramètre, pour que le `store` puise communiquer avec les différent reducers
+- `createStore(rootReducer)`, on exporte `createStore` avec `rootReducer` comme paramètre, pour que le `store` puisse communiquer avec les différents reducers
 
 - Pour ce servir de ce store dans toutes l'application, on va l'intégré à la racine de notre application dans `App.js`
 
@@ -299,19 +299,19 @@ Dans `App.js`
 - `const defaultState = [];` Pour le reducer, il faut obligatoirement un `state par défaut`, donc on le crée avec comme valeur un tableau vide
 
 
-- En deuxième argument de `reducerUser()` nos action seront représenté en tant qu'objet avec comme propriété, `type` (type d'action) et `payload` (les données)  
+- En deuxième argument de `reducerUser()` nos action seront représenté en tant qu'objet avec comme propriété : `type` (type d'action) et `payload` (les données)  
     
     `action = {type: NOM_ACTION, payload}`
 
 - `switch (action.type)` va vérifié quel type d'action on lui a passer pour aller dans la bonne `case`
 
-- `switch ()` doit retourner par défaut, le `state` `default: return state;`
+- `switch ()` doit retourner par défaut, le `state` :  `default: return state;`
 
 #### Exemple
 
 Si le type d'action est `UPLOAD_IMAGE_FOR_USER` le `switch (action.type)` va aller dans la `case`, `case UPLOAD_IMAGE_FOR_USER:` et va exécuter la fonction `requestUploadImageForUser()`
 
-La fonction `requestUploadImageForUser()` va prendre ses argument depuis une fonction `action` précise
+La fonction `requestUploadImageForUser()` va prendre ses arguments depuis une fonction `action` précise
 
 La `case`, `case UPLOAD_IMAGE_FOR_USER:` retourne `null` car dans la fonction `requestUploadImageForUser()`, (après que la logique de téléchargement d'image sera faite), on va appeler l'action `GET_ONE_USER:` qui devra retourner les données de l'user courant avec sa nouvelle image de profile
 
@@ -375,4 +375,90 @@ Dans `rootReducer.js`
 
     export default combineReducers({
         reducerUser: reducerUser,
+    });
+
+
+### Dans `actionsTypeUser.js`
+
+- On va créer et exporter des constantes pour plus de facilité en écrivant le string des actions de la table de `User.php` dans un seul endroit
+
+Dans `actionsTypeUser.js`
+
+
+    export const GET_ONE_USER = 'GET_ONE_USER';
+
+    export const CHECK_USER = 'CHECK_USER';
+
+    export const UPLOAD_IMAGE_FOR_USER = 'UPLOAD_IMAGE_FOR_USER';
+
+    export const LOGIN_USER = 'LOGIN_USER';
+
+
+
+### Dans `actionUser.js`
+
+- On va importer nos type d'action depuis le fichier `actionsTypeUser.js`
+
+- Nos action seront représenté en tant qu'objet avec comme propriété, `type` (type d'action) et `payload` (les données) 
+
+    `exemple : action = {type: NOM_ACTION, payload: data}`
+
+- On crée nos `action` pour la table de `User.php`
+
+- Chaque `action` aura une propriété `type` précis
+
+- Les différentes données qui seront dans la propriété `payload` viendront depuis le `screen` car les actions seront appeler dans une fonction `dispatch()` dans le `screen`
+
+- A la différence des autre fonction `action`(qui sont appeler depuis le `screen`), la fonction `action`, `actionGetOneUser(user)`, lui pourra être appeler dans les différentes requête des autre `action` comme il retourne uniquement un user
+
+Dans `actionUser.js`
+
+    import { 
+        GET_ONE_USER, 
+        CHECK_USER,
+        UPLOAD_IMAGE_FOR_USER,
+        LOGIN_USER 
+    } from './actionsTypeUser';
+
+    //exemple : action = {type: NOM_ACTION, payload: data}
+
+
+    export const actionGetOneUser = (user) => ({
+        type: GET_ONE_USER,
+        payload: {
+            id: user.id,
+            pseudo: user.pseudo,
+            email: user.email,
+            phone: user.phone,
+            dateCreatedAt: user.dateCreatedAt,
+            updatedAt: user.updatedAt,
+            fileUrl: user.fileUrl
+        }
+    });
+
+    export const actionUploadImageForUser = (fromData, user, dispatch) => ({
+        type: UPLOAD_IMAGE_FOR_USER,
+        payload: {
+            fromData: fromData,
+            user: user,
+            dispatch: dispatch
+        }
+    });
+
+    export const actionCheckUser = (props, dispatch) => ({
+        type: CHECK_USER,
+        payload: {
+            props: props,
+            dispatch: dispatch
+        }
+    });
+
+    export const actionLoginUser = (pseudo, password, props, dispatch) => ({
+        type: LOGIN_USER,
+        payload: {
+            pseudo: pseudo,
+            password: password,
+            props: props,
+            dispatch: dispatch
+        }
     });
