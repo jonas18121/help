@@ -78,3 +78,14 @@ ou
 ### Pour l'importer :
 
     import * as MediaLibrary from 'expo-media-library';
+
+## Installer Redux et React-redux
+
+    > npm install redux react-redux
+
+ou 
+
+    > yarn add react-redux
+
+    > yarn add redux
+
