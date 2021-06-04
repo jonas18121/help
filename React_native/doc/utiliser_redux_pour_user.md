@@ -81,7 +81,7 @@ evidement on va créer un autre dossier pour mettre les requêtes d'une autre ta
 
     > npm install redux react-redux
 
-ou
+    ou
 
     > yarn add redux react-redux
 
@@ -466,7 +466,7 @@ Dans `actionUser.js`
     });
 
 
-Dans `requestUser.js`
+### Dans `requestUser.js`
 
 - Ici on va mettre toutes nos requête pour la table de `User.php`
 
