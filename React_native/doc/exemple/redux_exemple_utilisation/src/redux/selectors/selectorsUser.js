@@ -1,0 +1,1 @@
+export const selectorGetOneUser = (store) => store.reducerUser;
