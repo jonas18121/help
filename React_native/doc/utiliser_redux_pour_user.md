@@ -8,7 +8,7 @@ Voici comment ça va ce passer avec `Redux`
 
 2) Le `store` va récupère l'`action` et le transmettra au `reducer`
 
-3) Le `reducer` va modifier le `state` en fonction du type d'`action` qu'il a reçu et renvoyer le state modifier au `store`
+3) Le `reducer` va modifier le `state` en fonction du type d'`action` qu'il a reçu et va renvoyer le state modifier au `store`
 
 4) Le `store` reçois la modification du `state` et le met à jours afin de transmettre la nouvelle version du state à la `View`
 
@@ -24,19 +24,25 @@ Cette architecture peut être amléiorer mais c'est une bonne base
 
         redux/
 
+            actions/
+                users/
+                    actionsTypesUser.js
+                    actionsUser.js
+
             reducers/
-                index.js
-                reducerGetOneUser.js
+                reducerUser.js
+                rootReducer.js
             
-            action.js
-            actionType.js
-            selectors.js
+            selectors/
+                selectorsUser.js
+
             store.js
 
 
 - `api/` = Le dossier qui va recevoir les requêtes pour communiquer avec le backend
 
-- `users/` = Le dossier qui va recevoir les fichiers pour les requêtes de la table User
+- `users/` = Le dossier qui va recevoir les fichiers pour les requêtes de la table User, 
+evidement on va créer un autre dossier pour mettre les requêtes d'une autre table
 
 - `requestUser.js` = Le fichier qui va recevoir les requêtes de la table User
 
