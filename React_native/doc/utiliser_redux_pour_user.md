@@ -4,13 +4,13 @@
 
 Voici comment ça va ce passer avec `Redux`
 
-1) La `View`(Le client) va envoyer une `action` au `store`
+1) La `View`(écran/page) va envoyer une `action` au `store`
 
 2) Le `store` va récupère l'`action` et le transmettra au `reducer`
 
-3) Le `reducer` va modifier le `state` en fonction du type d'`action` qu'il a reçu et va renvoyer le state modifier au `store`
+3) Le `reducer` va modifier le `state` en fonction du type d'`action` qu'il a reçu et va renvoyer une nouvelle version du state au `store`
 
-4) Le `store` reçois la modification du `state` et le met à jours afin de transmettre la nouvelle version du state à la `View`
+4) Le `store` reçois la modification du `state` et le met à jours afin de transmettre la nouvelle version du state à la `View` (écran/page) 
 
 ## L' archithecture
 
@@ -49,9 +49,9 @@ evidement on va créer un autre dossier pour mettre les requêtes d'une autre ta
 - `redux/` = Le dossier qui va recevoir notre logique pour utiliser `Redux`
 
 
-- `actions` = Dossier qui contiendra les fichiers d'`actions` et les fichiers de `types d'action` de chaque table
+- `actions/` = Dossier qui contiendra les dossiers qui contiennent les fichiers d'`actions` et les fichiers de `types d'action` de chaque table
 
-- `users` = Dossier qui contiendra le fichier d'`actions` et le fichier de `types d'action` de la table user uniquement
+- `users/` = Dossier qui contiendra le fichier d'`actions` et le fichier de `types d'action` de la table user uniquement
 
 - `actionUser.js` = Dans ce fichier il y a les types d'actions et les données à retourner pour chaque type d'action ( pour la table user uniquement ) 
 
@@ -67,9 +67,9 @@ evidement on va créer un autre dossier pour mettre les requêtes d'une autre ta
 
 
 
-- `selectors` = Le dossier qui va recevoir tous les selector de chaque table présent dans le backend
+- `selectors/` = Le dossier qui va recevoir tous les selectors de chaque table présent dans le backend
 
-- `selectorsUser.js` = Le fichier qui va regrouper des fonctions qui vont prendre comme paramètre le `store` et renvoie une partie du `state` ( pour la table user uniquement ) . par exemple la fontion `selectorGetOneUser()` permet d'afficher un utilisateur
+- `selectorsUser.js` = Le fichier qui va regrouper des fonctions qui vont prendre comme paramètre le `store` et renvoie une partie du `state` ( pour la table user uniquement ) . par exemple la fontion `selectorsUser()` permet d'afficher un ou plusieurs utilisateurs en fonction du retour du type d'action qui a été exécuter 
 
 - `store.js` = Ce fichier communique à la fois avec la `View` (grace au `Providers` présent dans `App.js`) et à la fois avec les `reducers` (grace à la fonction `combineReducers` présent dans `rootReducer.js`). `store.js` aura toute les mises à jour du `state` pour les transmettre à la `View`.
 
@@ -81,7 +81,7 @@ evidement on va créer un autre dossier pour mettre les requêtes d'une autre ta
 
     > npm install redux react-redux
 
-ou
+    ou
 
     > yarn add redux react-redux
 
@@ -466,7 +466,7 @@ Dans `actionUser.js`
     });
 
 
-Dans `requestUser.js`
+### Dans `requestUser.js`
 
 - Ici on va mettre toutes nos requête pour la table de `User.php`
 
@@ -504,8 +504,6 @@ Dans `requestUser.js`
                     'Authorization' : `Bearer ${tokenStorage}`
                 }
             })
-
-            // console.log('reponse de la requête postes image', response.data);
         
             dispatch(actionGetOneUser(response.data));
 
@@ -583,3 +581,625 @@ Dans `requestUser.js`
         })
         .catch((error) => console.error(error));
     }
+
+
+
+### Dans selectorsUsers.js
+
+- On a créer une fonction `selector` nommé `selectorsUser` qui va nous permettre d'afficher un ou plusieurs utilisateurs en fonction du retour du type d'action qui a été exécuter 
+
+- `selectorsUser` va retourne qu'une partie du `store`, cette partie sera toujours de type `user`
+
+Dans `selectorsUsers.js`
+
+    export const selectorsUser = (store) => store.reducerUser;
+
+
+## Redux au travail !!!
+
+### Dans ProfileSettingScreen.js
+
+- On va importer `useSelector` et `useDispath` depuis `react-redux`
+
+    - `useSelector` permet d'extraire des données du `state` présent dans le `store` Redux, à l'aide d'une fonction de sélection.
+
+    - `useSelector` est pareil que la fonction `mapStateToProps()` qu'on passe en argument de `connect` lorsqu'on l'utilise 
+
+    - `useSelector` n'a pas besoin de `connect`
+
+    - `useDispath` va nous permettre d'envoyer nos actions au `store` depuis la `View` (écran/page)
+
+
+- On importe notre fonction `selector` : `selectorsUser` depuis `redux/selectors/selectorsUser`
+
+- On importe notre fonction `action` : `actionUploadImageForUser` depuis `redux/actions/users/actionsUser`
+
+- `const dispatch = useDispatch();` On met le hook `useDispatch()` dans une constante qui nous servira de fonction pour appeler une action
+
+- `const user = useSelector(selectorsUser);`, On met le hook `useSelector()` dans une constante `user` qui va recevoir des données correspondant à un ou plusieurs utilisateurs, car la fonction `selector` que l'on va appeler dans la constante `user` est `selectorsUser`
+
+- Dans la fonction `pickImage()`, après qu'il est récupérer une image dans le mobile, puis de le mettre en format `fromData`. On va faire appelle à la fonction `dispatch()`, dedans on va mettre la fonction `action` `actionUploadImageForUser()` qui va permettre au reducer d'exécuter le bon type d'action, pour appeler la fonction `requête` pour envoyer une image vers le backend
+
+- Dans  `actionUploadImageForUser()`, on va lui fournir les paramètre dont fonction `requête` a besion pour mener sa misson a bien `fromData, user, dispatch`
+
+Dans `src/screens/profile/ProfileSettingScreen.js`
+
+
+    import React, { useState, useEffect } from 'react';
+    import {
+        View,
+        StyleSheet,
+        TouchableOpacity,
+        Text,
+        Image,
+        Platform
+    } from 'react-native';
+    import Constants from 'expo-constants';
+    import AsyncStorage from '@react-native-async-storage/async-storage';
+    import { Ionicons } from '@expo/vector-icons';
+    import { BASE_URL } from '../../tools/helpers';
+    import * as ImagePicker from 'expo-image-picker';
+    import axios from 'axios';
+    import { useSelector, useDispatch } from 'react-redux';
+
+
+    // dossier redux
+    import { selectorsUser } from '../../redux/selectors/selectorsUser';
+    import {actionUploadImageForUser } from '../../redux/actions/users/actionsUser'
+
+    //composant
+    import ProfileHeaderIcon from '../../components/ProfileHeaderIcon';
+    import TextView from '../../components/TextView';
+
+    // images
+    import imgDefault from '../../../assets/images/default_3.jpg'
+
+    //tools
+    import { logout } from '../../tools/helpers'
+
+    const ProfileSettingScreen = (props) => {
+
+        const dispatch = useDispatch();
+
+        const user = useSelector(selectorUser);
+        
+        if (user == null) {
+            return (
+                <View style={styles.container}>
+                    <Text>loading...</Text>
+                </View>
+            )
+        }
+
+        const userLogout = () => {
+            logout(props);
+        }
+
+        const goTo = (route) => props.navigation.navigate(route); 
+
+        /**
+        * Demande d'autorisation pour prendre une image depuis le stockage du téléphone 
+        */
+        const permissionLibrary = async () => {
+
+            if (Platform.OS !== 'web') {
+
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        /**
+        * 
+        * Récupère l'image depuis le storage du téléphone, 
+        * l'image est mit dans un format 'multipart/form-data' grace a new FormData()
+        * puis l'image est envoyer en backend 
+        */
+        const pickImage = async () => {
+
+            const hasPermission = permissionLibrary();
+
+            if (hasPermission === false) {
+                return;
+            }
+
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+
+            if (result === null || result.uri === undefined) {
+                return;
+            }
+
+            let extentionImg = result.uri.substring(result.uri.lastIndexOf('.') + 1);
+
+            let imgName = result.uri.substring(result.uri.lastIndexOf('/') + 1);
+
+            let fromData = new FormData();
+
+            fromData.append('file', {
+                name:  imgName,
+                type: `image/${extentionImg}`,
+                uri: result.uri
+            });
+
+            dispatch(actionUploadImageForUser(fromData, user, dispatch));
+        };
+
+        
+
+        return (
+            <View style={styles.container}>
+
+                <ProfileHeaderIcon  
+                    onPressSetting={() => goTo("ProfileSetting")} 
+                    onPressHome={() => goTo("HomeMap")}
+                    hidden="hidden"
+            />
+
+            <View style={styles.containerProfile} >
+
+                    <TouchableOpacity onPress={ pickImage}>
+                        {!user.fileUrl ?
+                            
+                            <Image 
+                                style={styles.image}
+                                source={imgDefault} 
+                            />
+                        :
+                            <Image 
+                                style={styles.image}
+                                source={{ uri: `${BASE_URL}/${user.fileUrl}` }} 
+                            />
+                        }
+                    </TouchableOpacity>
+
+                    <View style={styles.profileViewText}>
+                        <Text style={styles.pseudo}>{user.pseudo}</Text>
+                        <Text style={styles.arobasePseudo}>@{user.pseudo.split(' ')}</Text>
+
+                        <View style={styles.follow} >
+                            <Text style={styles.followText}>Followers</Text>
+                            <Text style={styles.followText}>Following</Text>
+                        </View>
+                    </View>
+            </View>
+
+                {/* Account */}
+                <View>
+                    <View style={styles.settingView}>
+                        <Ionicons
+                            name="md-key-outline"
+                            size={30}
+                            color="white"
+                            style={styles.settingStyleIcon}
+                        />
+
+                        <View>
+                            <TextView 
+                                text="Account" 
+                                customStyleView={styles.settingStyleView} 
+                                customStyleText={styles.settingStyleText} 
+                            />
+
+                            <TextView 
+                                text="Privacy & security" 
+                                customStyleView={styles.settingStyleView_2} 
+                                customStyleText={styles.settingStyleText_2} 
+                            />
+                        </View>
+                    </View>
+            </View>
+
+                {/* Notification */}
+                <View>
+                    <View style={styles.settingView}>
+                        <Ionicons
+                            name="md-notifications-sharp"
+                            size={30}
+                            color="white"
+                            style={styles.settingStyleIcon}
+                        />
+
+                        <View>
+                            <TextView 
+                                text="Notification" 
+                                customStyleView={styles.settingStyleView} 
+                                customStyleText={styles.settingStyleText} 
+                            />
+
+                            <TextView 
+                                text="Reactions on wallkies" 
+                                customStyleView={styles.settingStyleView_2} 
+                                customStyleText={styles.settingStyleText_2} 
+                            />
+                        </View>
+                    </View>
+                </View>
+
+                {/* Storage */}
+                <View>
+                    <View style={styles.settingView}>
+                        <Ionicons
+                            name="md-sync-circle-outline"
+                            size={30}
+                            color="white"
+                            style={styles.settingStyleIcon}
+                        />
+
+                        <View>
+                            <TextView 
+                                text="Storage and Data usage" 
+                                customStyleView={styles.settingStyleView} 
+                                customStyleText={styles.settingStyleText} 
+                            />
+
+                            <TextView 
+                                text="RSaved location, wallkies" 
+                                customStyleView={styles.settingStyleView_2} 
+                                customStyleText={styles.settingStyleText_2} 
+                            />
+                        </View>
+                    </View>
+                </View>
+
+                {/* Deconnexion */}
+                <TouchableOpacity onPress={userLogout}>
+                    <View style={styles.settingView}>
+                        <Ionicons
+                            name="md-log-out"
+                            size={30}
+                            color="white"
+                            style={styles.settingStyleIcon}
+                        />
+
+                        <View>
+                            <TextView 
+                                text="Deconnexion" 
+                                customStyleView={styles.settingStyleView} 
+                                customStyleText={styles.settingStyleText} 
+                            />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+
+            </View>
+        );
+    }
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            marginTop: Constants.statusBarHeight,
+            backgroundColor: "#171628",
+            paddingHorizontal: 20,
+
+        },
+
+        containerProfile: {
+            flexDirection: 'row',
+            marginVertical: 30,
+            borderBottomWidth: 0.5,
+            borderBottomColor: 'rgba(255, 255, 255, 0.2)',
+            paddingBottom: 40
+        },
+        profileViewText: {
+            flexDirection: 'column',
+            justifyContent: 'space-between'
+        },
+
+        image: {
+            width: 90,
+            height: 90,
+            marginRight: 20,
+            borderRadius: 10
+        },
+
+        pseudo: {
+            color: '#fff',
+            fontSize: 20,
+            
+        },
+        arobasePseudo: {
+            color: '#fff',
+            fontSize: 20,
+            opacity: 0.4
+        },
+        follow: {
+            flexDirection: 'row',
+        },
+        followText: {
+            color: '#fff',
+            fontSize: 20,
+            opacity: 0.4,
+            marginRight: 10
+        },
+
+        settingView: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 60
+
+        },
+        settingStyleView: {
+            paddingTop: 0,
+        },
+        settingStyleText: {
+            fontSize: 25,
+            textAlign: 'left'
+        },
+        settingStyleView_2: {
+            paddingTop: 0,
+        },
+        settingStyleText_2: {
+            fontSize: 15,
+            color: 'rgba(255, 255, 255, 0.4)',
+            textAlign: 'left'
+        },
+        settingStyleIcon: {
+            marginRight: 40,
+            color: 'rgba(255, 255, 255, 0.4)',
+        }
+    });
+
+    export default ProfileSettingScreen;
+
+
+
+### Dans LoginScreen.js
+
+- On va importer `useSelector` et `useDispath` depuis `react-redux` et les utiliser comme ce qui a été fait plus haut
+
+- Importe les actions ou les selector si on en a besoin
+
+- Dans la foction `onLogin() ` on va mettre la fonction `dispatch` pour appeler la fonction `action` `actionLoginUser` pour permettre au reducer  d'utiliser le bon type d'action pour appeler la fonction `requête` qui va permettre a l'utilisateur de se connecter au site 
+
+    `dispatch(actionLoginUser(pseudo, password, props, dispatch));`
+
+- On passe a la fonction `action` `actionLoginUser(pseudo, password, props, dispatch)` quelques paramètre pour que la fonction `requête` les utilisent sans problème
+
+Dans `src/screens/LoginScreen.js`
+
+    import React, { useState, useEffect } from 'react';
+    import { 
+        View, 
+        StyleSheet, 
+        TextInput,
+        CheckBox,
+        TouchableOpacity, 
+        ScrollView,
+    } from 'react-native';
+    import Constants from 'expo-constants';
+    import AsyncStorage from '@react-native-async-storage/async-storage';
+    import { Buffer } from "buffer";
+    import { BASE_URL } from '../tools/helpers';
+    import { useSelector, useDispatch } from 'react-redux';
+
+    // dossier redux
+    import { selectorUser } from '../redux/selectors/selectorsUser';
+    import { actionLoginUser } from '../redux/actions/users/actionsUser'
+
+    // component
+    import Logo from '../components/Logo';
+    import TextView from '../components/TextView';
+
+    // icon
+    import Icon_logo_wallky from '../../assets/iconsPNG/logo.png';
+
+    const LoginScreen = (props) => {
+
+        const [isSelected, setSelected] = useState(false);
+
+        const dispatch = useDispatch();
+
+        const [user, setUser ] = useState({
+            pseudo: "",
+            password: ""
+        });
+
+        const onLogin = async () => {
+            
+            const { pseudo, password } = user;
+            dispatch(actionLoginUser(pseudo, password, props, dispatch));
+        }
+
+        /**
+        * Aller à la page d'inscription
+        */
+        const goRegister = () => props.navigation.navigate('Register');
+
+        /**
+        * Aller à la page de mot de passe oublier
+        */
+        const goPasswordReset = () => props.navigation.navigate('PasswordReset');
+        
+
+        return (
+
+            <ScrollView style={styles.container}>
+
+                <View style={styles.logo}>
+                    <Logo image={Icon_logo_wallky} />
+                </View>
+
+                <TextView text="Se connecter" />
+
+                <TextView 
+                    text="Nom d'utilisateur" 
+                    customStyleView={styles.labelView} 
+                    customStyleText={styles.labelText} 
+                />
+                <TextInput 
+                    style={styles.input} 
+                    name="pseudo" 
+                    value={user.pseudo}
+                    onChangeText={pseudo => { setUser(preUser => {
+                        return {
+                            ...preUser,
+                            pseudo: pseudo
+                        }
+                    })}}
+                />
+
+                <TextView 
+                    text="Mot de passe" 
+                    customStyleView={styles.labelView} 
+                    customStyleText={styles.labelText} 
+                />
+                <TextInput 
+                    style={styles.input} 
+                    name="password" 
+                    value={user.password}
+                    onChangeText={password => { setUser(preUser => {
+                        return {
+                            ...preUser,
+                            password: password
+                        }
+                    })}}
+                />
+
+                <View style={styles.stay_connect}>
+                    <CheckBox
+                        value={isSelected}
+                        onValueChange={setSelected}
+                        style={styles.checkbox}
+                        tintColors={{ tintColor: "#fff" }}
+                    />
+                    <TextView 
+                        text="Rester connecté" 
+                        customStyleView={styles.view_text_stay_connect} 
+                        customStyleText={styles.text_stay_connect} 
+                    />
+                </View>
+
+                <TouchableOpacity onPress={goPasswordReset}>
+                    <TextView 
+                        text="Mot de passe oublié ?" 
+                        customStyleView={styles.view_password_reset} 
+                        customStyleText={styles.text_password_reset} 
+                    />
+                </TouchableOpacity>
+                
+                
+                <TouchableOpacity onPress={onLogin}>
+                    <TextView 
+                        text="Se connecter" 
+                        customStyleView={styles.btnView} 
+                        customStyleText={styles.btnText} 
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={goRegister}>
+                    <TextView 
+                        text="Creer un compte" 
+                        customStyleView={styles.view_create_account} 
+                        customStyleText={styles.text_create_account} 
+                    />
+                </TouchableOpacity>
+            </ScrollView>
+        );
+    }
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            marginTop: Constants.statusBarHeight,
+            backgroundColor: "#171628",
+        },
+
+
+        logo: {
+            marginTop: 90,
+            alignItems: "center" 
+        },
+
+
+        labelView: {
+        },
+        labelText: {
+            textAlign: "left",
+            fontSize: 20,
+            marginHorizontal: 20,
+            fontFamily: "Roboto-Regular"
+        },
+        input: {
+            borderBottomWidth: 1,
+            borderBottomColor: "#fff",
+            marginHorizontal: 20,
+            alignItems: "center",
+            color: "#fff"
+        },
+
+
+        btnView: {
+            marginTop: 30,
+            marginHorizontal: 120,
+            backgroundColor: "#6C2398",
+            borderRadius: 15,
+            paddingTop: 15,
+            paddingBottom: 15
+        },
+        btnText: {
+            fontSize: 20,
+            fontFamily: "Roboto-Regular",
+        },
+
+
+        checkbox: {
+            marginLeft: 15,
+        }, 
+        stay_connect: {
+            flexDirection: "row",
+            marginTop: 30,
+        },
+        text_stay_connect: {
+            textAlign: "left",
+            fontSize: 20,
+            fontFamily: "Roboto-Regular",
+        },
+        view_text_stay_connect: {
+            paddingTop: 0
+        },
+
+
+        text_password_reset: {
+            textAlign: "left",
+            fontSize: 15,
+            marginHorizontal: 20,
+            fontFamily: "Roboto-Regular",
+            textDecorationLine: "underline",
+            color: "#C489E7"
+        },
+        view_password_reset: {
+            
+        },
+
+        text_create_account: {
+            textAlign: "center",
+            fontSize: 15,
+            marginHorizontal: 20,
+            fontFamily: "Roboto-Regular",
+            textDecorationLine: "underline",
+            color: "#C489E7"
+        },
+        view_create_account: {
+            paddingBottom: 10
+        },
+        
+        
+        statusbar: {
+            backgroundColor: "#6C2398",
+        }
+    });
+
+    export default LoginScreen
