@@ -89,3 +89,10 @@ ou
 
     > yarn add redux
 
+## Installer MapBox
+
+    > yarn add @mapbox/polyline
+
+    ou
+
+    > npm install --save @mapbox/polyline
