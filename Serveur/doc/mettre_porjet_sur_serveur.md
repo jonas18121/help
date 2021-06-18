@@ -1,6 +1,3 @@
-# Mettre un projet sur un serveur puis le lancer
-
-
 
 
 
@@ -61,6 +58,29 @@ les etapes restantes pour mettre l'api en ligne:
 
     > cat /etc/apache2/sites-available/000-default.conf
 
+ou 
 
-creer le sous-domaine
+5) Mettre la config nginx
+
+dans `/var/www/wallky_app/backend/api$ `
+
+- Pour voir ce qu'il y a dans le dossier nginx
+
+    > ls /etc/nginx
+
+- Pour voir ce qu'il y a dans le dossier sites-available de nginx    
+
+    > ls /etc/nginx/sites-available   
+
+- Pour voir ce qu'il y a dans le dossier sites-available de apache2  
+
+    > ls /etc/apache2/sites-available
+
+- sert a voir des commandes
+
+    > certbot -h
+
+
+
+creer le sous-domaine ls /etc/
 creer le certficat ssl pour le sous-domaine
