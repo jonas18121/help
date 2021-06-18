@@ -172,10 +172,23 @@ https://docs.docker.com/engine/reference/commandline/exec/
 
 ### Pour supprimer en plus tous les conteneurs arrêtés et toutes les images non utilisées
 
-    >docker system prune -a
+    > docker system prune -a
 
+
+### Voir les Logs d'un container
+
+    > docker logs <ID_ou_nom_du_conteneur>
 
     
+### Afficher les détails de l'état d'un container
+
+    > docker inspect <ID_ou_nom_du_conteneur>
+
+
+
+
+
+
 
 
 ## Les volumes
