@@ -499,6 +499,19 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 ## une version précise de API plateform
 
     > composer require api-platform/core:v2.5 --with-all-dependencies 
+    
+### Si on execute la commande ci-dessous, on verra les différentes commandes pour exporter un fichier
+
+    > php bin/console api
+
+### Si on execute la commande ci-dessous, on verra des données en format JSON qui contient la définition de notre API
+
+    > php bin/console api:openapi:export
+
+### Si on execute la commande ci-dessous, on verra des données en format yaml qui contient la définition de notre API
+
+    > php bin/console api:openapi:export --yaml
+
 
 ## lexik/jwt-authentication-bundle
 
