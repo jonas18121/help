@@ -1,4 +1,4 @@
-
+# mettre un projet sur un serveur distant
 
 
 
@@ -44,7 +44,7 @@ ou
 
 les etapes restantes pour mettre l'api en ligne:
 
-5) Mettre la config apache 
+5) Mettre la config apache c'est le devops qui va s'occupé de ça
 
 - dans un autre terminal entrer dans le bash pour symfony
 
@@ -60,7 +60,7 @@ les etapes restantes pour mettre l'api en ligne:
 
 ou 
 
-5) Mettre la config nginx
+5) Mettre la config nginx c'est le devops qui va s'occupé de ça
 
 dans `/var/www/wallky_app/backend/api$ `
 
@@ -81,6 +81,37 @@ dans `/var/www/wallky_app/backend/api$ `
     > certbot -h
 
 
+6) creer le sous-domaine c'est le devops qui va s'occupé de ça
 
-creer le sous-domaine ls /etc/
-creer le certficat ssl pour le sous-domaine
+7) creer le certficat ssl pour le sous-domaine c'est le devops qui va s'occupé de ça
+
+8) Si le fichier `.env` est inclut dans `.gitignore`, il faut l'enlevé dedans
+
+9) Dans le fichier `.env` , on met un `mot de passe`, un `nom user`, un `nom de BDD `et en `hote` on met `127.0.0.1:3306 `
+
+    `DATABASE_URL="mysql://nom_user:mot_de_passe@127.0.0.1:3306/nom_bdd?serverVersion=5.7"`  
+
+10) puis on `git push` vers le repository et on fait un `git pull` depuis le serveur
+
+11) Depuis le serveur en CLI
+
+    - Créer l'espace de bdd, s'il n'a pas été fait
+
+        > php bin/console doctrine:database:create
+
+    - Puis on envois les version de migration déjà existante dans le projet
+
+        > php bin/console doctrine:migrations:migrate
+
+    - Puis on génére les clé JWT
+
+        > php bin/console lexik:jwt:generate-keypair
+
+    - Pour autorisé le téléchargment d'image dans un dossier, mais il y a mieux à faire
+
+        > chmod 777 /var/www/wallky_app/backend/api/public/images/users/
+
+
+autorisation pour le dossier sudo chmod 777./(folder name)
+
+pour le fichier sudo chmod 777 -R ./(file name)
