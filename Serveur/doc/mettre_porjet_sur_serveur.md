@@ -17,7 +17,7 @@ le chemin doit être `/var/www/`
 
 si on a mal créer le chemin et que le dossier a été supprimer alors qu'on était encore dedans, puis mettre le mot de passe du serveur
     
-    sudo mkdir -p /var/www/wallky_api
+    sudo mkdir -p /var/www/my_app
 
 ou 
 
@@ -34,7 +34,7 @@ ou
 
 3) Puis on rentre dans le projet
 
-    `/var/www/wallky_app/backend/api`
+    `/var/www/my_app/backend/api`
 
 
 4) On fait un composer install pour installer toutes les extensions
@@ -62,7 +62,7 @@ ou
 
 5) Mettre la config nginx c'est le devops qui va s'occupé de ça
 
-dans `/var/www/wallky_app/backend/api$ `
+dans `/var/www/my_app/backend/api$ `
 
 - Pour voir ce qu'il y a dans le dossier nginx
 
@@ -109,7 +109,7 @@ dans `/var/www/wallky_app/backend/api$ `
 
     - Pour autorisé le téléchargment d'image dans un dossier, mais il y a mieux à faire
 
-        > chmod 777 /var/www/wallky_app/backend/api/public/images/users/
+        > chmod 777 /var/www/my_app/backend/api/public/images/users/
 
 
 autorisation pour le dossier sudo chmod 777./(folder name)
