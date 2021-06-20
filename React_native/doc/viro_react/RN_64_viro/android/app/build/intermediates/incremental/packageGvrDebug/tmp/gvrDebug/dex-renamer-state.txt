@@ -1,0 +1,19 @@
+#Fri Jun 18 14:07:34 CEST 2021
+path.4=1/classes.dex
+path.3=14/classes.dex
+path.2=0/classes.dex
+path.1=0/classes.dex
+path.5=classes2.dex
+path.0=classes.dex
+base.4=C\:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\dex\\gvrDebug\\mergeProjectDexGvrDebug\\1\\classes.dex
+base.3=C\:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\dex\\gvrDebug\\mergeProjectDexGvrDebug\\14\\classes.dex
+base.2=C\:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\dex\\gvrDebug\\mergeProjectDexGvrDebug\\0\\classes.dex
+base.1=C\:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\dex\\gvrDebug\\mergeLibDexGvrDebug\\0\\classes.dex
+base.0=C\:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\dex\\gvrDebug\\mergeExtDexGvrDebug\\classes.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+renamed.5=classes6.dex
+renamed.4=classes5.dex
+base.5=C\:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\dex\\gvrDebug\\mergeExtDexGvrDebug\\classes2.dex
