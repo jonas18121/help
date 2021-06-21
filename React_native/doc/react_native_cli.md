@@ -96,3 +96,11 @@ ou
     ou
 
     > npm install --save @mapbox/polyline
+
+## Installer @react-native-community/checkbox
+
+    > yarn add @react-native-community/checkbox
+
+    ou
+
+    > npm install @react-native-community/checkbox --save

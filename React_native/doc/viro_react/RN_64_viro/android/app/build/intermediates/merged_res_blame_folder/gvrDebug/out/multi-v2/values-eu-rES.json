@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\incremental\\mergeGvrDebugResources\\merged.dir\\values-eu-rES\\values-eu-rES.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\jonas\\.gradle\\caches\\transforms-3\\18da57879ce6a3652c44ea74db08e9e6\\transformed\\jetified-exoplayer-ui-2.7.1\\res\\values-eu-rES\\values-eu-rES.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,132,207,276,350,428,513,593,674,745,828",
+                        "endColumns": "76,74,68,73,77,84,79,80,70,82,67",
+                        "endOffsets": "127,202,271,345,423,508,588,669,740,823,891"
+                    }
+                }
+            ]
+        }
+    ]
+}

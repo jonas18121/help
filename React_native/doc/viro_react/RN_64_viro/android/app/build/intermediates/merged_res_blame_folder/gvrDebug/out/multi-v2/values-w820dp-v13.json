@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\incremental\\mergeGvrDebugResources\\merged.dir\\values-w820dp-v13\\values-w820dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\node_modules\\@viro-community\\react-viro\\android\\viro_renderer\\build\\.transforms\\764e61a8466ece5ed0ea2f1a299baf6d\\transformed\\jetified-viro_renderer-release\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "57",
+                        "endOffsets": "108"
+                    }
+                }
+            ]
+        }
+    ]
+}
