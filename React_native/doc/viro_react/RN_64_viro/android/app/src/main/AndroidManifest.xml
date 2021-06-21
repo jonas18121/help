@@ -28,6 +28,28 @@
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 +     <meta-data android:name="com.google.ar.core" android:value="optional" />
+      <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="Ici_ta_cle_api_Google_maps"/>
     </application>
     <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only"/>
 </manifest>
+
+
+<!-- 
+
+<meta-data
+    android:name="com.google.android.maps.v2.API_KEY"
+    android:value="Your Google maps API Key Here"/>
+et enfin la carte est apparue.
+
+Bien sûr, le Maps SDK for Androiddoit être activé dans Google Api Console . 
+Voici les étapes à activer Maps SDK for Androidpour les débutants :
+
+Accédez à la console Google API .
+
+en haut à gauche de l'écran, juste à droite du Google Apislogo, 
+vous voyez le nom de votre projet, sélectionnez le bon nom de projet puis, 
+en dessous du nom du projet, vous voyez un texte bleu + ENABLE APIS AND SERVICES. Clique dessus.
+
+dans la page Web qui s'ouvre, faites défiler vers le bas pour trouver Maps SDK for Android. Cliquez pour l'activer.
+
+ -->
