@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\android\\app\\build\\intermediates\\incremental\\mergeGvrDebugResources\\merged.dir\\values-v19\\values-v19.xml",
+            "map": [
+                {
+                    "source": "C:\\wamp64\\www\\developpementWeb\\mobile\\wallky_app\\mobile\\react-native\\wallky_RN\\node_modules\\@viro-community\\react-viro\\android\\gvr_common\\build\\.transforms\\0fe187aeec332f97cb764c737f376ac2\\transformed\\jetified-sdk-common-1.180.0\\res\\values-v19\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "148",
+                        "endColumns": "56",
+                        "endOffsets": "204"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "60",
+                        "endOffsets": "111"
+                    }
+                }
+            ]
+        }
+    ]
+}

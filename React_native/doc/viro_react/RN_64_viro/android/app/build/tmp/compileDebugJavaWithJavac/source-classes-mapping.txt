@@ -1,0 +1,14 @@
+com/wallky_rn/MainActivity.java
+ com.wallky_rn.MainActivity
+com/wallky_rn/ReactNativeFlipper.java
+ com.wallky_rn.ReactNativeFlipper
+ com.wallky_rn.ReactNativeFlipper$1
+ com.wallky_rn.ReactNativeFlipper$2
+ com.wallky_rn.ReactNativeFlipper$2$1
+com/wallky_rn/MainApplication.java
+ com.wallky_rn.MainApplication
+ com.wallky_rn.MainApplication$1
+com/wallky_rn/BuildConfig.java
+ com.wallky_rn.BuildConfig
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList

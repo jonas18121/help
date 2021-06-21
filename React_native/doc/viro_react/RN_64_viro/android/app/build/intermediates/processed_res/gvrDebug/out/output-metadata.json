@@ -1,0 +1,19 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "PROCESSED_RES",
+    "kind": "Directory"
+  },
+  "applicationId": "com.wallky_rn",
+  "variantName": "gvrDebug",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 1,
+      "versionName": "1.0",
+      "outputFile": "resources-gvrDebug.ap_"
+    }
+  ],
+  "elementType": "File"
+}
