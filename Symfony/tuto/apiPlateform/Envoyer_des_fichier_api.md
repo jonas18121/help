@@ -544,7 +544,7 @@ site : https://symfony.com/doc/current/serializer/custom_normalizer.html
 - ` normalize()` pour mettre l'url du fichier dans $object->setFileUrl() de User  et mettre self::ALREADY_CALLED dans le contexte pour eviter le boucle infini
 
 
-Cette erreur: veut dire de bien écrire les argument de ces function, par exemple enlever string a l'argument $format
+Cette erreur: veut dire de bien écrire les argument de ces functions, par exemple enlever string a l'argument $format
 
     Compile Error: Declaration of App\Serializer\UserImageNormalizer::normalize($object, ?string $format = NULL, array $context = Array) must be compatible with Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize($object, $format = NULL, array $context = Array)
 
