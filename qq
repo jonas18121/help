@@ -1,0 +1,13 @@
+[1mdiff --git a/Symfony/tuto/apiPlateform/Envoyer_des_fichier_api.md b/Symfony/tuto/apiPlateform/Envoyer_des_fichier_api.md[m
+[1mindex 56ddb1f..b8b9d08 100644[m
+[1m--- a/Symfony/tuto/apiPlateform/Envoyer_des_fichier_api.md[m
+[1m+++ b/Symfony/tuto/apiPlateform/Envoyer_des_fichier_api.md[m
+[36m@@ -544,7 +544,7 @@[m [msite : https://symfony.com/doc/current/serializer/custom_normalizer.html[m
+ - ` normalize()` pour mettre l'url du fichier dans $object->setFileUrl() de User  et mettre self::ALREADY_CALLED dans le contexte pour eviter le boucle infini[m
+ [m
+ [m
+[31m-Cette erreur: veut dire de bien écrire les argument de ces function, par exemple enlever string a l'argument $format[m
+[32m+[m[32mCette erreur: veut dire de bien écrire les argument de ces functions, par exemple enlever string a l'argument $format[m
+ [m
+     Compile Error: Declaration of App\Serializer\UserImageNormalizer::normalize($object, ?string $format = NULL, array $context = Array) must be compatible with Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize($object, $format = NULL, array $context = Array)[m
+ [m
