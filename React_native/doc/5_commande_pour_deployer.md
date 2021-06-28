@@ -29,7 +29,7 @@ maintenant my_projet/android
 
 - Depuis la racine du projet
 
-    - Builder/construire l'application en fichier pour le tester sur notre téléphone avant de le mettre dans google play
+    - Builder/construire l'application en fichier APK, pour le tester sur notre téléphone avant de le mettre dans google play
 
     en mode AR
 
@@ -38,3 +38,16 @@ maintenant my_projet/android
     sans mode AR
 
     > npx react-native run-android --variant=Release
+
+
+### Commande pour voir les logs (journaux) du fichier APK
+
+Après avoir fait l'une des 2 commande ce-dessus, aller la racine du projet et faire la commande ci-dessous
+
+- Voir tout les logs (journaux) 
+
+    > adb logcat
+
+- Voir les logs (journaux) qui on des erreurs
+
+    > adb logcat *:E
