@@ -13,6 +13,10 @@ maintenant my_projet/android
 
         > gradlew clean
 
+        ou 
+
+        > gradlew cleanBuildCache
+
     REMARQUE : désinstaller les anciennes version de l'application, avant de faire les commandes ci-dessous
 
     - Builder/construire l'application en fichier .apk ou .aap avec mode AR
@@ -22,6 +26,14 @@ maintenant my_projet/android
     - Builder/construire l'application en fichier .apk ou .aap sans mode AR
 
         > gradlew bundleRelease
+
+        ou 
+
+        > gradlew assembleRelease
+
+    - Builder/construire l'application en fichier .apk ou .aap pour debugger
+
+        > gradlew assembleDebug    
 
     - revenir à la racine
 
