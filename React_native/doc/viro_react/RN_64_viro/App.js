@@ -1,115 +1,138 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { renderIntialScreen } from './src/tools/helpers';
+import { Provider } from 'react-redux';
 
-import React, { useState } from 'react';
-// import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  TouchableOpacity
-} from 'react-native';
+// // dossier redux
+import store from './src/redux/store';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// //screen
+import RegisterScreen from './src/screens/RegisterScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import PasswordResetScreen from './src/screens/PasswordResetScreen';
+import ConfirmPasswordScreen from './src/screens/ConfirmPasswordScreen';
+import ChooseConnexionScreen from './src/screens/ChooseConnexionScreen';
+import HomeMapScreen from './src/screens/HomeMapScreen';
+import ARModeScreen from './src/screens/ARModeScreen';
 
-// viro react
-import {
-  ViroVRSceneNavigator,
-  ViroARSceneNavigator
-  // VRTARSceneNavigator
-} from '@viro-community/react-viro';
-
-// Sets the default scene you want for AR and VR
-var InitialARScene = require('./js/HelloWorldSceneAR');
-var InitialVRScene = require('./js/HelloWorldScene');
+// // screen profile
+import ProfileGalerieScreen from './src/screens/profile/ProfileGalerieScreen';
+import ProfileContactScreen from './src/screens/profile/ProfileContactScreen';
+import ProfileWallkiesScreen from './src/screens/profile/ProfileWallkiesScreen';
+import ProfileSettingScreen from './src/screens/profile/ProfileSettingScreen';
 
 
 
+const { Navigator, Screen } = createStackNavigator();
 
-const App = () => {
+export default function App() {
 
-  /*
-    TODO: Insert your API key below
-    */
-    var sharedPropsAR = {
-      apiKey:"API_KEY_HERE",
-  }
+    const [ loading, setLoading ] = useState(true);
 
-  const [sharedProps, setSharedProps ] = useState(sharedPropsAR);
+    const [initialScreen, setInitilaScreen] = useState("ChooseConnexion");
+ 
 
-  const [toggle, setToggle ] = useState(true);
+    useEffect(() => {
+        // StatusBar.setHidden(true);
+        // StatusBar.setBackgroundColor(styles.statusbar.backgroundColor)
+        initialScreenWallky();
+    }, []);
 
-  const isDarkMode = useColorScheme() === 'dark';
+    
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+    const initialScreenWallky = async () => {
+        const screen = await renderIntialScreen();
+        if(screen) setInitilaScreen(screen);
+    }
 
-  // Returns the ViroARSceneNavigator which will start the AR experience
-  const getARNavigator = () => {
+    return (
+        
+        <Provider store={store}>
+            <NavigationContainer>
+                <StatusBar backgroundColor="#171628"/>
+                <Navigator 
+                    screenOptions={{ headerShown: false }}
+                    initialRouteName={initialScreen}
+                >
 
-    console.log('je suis cliker');
-    setToggle(false);
+                    
+
+                     <Screen 
+                        name="ChooseConnexion" 
+                        component={ChooseConnexionScreen} 
+                        options={{ headerShown: false }}
+                    />
+
+                    <Screen 
+                        name="Login" 
+                        component={LoginScreen} 
+                        options={{ headerShown: false }}
+                    />
+
+                    <Screen 
+                        name="Register" 
+                        component={RegisterScreen} 
+                        options={{ headerShown: false }}
+                    />
+
+                    <Screen 
+                        name="PasswordReset" 
+                        component={PasswordResetScreen} 
+                        options={{ headerShown: false }}
+                    />
+
+                    <Screen 
+                        name="ConfirmPassword" 
+                        component={ConfirmPasswordScreen} 
+                        options={{ headerShown: false }}
+                    />
+
+                    <Screen 
+                        name="ProfileGalerie" 
+                        component={ProfileGalerieScreen} 
+                    />
+
+                    <Screen 
+                        name="ProfileContact" 
+                        component={ProfileContactScreen} 
+                    />
+
+                    <Screen 
+                        name="ProfileWallkies" 
+                        component={ProfileWallkiesScreen} 
+                    />
+
+                    <Screen 
+                        name="ProfileSetting" 
+                        component={ProfileSettingScreen} 
+                    />
+
+                    <Screen 
+                        name="HomeMap" 
+                        component={HomeMapScreen} 
+                    /> 
+
+                    <Screen 
+                        name="ARMode" 
+                        component={ARModeScreen} 
+                    /> 
+                    
+                </Navigator>
+            </NavigationContainer>
+        </Provider>
+    );
 }
 
-  if (!toggle) {
-    return (
-        // <View style={styles.containerAR}>
-            // <Text style={styles.labelText}>HELLO</Text>
-            <ViroARSceneNavigator {...sharedProps}
-            initialScene={{scene: InitialARScene}} />
-        // </View>
-    );
-  } else{
-
-    return (
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          
-          <TouchableOpacity onPress={getARNavigator}>
-            <Text>Click for AR</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </SafeAreaView>
-    );
-  }
-};
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    statusbar: {
+        backgroundColor: "#171628",
+    }
 });
-
-export default App;
