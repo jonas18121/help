@@ -24,19 +24,125 @@ import MapUserChoose from '../components/map/MapUserChoose';
 import music from '../../assets/iconsPNG/icon-music.png';
 import peintre from '../../assets/iconsPNG/icon-peintre.png';
 import rugby from '../../assets/iconsPNG/icon-rugby.png';
+import maison from '../../assets/iconsPNG/icon-maison.png';
+import photo from '../../assets/iconsPNG/icon-appareil_photo.png';
+import etoile from '../../assets/iconsPNG/icon-etoile.png';
 
 Geolocation.setRNConfiguration({auto: "auto"});
 
 
 const { width, height } = Dimensions.get("window");
 
-const initialState = { latitude: null, longitude: null };
+const initialState = { 
+    latitude: null, 
+    longitude: null,
+    filter_categories: {
+        all: null,
+        music: null,
+        rugby: null,
+        etoile: null,
+        peintre: null,
+        maison: null,
+        photo: null
+    },
+    categories: [
+        {//langueux
+            id: 1,
+            latitude: 48.494842,
+            longitude: -2.6949256,
+            image: photo,
+            category: 'photo'
+        },
+        {
+            id: 2,
+            latitude: 48.494842 - 0.010025,
+            longitude: -2.6949256 - 0.010042,
+            image: music,
+            category: 'music'
+        },
+        {
+            id: 3,
+            latitude: 48.494842 - 0.010025,
+            longitude: -2.6949256 - 0.020042,
+            image: peintre,
+            category: 'peintre'
+        },
+        {
+            id: 4,
+            latitude: 48.494842 - 0.020025,
+            longitude: -2.6949256 - 0.004042,
+            image: rugby,
+            category: 'rugby'
+        },
+        {
+            id: 5,
+            latitude: 48.494842 - 0.024025,
+            longitude: -2.6949256 - 0.014042,
+            image: maison,
+            category: 'maison'
+        },
+        {
+            id: 6,
+            latitude: 48.494842 - 0.021025,
+            longitude: -2.6949256 - 0.044042,
+            image: etoile,
+            category: 'etoile'
+        },
+        {   //Nantes
+            id: 7,
+            latitude: 47.218371 - 0.010025,
+            longitude: -1.553621 - 0.010042,
+            image: peintre,
+            category: 'peintre'
+        },
+        {
+            id: 8,
+            latitude: 47.218371 - 0.010025,
+            longitude: -1.553621 - 0.020042,
+            image: rugby,
+            category: 'rugby'
+        },
+        {
+            id: 9,
+            latitude: 47.218371 - 0.020025,
+            longitude: -1.553621 - 0.020042,
+            image: photo,
+            category: 'photo'
+        },
+        {
+            id: 10,
+            latitude: 47.218371 - 0.030025,
+            longitude: -1.553621 - 0.002042,
+            image: music,
+            category: 'music'
+        },
+        {
+            id: 11,
+            latitude: 47.218371 - 0.022025,
+            longitude: -1.553621 - 0.014042,
+            image: maison,
+            category: 'maison'
+        },
+        {
+            id: 12,
+            latitude: 47.218371 - 0.020425,
+            longitude: -1.553621- 0.014042,
+            image: etoile,
+            category: 'etoile'
+        }
+    ]
+}
+
+
 
 const HomeMapScreen = (props) => {
 
     const [toggle, setToggle ] = useState(true);
 
     const [state, setState ] = useState(initialState);
+
+
+    // const [categoryTab, setCategoryTab] = useState([]);
 
     /**
      * permettre d'avoir la localisation de l'utilisateur du téléphone
@@ -72,13 +178,79 @@ const HomeMapScreen = (props) => {
     }
 
     
+    /**
+     * selectionne une ou plusieurs categories selon ceux que l'utilisateur a cliquer depuis la flèche de navigation de la map
+     * 
+     * phrase d'exemple de la condition ci-dessous
+     * 
+     *      prevState.filter_categories.music != null ?  
+     *              (nameCategory == 'music' ?  null  : prevState.filter_categories.music)   
+     *      : 
+     *              (nameCategory == 'music' ? state.categories.filter(category => category.category == nameCategory ) : null),
+     *
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * Si la propriété music de filter_categories (qui ce trouve dans le state) est diférente de null (donc qu'il y a du contenu dedans),
+     * 
+     *      - On dit que c'est true et on fait une deuxièmes condition
+     * 
+     *          - Si la valeur de la variable nameCategory est égale à music, 
+     * 
+     *              - alors on dit que c'est true et on retourne null (car l'utisateur a cliquer une deuxièmes fois sur cette catégory pour l'enlevé de l'affichage)
+     * 
+     *          - Si la valeur de la variable nameCategory est différente de music, 
+     *              
+     *              - on dit que c'est false, on retourne le contenu qui existe déjà dans la propriété music (car l'utisateur a cliquer sur une autre catégory pour les affichés en même temps )
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * Si la propriété music de filter_categories est égale à null (donc qu'il n'y a pas de contenu dedans),
+     * 
+     *      - On dit que c'est false et on fait une deuxièmes condition
+     * 
+     *          - Si la valeur de la variable nameCategory est égale à music, 
+     * 
+     *              - alors on dit que c'est true et on retourne tout les wallky qui sont dans la categorie 'music' (car l'utilisateur a cliquer une première fois sur cette category pour l'afficher )
+     * 
+     *          - Si la valeur de la variable nameCategory est différente de music,
+     * 
+     *              - on dit que c'est false, on retourne null (car l'utilisateur a cliquer sur une autre category )
+     * 
+     * @param {*} nameCategory 
+     */
+    const selecteCategory = (nameCategory = null ) => {
+
+        setState(prevState => ({
+            ...prevState,
+            filter_categories: {
+                music: prevState.filter_categories.music != null ?          nameCategory == 'music' ?  null  : prevState.filter_categories.music            :           nameCategory == 'music' ? state.categories.filter(category => category.category == nameCategory ) : null,
+
+                rugby: prevState.filter_categories.rugby != null ?          nameCategory == 'rugby' ?  null : prevState.filter_categories.rugby             :           nameCategory == 'rugby' ? state.categories.filter(category => category.category == nameCategory ) : null,
+
+                photo: prevState.filter_categories.photo != null ?          nameCategory == 'photo' ? null : prevState.filter_categories.photo              :           nameCategory == 'photo' ? state.categories.filter(category => category.category == nameCategory ) : null,
+
+                peintre: prevState.filter_categories.peintre != null ?      nameCategory == 'peintre' ? null : prevState.filter_categories.peintre          :           nameCategory == 'peintre' ? state.categories.filter(category => category.category == nameCategory ) : null,
+
+                etoile: prevState.filter_categories.etoile != null ?        nameCategory == 'etoile' ? null : prevState.filter_categories.etoile            :           nameCategory == 'etoile' ? state.categories.filter(category => category.category == nameCategory ) : null,
+
+                maison: prevState.filter_categories.maison != null ?        nameCategory == 'maison' ? null : prevState.filter_categories.maison            :           nameCategory == 'maison' ? state.categories.filter(category => category.category == nameCategory ) : null,
+            }
+        }));
+    }
+
+
     useEffect(() => {
         getUserLocation();
     }, []);
 
-
     if (state.latitude == null || state.longitude == null) {
-        
         return (
             <View style={styles.container}>
                 {/* <ActivityIndicator size='large' /> */}
@@ -108,9 +280,171 @@ const HomeMapScreen = (props) => {
                     longitudeDelta: 0.121
                 }}
             > 
+                
+
+                { !state.filter_categories.all 
+                    && !state.filter_categories.music 
+                    && !state.filter_categories.rugby
+                    && !state.filter_categories.photo 
+                    && !state.filter_categories.etoile 
+                    && !state.filter_categories.maison 
+                    && !state.filter_categories.peintre  ?
+
+                    state.categories.map(marker => (
+
+
+                        <Marker
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                            key={marker.id}
+                        >
+                            <View style={styles.mapMarkerCategory}>
+                                <Image source={marker.image} />
+                            </View>
+                        </Marker>
+                    ))
+
+                :
+                    null
+                }
+
+                { state.filter_categories.music ?
+
+                    state.filter_categories.music.map(marker => (
+
+
+                        <Marker
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                            key={marker.id}
+                        >
+                            <View style={styles.mapMarkerCategory}>
+                                <Image source={marker.image} />
+                            </View>
+                        </Marker>
+                    ))
+
+                :
+                    null
+                }
+
+
+                { state.filter_categories.rugby ?
+
+                    state.filter_categories.rugby.map(marker => (
+
+
+                        <Marker
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                            key={marker.id}
+                        >
+                            <View style={styles.mapMarkerCategory}>
+                                <Image source={marker.image} />
+                            </View>
+                        </Marker>
+                    ))
+
+                :
+                    null
+                }
+
+                { state.filter_categories.photo ?
+
+                    state.filter_categories.photo.map(marker => (
+
+
+                        <Marker
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                            key={marker.id}
+                        >
+                            <View style={styles.mapMarkerCategory}>
+                                <Image source={marker.image} />
+                            </View>
+                        </Marker>
+                    ))
+
+                :
+                    null
+                }
+
+                { state.filter_categories.etoile ?
+
+                    state.filter_categories.etoile.map(marker => (
+
+
+                        <Marker
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                            key={marker.id}
+                        >
+                            <View style={styles.mapMarkerCategory}>
+                                <Image source={marker.image} />
+                            </View>
+                        </Marker>
+                    ))
+
+                :
+                    null
+                }
+
+                { state.filter_categories.maison ?
+
+                    state.filter_categories.maison.map(marker => (
+
+
+                        <Marker
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                            key={marker.id}
+                        >
+                            <View style={styles.mapMarkerCategory}>
+                                <Image source={marker.image} />
+                            </View>
+                        </Marker>
+                    ))
+
+                :
+                    null
+                }
+
+                { state.filter_categories.peintre ?
+
+                    state.filter_categories.peintre.map(marker => (
+
+
+                        <Marker
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                            key={marker.id}
+                        >
+                            <View style={styles.mapMarkerCategory}>
+                                <Image source={marker.image} />
+                            </View>
+                        </Marker>
+                    ))
+
+                :
+                    null
+                }
 
             
-                <Marker
+                {/* <Marker
                     coordinate={{
                         latitude: state.latitude,
                         longitude: state.longitude,
@@ -166,14 +500,36 @@ const HomeMapScreen = (props) => {
                     <View style={styles.mapMarkerCategory}>
                         <Image source={music} />
                     </View>
-                </Marker> 
+                </Marker>  */}
 
+                {/* <Marker
+                    coordinate={{
+                        latitude: state.latitude,
+                        longitude: state.longitude,
+                    }}
+                > */}
+                    {/* <MapUserChoose route={props} selecteCategory={selecteCategory}/> */}
+                {/* </Marker>    */}
+                
 
             </MapView>
 
             <MapProfile route={props} />
             <MapAR route={props} onPressAR={getARNavigator} />
-            <MapUserChoose route={props} /> 
+
+            <MapUserChoose 
+                route={props} 
+                selecteCategory={selecteCategory}
+            />
+                   {/* <Marker
+                        coordinate={{
+                            latitude: state.latitude,
+                            longitude: state.longitude,
+                        }}
+                    />
+                
+                </MapUserChoose>  */}
+            {/* </Marker> */}
 
         </View>
     );
@@ -247,3 +603,5 @@ const styles = StyleSheet.create({
 });
 
 export default HomeMapScreen;
+
+
