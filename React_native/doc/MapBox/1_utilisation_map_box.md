@@ -68,9 +68,11 @@ Site MapBox Studio : https://www.mapbox.com/mapbox-studio
 6) Dans `src/tools/helpers.js`
 
     /** MapBoxToken */
+    
     export const MAPBOX_TOKEN = "< THE_JETON_SECRET>";
 
     /** style MapBox customiser dans mapbox studio https://www.mapbox.com/mapbox-studio  */
+
     export const STYLE_URL_MAPBOX = 'mapbox://styles/NAME_PROFILE_MAPBOX/iyibzbduezklzejiikejmmda53' 
 
 
@@ -118,6 +120,7 @@ Site MapBox Studio : https://www.mapbox.com/mapbox-studio
 - on va utiliser la direction de mapBox, pour tracer des itinéraires
 
     const baseClient = MapboxClient({ accessToken: MAPBOX_TOKEN });
+
     const mapboxDirectionClient = MapboxDirections(baseClient);
 
 - Télémétrie sur false dans le hook useEffect
