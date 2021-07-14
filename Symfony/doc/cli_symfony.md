@@ -76,6 +76,17 @@ Ou utiliser directement la commande `Symfony` pour lancer son server
 
     > Symfony serve
 
+## Faire tourner notre application avec Symfony avec HTTPS
+
+Installer l'autorité de certification locale
+
+    > symfony server:ca:install
+
+Faire tourner Symfony avec HTTPS
+
+    > symfony serve
+
+
 ## Installer la toolbar ( la barre d'outils )
 
 La toolbar, la barre d'outils qui contient les bundles
