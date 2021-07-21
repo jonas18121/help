@@ -104,3 +104,7 @@ ou
     ou
 
     > npm install @react-native-community/checkbox --save
+
+## Supprimer le cache puis faire run le projet
+
+    > npm start -- --reset-cache
