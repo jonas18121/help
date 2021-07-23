@@ -528,6 +528,18 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 
     > composer require lexik/jwt-authentication-bundle
 
+### Généré des clés SSL (SSL keys) privées et public
+
+    > php bin/console lexik:jwt:generate-keypair
+
+Options disponibles:
+
+`--skip-if-exists` = ne fera rien en silence si les clés existent déjà.
+
+`--overwrite` = écrasera vos clés si elles existent déjà.
+
+Sinon, une erreur sera levée pour vous empêcher d'écraser vos clés accidentellement.
+
 ## test unitaire
 
 ### phpunit/phpunit
