@@ -182,6 +182,11 @@ Dans le node_modules, il redige le dossier react-viro vers les bons composants d
 
     > @viro-community/react-viro
 
+
+    > npm install --save @viro-community/react-viro
+
+    > yarn add @viro-community/react-viro
+
 - Configurer le fichier  `name_projet\android\app\src\main\AndroidManifest.xml`
 
 ### Dans AndroidManifest.xml
