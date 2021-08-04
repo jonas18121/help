@@ -86,6 +86,13 @@ Faire tourner Symfony avec HTTPS
 
     > symfony serve
 
+## Supprimer un bundle à partir de symfony 4
+
+    - composer remove <nom_du_bundle>
+    
+    ou
+
+    - composer rem <nom_du_bundle>
 
 ## Installer la toolbar ( la barre d'outils )
 
@@ -339,7 +346,6 @@ pour débuger un validator :
 ## Supprimer les caches
 
     - php bin/console cache:clear
-
 
 ## Securité ( authentification user )
 
