@@ -1,10 +1,12 @@
 # Quelques astuces pour Angular
 
 
-# Pour afficher un tableau/liste d'object JSON
+## Pour afficher un tableau/liste d'object JSON
 
 Lorsqu'on veut afficher un objet et que ça s'afficher commen ça `[Oject Object]`,
-il fault utiliser le `PIPE JSON ( {{ var | json }} )` dans les doubles accolade `pour` que l'objet soit `transformé en string`, exemple :
+il fault utiliser le `PIPE JSON ( {{ var | json }} )` dans les doubles accolade `pour` que l'objet soit `transformé en string`, très utile pour débuger
+
+exemple :
 
 Dans le fichier `liste.component.ts`
 
@@ -28,3 +30,14 @@ Dans le fichier `liste.component.html`
     {{ variablesListeJson | json }}
 
 
+## Mettre des données dans un tableau
+
+Dans fichier .ts
+
+    private technos : Technology[] = []; 
+
+    createTechno(techno) {
+        
+        const newTechno = { id: Date.now(), ...techno};
+        this.technos = [newTechno, ...this.technos]; 
+    }
