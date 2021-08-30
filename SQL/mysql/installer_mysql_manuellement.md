@@ -18,8 +18,33 @@ L'avantage d'installer MYSQL manuellement est qu'on sait ce qu'on installe
 
 7) On peut mettre le dossier `mysql` la ou on veut, moi je le met dans ce chemin C:\MyWampPerso
 
-## Créer un fichier de configuration .ini
-
-Ce fichier va nous permettre d'indiquer les chemins
+### Créer un fichier de configuration .ini
 
 8) On va créer un fichier de configuration nommé `my.ini` dans le dossier `mysql`
+
+Dans `my.ini`
+
+- Ce fichier va nous permettre d'indiquer les chemins
+- [mysqld] : mysql driver qui est le serveur de mysql
+- basedir : c'est le répertoire de base pour mysql
+- datadir : c'est le répertoire pour les données, c'est ici qu'on aura ma base de données
+
+Dans `my.ini`
+
+    [mysqld]
+    basedir=C:/MyWampPerso/mysql
+    datadir=C:/MyWampPerso/mysql/data
+
+### Générer le répertoire data par rapport a notre configuration
+
+9) On ouvre un invite de commande (PowerShell ou autre) et on pointe vers le bin de mysql
+
+    > cd C:\MyWampPerso\mysql\bin
+
+10) on indique mysqld
+
+    > mysqld
+
+11) On initialise la création du dossier data en ce basant sur le fichier my.ini
+
+    > .\mysqld.exe --defaults-file=C:\MyWampPerso\mysql\my.ini --initialize
