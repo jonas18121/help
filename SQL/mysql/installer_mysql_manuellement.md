@@ -1,6 +1,6 @@
 # MYSQL
 
-## Installer MYSQL manuellement
+## Installer MYSQL manuellement pour windows
 
 L'avantage d'installer MYSQL manuellement est qu'on sait ce qu'on installe
 
@@ -24,7 +24,7 @@ L'avantage d'installer MYSQL manuellement est qu'on sait ce qu'on installe
 
 Dans `my.ini`
 
-- Ce fichier va nous permettre d'indiquer les chemins
+- Le fichier `my.ini` va nous permettre d'indiquer les chemins
 - [mysqld] : mysql driver qui est le serveur de mysql
 - basedir : c'est le répertoire de base pour mysql
 - datadir : c'est le répertoire pour les données, c'est ici qu'on aura ma base de données
@@ -79,17 +79,17 @@ puis on colle le mot de passe lorsque c'est demander, et la on sera connecter
 
 le chemin ce transformera en prompt mysql>
 
-16) La commande \c est comme clear
+#### La commande \c est comme clear
 
     > \c
 
 ### Remarque : il faut impérativement mettre un point virgule, à la fin d'une commande lorsqu'on est sur le prompt mysql>
 
-17) commande pour afficher une base de données
+#### commande pour afficher une base de données
 
     > show databases;
 
-18) mysql veut qu'on change de mot de passe pour afficher une base de données,
+16) mysql veut qu'on change de mot de passe pour afficher une base de données,
 
 On va le changer avec la commande suivante :
 
@@ -97,6 +97,11 @@ On va le changer avec la commande suivante :
 
 Dans les quotes de `identified by ''`, on peut mettre le mot de passe que l'on veut, exemple : `identified by 'uizbcdouz148998eg'`
 
-19) La commande exit pour sortir du terminale
+#### La commande exit pour fermer le terminale, il sert aussi a quitter le client lorsqu"on est sur le prompt mysql>
 
     > exit
+
+
+#### Commande pour bien arreter le seveur de mysql
+
+    > .\mysqladmin.exe -u root -p shutdown
