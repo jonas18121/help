@@ -30,13 +30,15 @@ Dans la classe `RandomService`
 
 Dans la classe `PersonneComponent`
 
-- On crée la propriété random en privé et qui accèptera un objet de type RandomService
+- On importe `RandomService` 
+- On crée la propriété random en privé et qui accèptera un objet de type `RandomService`
 - On fait une injection de dépendance de la classe `RandomService` dans le constructeur de `PersonneComponent` et on met `RandomService` dans la propriété `this.random`
 - Angular a su faire l'injection de dépendance de la classe `RandomService` dans le constructeur de `PersonneComponent` car on a mis le décorateur `@Injectable()` dans la classe `RandomService`
 
 
 Dans la classe `PersonneComponent`
 
+    import { RandomService } from '../services/random/random.service';
 
     @Component({
         selector: 'my-person',
