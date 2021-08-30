@@ -7,7 +7,7 @@ Ce sont des fonctions capables d’étendre le comportement d’autres fonctions
 
 ## Le Décorateur @Injectable 
 
-Permet de rendre la classe dans lequel, il est appelé injectable grâce les injections de dépendances.
+Permet de rendre la classe dans lequel, il est appelé injectable grâce aux injections de dépendances.
 
 Dans la classe `RandomService` 
 
