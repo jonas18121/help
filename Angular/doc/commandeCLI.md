@@ -33,6 +33,13 @@ ou
         
         ng serve --open
 
+## Lancer le serveur avec un autre port
+
+        ng serve --port 4300
+
+## Lancer le serveur en continue et avec un autre port : 
+        
+        ng serve --open --port 4300
  ## Avec ng generate on peut l'associer avec ces argument : 
 
         appShell
