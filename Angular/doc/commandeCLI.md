@@ -61,11 +61,27 @@ ou
 
 ### Créer un nouveau `Component` : 
         
-        > ng generate component mon-premier ou ng g c mon-premier
+        > ng generate component mon-premier 
+        
+        ou 
+        
+        > ng g c mon-premier
+
+### Créer un nouveau `Component` en pointant vers le module app.module : 
+        
+        > ng generate component mon-premier --module=app.module 
+        
+        ou 
+        
+        >ng g c mon-premier
 
 ### Créer une `Directive` personaliser : 
         
-        > ng generate directive nom_de_directive ou ng g d nom_de_directive
+        > ng generate directive nom_de_directive 
+        
+        ou 
+        
+        > ng g d nom_de_directive
 
 ### Créer une `Pipe` personaliser : 
         
