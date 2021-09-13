@@ -33,6 +33,13 @@ ou
         
         ng serve --open
 
+## Lancer le serveur avec un autre port
+
+        ng serve --port 4300
+
+## Lancer le serveur en continue et avec un autre port : 
+        
+        ng serve --open --port 4300
  ## Avec ng generate on peut l'associer avec ces argument : 
 
         appShell
@@ -54,11 +61,27 @@ ou
 
 ### Créer un nouveau `Component` : 
         
-        > ng generate component mon-premier ou ng g c mon-premier
+        > ng generate component mon-premier 
+        
+        ou 
+        
+        > ng g c mon-premier
+
+### Créer un nouveau `Component` en pointant vers le module app.module : 
+        
+        > ng generate component mon-premier --module=app.module 
+        
+        ou 
+        
+        >ng g c mon-premier
 
 ### Créer une `Directive` personaliser : 
         
-        > ng generate directive nom_de_directive ou ng g d nom_de_directive
+        > ng generate directive nom_de_directive 
+        
+        ou 
+        
+        > ng g d nom_de_directive
 
 ### Créer une `Pipe` personaliser : 
         
