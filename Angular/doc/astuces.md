@@ -41,3 +41,41 @@ Dans fichier .ts
         const newTechno = { id: Date.now(), ...techno};
         this.technos = [newTechno, ...this.technos]; 
     }
+
+
+## Router, rechargement de l'affichage dans la même page mais avec des données différentes
+
+Au lieu de prendre les valeurs de paramètre de "snapshot.params", vous devez vous abonner à ce activatedRoute qui est indiqué ci-dessous.
+
+    import { ActivatedRoute, Router, ParamMap } from "@angular/router";
+    mettez ce code dans votre ngOnInit()
+
+    ngOnInit() {
+
+        this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+            this.competitionId = params.get('competitionId ');
+            let condition = params.get('condition ');
+        });
+    }
+
+
+Par instantané, le rechargement ne se produit pas lors de la modification des paramètres de chemin dans l'url car le constructeur n'est pas appelé. 
+Mais en utilisant l'abonnement, il écoutera les modifications apportées aux paramètres.
+
+
+autre exemple :
+
+    ngOnInit() {
+
+        this.route.paramMap.subscribe((params) => {
+
+        this.id = params.get('id');
+        console.log('ID de la page',this.id);
+    
+        this.solution = SOLUTIONS.find(sol => sol.id === 'liste-de-nos-services');
+        console.log('propriété solution', this.solution);
+    
+        this.oneService = this.solution.solutions.find(service => service.id === this.id);
+        console.log('propriété d\'un service', this.oneService);
+        });
+    }
