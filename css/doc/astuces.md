@@ -164,3 +164,7 @@ Valeurs
 - color: crée une couleur avec la teinte et la saturation du contenu et la luminosité de l'arrière-plan.
 
 - luminosity: crée une couleur avec la luminosité du contenu et la teinte et la saturation de l'arrière-plan. C'est l'inverse de l' colorattribut.
+
+## Cursor de css
+
+https://css-tricks.com/almanac/properties/c/cursor/
