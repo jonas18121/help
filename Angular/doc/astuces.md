@@ -79,3 +79,19 @@ autre exemple :
         console.log('propriété d\'un service', this.oneService);
         });
     }
+
+## Route paramétrer avec ? et &
+
+
+
+Supposons que votre URL soit http://mit.edu/dashboard et que le résultat souhaité soit http://mit.edu/dashboard/user?id=1 alors utilisez le code ci-dessous
+
+    <a [routerLink]="['user']" [queryParams]="{id: 1}" </a>
+
+Supposons que votre URL soit http://mit.edu/dashboard et que le résultat souhaité soit http://mit.edu/user?id=1, alors utilisez le code ci-dessous ["La différence est / Dashobard" est manquant ici dans l'URL]
+
+    <a [routerLink]="['/user']" [queryParams]="{id: 1}" </a>
+
+Supposons que votre URL soit http://mit.edu/dashboard et que le résultat souhaité soit http://mit.edu/user?produits=micro&qualite=deluxe, alors utilisez le code ci-dessous 
+
+    <a [routerLink]="['/user']" [queryParams]="{produits: 'micro', qualite:  'deluxe'}" </a>
