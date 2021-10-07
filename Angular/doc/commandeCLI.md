@@ -1,6 +1,6 @@
 # Angular cli
 
-## creer un nouveau projet
+## creer un nouveau projet sans fichiers de test et en utilisant des fichiers scss
 
     > ng new mon-projet-angular --style=scss --skip-tests=true
 
@@ -75,7 +75,7 @@ ou
         
         > ng g c mon-premier --module=app.module 
 
-### Créer un nouveau `Component` en pointant vers le module app.module et sans fichier de teste : 
+### Créer un nouveau `Component` en pointant vers le module app.module et sans fichiers de teste : 
         
         > ng generate component mon-premier --skipTests=true --module=app.module 
         
