@@ -182,46 +182,46 @@ Faisons une petite étape par étape d'une situation où vous ne pouvez pas tout
 
 1) tu fais une boite
 
-    .tag {
-        background: #FB8C00;
-        color: #222;
-        font: bold 32px system-ui;
-        padding: 2rem 3rem 2rem 4rem;
-    }
+        .tag {
+            background: #FB8C00;
+            color: #222;
+            font: bold 32px system-ui;
+            padding: 2rem 3rem 2rem 4rem;
+        }
 
 
 2) Vous le façonnez dans une belle forme d'étiquette Vous utilisez `clip-path` parce que c'est super pour ça.
 
-    .tag {
-        /* ... */
-        clip-path: polygon(30px 0%, 100% 0%, 100% 100%, 30px 100%, 0 50%)
-    }
+        .tag {
+            clip-path: polygon(30px 0%, 100% 0%, 100% 100%, 30px 100%, 0 50%);
+        }
 
 
 3) Vous voulez une ombre dessus, alors vous Essayez d'utiliser `box-shadow`.
 
-    .tag {
-        /* ... */
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-    }
+        .tag {
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        }
 
 Mais ça ne marche pas. Rien ne s'affiche. Vous pensez que vous devenez fou. Vous supposez que vous avez une mauvaise syntaxe. Vous ne le faites pas. Le problème c'est que `clip-path` le coupe.
 
 4) Vous pouvez ombrager un élément parent à la place
 Il y a un filtre qui fait aussi des ombres : `drop-shadow()` . Mais vous ne pouvez pas l'utiliser directement sur l'élément car cela le coupera également. Alors tu fais un parent :
 
-    <span class="tag-wrap">
-        <span class="tag">
-            Tag
-        </span>
-    </span> 
+        < span class="tag-wrap">
+            <span class="tag">
+
+                Tag
+
+            </span>
+        < /span> 
 
 
  
 5) Vous ne pouvez pas non plus utiliser `box-shadow` sur ce parent, car le parent est toujours un rectangle et l'ombre sera fausse. Mais vous pouvez utiliser filter, et l'ombre suivra la forme.
 
-    .tag-wrap {
-        filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
-    }
+        .tag-wrap {
+            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
+        }
 
 C'est tout.
