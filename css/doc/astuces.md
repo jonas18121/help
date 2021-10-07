@@ -193,15 +193,13 @@ Faisons une petite étape par étape d'une situation où vous ne pouvez pas tout
 2) Vous le façonnez dans une belle forme d'étiquette Vous utilisez `clip-path` parce que c'est super pour ça.
 
     .tag {
-        /* ... */
-        clip-path: polygon(30px 0%, 100% 0%, 100% 100%, 30px 100%, 0 50%)
-    }
+        clip-path: polygon(30px 0%, 100% 0%, 100% 100%, 30px 100%, 0 50%);
+        }
 
 
 3) Vous voulez une ombre dessus, alors vous Essayez d'utiliser `box-shadow`.
 
     .tag {
-        /* ... */
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     }
 
@@ -210,11 +208,15 @@ Mais ça ne marche pas. Rien ne s'affiche. Vous pensez que vous devenez fou. Vou
 4) Vous pouvez ombrager un élément parent à la place
 Il y a un filtre qui fait aussi des ombres : `drop-shadow()` . Mais vous ne pouvez pas l'utiliser directement sur l'élément car cela le coupera également. Alors tu fais un parent :
 
-    <span class="tag-wrap">
+    < span class="tag-wrap">
+
         <span class="tag">
+
             Tag
+
         </span>
-    </span> 
+
+    < /span> 
 
 
  
