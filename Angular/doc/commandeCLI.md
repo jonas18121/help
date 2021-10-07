@@ -1,6 +1,6 @@
 # Angular cli
 
-## creer un nouveau projet
+## creer un nouveau projet sans fichier de test et en utilisant des fichier scss
 
     > ng new mon-projet-angular --style=scss --skip-tests=true
 
