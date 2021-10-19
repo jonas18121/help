@@ -272,7 +272,7 @@ MDN : https://developer.mozilla.org/fr/docs/Web/CSS/animation
 
 ## Fade Effects
 
-## fadeIn
+### fadeIn
 
     .fadeIn {
         -webkit-animation-name: fadeIn;
@@ -291,7 +291,7 @@ MDN : https://developer.mozilla.org/fr/docs/Web/CSS/animation
         100% {opacity: 1;}
     } 
 
-## fadeInDown 
+### fadeInDown 
 
     .fadeInDown {
         -webkit-animation-name: fadeInDown;
