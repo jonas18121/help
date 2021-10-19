@@ -138,6 +138,59 @@ Dans `test-annimation.component.html`
         </section>
     </section>
 
+Dans `src/app/style/_animation.scss`
+
+    @keyframes scroll{
+        0%{
+            transform: translateY(0px);
+        }
+        50%{
+            transform: translateY(20px); 
+        }
+        100%{
+            transform: translateY(0px); 
+        }
+    }
+    @-webkit-keyframes scroll{
+        0%{
+            -webkit-transform: translateY(0px);
+        }
+        50%{
+            -webkit-transform: translateY(20px); 
+        }
+        100%{
+            -webkit-transform: translateY(0px); 
+        }
+    }
+
+    @keyframes zoomIn{
+        0%{
+            transform: scale(0);
+        }
+        100%{
+            transform: scale(1);
+        }
+    }
+    @-webkit-keyframes zoomIn{
+        0%{
+            -webkit-transform: scale(0);
+        }
+        100%{
+            -webkit-transform: scale(1);
+        }
+    }
+
+    @keyframes fadeIn{
+        100%{
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadeIn{
+        100%{
+            opacity: 1;
+        }
+    }
+
 
 # Liste de code de construction d'annimations 
 
