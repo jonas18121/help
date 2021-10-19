@@ -1,3 +1,197 @@
+# Pour faire joué une annimation au scroll Angular
+
+Dans `test-annimation.component.ts`
+
+    import { Component, OnInit, HostListener } from '@angular/core';
+
+    @Component({
+        selector: 'app-test-annimation',
+        templateUrl: './test-annimation.component.html',
+        styleUrls: ['./test-annimation.component.scss']
+    })
+    export class TestAnnimationComponent implements OnInit {
+
+        constructor() { }
+
+        ngOnInit(): void {
+        }
+
+        @HostListener('window:scroll', ['$event'])
+        onWindowScroll(e) {
+            this.applyScrolledClass('scroll');
+            this.applyScrolledClass('zoomIn');
+            this.applyScrolledClass('fadeIn');
+        }
+
+        /**
+        * récupère l'id du bloc puis lui rajoute ou enlève la classe scrolled selon le sens qu'on scroll
+        * @param elID 
+        */
+        applyScrolledClass(elID) {
+
+            try {
+                const el = document.getElementById(elID);
+
+                if (window.innerHeight > el.getBoundingClientRect().top) {
+
+                    el.classList.add('scrolled');
+
+                } else if (window.innerHeight <= el.getBoundingClientRect().top) {
+                    
+                    el.classList.remove('scrolled');
+                }
+            } catch (e) {
+            }
+        }
+
+    }
+
+Dans `test-annimation.component.scss`
+
+    .container-annim {
+        margin: 17vw 0 0 0;
+        text-align: center;
+
+        .card-annim {
+            width: 30vw;
+            margin: 3vw auto;
+            background-color: $LGMprimary;
+            padding: 4vw 2vw;
+            border-radius: 10px;
+
+            h3, p {
+                color: $LGMwhite;
+            }
+
+            &#scroll {
+
+                &.scrolled {
+                    animation: 1s both scroll
+                }
+            }
+            
+            &#zoomIn {
+
+                &.scrolled {
+                    animation: 1s both zoomIn
+                }
+            }
+            
+            &#fadeIn {
+
+                &.scrolled {
+
+                    animation: 20s both fadeIn
+                }
+            }
+        }
+    }
+
+
+Dans `test-annimation.component.html`
+
+    <section class="container-annim">
+        <h1>Test Annimation</h1>
+
+        <section>
+            <div >
+                <h2>Scroll</h2>
+
+                <div class="card-annim" id="scroll">
+                    <h3>Lorem ipsum dolor .</h3>
+
+                    <p>
+                        sit amet consectetur adipisicing elit. Fugiat accusantium delectus deleniti, 
+                        necessitatibus dolor nesciunt ducimus, quaerat maiores aperiam, labore itaque. 
+                        Consequuntur iste ex est voluptatem non, officia dicta ad
+                    </p>
+                </div>
+            </div>
+            
+            <div >
+                <h2>zoomIn</h2>
+
+                <div class="card-annim" id="zoomIn">
+                    <h3>Lorem ipsum dolor .</h3>
+
+                    <p>
+                        sit amet consectetur adipisicing elit. Fugiat accusantium delectus deleniti, 
+                        necessitatibus dolor nesciunt ducimus, quaerat maiores aperiam, labore itaque. 
+                        Consequuntur iste ex est voluptatem non, officia dicta ad
+                    </p>
+                </div>
+            </div>
+            
+            <div >
+                <h2>fadeIn</h2>
+
+                <div class="card-annim" id="fadeIn">
+                    <h3>Lorem ipsum dolor .</h3>
+
+                    <p>
+                        sit amet consectetur adipisicing elit. Fugiat accusantium delectus deleniti, 
+                        necessitatibus dolor nesciunt ducimus, quaerat maiores aperiam, labore itaque. 
+                        Consequuntur iste ex est voluptatem non, officia dicta ad
+                    </p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+Dans `src/app/style/_animation.scss`
+
+    @keyframes scroll{
+        0%{
+            transform: translateY(0px);
+        }
+        50%{
+            transform: translateY(20px); 
+        }
+        100%{
+            transform: translateY(0px); 
+        }
+    }
+    @-webkit-keyframes scroll{
+        0%{
+            -webkit-transform: translateY(0px);
+        }
+        50%{
+            -webkit-transform: translateY(20px); 
+        }
+        100%{
+            -webkit-transform: translateY(0px); 
+        }
+    }
+
+    @keyframes zoomIn{
+        0%{
+            transform: scale(0);
+        }
+        100%{
+            transform: scale(1);
+        }
+    }
+    @-webkit-keyframes zoomIn{
+        0%{
+            -webkit-transform: scale(0);
+        }
+        100%{
+            -webkit-transform: scale(1);
+        }
+    }
+
+    @keyframes fadeIn{
+        100%{
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadeIn{
+        100%{
+            opacity: 1;
+        }
+    }
+
+
 # Liste de code de construction d'annimations 
 
 site : https://www.theappguruz.com/tag-tools/web/CSSAnimations/
@@ -5,6 +199,9 @@ site : https://www.theappguruz.com/tag-tools/web/CSSAnimations/
 site : https://animista.net/play/basic/rotate/rotate-bl
 
 MDN : https://developer.mozilla.org/fr/docs/Web/CSS/animation
+
+
+
 
 ## Slide Effects
 
