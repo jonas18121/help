@@ -1,7 +1,9 @@
 # Liste de code de construction d'annimations 
 
 site : https://www.theappguruz.com/tag-tools/web/CSSAnimations/
+
 site : https://animista.net/play/basic/rotate/rotate-bl
+
 MDN : https://developer.mozilla.org/fr/docs/Web/CSS/animation
 
 ## Slide Effects
