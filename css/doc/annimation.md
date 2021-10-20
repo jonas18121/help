@@ -58,12 +58,14 @@ Dans `test-annimation.component.scss`
             background-color: $LGMprimary;
             padding: 4vw 2vw;
             border-radius: 10px;
+            opacity: 0;
 
             h3, p {
                 color: $LGMwhite;
             }
 
             &#scroll {
+                opacity: 1;
 
                 &.scrolled {
                     animation: 1s both scroll
@@ -73,6 +75,7 @@ Dans `test-annimation.component.scss`
             &#zoomIn {
 
                 &.scrolled {
+                    opacity: 1;
                     animation: 1s both zoomIn
                 }
             }
@@ -80,7 +83,7 @@ Dans `test-annimation.component.scss`
             &#fadeIn {
 
                 &.scrolled {
-
+                    opacity: 1;
                     animation: 20s both fadeIn
                 }
             }
