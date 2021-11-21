@@ -55,8 +55,24 @@ Le forfait comprend également utilisties supplémentaires comme une arp, ifconf
 
 ### Voir quels sont les ports ouverts avec la commande netstat
 
-    > netstat -ltnp | grep -w <nom_du_port>
+    > sudo netstat -ltnp | grep -w <nom_du_port>
 
-    exemple 
+    ou 
 
-    > netstat -ltnp | grep -w ':8080'
+    > sudo netstat -an | grep ':80'
+
+    ou 
+
+    > sudo netstat -lpn | grep 80
+
+        exemple 
+
+        > netstat -ltnp | grep -w ':8080'
+    
+exemple de retour 
+
+    tcp6       0      0 :::80                   :::*                    LISTEN      912/apache2 
+
+### stopper le port
+
+    > sudo kill 912 
