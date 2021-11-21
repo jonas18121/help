@@ -73,6 +73,6 @@ exemple de retour
 
     tcp6       0      0 :::80                   :::*                    LISTEN      912/apache2 
 
-### sotpper le port
+### stopper le port
 
     > sudo kill 912 
