@@ -43,3 +43,20 @@ si ça c'est bien passé on aura un message de succès
 exemple
 
 Opération réussie : le processus avec PID 9044 a été terminé.
+
+
+# LINUX
+
+Le package net-toolspeut ne pas être installé sur votre système par défaut, vous devez donc l'installer manuellement.
+
+Le forfait comprend également utilisties supplémentaires comme une arp, ifconfig, netstat, rarp, nameifet route.
+
+    > sudo apt-get install net-tools
+
+### Voir quels sont les ports ouverts avec la commande netstat
+
+    > netstat -ltnp | grep -w <nom_du_port>
+
+    exemple 
+
+    > netstat -ltnp | grep -w ':8080'
