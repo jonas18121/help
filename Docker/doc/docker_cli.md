@@ -200,3 +200,34 @@ https://docs.docker.com/engine/reference/commandline/exec/
 ### Supprimer un volume
 
     > docker volume rm <nom_volume>
+
+
+# Seulment pour Linux
+
+### supprimer un dossier
+
+    > sudo rm -r <nom_dossier>
+
+### Vérifier si docker est en cours d'exécution sur votre machine pour Linux
+
+    > systemctl status docker.service
+
+### Ajoutez votre utilisateur au groupe Docker.
+
+    > sudo gpasswd -a $USER docker
+
+    puis 
+
+    > newgrp docker
+
+    Si le problème persiste, vous pouvez essayer après vous être déconnecté et reconnecté, ou redémarrer. Ou faites simplement
+
+    > sudo su $USER
+
+### Démarrer Docker 
+
+    > systemctl start docker
+
+### Activer le service Docker
+
+    > systemctl enable docker
