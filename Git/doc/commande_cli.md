@@ -53,7 +53,7 @@
 
 ### creer une branche et basculer directement dessus 
 
-    > > git checkout -b nom_branche
+    > git checkout -b nom_branche
 
 ## Afficher l'état de l'arborescence de travail 
 
@@ -142,7 +142,7 @@
 
 ### Annulé les 3 derniers commit 
 
-    > git revert head~3 --HEAD  
+    > git reset HEAD~3  
 
 ### Annulé vraiment un fichier d'un commit
 

@@ -200,3 +200,14 @@ https://docs.docker.com/engine/reference/commandline/exec/
 ### Supprimer un volume
 
     > docker volume rm <nom_volume>
+
+
+# Seulment pour Linux
+
+### supprimer un dossier
+
+    > sudo rm -r <nom_dossier>
+
+### Vérifier si docker est en cours d'exécution sur votre machine pour Linux
+
+    > systemctl status docker.service
