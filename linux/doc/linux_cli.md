@@ -8,3 +8,14 @@ Le forfait comprend également utilisties supplémentaires comme une arp, ifconf
 
     > sudo apt-get install net-tools
 
+### Mettre du code en commentaire
+
+    > ctrl + shift + touche A
+
+        <!--  -->
+        /** */
+
+    > ctrl + shift + touche /
+
+        <!--  -->
+        //
