@@ -8,4 +8,4 @@ Procès d'installation :
        > make
        > make install-full
        > sudo make tools-script-domain-names
-       > sudo chmod 777 –R app/var (si besoin)
+       > sudo chmod 777 –R app/var (si besoin) 
