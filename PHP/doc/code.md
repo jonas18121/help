@@ -1,6 +1,6 @@
 # Quelques algo
 
-site : https://www.codewars.com/
+Site : https://www.codewars.com/
 
 ### Complétez la fonction de somme carrée de manière à ce qu'elle élève au carré chaque nombre qui y est passé, puis additionne les résultats.
 
@@ -22,7 +22,7 @@ result :
     var_dump(square_sum([-1,0,1])); // return 2
 
 
-    Ou ce code aussi :
+Ou ce code aussi est bien :
 
     function square_sum2($numbers) : int {
 
