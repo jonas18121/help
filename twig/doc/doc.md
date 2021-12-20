@@ -14,3 +14,44 @@
             
             {{ count_registration_paid }} // On affiche le nombre d'inscrit
     {% endfor %}
+
+### Implémenter des metadata dans des pages dynamique dans twig 
+
+#### Page Layout de base
+
+On met le block metaData qui recevra les métadonnés des diférentes pages dynamique
+
+Dans `app/templates/Frontend/Layout/base.html.twig`
+
+    {% if app.environment == 'prod' %}
+    {% endif %}
+
+    <meta charset="UTF-8">
+
+    {% block metaData %}{% endblock %}
+
+    <title>{% block title %}{{ project_name }}{% endblock %} - {{ project_name }}</title>
+
+    <link rel="icon" type="image/x-icon" href="/assets/shared/images/favicon.ico"/>
+
+
+#### Pages dynamique
+
+Dans le fichier qui permettre d'avoir les différentes pages, on met le bloc metaData avec les balises meta qu'on veut
+
+Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
+
+    {% block stylesheets %}
+        ...
+    {% endblock %}
+
+    {% block metaData %}
+        <meta property="title" content=" {{ exam.page.seoTitle }}" />
+        <meta property="description" content="{{ exam.page.seoDescription }}" />
+    {% endblock %}
+
+    {% block content %}
+        ...
+    {% endblock %}
+
+
