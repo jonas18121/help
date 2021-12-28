@@ -51,6 +51,10 @@
     
     > git checkout nom_branche
 
+## Forcer le passage d’une branche à une autre
+    
+    > git checkout nom_branche -f
+
 ### creer une branche et basculer directement dessus 
 
     > git checkout -b nom_branche
