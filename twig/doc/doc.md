@@ -54,7 +54,7 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
         ...
     {% endblock %}
 
-### Enlevé les espaces au début + &nbsp; dans une variable qui contient des balises html
+### Enlevé les espaces au début + '&nbsp;' dans une variable qui contient des balises html
 
     {% if project.recommendation %}
         {% set recommendation = project.recommendation|striptags|replace({'&nbsp;' : null})|trim() %}
