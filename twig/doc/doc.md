@@ -54,4 +54,16 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
         ...
     {% endblock %}
 
+### Enlevé les espaces au début + '&nbsp ;' dans une variable qui contient des balises html
+
+    {% if project.recommendation %}
+        {% set recommendation = project.recommendation|striptags|replace({'&nbsp;' : null})|trim() %}
+        {% if recommendation is not null and recommendation is not empty %}
+
+            <div class="card-description">
+                <p>{{ recommendation }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
 
