@@ -19,3 +19,9 @@ Procès d'installation :
        > sudo make tools-script-domain-names
        
        > sudo chmod 777 –R app/var (si besoin) 
+
+## Erreur 504 Gateway 
+
+### Recharger le php depuis le serveur
+
+    > sudo systemctl restart php7.4-fpm
