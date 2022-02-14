@@ -81,6 +81,12 @@
 
     > git pull
 
+### Si erreur : fatal: refus de fusionner des historiques sans relation
+
+Si erreur : `fatal: refus de fusionner des historiques sans relation`, ajouter `--allow-unrelated-histories` et pas obliger de mettre `-vf` (verbeux et force)
+
+    > git pull -vf origin <nom_branch> --allow-unrelated-histories
+
 ## Fusionner une branche dans la branche active
 
     > git merge nom_branch
