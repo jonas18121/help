@@ -22,7 +22,7 @@ Procès d'installation :
 
 
 
-## Attention, 
+## Attention
 
 Il faut éviter de faire : `make composer-update`, car ça met à jour à chaque fois les vendors
 
