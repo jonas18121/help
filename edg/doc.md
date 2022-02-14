@@ -32,7 +32,7 @@ Pour ça que j'ai créé : `make composer-update-seed-bundle`
 
 Le problème de tout mettre à jour à chaque fois est qu'on tombe sur des versions deprecated
 
-Donc faut privilégier make compose-install et make composer-update-seed-bundle
+Donc faut privilégier `make compose-install` et `make composer-update-seed-bundle`
 
 A savoir que c'est une bonne pratique sur les projets symfony, et PHP en général, qu'il faut éviter les `composer update` ^^
 
