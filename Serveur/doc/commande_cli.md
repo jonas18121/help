@@ -6,7 +6,7 @@ Dans le dossier .ssh
     > notepad <name_key_public_ou_key_private>
 
 
-# Manipuler un fichier quand on est connecter à un serveur distant depuis un terminal
+# Manipuler un fichier depuis un terminal, quand on est connecter à un serveur distant 
 
 ## Voir le contenu d'un fichier
 
