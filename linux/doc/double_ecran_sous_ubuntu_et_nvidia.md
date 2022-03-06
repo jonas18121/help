@@ -8,7 +8,7 @@ Lien : https://forum.ubuntu-fr.org/viewtopic.php?pid=22265826#p22265826
 
 - Puis dans `Pilotes additionnels`, cochez la case `Utilisation de NVIDIA driver metapackage depuis nvidia-driver-440(propriétaire et testé)` ou `Utilisation de NVIDIA driver metapackage depuis nvidia-driver-510(propriétaire et testé)`
 
-En tous cas utilisez le driver qui contient (propriétaire et testé)
+En tous cas utilisez le driver qui contient `(propriétaire et testé)`
 
 ---------------------------------------------------------------------------------------
 
