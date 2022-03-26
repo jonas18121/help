@@ -15,11 +15,11 @@
 
 3. Le troisième avec [.reduce( )](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) qui permet de stocker dans un accumulateur les valeurs du `tableau d’origine` qui respectent une condition, qu’on aura déterminée. 
 
-    `L’accumulateur sera l’argument accumulator` qu’on va définir comme un tableau avec des crochets `[ ]` (qui est tout à droite). Dans `l’argument accumulator` on va stocker  les valeurs de `l’argument value` qui respectent la condition.
+    `L’accumulateur sera l’argument accumulator` qu’on va définir comme un tableau avec des crochets `[ ]` (qui sont tout à droite). Dans `l’argument accumulator` on va stocker  les valeurs de `l’argument value` qui respectent la condition.
 
-    Dans la condition, on a [.includes( )](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) qui va vérifié si la valeur de l’argument value existe déjà dans le tableau accumulator.
+    Dans la condition, on a [.includes( )](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) qui va vérifié si la valeur de `l’argument value` existe déjà dans le tableau accumulator.
 
-    Si oui, on ne l’ajoute pas dans le tableau accumulator . Si non, on l’ajoute dans le tableau accumulator.
+    Si oui, on ne l’ajoute pas dans le `tableau accumulator` . Si non, on l’ajoute dans le `tableau accumulator`.
 
 Exemple(s) :
 
