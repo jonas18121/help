@@ -35,6 +35,6 @@ console.log(newArray); // (5) [1, 2, 3, 4, 5]
 newArray = array.filter((value, index) => array.indexOf(value) == index);
 console.log(newArray); // (5) [1, 2, 3, 4, 5]
 
-newArray = array.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+newArray = array.reduce((accumulator, value) => unique.includes(value) ? accumulator : [...accumulator, value], []);
 console.log(newArray); // (5) [1, 2, 3, 4, 5]
 ```
