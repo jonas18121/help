@@ -9,7 +9,7 @@
     // et ce serait pas normal. voilà pouquoi le recaptcha à été mis ici
 
         
-    if (empty($request->get('recaptcha-response'))) {
+    if (empty($request->get('g-recaptcha-response'))) {
 
         $this->addFlash('alert', $this->renderView('Frontend/Pages/Registration/message-alert.html.twig', ['success' => false, 'message' => 'Vous ête un robot' ]);
 
@@ -17,15 +17,13 @@
     }
     else {
         
-        $url= "https://www.google.com/recaptcha/api/siteverify?secret=le_code_secret_a_mettre_ici&response={$request->get('recaptcha-response')}";
+        $url= "https://www.google.com/recaptcha/api/siteverify?secret=le_code_secret_a_mettre_ici&response={$request->get('g-recaptcha-response')}";
         
         //on vérifie si curl est installé sur le serveur
         if(function_exists('curl_version')){
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_TIMEOUT, 1);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             $response = curl_exec($curl);
         }
         else{ 
@@ -69,7 +67,7 @@
                     <!-- code du formulaire -->
 
                     <!-- input du recaptcha -->
-                    <input type="hidden" id="recaptchaResponse" name="recaptcha-response">
+                    <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
 
                     <div class="row mt-25 center-content">
                         <button type="submit" name="action">
@@ -88,8 +86,8 @@
         <script src="https://www.google.com/recaptcha/api.js?render=6LfZimgdAAAAAKBHbAyep31G2ors3EPK0Ye8az-X"></script>
         <script>
             grecaptcha.ready(function() {
-                grecaptcha.execute('la_cle_recaptcha_du_site_a_mettre_ici', {action: 'homepage'}).then(function(token) {
-                    document.getElementById("recaptchaResponse").value = token;
+                grecaptcha.execute('la_cle_recaptcha_du_site_a_mettre_ici', {action: 'submit'}).then(function(token) {
+                    document.getElementById("g-recaptcha-response").value = token;
                 });
             });
         </script>
