@@ -406,7 +406,7 @@ Dans le fichier js qui devra afficher la carte
                             // See error code charts below.
                             console.log('Error', error.code, error.message);
                         },
-                        Platform.OS === 'android' ? {} : { enableHighAccuracy: true, timeout: 30000, maximumAge: 10000 }
+                        Platform.OS === 'android' ? {} : { enableHighAccuracy: flase, timeout: 30000, maximumAge: 10000 }
                     );
                 }
 
