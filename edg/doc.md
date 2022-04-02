@@ -42,3 +42,16 @@ A savoir que c'est une bonne pratique sur les projets symfony, et PHP en génér
 
     > sudo systemctl restart php7.4-fpm
 
+## Mettre des règles de droits dans des fichiers et dossiers
+
+### La première parcours tous les dossiers du projet et leur mets 0775 
+
+    > sudo find . -type d -exec chmod 0775 {} \;
+
+### La deuxième parcours tous les fichiers du projet et leur mets 0664
+
+    > sudo find . -type f -exec chmod 0664 {} \;
+
+### La troisième ajout de droit "exécutable" sur le fichier bin/console (car le 0664 a enlever le droit exécutable)
+    
+    > sudo  chmod +x bin/console
