@@ -34,7 +34,7 @@ const getGeoLocaation = () => {
 ```Javascript
 import Geolocation from "@react-native-community/geolocation";
 
-Geolocation.setRNConfiguration({auto: "auto"});//pas obligatoire, Le code ci-dessus fonctionne sans cette ligne pour android
+Geolocation.setRNConfiguration({auto: "auto"}); //pas obligatoire, Le code ci-dessus fonctionne sans cette ligne pour android
 
 const getGeoLocaation = () => {
 
