@@ -36,6 +36,12 @@ Donc faut privilégier `make compose-install` et `make composer-update-seed-bund
 
 A savoir que c'est une bonne pratique sur les projets symfony, et PHP en général, qu'il faut éviter les `composer update` ^^
 
+## Entrer dans le bash avec docker
+
+Après on peut utiliser toutes les commandes qu'on souhaites car on passera forcément par docker
+
+    > make exec-cli-app
+
 ## Erreur 504 Gateway 
 
 ### Recharger le php depuis le serveur
