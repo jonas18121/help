@@ -416,6 +416,13 @@ puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form
     created: templates/security/login.html.twig
 
 
+## Voir les détail d'une dépendance
+
+    > composer show <la_dépendance>
+
+Exemple :
+
+    > composer show symfony/flex
 
 ## Upload un fichier (dont une image, Upload image)
 
