@@ -61,3 +61,9 @@ Après on peut utiliser toutes les commandes qu'on souhaites car on passera forc
 ### La troisième ajout de droit "exécutable" sur le fichier bin/console (car le 0664 a enlever le droit exécutable)
     
     > sudo  chmod +x bin/console
+
+### Permission denied CI prod Aec
+
+Faire dans le dossier app du serveur distant 
+
+ > sudo chmod 777 -R var
