@@ -67,3 +67,7 @@ Après on peut utiliser toutes les commandes qu'on souhaites car on passera forc
 Faire dans le dossier app du serveur distant 
 
  > sudo chmod 777 -R var
+
+### Modif couleur projets
+
+- _custom.css > $themes > day-mode 
