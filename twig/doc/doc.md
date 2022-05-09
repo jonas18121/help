@@ -66,7 +66,7 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
         {% endif %}
     {% endif %}
 
-### afficher une date au format et avec les mots en français 
+### Afficher une date au format et avec les mots en français 
 
 1. Intaller `twig/intl-extra` dans Symfony
 
