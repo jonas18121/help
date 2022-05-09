@@ -66,4 +66,25 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
         {% endif %}
     {% endif %}
 
+### afficher une date au format et avec les mots en français 
 
+1. Intaller `twig/intl-extra` dans Symfony
+
+    > composer require twig/intl-extra
+
+2. Utiliser le filtre `|format_datetime` dans Twig
+
+```Twig
+
+{% for child in products %}
+    <div>
+        <span class="author">{{ child.name }}</span> 
+        <span class="time">{{ child.createdAt|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY") }}</span>
+    </div>
+{% endfor %}
+
+```
+
+#### Rendu
+
+The_Author lundi 09 mai 2022
