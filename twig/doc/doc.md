@@ -82,10 +82,10 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
 
 ```Twig
 
-{% for child in products %}
+{% for product in products %}
     <div>
-        <span class="author">{{ child.name }}</span> 
-        <span class="time">{{ child.createdAt|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY") }}</span>
+        <span class="author">{{ product.name }}</span> 
+        <span class="time">{{ product.createdAt|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY") }}</span>
     </div>
 {% endfor %}
 
@@ -93,4 +93,4 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
 
 3. Rendu
 
-The_Author lundi 09 mai 2022
+name_product lundi 09 mai 2022
