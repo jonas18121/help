@@ -574,3 +574,23 @@ Sinon, une erreur sera levée pour vous empêcher d'écraser vos clés accidente
 ### Envoyer des fixtures dans la base de données qui est dans un environnement de test
 
     > php bin/console doctrine:fixtures:load --env=test
+
+## Créer une commande personnalisé
+
+    > php bin/console make:command
+
+Le site de Symfony, créer une commande : https://symfony.com/doc/current/console.html
+
+Le site de Symfony, ajoute de style pour le rendu : https://symfony.com/doc/current/console/style.html
+
+Le terminale proposera de donner un nom à la commande personnalisé
+
+    Choose a command name (e.g. app:orange-kangaroo):
+    > <nom_de_la_commande>
+
+Exemple
+
+    Choose a command name (e.g. app:orange-kangaroo):
+    > create:category
+
+Puis Symfony va créer un dossier `command` avec la classe `CreateCategoryCommand` qui est le nom de la commmande `create:category`
