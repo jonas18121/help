@@ -17,6 +17,7 @@ exemple :
     > cat .env.local
 
 ou
+
     > cat index.php
 
 ### Ecrire dans un fichier
