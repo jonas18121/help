@@ -60,3 +60,10 @@ par exemple home/NOM/.cache/VMWARE/drag_and_drop (plusieurs Go)
 
 le logiciel "Représentation graphique du disque" permet de trouver les éléments de grande taille
 à vous de les supprimer (à bon escient) ensuite !
+
+
+
+
+### Installer filezilla
+
+> sudo apt-get install filezilla
