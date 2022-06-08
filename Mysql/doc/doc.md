@@ -1,6 +1,9 @@
 # Utilisation de MySQL en ligne de commande
 
-Site [Waytolearnx](https://waytolearnx.com/2019/09/liste-des-commandes-mysql.html)
+Site :
+
+- [Waytolearnx](https://waytolearnx.com/2019/09/liste-des-commandes-mysql.html)
+- [buzut](https://buzut.net/maitrisez-mysql-en-cli/)
 
 ## MySQL possède une simple interface "ligne de commande"
 
