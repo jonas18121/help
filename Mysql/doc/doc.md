@@ -28,6 +28,18 @@ exemple :
 
     mysql> EXIT
 
+////////////////////////// CLE ETRANGÈRE //////////////
+
+## Désactiver la configuration par défaut de la vérification des clés étrangères
+
+    mysql> SET FOREIGN_KEY_CHECKS = 0;
+## Rétablisser la configuration par défaut de la vérification des clés étrangères
+
+    mysql> SET FOREIGN_KEY_CHECKS = 1;
+
+
+////////////////////////// FIN CLE ETRANGÈRE //////////////
+
 ## Pour créez une base de données SQL.
 
     mysql> create database [databasename];
@@ -98,8 +110,59 @@ Si le nom de la colonne a le même nom qu'un mot réserver par SQL (ex: default)
 
 ## Fonction MySQL pour afficher la date actuelle:
 
-    mysql> NOW()
+    mysql> NOW();
 
+## Pour afficher le plan d’exécution d’une requête SQL:
+
+    mysql> EXPLAIN SELECT * FROM [tablename];
+
+## Pour sélectionner une parties d’un enregistrement:
+
+    mysql> SELECT [colonne1], [colonne2] FROM [table];
+
+## Pour compter le nombre d’enregistrement dans une table.
+
+    mysql> SELECT COUNT([colonne]) FROM [table];
+
+## Pour sélectionner des enregistrements spécifiques:
+
+    mysql> SELECT * FROM [table] WHERE [colonne] = [valeur];
+
+D’autre sélecteurs: <, >, !=; pour combiner plusieurs sélecteurs utiliser les opérateurs AND et OR. Exemple:
+
+    mysql> SELECT * FROM users WHERE name = 'Alex' OR age > 30;
+
+## Sélectionnez les enregistrements qui contiennent la valeur [val].
+
+    mysql> SELECT * FROM [table] WHERE [colonne] LIKE '%[val]%';
+
+Exemple: Sélectionnez tous les noms qui contiennent ‘al’
+
+    mysql> SELECT * FROM users WHERE name LIKE '%al%';
+
+## Sélectionnez les enregistrements qui commencent par la valeur [val].
+
+    mysql> SELECT * FROM [table] WHERE [colonne] LIKE '[val]%';
+
+Exemple: Sélectionnez tous les noms commençant par « Yo »
+
+    mysql> SELECT * FROM users WHERE name LIKE 'Yo%';
+
+## Sélectionnez les enregistrements commençant par ‘val1’ et se terminant par ‘val2’.
+
+    mysql> SELECT * FROM [table] WHERE [colonne] LIKE '[val1_val2]';
+
+Exemple: Sélectionnez toutes les descriptions commençant par « T » et se terminant par « T »
+
+    mysql> SELECT * FROM product WHERE description LIKE 'T_T';
+
+## Sélectionner un intervalle de données.
+
+    mysql> SELECT * FROM [table] WHERE [colonne] BETWEEN [valeur1] and [valeur2];
+
+Exemple:
+
+    mysql> SELECT * FROM users WHERE age BETWEEN 20 and 30;
 
 <hr>
 
