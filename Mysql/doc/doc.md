@@ -97,6 +97,11 @@ exemple :
 
 # Exporter une base de données MySQL avec mysqldump
 
+Site :
+- [Infomaniak](https://www.infomaniak.com/fr/support/faq/2128/mysql-exporter-une-base-de-donnees#:~:text=Exporter%20une%20base%20de%20donn%C3%A9es%20MySQL%20via%20SSH&text=Se%20connecter%20au%20serveur%20de,%2D%2Dno%2Dtablespaces%20%3E%20sauvegarde.)
+- [Waytolearnx](https://waytolearnx.com/2020/01/importer-et-exporter-une-base-de-donnees-mysql.html)
+- [Commentçamarche](https://www.commentcamarche.net/contents/694-importer-et-exporter-des-donnees-sous-mysql)
+
 La commande mysql permet d'exporter l'intégralité d'une base de données hébergée par MySQL de façon efficace mais n'offre pas la souplesse nécessaire à l'exportation de plusieurs bases de données ou au contraire d'une partie de la base de données (table ou partie d'une table). 
 
 La commande mysqldump répond à ce besoin en offrant la possibilité de spécifier plus précisément les données à exporter. Voici la syntaxe de cette commande :
