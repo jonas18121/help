@@ -141,7 +141,7 @@ La commande SQL située après le commutateur -w doit être délimitée par des 
 
 ///////////////////////////// EXEMPLE 2 A UTILISER /////////////////////////////////////////////////////////
 
-### Exporter une ou plusieurs table(s) précis
+### Exporter une ou plusieurs table(s) précise(s)
 
     > mysqldump -h [host_name] -u [user_name] –p [password] [options] [database_name] [table_name] > [dumpfilename.sql]
 
