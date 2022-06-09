@@ -80,6 +80,14 @@ exemple :
 
     mysql> ALTER TABLE [tablename] ADD COLUMN [colonne3] VARCHAR(100);
 
+Exemple :
+
+    mysql> ALTER TABLE user ADD COLUMN age TINYINT(2);
+
+Si le nom de la colonne a un nom réserver (ex: default), mettre des backticks
+
+    mysql> ALTER TABLE user ADD COLUMN `default` INT(100);
+
 ## Pour ajouter une colonne avec un ID unique par incrémentation automatique:
 
     mysql> ALTER TABLE [tablename] ADD COLUMN [colonne4] int NOT NULL AUTO_INCREMENT PRIMARY KEY;
