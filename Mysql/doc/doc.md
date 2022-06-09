@@ -78,15 +78,15 @@ exemple :
 
 ## Pour ajouter une colonne:
 
-    mysql> ALTER TABLE [tablename] ADD COLUMN [colonne3] VARCHAR(100);
+    mysql> ALTER TABLE [tablename] ADD COLUMN [colonne3] VARCHAR(100) NULL DEFAULT NULL;
 
 Exemple :
 
-    mysql> ALTER TABLE user ADD COLUMN age TINYINT(2);
+    mysql> ALTER TABLE user ADD COLUMN age TINYINT(2) NOT NULL DEFAULT NULL;
 
-Si le nom de la colonne a un nom réserver (ex: default), mettre des backticks
+Si le nom de la colonne a le même nom qu'un mot réserver par SQL (ex: default), mettre des backticks
 
-    mysql> ALTER TABLE user ADD COLUMN `default` INT(100);
+    mysql> ALTER TABLE user ADD COLUMN `default` INT(100) NOT NULL DEFAULT '0';
 
 ## Pour ajouter une colonne avec un ID unique par incrémentation automatique:
 
