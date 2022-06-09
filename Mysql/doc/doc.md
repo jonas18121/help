@@ -91,3 +91,82 @@ exemple :
 ## Fonction MySQL pour afficher la date actuelle:
 
     mysql> NOW()
+
+
+<hr>
+
+# Exporter une base de données MySQL avec mysqldump
+
+La commande mysql permet d'exporter l'intégralité d'une base de données hébergée par MySQL de façon efficace mais n'offre pas la souplesse nécessaire à l'exportation de plusieurs bases de données ou au contraire d'une partie de la base de données (table ou partie d'une table). 
+
+La commande mysqldump répond à ce besoin en offrant la possibilité de spécifier plus précisément les données à exporter. Voici la syntaxe de cette commande :
+
+    > mysqldump [options] base_de_donnees [tables]
+
+///////////////////////////// EXEMPLE 1 /////////////////////////////////////////////////////////
+
+Voici les options généralement utilisées :
+
+    > mysqldump -h host -u user -ppass -rfichier base_de_donnees [tables]
+
+**host** représente le nom ou l'adresse IP de la machine sur laquelle la base de données que vous désirez exporter est installée. 
+Par défaut il s'agit de localhost, c'est-à-dire la machine à partir de laquelle la commande mysql est lancée
+
+**user** représente l'utilisateur avec lequel vous désirez vous connecter. Par défaut il s'agit de l'utilisateur root
+
+**password** représente le mot de passe de l'utilisateur avec lequel vous désirez vous connecter. Si vous n'indiquez pas de mot de passe, celui-ci sera demandé de manière interactive. Il ne doit pas y avoir d'espace entre -p et le mot de passe fourni
+
+**base_de_donnees** est le nom de la base de données à exporter. 
+
+**fichier** est le nom du fichier dans lequel la base va être exportée.
+Si aucun chemin absolu n'est précisé, le fichier sera stocké dans le même répertoire que la commande mysql.
+
+Voici un exemple d'exportation des tables membres et invites de la base nommée utilisateurs située sur la machine db.commentcamarche.com et appartenant à l'utilisateur admin (dont le mot de passe est KinderSurprise) :
+
+    > mysqldump -h db.commentcamarche.net -u admin -pKinderSurprise -outilisateurs.sql utilisateurs membres invites
+
+Il est possible d'affiner encore plus précisément les données à exporter en donnant une condition SQL grâce au commutateur -w (--where, ici "WHERE id > 4000") :
+
+    > mysqldump -h db.commentcamarche.net -u admin -pKinderSurprise -outilisateurs.sql -w "id>4000" utilisateurs membres invites
+
+La commande SQL située après le commutateur -w doit être délimitée par des guillemets (doubles ou simples).
+
+
+///////////////////////////// FIN EXEMPLE 1 /////////////////////////////////////////////////////////
+
+///////////////////////////// EXEMPLE 2 A UTILISER /////////////////////////////////////////////////////////
+
+### Exporter une ou plusieurs table(s) précis
+
+    > mysqldump -h [host_name] -u [user_name] –p [password] [options] [database_name] [table_name] > [dumpfilename.sql]
+
+On peut ne pas utiliser le -h [ host_name ] et le –p [ password ]
+
+    > mysqldump -h 141.222.22 -u userAdmin –p la_pass_pass my_database my_table > sauvegarde.sql
+
+### Exporter une base de données entière
+
+On peut ne pas utiliser le -h [ host_name ] et le –p [ password ]
+
+    > mysqldump -u [user_name] -p [database_name] > [dumpfilename.sql]
+
+**user_name** est le nom d’utilisateur avec lequel vous pouvez vous connecter à la base de données.
+
+**database_name** est le nom de la base de données qui sera exportée.
+
+**dumpfilename.sql** est le fichier dans lequel la sortie sera enregistrée.
+
+Si des erreurs se produisent pendant le processus d’exportation, mysqldump les affichera clairement à l’écran.
+
+///////////////////////////// FIN EXEMPLE 2 /////////////////////////////////////////////////////////
+
+
+# Importer une base de données sous MySQL
+
+La commande en ligne mysql permet également d'importer des données. Il suffit pour cela d'utiliser la redirection < et d'indiquer le fichier dump contenant les instructions SQL à importer :
+
+    > mysql -h host -u user -ppass base_de_donnees < fichier_dump
+
+La notation suivante est, une fois de plus, également possible :
+
+    > mysql --host host --user user -passwordpass base_de_donnees < fichier_dump
