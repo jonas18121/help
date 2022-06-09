@@ -28,6 +28,18 @@ exemple :
 
     mysql> EXIT
 
+////////////////////////// CLE ETRANGÈRE //////////////
+
+## Désactiver la configuration par défaut de la vérification des clés étrangères
+
+    mysql> SET FOREIGN_KEY_CHECKS = 0;
+## Rétablisser la configuration par défaut de la vérification des clés étrangères
+
+    mysql> SET FOREIGN_KEY_CHECKS = 1;
+
+
+////////////////////////// FIN CLE ETRANGÈRE //////////////
+
 ## Pour créez une base de données SQL.
 
     mysql> create database [databasename];
