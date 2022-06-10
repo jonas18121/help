@@ -1,4 +1,4 @@
-# Génération des clés publiques SSH dans linux
+# Génération des clés publiques SSH sous linux
 
 Site [GIT](https://git-scm.com/book/fr/v2/Git-sur-le-serveur-G%C3%A9n%C3%A9ration-des-cl%C3%A9s-publiques-SSH)
 
