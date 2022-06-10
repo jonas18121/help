@@ -140,6 +140,15 @@ Exemple: Sélectionnez tous les noms qui contiennent ‘al’
 
     mysql> SELECT * FROM users WHERE name LIKE '%al%';
 
+    +--------+-----------+--------+
+    |  id    |    name   |  age   |
+    +--------+-----------+--------+
+    |  101   |   ali     |   25   |
+    |  102   |  Malis    |   15   |
+    |  103   |  Mokali   |   35   |
+    |  104   |  Manali   |   40   |
+    +--------+-----------+--------+
+
 ## Sélectionnez les enregistrements qui commencent par la valeur [val].
 
     mysql> SELECT * FROM [table] WHERE [colonne] LIKE '[val]%';
@@ -147,6 +156,15 @@ Exemple: Sélectionnez tous les noms qui contiennent ‘al’
 Exemple: Sélectionnez tous les noms commençant par « Yo »
 
     mysql> SELECT * FROM users WHERE name LIKE 'Yo%';
+
+    +--------+-----------+--------+
+    |  id    |    name   |  age   |
+    +--------+-----------+--------+
+    |  115   |   Yohan   |   33   |
+    |  130   |   Youssa  |   56   |
+    |  109   |   Yonaka  |   15   |
+    |  144   |   Yoyo    |   20   |
+    +--------+-----------+--------+
 
 ## Sélectionnez les enregistrements commençant par ‘val1’ et se terminant par ‘val2’.
 
@@ -156,6 +174,15 @@ Exemple: Sélectionnez toutes les descriptions commençant par « T » et se ter
 
     mysql> SELECT * FROM product WHERE description LIKE 'T_T';
 
+    +--------+---------------+
+    |  id    |  description  |
+    +--------+---------------+
+    |  101   |      TiT      |
+    |  102   |      ToT      |
+    |  103   |      TaT      |
+    |  104   |      TuT      |
+    +--------+---------------+
+
 ## Sélectionner un intervalle de données.
 
     mysql> SELECT * FROM [table] WHERE [colonne] BETWEEN [valeur1] and [valeur2];
@@ -163,6 +190,34 @@ Exemple: Sélectionnez toutes les descriptions commençant par « T » et se ter
 Exemple:
 
     mysql> SELECT * FROM users WHERE age BETWEEN 20 and 30;
+
+    +--------+-----------+--------+
+    |  id    |    name   |  age   |
+    +--------+-----------+--------+
+    |  115   |   Yohan   |   20   |
+    |  130   |   Thomas  |   21   |
+    |  109   |    Jean   |   25   |
+    +--------+-----------+--------+
+
+## Sélectionnez avec un ordre personnalisé et seulement une limite:
+
+    mysql> SELECT * FROM [table] WHERE [colonne] ORDER BY [colonne] ASC LIMIT [valeur];
+
+Ordre: DESC (Descendant) ↓, ASC (ascendant) ↑.
+
+Exemple:
+
+    mysql> SELECT * FROM users ORDER BY age ASC LIMIT 3;
+
+    +--------+-----------+--------+
+    |  id    |    name   |  age   |
+    +--------+-----------+--------+
+    |  115   |   Yohan   |   20   |
+    |  130   |   Thomas  |   21   |
+    |  109   |    Jean   |   25   |
+    +--------+-----------+--------+
+
+
 
 <hr>
 
