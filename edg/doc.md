@@ -71,3 +71,18 @@ Faire dans le dossier app du serveur distant
 ### Modif couleur projets
 
 - _custom.css > $themes > day-mode 
+
+## Liste commande make dans app
+
+### Charger un file latest en staging
+
+    > make db-load-latest ENV=staging
+
+
+Par contre il faut un fichier : **latest.staging.sql**
+
+si on fait : 
+
+    > make db-load-latest
+
+ça chargera un fichier **latest.dev.sql**
