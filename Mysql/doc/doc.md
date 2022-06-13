@@ -37,6 +37,9 @@ exemple :
 
     mysql> SET FOREIGN_KEY_CHECKS = 1;
 
+## Supprimer une FOREIGN KEY
+
+    mysql> ALTER TABLE `my_table` DROP FOREIGN KEY `FK_id_off_foreign_key`;
 
 ////////////////////////// FIN CLE ETRANGÈRE //////////////
 
