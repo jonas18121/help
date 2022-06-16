@@ -66,7 +66,11 @@ Après on peut utiliser toutes les commandes qu'on souhaites car on passera forc
 
 Faire dans le dossier app du serveur distant 
 
- > sudo chmod 777 -R var
+    > sudo chmod 777 -R var
+
+Ou la commande ci-dessous depuis la racine du projet
+
+    > sudo chmod 777 -R app
 
 ### Modif couleur projets
 
