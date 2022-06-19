@@ -329,9 +329,9 @@
     }
 ```
 
-```javascript
-    // form from symfony
+### form from symfony
 
+```javascript
 
     let isValidCgAccepted = validInputCheckbox(
         "registration_cgAccepted", 
