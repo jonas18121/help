@@ -14,133 +14,199 @@ Site :
 
 exemple :
 
+```bash
     > mysql -h machine -u utilisateur -p [base_de_données]
-
+```
     -h: machine hôte (ip)
     -u: utilisateur MySQL (pas Unix)
     -p: mot de passe MySQL (pas Unix)
 
 ### Si on est déjà connecter dans un serveur qui a notre projet et qui à aussi notre bdd mysql
 
+```bash
     > mysql -u utilisateur -p [base_de_données]
-
+```
 ## Déconnexion à Mysql
 
+```sql
     mysql> EXIT
+```
 
 ////////////////////////// CLE ETRANGÈRE //////////////
 
 ## Désactiver la configuration par défaut de la vérification des clés étrangères
 
+```sql
     mysql> SET FOREIGN_KEY_CHECKS = 0;
+```
 ## Rétablisser la configuration par défaut de la vérification des clés étrangères
 
+```sql
     mysql> SET FOREIGN_KEY_CHECKS = 1;
-
+```
 ## Supprimer une FOREIGN KEY
 
+```sql
     mysql> ALTER TABLE `my_table` DROP FOREIGN KEY `FK_id_off_foreign_key`;
+```
 
 ////////////////////////// FIN CLE ETRANGÈRE //////////////
 
 ## Pour créez une base de données SQL.
 
+```sql
     mysql> create database [databasename];
+```
 
 ## Pour afficher toutes les bases de données sur le serveur SQL.
 
+```sql
     mysql> show databases;
+```
 
 ## Pour sélectionnez une base de données
 
+```sql
     mysql> use [database];
+```
 
 ## Pour voir toutes les tables dans une base de données.
 
+```sql
     mysql> show tables;
+```
 
 ## Pour afficher la structure d’une table:
 
+```sql
     mysql> describe [table];
+```
 
 ## Pour supprimer une base de données.
 
+```sql
     mysql> drop database [databasename];
+```
 
 ## Pour supprimer une table.
 
+```sql
     mysql> drop table [tablename];
+```
+
+## Remettre l'auto-incrémentation d'une table à 0 
+
+On exécute cette commande depuis l'onglet `SQL` de phpMyAdmin
+
+```sql
+    mysql> ALTER TABLE <nom_de_la_table> AUTO_INCREMENT=0
+```
 
 ## Afficher toutes les données d’une table.
 
+```sql
     mysql> SELECT * FROM [tablename];
+```
 
 ## Renvoie les colonnes et les informations sur des colonnes relatives à une table.
 
+```sql
     mysql> SHOW COLUMNS FROM  [tablename];
+```
 
 ## Déterminez quelle base de données est utilisée:
 
+```sql
     mysql> select database();
+```
 
 ## Pour lister tous les index d’une table:
 
+```sql
     mysql> show index from [table];
+```
 
 ## Créer une nouvelle table avec des colonnes:
 
+```sql
     mysql> CREATE TABLE [tablename] ([colonne1] VARCHAR(50), [colonne2] DATETIME);
+```
 
 ## Pour ajouter une colonne:
 
+```sql
     mysql> ALTER TABLE [tablename] ADD COLUMN [colonne3] VARCHAR(100) NULL DEFAULT NULL;
+```
 
 Exemple :
 
+```sql
     mysql> ALTER TABLE user ADD COLUMN age TINYINT(2) NOT NULL DEFAULT NULL;
+```
 
 Si le nom de la colonne a le même nom qu'un mot réserver par SQL (ex: default), mettre des backticks
 
+```sql
     mysql> ALTER TABLE user ADD COLUMN `default` INT(100) NOT NULL DEFAULT '0';
+```
 
 ## Pour ajouter une colonne avec un ID unique par incrémentation automatique:
 
+```sql
     mysql> ALTER TABLE [tablename] ADD COLUMN [colonne4] int NOT NULL AUTO_INCREMENT PRIMARY KEY;
+```
 
 ## Insérer un enregistrement dans une table SQL:
 
+```sql
     mysql> INSERT INTO [tablename] ([colonne1], [colonne2]) VALUES ('[valeur1]', '[valeur2]');
+```
 
 ## Fonction MySQL pour afficher la date actuelle:
 
+```sql
     mysql> NOW();
+```
 
 ## Pour afficher le plan d’exécution d’une requête SQL:
 
+```sql
     mysql> EXPLAIN SELECT * FROM [tablename];
+```
 
 ## Pour sélectionner une parties d’un enregistrement:
 
+```sql
     mysql> SELECT [colonne1], [colonne2] FROM [table];
+```
 
 ## Pour compter le nombre d’enregistrement dans une table.
 
+```sql
     mysql> SELECT COUNT([colonne]) FROM [table];
+```
 
 ## Pour sélectionner des enregistrements spécifiques:
 
+```sql
     mysql> SELECT * FROM [table] WHERE [colonne] = [valeur];
+```
 
 D’autre sélecteurs: <, >, !=; pour combiner plusieurs sélecteurs utiliser les opérateurs AND et OR. Exemple:
 
+```sql
     mysql> SELECT * FROM users WHERE name = 'Alex' OR age > 30;
+```
 
 ## Sélectionnez les enregistrements qui contiennent la valeur [val].
 
+```sql
     mysql> SELECT * FROM [table] WHERE [colonne] LIKE '%[val]%';
+```
 
 Exemple: Sélectionnez tous les noms qui contiennent ‘al’
 
+```sql
     mysql> SELECT * FROM users WHERE name LIKE '%al%';
 
     +--------+-----------+--------+
@@ -151,13 +217,16 @@ Exemple: Sélectionnez tous les noms qui contiennent ‘al’
     |  103   |  Mokali   |   35   |
     |  104   |  Manali   |   40   |
     +--------+-----------+--------+
+```
 
 ## Sélectionnez les enregistrements qui commencent par la valeur [val].
-
+```sql
     mysql> SELECT * FROM [table] WHERE [colonne] LIKE '[val]%';
+```
 
 Exemple: Sélectionnez tous les noms commençant par « Yo »
 
+```sql
     mysql> SELECT * FROM users WHERE name LIKE 'Yo%';
 
     +--------+-----------+--------+
@@ -168,13 +237,17 @@ Exemple: Sélectionnez tous les noms commençant par « Yo »
     |  109   |   Yonaka  |   15   |
     |  144   |   Yoyo    |   20   |
     +--------+-----------+--------+
+```
 
 ## Sélectionnez les enregistrements commençant par ‘val1’ et se terminant par ‘val2’.
 
+```sql
     mysql> SELECT * FROM [table] WHERE [colonne] LIKE '[val1_val2]';
+```
 
 Exemple: Sélectionnez toutes les descriptions commençant par « T » et se terminant par « T »
 
+```sql
     mysql> SELECT * FROM product WHERE description LIKE 'T_T';
 
     +--------+---------------+
@@ -185,13 +258,17 @@ Exemple: Sélectionnez toutes les descriptions commençant par « T » et se ter
     |  103   |      TaT      |
     |  104   |      TuT      |
     +--------+---------------+
+```
 
 ## Sélectionner un intervalle de données.
 
+```sql
     mysql> SELECT * FROM [table] WHERE [colonne] BETWEEN [valeur1] and [valeur2];
 
+```
 Exemple:
 
+```sql
     mysql> SELECT * FROM users WHERE age BETWEEN 20 and 30;
 
     +--------+-----------+--------+
@@ -201,15 +278,16 @@ Exemple:
     |  130   |   Thomas  |   21   |
     |  109   |    Jean   |   25   |
     +--------+-----------+--------+
-
+```
 ## Sélectionnez avec un ordre personnalisé et seulement une limite:
 
+```sql
     mysql> SELECT * FROM [table] WHERE [colonne] ORDER BY [colonne] ASC LIMIT [valeur];
-
+```
 Ordre: DESC (Descendant) ↓, ASC (ascendant) ↑.
 
 Exemple:
-
+```sql
     mysql> SELECT * FROM users ORDER BY age ASC LIMIT 3;
 
     +--------+-----------+--------+
@@ -219,7 +297,148 @@ Exemple:
     |  130   |   Thomas  |   21   |
     |  109   |    Jean   |   25   |
     +--------+-----------+--------+
+```
 
+## Mettre à jour des enregistrements:
+
+```sql
+    mysql> UPDATE [table] SET [colonne] = '[new_val]' WHERE [colonne] = '[old_val]';
+```
+
+Exemple: 
+
+```sql
+    mysql> UPDATE users SET age = '30' WHERE age = '25';
+```
+
+## Supprimer des enregistrements:
+
+```sql
+    mysql> DELETE FROM [table] WHERE [colonne] = [valeur];
+```
+
+## Supprimer tous les enregistrements d’une table (sans supprimer la table elle-même)
+
+```sql
+    mysql> DELETE FROM [table];
+```
+
+## Supprimer tous les enregistrements d’une table:
+
+```sql
+    mysql> truncate table [table];
+```
+
+## Supprimer les colonnes d’une table:
+
+```sql
+    mysql> ALTER TABLE [table] DROP COLUMN [colonne];
+```
+
+## Supprimer une table:
+
+```sql
+    mysql> DROP TABLE [table];
+```
+
+## Supprimer une base de donnée:
+
+```sql
+    mysql> DROP DATABASE [database];
+```
+
+## Créer un alias pour renommer temporairement une colonne:
+
+```sql
+    mysql> SELECT [colonne] AS [col] FROM [table];
+```
+
+## Exporter un dump de base de données:
+
+```sql
+    > mysqldump -u [username] -p [database] > backup.sql
+```
+
+## Importer un dump de base de données:
+
+```sql
+    > mysql -u [username] -p -h localhost [database] < backup.sql
+```
+
+## Trouvez l’adresse IP de l’hôte Mysql:
+
+```sql
+    mysql> SHOW VARIABLES WHERE Variable_name = 'hostname';
+```
+
+## Faire un SELECT sur plusieurs tables:
+
+```sql
+    mysql> SELECT [table1].[colonne], [table2].[colonne] FROM [table1], [table2];
+```
+
+## Lister tous les utilisateurs:
+
+```sql
+    mysql> SELECT User FROM mysql.user;
+```
+
+## Créer un nouvel utilisateur:
+
+
+```sql
+    mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+```
+
+## Accorder un accès complet à l’utilisateur pour * tables:
+
+```sql
+    mysql> GRANT ALL PRIVILEGES ON database.* TO 'user'@'localhost';
+```
+
+# Fonctions d’agrégation
+
+## Sélectionnez des enregistrements sans doublons:
+
+```sql
+    mysql> SELECT distinct nom, adresse FROM employe WHERE nom = "Alex";
+```
+
+## Calculer la somme des enregistrements:
+
+```sql
+    mysql> SELECT SUM([colonne]) FROM [table];
+```
+
+## Calculer la somme des enregistrements de [col] et grouper par [catégorie]:
+
+```sql
+    mysql> SELECT [column], SUM([col]) FROM [table] GROUP BY [catégorie];
+```
+
+## Récupérer la plus grande valeur dans une colonne.
+
+```sql
+    mysql> SELECT MAX([colonne]) FROM [table];
+```
+
+## Récupérer la plus petite valeur dans une colonne.
+
+```sql
+    mysql> SELECT MIN([colonne]) FROM [table];
+```
+
+## Récupérer la moyenne d’une colonne.
+
+```sql
+    mysql> SELECT AVG([colonne]) FROM [table];
+```
+
+## Récupérer la moyenne arrondie et grouper par [catégorie]:
+
+```sql
+    mysql> SELECT [colonne], ROUND(AVG([colonne]), 2) FROM [table] GROUP BY [catégorie];
+```
 
 
 <hr>
