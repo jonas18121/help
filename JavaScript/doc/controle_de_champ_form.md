@@ -28,7 +28,9 @@
 
         return isValid;
     }
+```
 
+```javascript
     /**
     * Controle de la longueur d'un input
     * input : id de l'input
@@ -67,7 +69,9 @@
 
         return isValid;
     }
+```
 
+```javascript
     /**
     * Controle de la longueur d'un input
     * input : id de l'input
@@ -105,7 +109,9 @@
 
         return isValid;
     }
+```
 
+```javascript
     /**
     * input : id de l'input
     * inputError : id de la div pour affiché les message d'erreurs
@@ -133,7 +139,9 @@
 
         return isValid;
     }
+```
 
+```javascript
     /**
     * Pour les input de type date
     * input : id de l'input
@@ -175,7 +183,9 @@
 
         return isValid;
     }
+```
 
+```javascript
     /**
     * Pour les input de type date
     * input : id de l'input
@@ -251,7 +261,9 @@
 
         return isValid;
     }
+```
 
+```javascript
     /**
     * Pour les input de type date
     * input : id de l'input
@@ -285,7 +297,9 @@
 
         return isValid;
     }
+```
 
+```javascript
     //Contrôle du champ exam
     function validEmail(){
         let emailError = $('#email-error');
@@ -312,5 +326,122 @@
         emailError.css({ "color": `${color}`});
 
         return isValid;
+    }
+```
+
+```javascript
+    // form from symfony
+
+
+    let isValidCgAccepted = validInputCheckbox(
+        "registration_cgAccepted", 
+        'cgAccepted-error', 
+        "Cochez la case please"
+    );
+    let isValidRecommendeLetter = validInputCheckbox(
+        "registration_recommendedLetter", 
+        'recommendedLetter-error', 
+        "Cochez la case please"
+    );
+    let isValidPhoneNumber = validInputTel(
+        "registration_candidate_phonenumber", 
+        "phonenumber-error", 
+        "Le format est inccorrecte, format valide : 0701010101 ou 07 01 01 01 01 ou 07-01-01-01-01 ou +337-01-01-01-01", 
+        "Cette valeur ne doit pas être vide."
+    );
+    let isValidBirthdate = validInputDateBirthdate(
+        "registration_candidate_birthdate", 
+        "birthdate-error", 
+        "La date n'est pas correcte.", 
+        "Cette valeur ne doit pas être vide.", 
+        null,
+        "La date est trop petite."
+    );
+    let isValidIdentityDateValidity = validInputDateIdentity(
+        "registration_candidate_identityDateValidity", 
+        "identityDateValidity-error", 
+        "La date n'est pas correcte.", 
+        "Cette valeur ne doit pas être vide.", 
+        null,  
+        "La date est trop petite."
+    );
+    let isValidCity = validInputLength(
+        "registration_address_city", 
+        "city-error", 
+        "Cette valeur ne doit pas être vide.",
+        "Trop petit.", 
+        "Trop grand."
+    );
+    let isValidPostalCode = validInputPostalCode(
+        "registration_address_postal", 
+        "postalcode-error", 
+        "Cette valeur ne doit pas être vide.",
+        5,
+        "Trop petit, il faut 5 caractères.", 
+        "Trop grand, il faut 5 caractères."
+    );
+    let isValidAdress = validInputLength(
+        "registration_address_addressLine1", 
+        "address-error", 
+        "Cette valeur ne doit pas être vide.",
+        "Trop petit.", 
+        "Trop grand."
+    );
+    let isValidFirstName = validInputLength(
+        "registration_candidate_firstname", 
+        "firstname-error", 
+        "Cette valeur ne doit pas être vide.",
+        "	Trop petit.", 
+        "Trop grand."
+    );
+    let isValidLastName = validInputLength(
+        "registration_candidate_lastname", 
+        "lastname-error", 
+        "Cette valeur ne doit pas être vide.",
+        "Trop petit.", 
+        "Trop grand."
+    );
+    let isValidIdentityCard = validInput(
+        "registration_candidate_identityCard", 
+        "identityCard-error", 
+        "Insérez une copie de votre pièce d\'identité.	"
+    );
+    let isValidSession = validInput(
+        "registration_session", 
+        "session-error", 
+        "Cette valeur ne doit pas être vide."
+    );
+    let isValidExamen = validInput(
+        "registration_exam", 
+        "exam-error", 
+        "Choisissez un examen."
+    );
+    let isValidGender = validInput(
+        "registration_candidate_gender", 
+        "gender-error", 
+        "Choisissez votre civilité."
+    );
+    let isValidEmail = validEmail();
+
+    if(
+        true == isValidLastName 
+        && true == isValidIdentityCard
+        && true == isValidSession
+        && true == isValidExamen
+        && true == isValidGender
+        && true == isValidEmail
+        && true == isValidPhoneNumber
+        && true == isValidAdress
+        && true == isValidCity
+        && true == isValidPostalCode
+        && true == isValidFirstName
+        && true == isValidRecommendeLetter
+        && true == isValidCgAccepted
+        && true == isValidIdentityDateValidity
+        && true == isValidBirthdate
+    ){
+        
+        // provoque le submit du formulaire  "recaptcha-response"
+        document.getElementById("form_submit").submit();
     }
 ```
