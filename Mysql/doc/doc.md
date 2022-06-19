@@ -299,6 +299,147 @@ Exemple:
     +--------+-----------+--------+
 ```
 
+## Mettre à jour des enregistrements:
+
+```sql
+    mysql> UPDATE [table] SET [colonne] = '[new_val]' WHERE [colonne] = '[old_val]';
+```
+
+Exemple: 
+
+```sql
+    mysql> UPDATE users SET age = '30' WHERE age = '25';
+```
+
+## Supprimer des enregistrements:
+
+```sql
+    mysql> DELETE FROM [table] WHERE [colonne] = [valeur];
+```
+
+## Supprimer tous les enregistrements d’une table (sans supprimer la table elle-même)
+
+```sql
+    mysql> DELETE FROM [table];
+```
+
+## Supprimer tous les enregistrements d’une table:
+
+```sql
+    mysql> truncate table [table];
+```
+
+## Supprimer les colonnes d’une table:
+
+```sql
+    mysql> ALTER TABLE [table] DROP COLUMN [colonne];
+```
+
+## Supprimer une table:
+
+```sql
+    mysql> DROP TABLE [table];
+```
+
+## Supprimer une base de donnée:
+
+```sql
+    mysql> DROP DATABASE [database];
+```
+
+## Créer un alias pour renommer temporairement une colonne:
+
+```sql
+    mysql> SELECT [colonne] AS [col] FROM [table];
+```
+
+## Exporter un dump de base de données:
+
+```sql
+    > mysqldump -u [username] -p [database] > backup.sql
+```
+
+## Importer un dump de base de données:
+
+```sql
+    > mysql -u [username] -p -h localhost [database] < backup.sql
+```
+
+## Trouvez l’adresse IP de l’hôte Mysql:
+
+```sql
+    mysql> SHOW VARIABLES WHERE Variable_name = 'hostname';
+```
+
+## Faire un SELECT sur plusieurs tables:
+
+```sql
+    mysql> SELECT [table1].[colonne], [table2].[colonne] FROM [table1], [table2];
+```
+
+## Lister tous les utilisateurs:
+
+```sql
+    mysql> SELECT User FROM mysql.user;
+```
+
+## Créer un nouvel utilisateur:
+
+
+```sql
+    mysql> CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+```
+
+## Accorder un accès complet à l’utilisateur pour * tables:
+
+```sql
+    mysql> GRANT ALL PRIVILEGES ON database.* TO 'user'@'localhost';
+```
+
+# Fonctions d’agrégation
+
+## Sélectionnez des enregistrements sans doublons:
+
+```sql
+    mysql> SELECT distinct nom, adresse FROM employe WHERE nom = "Alex";
+```
+
+## Calculer la somme des enregistrements:
+
+```sql
+    mysql> SELECT SUM([colonne]) FROM [table];
+```
+
+## Calculer la somme des enregistrements de [col] et grouper par [catégorie]:
+
+```sql
+    mysql> SELECT [column], SUM([col]) FROM [table] GROUP BY [catégorie];
+```
+
+## Récupérer la plus grande valeur dans une colonne.
+
+```sql
+    mysql> SELECT MAX([colonne]) FROM [table];
+```
+
+## Récupérer la plus petite valeur dans une colonne.
+
+```sql
+    mysql> SELECT MIN([colonne]) FROM [table];
+```
+
+## Récupérer la moyenne d’une colonne.
+
+```sql
+    mysql> SELECT AVG([colonne]) FROM [table];
+```
+
+## Récupérer la moyenne arrondie et grouper par [catégorie]:
+
+```sql
+    mysql> SELECT [colonne], ROUND(AVG([colonne]), 2) FROM [table] GROUP BY [catégorie];
+```
+
 
 <hr>
 
