@@ -170,10 +170,39 @@ https://docs.docker.com/engine/reference/commandline/exec/
 
     > docker rm -v <container_name>
 
+### Supprimer les données inutilisées
+
+    > docker system prune
+
+```bash
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all dangling images
+  - all dangling build cache
+
+Are you sure you want to continue? [y/N] 
+```
 ### Pour supprimer en plus tous les conteneurs arrêtés et toutes les images non utilisées
 
     > docker system prune -a
 
+### Pour supprimer en plus tous les conteneurs arrêtés, toutes les images et toutes les volumes non utilisées
+
+Par défaut, les volumes ne sont pas supprimés pour empêcher la suppression de données importantes si aucun conteneur n'utilise actuellement le volume. Utilisez l' --volumes indicateur lors de l'exécution de la commande pour élaguer également les volumes :
+
+    > docker system prune -a --volumes
+
+```bash
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all volumes not used by at least one container
+  - all images without at least one container associated to them
+  - all build cache
+
+Are you sure you want to continue? [y/N] 
+```
 
 ### Voir les Logs d'un container
 
