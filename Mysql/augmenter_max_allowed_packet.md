@@ -16,3 +16,9 @@ mysql --max_allowed_packet=100M -h [host] -p [port] -u [username] -p [BDD]
 ```
 
 4. Entrer le password
+
+### Les commandes ci-dessus modifient `max_allowed_packet` temporairement, utiliser plutôt la commande ci-dessous
+
+```bash
+docker run -it -e MYSQL_ROOT_PASSWORD=my_secret_pw mysql:5.7 --max-allowed-packet=1000000000000
+```
