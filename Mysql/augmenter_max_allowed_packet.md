@@ -25,6 +25,7 @@ docker run -it -e MYSQL_ROOT_PASSWORD=my_secret_pw mysql:5.7 --max-allowed-packe
 
 Lors de l'utilisation docker-compose(comme demandé dans les commentaires), ajoutez une commandclé avec les arguments :
 
+docker-compose.yml
 ```bash
 version : "3" 
 services : 
