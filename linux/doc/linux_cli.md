@@ -100,3 +100,20 @@ Par exemple pour exclure le répertoire /tmp/superdossier :
 Bien entendu, il est aussi possible de spécifier plusieurs sous-répertoire à exclure comme ceci :
 
     > zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/* repertoire/sous-repertoire2/* repertoire/sous-repertoire3/*
+
+## Netoyer ubuntu
+
+### Supprimer le cache des paquets périmés :
+```bash
+sudo apt autoclean
+```
+
+### Supprimer tout le cache :
+```bash
+sudo apt clean
+```
+
+### Supprimer les paquets installés automatiquement comme dépendances et devenus inutiles :
+```bash
+sudo apt autoremove
+```
