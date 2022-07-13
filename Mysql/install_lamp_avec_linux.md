@@ -1,6 +1,16 @@
+# Refaire un tuto avec les 2 sites ci-dessous
 
+Site : [tech2tech](https://www.tech2tech.fr/installation-de-lamp-sur-ubuntu-20-04/)
 
-Site : (digitalocean)[https://www.digitalocean.com/community/tutorials/comment-installer-la-pile-linux-apache-mysql-php-lamp-sur-un-serveur-ubuntu-18-04-fr]
+Site : [digitalocean](https://www.digitalocean.com/community/tutorials/comment-installer-mysql-sur-ubuntu-18-04-fr)
+
+http://http://127.0.0.1/ pour Apache2 Ubuntu Default Page
+
+http://127.0.0.1/phpinfo.php pour phpinfo
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+Site : [digitalocean](https://www.digitalocean.com/community/tutorials/comment-installer-la-pile-linux-apache-mysql-php-lamp-sur-un-serveur-ubuntu-18-04-fr)
 
 ## Étape 1 — Installer Apache et mettre à jour le pare-feu.
 
