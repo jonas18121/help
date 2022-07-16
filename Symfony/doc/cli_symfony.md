@@ -581,6 +581,8 @@ Sinon, une erreur sera levée pour vous empêcher d'écraser vos clés accidente
 
 Le site de Symfony, créer une commande : https://symfony.com/doc/current/console.html
 
+Le site de Symfony, Console Input (Arguments & Options) : https://symfony.com/doc/current/console/input.html
+
 Le site de Symfony, ajoute de style pour le rendu : https://symfony.com/doc/current/console/style.html
 
 Le terminale proposera de donner un nom à la commande personnalisé

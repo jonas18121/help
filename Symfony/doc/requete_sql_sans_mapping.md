@@ -131,3 +131,20 @@ public function createUser($lastname, $firstname, $phonenumber)
     ]);
 }
 ```
+
+### Possibilité de mettre plusieurs requête SQL
+
+Les requête ci-dessous permet de désactiver la vérification de clé étrangère.
+
+Puis on supprime les données de la table user et oen même temps mettre l'auto-incrémentation à zéro.
+
+Puis on résactive la vérification de clé étrangère.
+
+```php
+$sql = '
+    SET FOREIGN_KEY_CHECKS=0; 
+    TRUNCATE TABLE user; 
+    SET FOREIGN_KEY_CHECKS=1;';
+
+// code ...
+```
