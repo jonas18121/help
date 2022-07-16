@@ -162,6 +162,12 @@ Si le nom de la colonne a le même nom qu'un mot réserver par SQL (ex: default)
     mysql> INSERT INTO [tablename] ([colonne1], [colonne2]) VALUES ('[valeur1]', '[valeur2]');
 ```
 
+## Modifier une colonne (modifier la structure d'une table)
+
+```sql
+    mysql> ALTER TABLE [tablename] MODIFY [colonne4] int NOT NULL AUTO_INCREMENT PRIMARY KEY;
+```
+
 ## Fonction MySQL pour afficher la date actuelle:
 
 ```sql
