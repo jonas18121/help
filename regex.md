@@ -59,3 +59,27 @@ Site : https://regex101.com/r/dsi0Pw/2
 Exemple de format autorisé : 06 01 02 03 04 ou +33 6 01 02 03 04 ou 0033 7 01 02 03 04 ou 0601020304 ou 0601-02-03-04
 
     ^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$
+
+
+## Les classes de caractères abrégées ou prédéfinies
+
+
+Classe abrégée |	Description
+
+\w	|   Représente tout caractère de « mot » (caractère alphanumérique + tiret bas). Équivalent à [a-zA-Z0-9_]
+
+\W	|   Représente tout caractère qui n’est pas un caractère de « mot ». Equivalent à [^a-zA- Z0-9_]
+
+\d	|   Représente un chiffre. Équivalent à [0-9]
+
+\D	|   Représente tout caractère qui n’est pas un chiffre. Équivalent à [^0-9]
+
+\s	|   Représente un caractère blanc (espace, retour chariot ou retour à la ligne)
+
+\S	|   Représente tout caractère qui n’est pas un caractère blanc
+
+\t	|   Représente une espace (tabulation) horizontale
+
+\v	|   Représente une espace verticale
+
+\n	|   Représente un saut de ligne
