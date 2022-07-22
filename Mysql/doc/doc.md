@@ -168,6 +168,12 @@ Si le nom de la colonne a le même nom qu'un mot réserver par SQL (ex: default)
     mysql> ALTER TABLE [tablename] MODIFY [colonne4] int NOT NULL AUTO_INCREMENT PRIMARY KEY;
 ```
 
+ou 
+
+```sql
+mysql> ALTER TABLE `tablename` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+```
+
 ## Fonction MySQL pour afficher la date actuelle:
 
 ```sql
