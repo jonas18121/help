@@ -87,3 +87,10 @@ Les clés secrètes ressemblent à ceci :
     pzlljsCV0O2xFGhu1HsDhTCYLcTg4+SU3V96hKfCyEAL5Op9IgvrOXj4fa1gvM4Mo3kz+h
     hTu/os1/AVJ5Wa9JwVnq9Ncygw0nMyFXGGZAROjIoGy7TKMZ0/
     -----END OPENSSH PRIVATE KEY-----
+
+
+### Ecrire dans un fichier de key depuis un terminal
+
+```bash
+nano ~/.ssh/id_rsa.pub
+```
