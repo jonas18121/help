@@ -38,3 +38,9 @@ console.log(newArray); // (5) [1, 2, 3, 4, 5]
 newArray = array.reduce((accumulator, value) => accumulator.includes(value) ? accumulator : [...accumulator, value], []);
 console.log(newArray); // (5) [1, 2, 3, 4, 5]
 ```
+
+### recupérer la valeur de l'attribut class d'un input (champ select)
+
+```javascript
+let valueClass = $( "#id_input_select option:selected" )[0].classList['value'];
+```

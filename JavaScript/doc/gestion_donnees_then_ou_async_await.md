@@ -3,7 +3,7 @@
 https://www.youtube.com/watch?v=MQRQkyx6rJg
 
 Dans `index.html`
-
+```html
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -37,9 +37,10 @@ Dans `index.html`
         </section>
     </body>
     </html>
+```
 
 Dans `style.css`
-
+```css
     .flex {
         display: flex;
         flex-direction: row;
@@ -48,9 +49,10 @@ Dans `style.css`
     .flex > div {
         width: 50%;
     }
+```
 
 Dans `main.js`
-
+```javascript
     'use strict';
 
     const github_result = document.getElementById('github_result');
@@ -117,3 +119,4 @@ Dans `main.js`
 
         github_form2.elements[0].value = '';
     }
+```
