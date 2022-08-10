@@ -202,3 +202,12 @@ sudo rm -R /opt/lampp/
 ```
 
 ainsi que l'éventuel raccourci sur le bureau.
+
+## Pour accéder à phpMyAdmin, il faut ouvrir le navigateur de votre choix et taper l'url :
+
+`http://127.0.0.1/phpmyadmin/`
+
+
+## Pour accéder à un projet sous Symfony, il faut ouvrir le navigateur de votre choix et taper l'url :
+
+`http://127.0.0.1:8000`
