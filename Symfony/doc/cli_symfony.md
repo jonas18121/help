@@ -5,7 +5,7 @@
 
 pour avoir la dernière version complète avec toutes les dépendances
 
-    - symfony new my_project_name --full
+    - symfony new my_project_name --webapp
 
 pour avoir la dernière version en mode microservice, API
 
@@ -22,18 +22,18 @@ pour avoir la dernière version en mode microservice, API
 
     - composer create-project symfony/skeleton my_project_name
 
-## Créer une application Symfony avec une version précis avec la commande symfony
+## Créer une application Symfony 4 avec une version précis avec la commande symfony
 
 pour avoir la dernière version complète avec toutes les dépendances
 
-    - symfony new my_project_name --version=4.4 --full
+    - symfony new my_project_name --version=4.4 --webapp
 
 pour avoir la dernière version en mode microservice, API
 
     - symfony new my_project_name --version=4.4
 
 
-## Créer une application Symfony avec une version précis avec la commande composer
+## Créer une application Symfony 4 avec une version précis avec la commande composer
 
 pour avoir la dernière version complète avec toutes les dépendances
 
@@ -43,6 +43,39 @@ pour avoir la dernière version en mode microservice, API
 
     - composer create-project symfony/skeleton:"^4.4" my_project_name
 
+`S'il y a des problème lors de la creation de l'application , faire la même opération dans la CMD de git bash`
+
+## Créer une application Symfony 5 avec une version précis avec la commande symfony
+
+pour avoir la dernière version complète avec toutes les dépendances
+
+    - symfony new my_project_directory --version=5.4 --webapp
+
+pour avoir la dernière version en mode microservice, API
+
+    - symfony new my_project_directory --version=5.4
+
+
+## Créer une application Symfony 5 avec une version précis avec la commande composer
+
+pour avoir la dernière version complète avec toutes les dépendances
+
+```bash
+    composer create-project symfony/skeleton:"^5.4" my_project_directory
+```
+
+```bash
+    cd my_project_directory
+```
+
+```bash
+    composer require webapp
+```
+
+pour avoir la dernière version en mode microservice, API
+```bash
+ composer create-project symfony/skeleton:"^5.4" my_project_directory
+```
 `S'il y a des problème lors de la creation de l'application , faire la même opération dans la CMD de git bash`
 
 
