@@ -139,6 +139,18 @@ Avec les aliases suggérés plus haut, voici les commandes :
 sudo lampp start
 ```
 
+Si cette erreur apparait `Warning: World-writable config file '/opt/lampp/etc/my.cnf' is ignored` executer les commandent suivante :
+
+    sudo chown mysql:mysql /opt/lampp/etc/my.cnf
+
+    sudo chmod 600 /opt/lampp/etc/my.cnf
+
+ou
+
+    sudo chown mysql:mysql /opt/lampp/etc/my.cnf
+    
+    sudo chmod 777 /opt/lampp/etc/my.cnf
+
 - Redémarrer le serveur :
 ```bash
 sudo lampp restart
