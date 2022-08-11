@@ -147,6 +147,8 @@ Si cette erreur apparait `Warning: World-writable config file '/opt/lampp/etc/my
 
 ou
 
+    sudo chown mysql:mysql /opt/lampp/etc/my.cnf
+    
     sudo chmod 777 /opt/lampp/etc/my.cnf
 
 - Redémarrer le serveur :
