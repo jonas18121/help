@@ -83,6 +83,18 @@ pour avoir la dernière version en mode microservice, API
 
     - symfony server:start
 
+## Faire tourner notre application avec la commande symfony en arrière plan
+
+    - symfony server:start -d
+
+## Voir les log de l'application qui tourne en arrière plan
+
+    - symfony server:log
+
+## Stopper notre application qui tourne en arrière plan
+
+    - symfony server:stop
+
 ## Faire tourner notre application avec la commande composer
 
 On telecharge un serveur personnalisé via composer, qu'on utilise seulement lorsqu'on sera en mode développement
