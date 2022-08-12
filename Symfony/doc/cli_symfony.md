@@ -1,5 +1,17 @@
 # Créer une application Symfony
 
+## Style de début de commande
+
+On peut utiliser 2 styles de début de commande soit symfony console ... ou php bin/console ..
+
+```bash
+symfony console make:controller
+```
+Ou 
+
+```bash
+php bin/console make:controller
+```
 
 ## Créer une application Symfony avec la commande symfony
 
