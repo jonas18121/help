@@ -219,6 +219,15 @@ ainsi que l'éventuel raccourci sur le bureau.
 
 `http://127.0.0.1/phpmyadmin/`
 
+Si cela affiche une page blanche, peut être que tout a été autoriser avec cette commande `sudo sudo chmod 755 -R opt`, donc executer la commande ci-dessous la racine du terminal
+
+exemple :
+
+ordinateur opt/lampp/phpmyadmin ou opt/lampp/htdocs
+
+```bash
+sudo sudo chmod 755 -R opt
+```
 
 ## Pour accéder à un projet sous Symfony, il faut ouvrir le navigateur de votre choix et taper l'url :
 
