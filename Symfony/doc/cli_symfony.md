@@ -481,6 +481,14 @@ Exemple :
 
     > composer show symfony/flex
 
+## Voir l'ensemble des routes du projet
+
+    > symfony console debug:router
+
+ou
+
+    > php bin/console debug:router
+
 ## Upload un fichier (dont une image, Upload image)
 
 
