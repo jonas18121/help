@@ -6,6 +6,8 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 # ←
 
+<div style="font-size:100px;">←</div>
+
 
 - U+02190 : UNICODE, 
 
