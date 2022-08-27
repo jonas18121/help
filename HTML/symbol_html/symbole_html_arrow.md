@@ -6,7 +6,7 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 # ←
 
-<p ><span style="font-size:100px;">←</span></p>
+<p ><span style="font-size:100px;">&#8592;</span></p>
 
 
 - U+02190 : UNICODE, 
