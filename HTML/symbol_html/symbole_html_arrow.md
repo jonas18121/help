@@ -6,9 +6,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 # ←
 
-<p ><span style="font-size:100px;">&#8592;</span></p>
-
-
 - U+02190 : UNICODE, 
 
 - `&#x2190;` : HEX CODE, 
@@ -18,3 +15,7 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 - `&larr;` : HTML ENTITY, 
 
 - \2190 
+
+```html
+<p><span style="font-size:100px;">&#8592;</span></p>
+```
