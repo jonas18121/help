@@ -1,6 +1,6 @@
-# Symbole html
+# Symbole html Arrows
 
-Site [toptal](https://www.toptal.com/designers/htmlarrows/)
+Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 ## LEFT ARROW ←
 
