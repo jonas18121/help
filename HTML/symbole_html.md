@@ -4,6 +4,8 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/)
 
 ## LEFT ARROW ←
 
+<div style="width:30px">←</div>
+
 ```bash
 U+02190
 UNICODE
