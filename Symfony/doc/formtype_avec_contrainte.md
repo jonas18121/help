@@ -139,7 +139,13 @@ class CandidateType extends AbstractType
                     new NotBlank(['message' => 'Cette valeur ne doit pas être vide.']),
                     new Regex([
                         'pattern' => '/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/',
-                        'message' => 'Le format est inccorrecte, format valide : 0701010101 ou 07 01 01 01 01 ou 07-01-01-01-01 ou +337-01-01-01-01'),
+                        'message' => 'Le format est inccorrecte, format valide : 0701010101 ou 07 01 01 01 01 ou 07-01-01-01-01 ou +337-01-01-01-01',
+
+                        // Dans la regex ci-dessous par rapport à la regex ci-dessus, on à enlever \s* qui autorise les espases
+                        // puis on à enlever [\s.-]* qui autorise les espases, et tiret
+                        // On a transformer [1-9] en [12345679] pour interdire le 8 après le premier zéro
+                        // 'pattern' => '/^(?:(?:\+|00)33|0)[12345679](?:\d{2}){4}$/',
+                        // 'message' => 'Le format est inccorrecte et pas de numéro commençant par 08 ou +338, seul format valide : 0701010101 ou +33701010101',
                     ]),
                 ],
             ])
