@@ -55,3 +55,21 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```html
 <p><span style="font-size:100px;">&#8594;</span></p>
 ```
+
+## DOWN ARROW ↓
+
+# ↓
+
+- U+02193 : UNICODE, 
+
+- `&#x2193;` : HEX CODE, 
+
+- `&#8595;` : HTML CODE, 
+
+- `&darr;` : HTML ENTITY, 
+
+- \2193 
+
+```html
+<p><span style="font-size:100px;">&#8595;</span></p>
+```
