@@ -581,6 +581,8 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
     ou
     - php bin/console make:admin:crud
 
+Voir exemple d'un fichier [crud]()
+
 
 
 ## API Plateform
