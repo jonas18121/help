@@ -549,6 +549,8 @@ la constante %kernel.project_dir% , permet d'accéder à la racine du projet
 
 ## EasyAdmin version 3.x
 
+Site [Symfony](https://symfony.com/bundles/EasyAdminBundle/current/index.html), Faire attention à la version utiliser
+
 EasyAdmin crée de superbes backends d'administration pour vos applications Symfony. C'est gratuit, rapide et entièrement documenté.
 
 ### Installation 
