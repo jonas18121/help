@@ -91,3 +91,21 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```html
 <p><span style="font-size:100px;">&#8596;</span></p>
 ```
+
+## LEFT RIGHT ARROW ↕
+
+# ↕
+
+- U+02195 : UNICODE, 
+
+- `&#x2195;` : HEX CODE, 
+
+- `&#8597;` : HTML CODE, 
+
+- `&varr;` : HTML ENTITY, 
+
+- \2195 
+
+```html
+<p><span style="font-size:100px;">&#8597;</span></p>
+```
