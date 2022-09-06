@@ -92,7 +92,7 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 <p><span style="font-size:100px;">&#8596;</span></p>
 ```
 
-## LEFT RIGHT ARROW ↕
+## UP DOWN ARROW ↕
 
 # ↕
 
@@ -108,4 +108,22 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 ```html
 <p><span style="font-size:100px;">&#8597;</span></p>
+```
+
+## NORTH WEST ARROW ↖
+
+# ↖
+
+- U+02196 : UNICODE, 
+
+- `&#x2196;` : HEX CODE, 
+
+- `&#8598;` : HTML CODE, 
+
+- `&nwarr;` : HTML ENTITY, 
+
+- \2196 
+
+```html
+<p><span style="font-size:100px;">&#8598;</span></p>
 ```
