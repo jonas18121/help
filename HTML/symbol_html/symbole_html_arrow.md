@@ -127,3 +127,21 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```html
 <p><span style="font-size:100px;">&#8598;</span></p>
 ```
+
+## NORTH EAST ARROW ↗
+
+# ↗
+
+- U+02197 : UNICODE, 
+
+- `&#x2197;` : HEX CODE, 
+
+- `&#8599;` : HTML CODE, 
+
+- `&nearr;` : HTML ENTITY, 
+
+- \2197 
+
+```html
+<p><span style="font-size:100px;">&#8599</span></p>
+```
