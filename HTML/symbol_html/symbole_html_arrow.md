@@ -145,3 +145,21 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```html
 <p><span style="font-size:100px;">&#8599</span></p>
 ```
+
+## SOUTH EAST ARROW ↘
+
+# ↘
+
+- U+02198 : UNICODE, 
+
+- `&#x2198;` : HEX CODE, 
+
+- `&#8600;` : HTML CODE, 
+
+- `&searr;` : HTML ENTITY, 
+
+- \2198 
+
+```html
+<p><span style="font-size:100px;">&#8600</span></p>
+```
