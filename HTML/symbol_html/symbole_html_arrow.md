@@ -4,8 +4,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 ## LEFT ARROW ←
 
-# ←
-
 - U+02190 : UNICODE, 
 
 - `&#x2190;` : HEX CODE, 
@@ -21,8 +19,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```
 
 ## UP ARROW ↑
-
-# ↑
 
 - U+02191 : UNICODE, 
 
@@ -40,8 +36,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 ## RIGHT ARROW →
 
-# →
-
 - U+02192 : UNICODE, 
 
 - `&#x2192;` : HEX CODE, 
@@ -57,8 +51,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```
 
 ## DOWN ARROW ↓
-
-# ↓
 
 - U+02193 : UNICODE, 
 
@@ -76,8 +68,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 ## LEFT RIGHT ARROW ↔
 
-# ↔
-
 - U+02194 : UNICODE, 
 
 - `&#x2194;` : HEX CODE, 
@@ -93,8 +83,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```
 
 ## UP DOWN ARROW ↕
-
-# ↕
 
 - U+02195 : UNICODE, 
 
@@ -112,8 +100,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 ## NORTH WEST ARROW ↖
 
-# ↖
-
 - U+02196 : UNICODE, 
 
 - `&#x2196;` : HEX CODE, 
@@ -130,8 +116,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
 ## NORTH EAST ARROW ↗
 
-# ↗
-
 - U+02197 : UNICODE, 
 
 - `&#x2197;` : HEX CODE, 
@@ -147,8 +131,6 @@ Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 ```
 
 ## SOUTH EAST ARROW ↘
-
-# ↘
 
 - U+02198 : UNICODE, 
 
