@@ -2,7 +2,6 @@
 
 Site [toptal](https://www.toptal.com/designers/htmlarrows/arrows/)
 
-
 Exemple d'utilisation : 
 
 ```html
