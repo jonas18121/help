@@ -489,6 +489,22 @@ ou
 
     > php bin/console debug:router
 
+## Voir l'ensemble des sevices du projet
+
+    > symfony console debug:autowiring
+
+ou
+
+    > php bin/console debug:autowiring
+
+## Filtrée et voir un ensemble sevice qui concerne la session dans le projet
+
+    > symfony console debug:autowiring session
+
+ou
+
+    > php bin/console debug:autowiring session
+
 ## Upload un fichier (dont une image, Upload image)
 
 
