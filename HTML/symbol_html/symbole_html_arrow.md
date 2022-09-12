@@ -23,3 +23,6 @@ Exemple d'utilisation :
 | SOUTH EAST ARROW          |  ↘   | `U+02198;`  | `&#x2198;`   | `&#8600;`    | `&searr;`   | \2198    |
 | SOUTH WEST ARROW          |  ↙   | `U+02199;`  | `&#x2199;`   | `&#8601;`    | `&swarr;`   | \2199    |
 | LEFT ARROW WITH STROKE    |  ↚   | `U+0219A;`  | `&#x219a;`   | `&#8602;`    | `&nlarr;`   | \219A    |
+| RIGHT ARROW WITH STROKE   |  ↛   | `U+0219B;`  | `&#x219b;`   | `&#8603;`    | `&nrarr;`   | \219B    |
+| LEFT WAVE ARROW           |  ↜   | `U+0219C;`  | `&#x219c;`   | `&#8604;`    | `&larrw;`   | \219C    |
+| RIGHT WAVE ARROW          |  ↝   | `U+0219D;`  | `&#x219d;`   | `&#8605;`    | `&rarrw;`   | \219D    |
