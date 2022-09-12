@@ -1,6 +1,6 @@
 
 
-### Mettre deux block cote à cote en screen desktop et l'un sous autre en screen phone
+## Mettre deux block cote à cote en screen desktop et l'un sous autre en screen phone
 
 ```html
 <div class='row'>
@@ -9,9 +9,9 @@
 </div>
 ```
 
-### écrire le nom du fichier dans le label du fichier
+## écrire le nom du fichier dans le label du fichier
 
-#### Dans le twig on utilise custom-file-label et custom-file-input
+### Dans le twig on utilise custom-file-label et custom-file-input
 ```twig
 <div class="col-sm-12 col-lg-6">
       <div id='form-13' class="form-group">
