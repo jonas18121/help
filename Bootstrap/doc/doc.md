@@ -9,7 +9,7 @@
 </div>
 ```
 
-## écrire le nom du fichier dans le label du fichier
+## Ecrire le nom du fichier dans le label du fichier
 
 ### Dans le twig on utilise custom-file-label et custom-file-input
 ```twig
