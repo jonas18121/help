@@ -53,4 +53,10 @@ footer {
     height: 10rem;
 }
 
+@media screen and (max-width: 991px) {
+  body {
+      position: initial;
+      padding-bottom: 0;
+  }
+}
 ```
