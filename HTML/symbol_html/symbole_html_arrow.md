@@ -26,3 +26,5 @@ Exemple d'utilisation :
 | RIGHT ARROW WITH STROKE   |  ↛   | `U+0219B;`  | `&#x219b;`   | `&#8603;`    | `&nrarr;`   | \219B    |
 | LEFT WAVE ARROW           |  ↜   | `U+0219C;`  | `&#x219c;`   | `&#8604;`    | `&larrw;`   | \219C    |
 | RIGHT WAVE ARROW          |  ↝   | `U+0219D;`  | `&#x219d;`   | `&#8605;`    | `&rarrw;`   | \219D    |
+| LEFT TWO HEADED ARROW     |  ↞   | `U+0219E;`  | `&#x219e;`   | `&#8606;`    | `&Larr; `   | \219E    |
+| UP TWO HEADED ARROW       |  ↟   | `U+0219F;`  | `&#x219f;`   | `&#8607;`    | `&Uarr; `   | \219F    |
