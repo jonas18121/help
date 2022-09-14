@@ -115,7 +115,8 @@ div {
     transform: translateY(-2.9em) scale(.8);
 }
 
+/* agir sur tous les enfant de .form-container au focus */
 .form-container:focus-within {
-    transform: scale(1.05,1.05); /* Agrandir le border bottom au focus */
+    transform: scale(1.05,1.05); 
 }
 ```
