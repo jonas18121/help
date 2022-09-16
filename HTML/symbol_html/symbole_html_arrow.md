@@ -28,3 +28,4 @@ Exemple d'utilisation :
 | RIGHT WAVE ARROW          |  ↝   | `U+0219D;`  | `&#x219d;`   | `&#8605;`    | `&rarrw;`   | \219D    |
 | LEFT TWO HEADED ARROW     |  ↞   | `U+0219E;`  | `&#x219e;`   | `&#8606;`    | `&Larr; `   | \219E    |
 | UP TWO HEADED ARROW       |  ↟   | `U+0219F;`  | `&#x219f;`   | `&#8607;`    | `&Uarr; `   | \219F    |
+| RIGHT TWO HEADED ARROW    |  ↠   | `U+021A0;`  | `&#x21a0;`   | `&#8608;`    | `&Rarr; `   | \21A0    |
