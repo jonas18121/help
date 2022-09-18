@@ -29,3 +29,5 @@ Exemple d'utilisation :
 | LEFT TWO HEADED ARROW     |  ↞   | `U+0219E;`  | `&#x219e;`   | `&#8606;`    | `&Larr; `   | \219E    |
 | UP TWO HEADED ARROW       |  ↟   | `U+0219F;`  | `&#x219f;`   | `&#8607;`    | `&Uarr; `   | \219F    |
 | RIGHT TWO HEADED ARROW    |  ↠   | `U+021A0;`  | `&#x21a0;`   | `&#8608;`    | `&Rarr; `   | \21A0    |
+| DOWN TWO HEADED ARROW     |  ↡   | `U+021A1;`  | `&#x21a1;`   | `&#8609;`    | `&Darr; `   | \21A1    |
+| LEFT ARROW WITH TAIL      |  ↢   | `U+021A2;`  | `&#x21a2;`   | `&#8610;`    | `&larrtl; ` | \21A2    |
