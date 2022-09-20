@@ -33,3 +33,5 @@ Exemple d'utilisation :
 | LEFT ARROW WITH TAIL      |  ↢   | `U+021A2;`  | `&#x21a2;`   | `&#8610;`    | `&larrtl; `     | \21A2    |
 | RIGHT ARROW WITH TAIL     |  ↣   | `U+021A3;`  | `&#x21a3;`   | `&#8611;`    | `&rarrtl; `     | \21A3    |
 | LEFT ARROW FROM BAR       |  ↤   | `U+021A4;`  | `&#x21a4;`   | `&#8612;`    | `&mapstoleft; ` | \21A4    |
+| UP ARROW FROM BAR         |  ↥   | `U+021A5;`  | `&#x21a5;`   | `&#8613;`    | `&mapstoup; `   | \21A5    |
+| RIGHT ARROW FROM BAR      |  ↦   | `U+021A6;`  | `&#x21a6;`   | `&#8614;`    | `&mapstoright; `| \21A6    |
