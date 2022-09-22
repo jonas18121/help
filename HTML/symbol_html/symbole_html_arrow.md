@@ -35,3 +35,4 @@ Exemple d'utilisation :
 | LEFT ARROW FROM BAR       |  ↤   | `U+021A4;`  | `&#x21a4;`   | `&#8612;`    | `&mapstoleft; ` | \21A4    |
 | UP ARROW FROM BAR         |  ↥   | `U+021A5;`  | `&#x21a5;`   | `&#8613;`    | `&mapstoup; `   | \21A5    |
 | RIGHT ARROW FROM BAR      |  ↦   | `U+021A6;`  | `&#x21a6;`   | `&#8614;`    | `&mapstoright; `| \21A6    |
+| DOWN ARROW FROM BAR       |  ↧   | `U+021A7;`  | `&#x21a7;`   | `&#8615;`    | `&mapstodown; ` | \21A7    |
