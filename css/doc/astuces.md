@@ -169,6 +169,10 @@ Valeurs
 
 https://css-tricks.com/almanac/properties/c/cursor/
 
+### Différent exemple de box-shadow
+
+https://getcssscan.com/css-box-shadow-examples
+
 
 ### appliquer une ombre portée sur une image ou polygone
 
