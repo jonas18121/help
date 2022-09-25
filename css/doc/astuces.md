@@ -3,23 +3,24 @@
 ### Ajuster la hauteur de la couleur du background d'une balise HTML
 
 HTML
-
+```html
     <p class="my_para">Mon paragraphe</p>
-
+```
 
 CSS
-
+```css
     .my_para {
         background: linear-gradient(to right, rgb(28, 169, 28), rgb(28, 169, 28)) left bottom no-repeat;
         background-size: 100% 47px;
     }
+```
 
 #### Avoir les images à la même hauteur dans une liste carte composer de textes au dessus et d'images en bas  
 
 On donne une hauteur à la balise div qui contient le texte, exemple : .card_text { height: 590px; }
 
 CSS
-
+```css
     .list_card {
         display: flex;
         flex-direction: row;
@@ -40,11 +41,12 @@ CSS
     .card_img {
         height: 150px;
     }
-
+```
 
 
 HTML
 
+```html
     <section class="list_card">
 
         <div class="card">
@@ -107,6 +109,7 @@ HTML
             <img src="public/img/my_image.png" alt="my_image" class="card_img">
         </div>
     </section>
+```
 
 ### Vertical text CSS
 
@@ -119,9 +122,11 @@ https://css-tricks.com/almanac/properties/m/mix-blend-mode/
 
 La propriété `mix-blend-mode` définit comment le contenu d'un élément doit se fondre dans son arrière-plan
 
+```css
     h1 {
         mix-blend-mode: exclusion;
     }
+```
 
 Valeurs
 
@@ -173,6 +178,33 @@ https://css-tricks.com/almanac/properties/c/cursor/
 
 https://getcssscan.com/css-box-shadow-examples
 
+### Redimensionner une image sans la compresser
+
+site [MDN](https://developer.mozilla.org/fr/docs/Web/CSS/object-fit)
+
+```html
+<img src="./img/image.png" alt="" srcset="">
+```
+
+```css
+img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+
+    /* object-fit: cover; permet d'étirer l'image a un peut plus que la valeur de height: 300px;
+        afin de redimensionner l'image pour qu'elle soit bien proportionner a width: 300px;
+        On aura une image bien proportionner, mais on n'aura pas une image complete entre width: 300px; et  height: 300px; puis qu'il sera plus grand
+    */
+    object-fit: cover; 
+
+    /* object-fit: contain; permet de redimensionner l'image pour qu'elle soit complete entre width: 300px; et  height: 300px;
+        On aura une image bien proportionner et complete, mais l'image sera plus petite que height: 300px;
+    */
+    /* object-fit: contain; */
+}
+```
+
 
 ### appliquer une ombre portée sur une image ou polygone
 
@@ -185,47 +217,56 @@ Faisons une petite étape par étape d'une situation où vous ne pouvez pas tout
 
 
 1) tu fais une boite
-
-        .tag {
-            background: #FB8C00;
-            color: #222;
-            font: bold 32px system-ui;
-            padding: 2rem 3rem 2rem 4rem;
-        }
+```css
+    .tag {
+        background: #FB8C00;
+        color: #222;
+        font: bold 32px system-ui;
+        padding: 2rem 3rem 2rem 4rem;
+    }
+```
 
 
 2) Vous le façonnez dans une belle forme d'étiquette Vous utilisez `clip-path` parce que c'est super pour ça.
 
-        .tag {
-            clip-path: polygon(30px 0%, 100% 0%, 100% 100%, 30px 100%, 0 50%);
-        }
-
+```css
+    .tag {
+        clip-path: polygon(30px 0%, 100% 0%, 100% 100%, 30px 100%, 0 50%);
+    }
+```
 
 3) Vous voulez une ombre dessus, alors vous Essayez d'utiliser `box-shadow`.
 
-        .tag {
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-        }
+```css
+    .tag {
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+```
 
 Mais ça ne marche pas. Rien ne s'affiche. Vous pensez que vous devenez fou. Vous supposez que vous avez une mauvaise syntaxe. Vous ne le faites pas. Le problème c'est que `clip-path` le coupe.
 
 4) Vous pouvez ombrager un élément parent à la place
 Il y a un filtre qui fait aussi des ombres : `drop-shadow()` . Mais vous ne pouvez pas l'utiliser directement sur l'élément car cela le coupera également. Alors tu fais un parent :
 
-        < span class="tag-wrap">
-            <span class="tag">
+```html
+    <span class="tag-wrap">
+        <span class="tag">
 
-                Tag
+            Tag
 
-            </span>
-        < /span> 
+        </span>
+    </span>
+``` 
 
 
  
 5) Vous ne pouvez pas non plus utiliser `box-shadow` sur ce parent, car le parent est toujours un rectangle et l'ombre sera fausse. Mais vous pouvez utiliser filter, et l'ombre suivra la forme.
 
-        .tag-wrap {
-            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
-        }
+```css
+    .tag-wrap {
+        filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
+    }
+```
 
 C'est tout.
+
