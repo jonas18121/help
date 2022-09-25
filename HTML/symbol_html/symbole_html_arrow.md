@@ -37,3 +37,5 @@ Exemple d'utilisation :
 | RIGHT ARROW FROM BAR      |  ↦   | `U+021A6;`  | `&#x21a6;`   | `&#8614;`    | `&mapstoright; `| \21A6    |
 | DOWN ARROW FROM BAR       |  ↧   | `U+021A7;`  | `&#x21a7;`   | `&#8615;`    | `&mapstodown; ` | \21A7    |
 | UP DOWN ARROW WITH BASE   |  ↨   | `U+021A8;`  | `&#x21a8;`   | `&#8616;`    | ............... | \21A8    |
+| LEFT ARROW WITH HOOK      |  ↩   | `U+021A9;`  | `&#x21a9;`   | `&#8617;`    | `&larrhk;`      | \21A9    |
+| RIGHT ARROW WITH HOOK     |  ↪   | `U+021AA;`  | `&#x21aa;`   | `&#8618;`    | `&rarrhk;`      | \21AA    |
