@@ -39,3 +39,4 @@ Exemple d'utilisation :
 | UP DOWN ARROW WITH BASE   |  ↨   | `U+021A8;`  | `&#x21a8;`   | `&#8616;`    | ............... | \21A8    |
 | LEFT ARROW WITH HOOK      |  ↩   | `U+021A9;`  | `&#x21a9;`   | `&#8617;`    | `&larrhk;`      | \21A9    |
 | RIGHT ARROW WITH HOOK     |  ↪   | `U+021AA;`  | `&#x21aa;`   | `&#8618;`    | `&rarrhk;`      | \21AA    |
+| LEFT ARROW WITH LOOP      |  ↫   | `U+021AB;`  | `&#x21ab;`   | `&#8619;`    | `&larrlp;`      | \21AB    |
