@@ -181,6 +181,11 @@ Puis
 
     > git rebase nom_de_la_branch  
 
+## Pour ajouter une exception pour ce dépôt, lancez :
+```bash
+git config --global --add safe.directory <path_of_directory>
+```
+
 
 ## Généré une clé SSH
 
