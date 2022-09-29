@@ -41,3 +41,4 @@ Exemple d'utilisation :
 | RIGHT ARROW WITH HOOK     |  ↪   | `U+021AA;`  | `&#x21aa;`   | `&#8618;`    | `&rarrhk;`      | \21AA    |
 | LEFT ARROW WITH LOOP      |  ↫   | `U+021AB;`  | `&#x21ab;`   | `&#8619;`    | `&larrlp;`      | \21AB    |
 | RIGHT ARROW WITH LOOP     |  ↬   | `U+021AC;`  | `&#x21ac;`   | `&#8620;`    | `&rarrlp;`      | \21AC    |
+| LEFT RIGHT WAVE ARROW     |  ↭   | `U+021AD;`  | `&#x21ad;`   | `&#8621;`    | `&harrw;`       | \21AD    |
