@@ -110,3 +110,11 @@ $user = $this->manager->getRepository(User::class)->findOneBy(['email' => $value
 
 ```
 
+### Accéder aux logs dans nginx avec docker
+
+Dans le terminal, se mettre à la racine du projet puis :
+
+```bash
+cd .data/logs/nginx
+```
+
