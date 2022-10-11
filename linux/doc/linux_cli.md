@@ -129,3 +129,26 @@ curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo 
 ```bash
 sudo apt install symfony-cli
 ```
+
+### Le compte root
+
+Le compte root existe sous Ubuntu, mais il est désactivé (pas de mot de passe).
+
+La commande suivante permet quand même de se connecter quand même sur le compte root :
+
+``bash
+sudo su -
+``
+
+Mais on peut aller plus loin et donner un mot de passe au compte root avec la commande :
+
+``bash
+sudo passwd
+``
+
+Ensuite, la commande suivante devrait fonctionner directement :
+``bash
+su -
+``
+
+Cela ne suit évidemment pas les standards choisis par Canonical...
