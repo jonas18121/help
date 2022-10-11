@@ -260,3 +260,8 @@ Are you sure you want to continue? [y/N]
 ### Activer le service Docker
 
     > systemctl enable docker
+
+### Ne plus utiliser sudo lorsqu'on utilise docker
+```bash
+sudo chmod 666 /var/run/docker.sock
+```
