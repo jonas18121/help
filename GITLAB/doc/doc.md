@@ -4,7 +4,7 @@
 
 Github : [yodamad/gitlab-emoji](https://github.com/yodamad/gitlab-emoji)
 
-## créer un runner 
+## Créer un runner 
 
 [cours.brosseau.ovh](https://cours.brosseau.ovh/tp/ci/gitlab/runner.html)
 
