@@ -153,13 +153,13 @@ Dans `add.html.twig`
             <strong>Livraison : </strong> {{ carrier.price|number_format(2, ',', '.') }} €
             <hr>
             <strong>Sous-Total : </strong> {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €
-            <a href="{{ path('app_stripe_create_session') }}" id="checkout-button" class="btn btn-success btn-block mt-3">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €</a>
+            <a href="{{ path('app_stripe_create_session', { 'reference' : reference }) }}" id="checkout-button" class="btn btn-success btn-block mt-3">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €</a>
             {# 
                 On peut utiliser soit la balise <form> soit la balise <a> ci-dessus, 
                 mais il faut absolument id="checkout-button" et le chemin {{ path('app_stripe_create_session') }} qui initialise stripe 
                 et redirige vers l'api de stripe.
             
-                <form action="{{ path('app_stripe_create_session') }}" method="POST">
+                <form action="{{ path('app_stripe_create_session', { 'reference' : reference }) }}" method="POST">
                     <button 
                         class="btn btn-success btn-block mt-3" 
                         type="submit" 
@@ -226,22 +226,36 @@ namespace App\Controller;
 
 use Stripe\Stripe;
 use App\Classe\Cart;
+use App\Entity\Order;
 use Stripe\Customer;
-use Stripe\StripeClient;
 use Stripe\Checkout\Session;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StripeController extends AbstractController
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+    
     /**
-     * @Route("/commande/create-session", name="app_stripe_create_session")
+     * @Route("/commande/create-session/{reference}", name="app_stripe_create_session")
      */
-    public function index(Cart $cart)
+    public function index(Cart $cart, string $reference): Response
     {
         $user = $this->getUser();
+
+        $order = $this->em->getRepository(Order::class)->findOneByReference($reference);
+
+        if (!$order) {
+            $this->addFlash('alert', 'Une Erreur c\'est produite');
+            return $this->redirectToRoute('app_order');
+        }
 
         // Quand on passera en production stripe ira chercher les images dans la vrai adresse
         // https://www.example_domain.com
@@ -255,28 +269,40 @@ class StripeController extends AbstractController
             $YOUR_DOMAIN = 'https://www.example_domain.com';
         }
 
-        // $product_for_subscription ira dans line_items qui est dans Session::create
+        // $storage_for_subscription ira dans line_items qui est dans Session::create
         $product_for_subscription = [];
 
-        // On boucle chaque produit que le client a choisi de payer
-        foreach ($cart->getFull() as $key => $product) {
+        foreach ($order->getOrderDetails()->getValues() as $key => $orderDetail) {
 
-            // $product_for_subscription ira dans line_items qui est dans Session::create
+            // Ajout de produit
             $product_for_subscription[] = [
                 'price_data' => [ // création du prix
                     'currency' => 'eur',
-                    'unit_amount' => $product['product']->getPrice(),
+                    'unit_amount' => $orderDetail->getPrice(),
                     'product_data' => [ // création du produit
-                        'name' => $product['product']->getName(),
-                        'images' => [$YOUR_DOMAIN  . '/uploads/images/' . $product['product']->getIllustration()]
+                        'name' => $orderDetail->getProduct(),
+                        'images' => [$YOUR_DOMAIN  . '/uploads/images/' . $orderDetail->getImage()]
                     ]
                 ],
-                'quantity' => $product['quantity'],
+                'quantity' => $orderDetail->getQuantity(),
             ];
         }
 
+        // Ajout du Transporteur
+        $product_for_subscription[] = [
+            'price_data' => [ // création du prix
+                'currency' => 'eur',
+                'unit_amount' => $order->getCarrierPrice() * 100,
+                'product_data' => [ // création du produit
+                    'name' => $order->getCarrierName(),
+                    // 'images' => [$YOUR_DOMAIN  . '/uploads/carrier/img.png']
+                ]
+            ],
+            'quantity' => 1,
+        ];
+
         // initialisation de stripe version 9.6
-        Stripe::setApiKey('sk_test_key');
+        Stripe::setApiKey('sk_test_51Lr0JGEIYZpSxSYQKxrBBaYuc1aEZjhoHKZiM54oUaU8IuxZmYDa5IQJCDaHn3NSjiZ2pKcyQLQK45CIXyLrg5mI00LzAh8spq');
 
         // creation du client
         $customer = Customer::create([
@@ -299,13 +325,13 @@ class StripeController extends AbstractController
         //     'currency' => 'eur',
         //     //'recurring' => ['interval' => 'month'],
         //     'product' => $stripe_product->id,
-        //   ]);
+        // ]);
 
         // afficher les infos qu'on veut montrer à l'user
         // création de la session
         $checkout_session = Session::create([
-            'client_reference_id' => $customer->id,
-            'customer' => $customer->id,
+            // 'client_reference_id' => $customer->id,
+            // 'customer' => $customer->id,
             'line_items' => [[
                 $product_for_subscription
             ]],
@@ -314,7 +340,7 @@ class StripeController extends AbstractController
             'success_url' => $YOUR_DOMAIN . '/commande/success/stripeSessionId={CHECKOUT_SESSION_ID}',
             'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
-         
+
         // header();die; fonctionne bien aussi
         // header("HTTP/1.1 303 See Other");
         // header("Location: " . $checkout_session->url);die;
