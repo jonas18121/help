@@ -204,9 +204,7 @@ Dans `base.html.twig`
     <!-- contenu ... -->
 </main>
 <footer class="footer-custom-footer">
-    <p class="float-right back-top"><a href="#">Back to top</a></p>
-    <p>&copy; 2017-2022 La Boutique Française <span style="font-size:15px; font-weight:900;">&#10139;</span> 100% made in France <span style="font-size:22px; font-weight:900;">&#9786;</span></p>
-    <p><small><a href="#">Privacy</a> &middot; <a href="#">Terms</a></small></p>
+     <!-- contenu ... -->
 </footer>
 <script src="{{ asset('assets/js/jquery-3.5.1.slim.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.js') }}"></script>
