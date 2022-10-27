@@ -6,7 +6,7 @@
 
 Terminal connecter et qui pointe à la racine du projet distant
 ```bash
-nano ~/.my.cnf  # Ecrire dans le fichier
+sudo nano ~/.my.cnf  # Ecrire dans le fichier
 
 cat ~/.my.cnf # Voir/Lire le contenu du fichier
 ```
@@ -16,7 +16,7 @@ OU
 
 Terminal connecter et qui pointe à la racine du projet distant
 ```bash
-nano /etc/my.cnf  # Ecrire dans le fichier
+sudo nano /etc/my.cnf  # Ecrire dans le fichier
 
 cat /etc/my.cnf # Voir/Lire le contenu du fichier
 ```
@@ -26,7 +26,7 @@ OU
 
 Terminal connecter et qui pointe à la racine du projet distant
 ```bash
-nano /etc/mysql/my.cnf  # Ecrire dans le fichier
+sudo nano /etc/mysql/my.cnf  # Ecrire dans le fichier
 
 cat /etc/mysql/my.cnf # Voir/Lire le contenu du fichier
 ```
@@ -37,7 +37,7 @@ OU
 
 Terminal connecter et qui pointe à la racine du projet distant
 ```bash
-nano /etc/mysql/mysql.conf.d/mysqld.cnf  # Ecrire dans le fichier
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf  # Ecrire dans le fichier
 
 cat /etc/mysql/mysql.conf.d/mysqld.cnf # Voir/Lire le contenu du fichier
 ```
