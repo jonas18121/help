@@ -1,6 +1,6 @@
 # Modifier le fichier my.cnf depuis un serveur distant et redemmader MYSQL
 
-#### Trouver l'emplacement du fichier my.cnf peut varier selon la version de MySQL, il l'un de ces commandes depuis la racine du projet :
+#### Trouver l'emplacement du fichier my.cnf peut varier selon la version de MySQL, il faut exécuter l'un de ces commandes depuis la racine du projet :
 
 - ~/.my.cnf
 
