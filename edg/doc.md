@@ -124,6 +124,6 @@ cd .data/logs/nginx
 SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes  
 ```
 
-- ajout de : `command: --max_allowed_packet=32505856      # Set max_allowed_packet to 256M (or any other value)  Dans le conteneur Mysql dans docker-compose`
+- ajout de : `command: --max_allowed_packet=32505856      # Set max_allowed_packet to 256M (or any other value)`   Dans le conteneur Mysql dans docker-compose
 - suppression du conteneur Mysql via docker `docker rm <ID_container>`
 - excécution de `docker-compose up -d`
