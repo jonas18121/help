@@ -16,6 +16,8 @@ Version : 9.6
 
 - [Créer une facture](https://stripe.com/docs/api/invoices)
 
+- [Personnaliser votre page de confirmation de paiement](https://stripe.com/docs/payments/checkout/custom-success-page)
+
 
 Exemple de configuration
 ```php
