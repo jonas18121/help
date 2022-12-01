@@ -71,7 +71,7 @@ $checkout_session = Session::create([
     'mode' => 'payment',
     'currency' => 'eur',
     'payment_method_types' => ['card'],
-    'success_url' => $YOUR_DOMAIN . '/commande/success/stripeSessionId={CHECKOUT_SESSION_ID}',
+    'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
     'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
 ]);
     
@@ -152,10 +152,10 @@ Dans `add.html.twig`
             </div>
             <hr>
             <strong>Sous-Total : </strong>{{ (total / 100)|number_format(2, ',', '.') }} € <br>
-            <strong>Livraison : </strong> {{ carrier.price|number_format(2, ',', '.') }} €
+            <strong>Livraison : </strong> {{ carrier.price / 100|number_format(2, ',', '.') }} €
             <hr>
-            <strong>Sous-Total : </strong> {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €
-            <a href="{{ path('app_stripe_create_session', { 'reference' : reference }) }}" id="checkout-button" class="btn btn-success btn-block mt-3">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €</a>
+            <strong>Sous-Total : </strong> {{ ((total / 100) + (carrier.price / 100))|number_format(2, ',', '.') }} €
+            <a href="{{ path('app_stripe_create_session', { 'reference' : reference }) }}" id="checkout-button" class="btn btn-success btn-block mt-3">Payer | {{ ((total / 100) + (carrier.price / 100))|number_format(2, ',', '.') }} €</a>
             {# 
                 On peut utiliser soit la balise <form> soit la balise <a> ci-dessus, 
                 mais il faut absolument id="checkout-button" et le chemin {{ path('app_stripe_create_session') }} qui initialise stripe 
@@ -294,7 +294,7 @@ class StripeController extends AbstractController
         $product_for_subscription[] = [
             'price_data' => [ // création du prix
                 'currency' => 'eur',
-                'unit_amount' => $order->getCarrierPrice() * 100,
+                'unit_amount' => $order->getCarrierPrice(),
                 'product_data' => [ // création du produit
                     'name' => $order->getCarrierName(),
                     // 'images' => [$YOUR_DOMAIN  . '/uploads/carrier/img.png']
@@ -304,7 +304,7 @@ class StripeController extends AbstractController
         ];
 
         // initialisation de stripe version 9.6
-        Stripe::setApiKey('sk_test_51Lr0JGEIYZpSxSYQKxrBBaYuc1aEZjhoHKZiM54oUaU8IuxZmYDa5IQJCDaHn3NSjiZ2pKcyQLQK45CIXyLrg5mI00LzAh8spq');
+        Stripe::setApiKey('sk_test_key');
 
         // creation du client
         $customer = Customer::create([
@@ -339,7 +339,7 @@ class StripeController extends AbstractController
             ]],
             'mode' => 'payment',
             'payment_method_types' => ['card'],
-            'success_url' => $YOUR_DOMAIN . '/commande/success/stripeSessionId={CHECKOUT_SESSION_ID}',
+            'success_url' => $YOUR_DOMAIN . '/commande/success/{CHECKOUT_SESSION_ID}',
             'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
 
@@ -347,8 +347,151 @@ class StripeController extends AbstractController
         // header("HTTP/1.1 303 See Other");
         // header("Location: " . $checkout_session->url);die;
 
+        $order->setStripeSessionId($checkout_session->id);
+        $this->em->persist($order);
+        $this->em->flush();
+
         // redirection vers Stripe
         return $this->redirect($checkout_session->url, 301);
     }
 }
+```
+
+Dans `OrderSuccessController`
+
+- On affiche le page de comfirmation
+- On met le order en payer
+- On supprime le contenu qui est dans le panier, $cart
+
+```php
+// OrderSuccessController
+
+namespace App\Controller;
+
+use App\Classe\Cart;
+use App\Entity\Order;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class OrderSuccessController extends AbstractController
+{
+    private $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+    
+    /**
+     * @Route("/commande/success/{stripeSessionId}", name="app_order_validate")
+     */
+    public function index(string $stripeSessionId, Cart $cart): Response
+    {
+        $order = $this->em->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
+
+        if (!$order || $order->getUser() != $this->getUser()) {
+            $this->addFlash('alert', 'Une Erreur c\'est produite');
+            return $this->redirectToRoute('app_home');
+        }
+
+        if (!$order->isPaid()) {
+            $cart->remove();
+            $order->setIsPaid(1);
+            $this->em->flush();
+        }
+
+        return $this->render('order_success/index.html.twig', [
+            'order' => $order,
+        ]);
+    }
+}
+```
+
+```twig
+{# order_success/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de commande - La Boutique Française{% endblock %}
+
+{% block content %}
+    <h2>Confirmation de commande</h2>
+    <p>
+        Bonjour <strong>{{ order.user.firstname }} {{ order.user.lastname }}</strong>, <br/><br/>
+        Nous vous remercion pour votre commande n° <strong>{{ order.reference }}</strong>, <br/>
+        Une confirmation vient de vous être envoyer par email à l'adrresse <strong>{{ order.user.email }}</strong>
+
+        <hr>
+        Votre commande sera livré par <strong>{{ order.carrierName }}</strong> à l'adresse suivante : <br/>
+        {{ order.delivery|raw }}
+        <hr>
+
+        Suivre votre commande <a href="{{ path('app_account') }}">ici</a>
+    </p>
+
+{% endblock %}
+```
+
+```php
+// OrderCancelController
+
+namespace App\Controller;
+
+use App\Entity\Order;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class OrderCancelController extends AbstractController
+{
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+    
+    /**
+     * @Route("/commande/erreur/{stripeSessionId}", name="app_order_cancel")
+     */
+    public function index(string $stripeSessionId): Response
+    {
+        $order = $this->em->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
+
+        if (!$order || $order->getUser() != $this->getUser()) {
+            $this->addFlash('alert', 'Une Erreur c\'est produite');
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('order_cancel/index.html.twig', [
+            'order' => $order,
+        ]);
+    }
+}
+```
+
+```twig
+{# order_cancel/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de payement - La Boutique Française{% endblock %}
+
+{% block content %}
+    <h2>Erreur de payement</h2>
+    <p>
+        Bonjour <strong>{{ order.user.firstname }} {{ order.user.lastname }}</strong>, <br/><br/>
+        Votre commande n° <strong>{{ order.reference }}</strong> à échouer, <br/>
+        Une confirmation d'erreur vient de vous être envoyer par email à l'adrresse <strong>{{ order.user.email }}</strong>
+
+        <hr>
+
+    </p>
+    <a href="{{ path('app_order') }}" class="btn btn-success">Réessayer le paiment</a>
+
+{% endblock %}
 ```
