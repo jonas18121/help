@@ -371,6 +371,12 @@ Exemple:
     > mysqldump -u [username] -p [database] > backup.sql
 ```
 
+## Exporter un dump de base de données avec la date :
+
+```sql
+    > mysqldump -u [username] -p [database] > backup-$(date +%Y-%m-%d).sql
+```
+
 ## Importer un dump de base de données:
 
 ```sql
