@@ -358,23 +358,32 @@ Exemple:
 ```sql
     mysql> DROP DATABASE [database];
 ```
-
 ## Créer un alias pour renommer temporairement une colonne:
 
 ```sql
     mysql> SELECT [colonne] AS [col] FROM [table];
 ```
 
-## Exporter un dump de base de données:
+## Exporter un dump de base de données un terminale connecter à un serveur distant :
 
 ```sql
     > mysqldump -u [username] -p [database] > backup.sql
 ```
 
-## Exporter un dump de base de données avec la date :
+## Exporter un dump de base de données avec la date depuis un terminale connecter à un serveur distant :
 
 ```sql
     > mysqldump -u [username] -p [database] > backup-$(date +%Y-%m-%d).sql
+```
+
+## Exporter un dump de base de données avec la date depuis son terminal en local :
+```sql
+    > mysqldump -u [username] -h [hostname] -p [database] > /home/[user]/Téléchargements/backup-$(date +%Y-%m-%d).sql
+```
+
+Exemple : 
+```sql
+    > mysqldump -u nameOfUser -h 777.77.777.77 -p nameOfBdd > /home/jonas/Téléchargements/backup_prod-$(date +%Y-%m-%d).sql
 ```
 
 ## Importer un dump de base de données:
