@@ -152,3 +152,14 @@ su -
 ``
 
 Cela ne suit évidemment pas les standards choisis par Canonical...
+
+
+
+Bouger un dossier projet
+
+mv aecale-preprod_2.edgco.fr /var/www/save/aecale-preprod_2.edgco.fr
+
+
+Copier un dossier projet
+
+cp -r aecale-preprod.edgco.fr save/aecale-save/aecale-preprod_2.edgco.fr
