@@ -152,3 +152,26 @@ su -
 ``
 
 Cela ne suit évidemment pas les standards choisis par Canonical...
+
+
+
+Bouger un dossier projet
+``bash
+mv aecale-preprod_2.edgco.fr /var/www/save/aecale-preprod_2.edgco.fr
+``
+
+
+Copier un dossier projet
+
+```bash
+cp -r aecale-preprod.edgco.fr save/aecale-save/aecale-preprod_2.edgco.fr
+```
+
+
+lier node à nodejs
+``bash
+sudo ln -s /home/ubuntu/.nvm/versions/node/v14.18.1/bin/node /usr/bin/nodejs
+``
+
+ln =
+Cela se remplace lnpar un lien symbolique vers un shell (ou tout autre exécutable) qui doit être exécuté en tant que root, utile dans le cas où une sudorègle autorise uniquement l'exécution lnpar chemin. Attention, ceci est une action destructrice.
