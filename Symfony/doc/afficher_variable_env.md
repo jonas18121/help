@@ -1,4 +1,4 @@
-# Utliser des variable .env dans Symfony
+# Utliser des variables .env dans Symfony
 
 [Youtube](https://www.youtube.com/watch?v=n_wGBA_dl68&t=7s)
 
@@ -34,7 +34,7 @@ Dans le controller, on appel `app.paramname` via `$this->getParameter()`.
 
 (S'assurer que le controller hérite de `AbstractController` pour utiliser `$this->getParameter()`)
 ```php
-$this->getParameter('app.paramname');
+$this->getParameter('app.paramname'); // param_value_here
 ```
 
 ## Obtenir une variable qui est définit dans le fichier .env et l'utiliser dans un service, Symfony 5.
@@ -84,13 +84,13 @@ class DemoService
   */
   public function getDemo(): string
   {
-    return $this->parameterBag->get('app.paramname');
+    return $this->parameterBag->get('app.paramname'); // param_value_here
   }
 }
 ```
 ----------------------------------
 
-Ou on fournit la variable env directement, dans le fichier `config/services.yaml`. 
+## Ou on fournit la variable env directement, dans le fichier `config/services.yaml`. 
 ```yaml
 # config/services.yaml
 
@@ -100,9 +100,9 @@ services:
         $demo: '%env(app.paramname)%
 ```
 
-### Dans le service `DemoService`
+### Puis dans le service `DemoService`
 
-Dans le service `DemoService`, on appel `app.paramname` via `$this->demo`.
+Puis dans le service `DemoService`, on appel `app.paramname` via `$this->demo`.
 
 (La valeur de $demo dans `DemoService` vient de l'argument $demo du fichier `config/services.yaml` )
 
@@ -125,7 +125,7 @@ class DemoService
   */
   public function getDemo(): string
   {
-    return $this->demo;
+    return $this->demo; // param_value_here
   }
 }
 ```
@@ -134,7 +134,7 @@ class DemoService
 
 ### Dans `config/twig.yaml`
 
-Dans `config/twig.yaml`, on utilise `globals` pour créer le clé `DEMO` qui recoit la varible env, et on pourra utiliser `DEMO` partout dans twig
+Dans `config/twig.yaml`, on utilise `globals` pour créer le clé qu'on a nommé `DEMO` qui recoit la varible env, et on pourra utiliser `DEMO` partout dans twig
 ```yaml
 # config/twig.yaml
 
