@@ -9,12 +9,16 @@
 
 ## Obtenir une variable qui est définit dans le fichier .env et l'utiliser dans un controller, Symfony 5.
 
+### Dans le fichier `.env`
+
 Dans le fichier `.env`, on définit la variable `APP_PARAM`.
 ```shell
 # config/services.yaml
 
 APP_PARAM=param_value_here
 ```
+
+### Dans le fichier `config/services.yaml`
 
 Dans le fichier `config/services.yaml`, on appel la variable `APP_PARAM` en valeur d'un paramètre `app.paramname` qui représentera `APP_PARAM`.
 ```yaml
@@ -23,6 +27,8 @@ Dans le fichier `config/services.yaml`, on appel la variable `APP_PARAM` en vale
 parameters:
     app.paramname: '%env(APP_PARAM)%'
 ```
+
+### Dans le controller
 
 Dans le controller, on appel `app.paramname` via `$this->getParameter()`.
 
@@ -33,12 +39,16 @@ $this->getParameter('app.paramname');
 
 ## Obtenir une variable qui est définit dans le fichier .env et l'utiliser dans un service, Symfony 5.
 
+### Dans le fichier `.env`
+
 Dans le fichier `.env`, on définit la variable `APP_PARAM`.
 ```shell
 # config/services.yaml
 
 APP_PARAM=param_value_here
 ```
+
+### Dans le fichier `config/services.yaml`
 
 Dans le fichier `config/services.yaml`, on appel la variable `APP_PARAM` en valeur d'un paramètre `app.paramname` qui représentera `APP_PARAM`.
 ```yaml
@@ -47,6 +57,7 @@ Dans le fichier `config/services.yaml`, on appel la variable `APP_PARAM` en vale
 parameters:
     app.paramname: '%env(APP_PARAM)%'
 ```
+### Dans le service `DemoService`
 
 Dans le service `DemoService`, on appel `app.paramname` via `$this->parameterBag->get()`.
 
@@ -88,6 +99,8 @@ services:
       arguments:
         $demo: '%env(app.paramname)%
 ```
+
+### Dans le service `DemoService`
 
 Dans le service `DemoService`, on appel `app.paramname` via `$this->demo`.
 
