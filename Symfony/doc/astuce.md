@@ -67,3 +67,23 @@ Retourne :
 ```php
 "Colissimo"
 ```
+
+### Obtenir une variable qui est définit dans le fichier .env et l'utiliser dans un controller, Symfony 5.
+
+Dans le fichier `.env`, on définit la variable `APP_PARAM`.
+```bash
+APP_PARAM=param_value_here
+```
+
+Dans le fichier `config/services.yaml`, on appel la variable `APP_PARAM` en valeur d'un paramètre `app.paramname` qui représentera `APP_PARAM`.
+```yaml
+parameters:
+    app.paramname: '%env(APP_PARAM)%'
+```
+
+Dans le controller, on appel `app.paramname` via `$this->getParameter()`.
+
+(S'assurer que le controller hérite de `AbstractController` pour utiliser `$this->getParameter()`)
+```php
+$this->getParameter('app.paramname');
+```
