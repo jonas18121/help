@@ -13,7 +13,7 @@
 
 Dans le fichier `.env`, on définit la variable `APP_PARAM`.
 ```shell
-# config/services.yaml
+# .env
 
 APP_PARAM=param_value_here
 ```
@@ -43,7 +43,7 @@ $this->getParameter('app.paramname'); // param_value_here
 
 Dans le fichier `.env`, on définit la variable `APP_PARAM`.
 ```shell
-# config/services.yaml
+# .env
 
 APP_PARAM=param_value_here
 ```
@@ -170,6 +170,8 @@ Ordre de priorité
 4) `.env`
 
 ```php
+// index.php
+
 use App\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -190,7 +192,7 @@ return function (array $context) {
 
 Dans le fichier `.env`, on définit la variable `APP_PARAM`.
 ```shell
-# config/services.yaml
+# .env
 
 APP_PARAM=param_value_here
 ```
