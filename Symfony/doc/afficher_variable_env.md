@@ -90,7 +90,7 @@ class DemoService
 ```
 ----------------------------------
 
-## Ou on fournit la variable env directement, dans le fichier `config/services.yaml`. 
+### Ou on n'utilide pas ParameterBagInterface et on fournit la variable env directement, dans le fichier `config/services.yaml`. 
 ```yaml
 # config/services.yaml
 
