@@ -63,7 +63,7 @@ class Mail
         ];
 
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success() && dd($response->getData());  
+        $response->success()  /*&& dump($response->getData())*/;  
     }
 }
 ```
@@ -81,7 +81,6 @@ use App\Classe\Mail;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 
 class HomeController extends AbstractController
 {
