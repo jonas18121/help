@@ -67,5 +67,3 @@ Retourne :
 ```php
 "Colissimo"
 ```
-
-
