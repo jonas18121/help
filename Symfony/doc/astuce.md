@@ -67,3 +67,21 @@ Retourne :
 ```php
 "Colissimo"
 ```
+
+### Trouver php.ini
+
+Pour trouver `php.ini`, on peut faire `phpinfo()` dans un controller, puis `CTRL + F` pour chercher php.ini
+```php
+phpinfo()
+```
+
+Le fichier pourrait ce trouver dans un chemin comme celui ci : `/etc/php/7.4/fpm/php.ini`
+
+Puis soit on fait les codes ci-dessous pour voir ou écrire dans le fichier, sinon ou peut se rendre dans ce fichier avec l'explorateur de fichier
+```properties
+cat /etc/php/7.4/fpm/php.ini
+
+# ou
+
+nano /etc/php/7.4/fpm/php.ini
+```

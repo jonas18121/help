@@ -3,7 +3,7 @@
 
 
 
-
+```php
     /**
     * @Route("/application/project/{id}/detail/meal/plan/list", name="application_project_detail_meal_plan_list")
     */
@@ -46,3 +46,4 @@
 
         return $this->render('Application/Pages/Project/detail/detail-meal-plans-list.html.twig', $viewParameters);
     }
+```
