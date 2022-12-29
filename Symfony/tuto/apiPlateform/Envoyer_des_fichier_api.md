@@ -79,8 +79,9 @@ Arriver jusque la tout est bon ça fonctionne, on va finnioller les choses maint
 9) on cree un normalizer personnaliser, Aller dans `Serializer/UserImageNormalizer.php`
 
 10) Ici on ajoute et configure `"openapi_context"` pour bien guider les utilisateurs de cette api pour qu'il comprennent que dans cette url `"/users/{id}/image"` on aura des données format multipart/form-data avec un file de type string et de format binary 
-
-     "openapi_context"={
+```php
+    /*
+    * "openapi_context"={
     *                  "requestBody"={
     *                      "content"={
     *                          "multipart/form-data"={
@@ -97,12 +98,11 @@ Arriver jusque la tout est bon ça fonctionne, on va finnioller les choses maint
     *                      }
     *                  }
     *              }
-
+```
 
 Dans `User.php`
 
-    <?php
-
+```php
     declare(strict_types=1);
 
     namespace App\Entity;
@@ -426,7 +426,7 @@ Dans `User.php`
             return $this;
         }
     }
-
+```
 
 
 
@@ -447,7 +447,7 @@ Dans `UserImageController.php`
 
 Dans `UserImageController.php`
 
-
+```php
     namespace App\Controller;
 
     use App\Entity\User;
@@ -471,7 +471,7 @@ Dans `UserImageController.php`
         }
 
     }
-
+```
 
 
 Dans `api_plateform.yaml`
@@ -487,7 +487,7 @@ Dans `api_plateform.yaml`
 - `multipart: ['multipart/form-data']`, pour les fichiers
 
 Dans `api_plateform.yaml`
-
+```yaml
     api_platform:
         mapping:
             paths: ['%kernel.project_dir%/src/Entity']
@@ -500,7 +500,7 @@ Dans `api_plateform.yaml`
             json: ['application/merge-patch+json']
         swagger:
             versions: [3]
-
+```
 
 Dans `vich_uploader.yaml`
 
@@ -513,7 +513,7 @@ Dans `vich_uploader.yaml`
 - `namer:` pour renommé les images de manière unique
 
 Dans `vich_uploader.yaml`
-
+```yaml
     vich_uploader:
         db_driver: orm
 
@@ -522,7 +522,7 @@ Dans `vich_uploader.yaml`
                 uri_prefix: /images/users
                 upload_destination: '%kernel.project_dir%/public/images/users'
                 namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-
+```
 
 
 Dans `Serializer/UserImageNormalizer.php`
@@ -550,7 +550,7 @@ Cette erreur: veut dire de bien écrire les argument de ces functions, par exemp
 
 Dans `Serializer/UserImageNormalizer.php`
 
-    <?php
+```php
 
     namespace App\Serializer;
 
@@ -605,7 +605,7 @@ Dans `Serializer/UserImageNormalizer.php`
             return $this->normalizer->normalize($object, $format, $context);
         }
     }
-
+```
 
 
 
