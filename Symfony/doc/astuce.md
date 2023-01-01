@@ -85,3 +85,94 @@ cat /etc/php/7.4/fpm/php.ini
 
 nano /etc/php/7.4/fpm/php.ini
 ```
+
+### Dans security.yaml, autoriser uniquement les users non connecter à accéder à une page, par exemple la page mot de passe oublier
+
+```yaml
+# security.yaml
+
+access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/compte, roles: ROLE_USER }
+        - { path: ^/mot-de-passe-oublie, allow_if: "is_anonymous() and !is_authenticated()" } # Uniquement les users non connecter peuvent accéder à cette page
+```
+
+### Exemple de différentes façon d'appeler et completer un addFlash()
+
+```php
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class DefaultController extends Controller
+{
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function indexAction()
+    {
+        // 1. Using the shortcut method of the controller
+
+        // Adding a success type message
+        $this->addFlash("success", "This is a success message");
+
+        // Adding a warning type message
+        $this->addFlash("warning", "This is a warning message");
+
+        // Adding an error type message
+        $this->addFlash("error", "This is an error message");
+
+        // Adding a custom type message, remember the type is totally up to you !
+        $this->addFlash("bat-alarm", "Gotham needs Batman");
+
+        // 2. Retrieve manually the flashbag
+
+        // Retrieve flashbag from the controller
+        $flashbag = $this->get('session')->getFlashBag();
+
+        // Set a flash message
+        $flashbag->add("other", "This is another flash message with other type");
+
+        // Render some twig view
+        return $this->render("default/index.html.twig");
+    }
+}
+```
+
+### Comment supprimer les messages flash
+
+Si vous avez déjà ajouté un message flash à la session, mais que vous ne souhaitez plus l'afficher pour une raison quelconque, vous devez le supprimer. 
+
+Comme mentionné précédemment, les messages flash disparaissent une fois qu'ils sont récupérés.
+
+Donc, pour les supprimer, il suffit d'accéder à la méthode get avec le type de message flash comme premier argument sans pointeur (ne stockez pas sa valeur dans une variable) :
+
+```php
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class DefaultController extends Controller
+{
+    /**
+     * @Route("/", name="homepage")
+     */
+    public function indexAction()
+    {
+        // Retrieve flashbag from the controller
+        $flashbag = $this->get('session')->getFlashBag();
+
+        // Set a flash message
+        $flashbag->add("bat-alarm", "Gotham needs Batman");
+
+        // Retrieves the value (that isn't being assigned to a variable)
+        // and therefore is "deleted" from the flashbag
+        $flashbag->get("bat-alarm");
+
+        // Render some twig view
+        return $this->render("default/index.html.twig");
+    }
+}
+```
