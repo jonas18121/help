@@ -124,6 +124,18 @@ https://docs.docker.com/engine/reference/commandline/exec/
 
     > docker rmi <id_de_image> --force
 
+### Supprimer toutes les images Docker
+
+#### Comment ça fonctionne
+
+docker images -q listera tous les ID d'image. 
+
+Nous transmettons ces identifiants à docker rmi(qui signifie supprimer des images) et nous supprimons donc toutes les images.
+
+```ps
+docker rmi $(docker images -q)
+```
+
 ### Créer une image à partir d'un Dockerfile
 
     > docker image build 
@@ -153,6 +165,31 @@ https://docs.docker.com/engine/reference/commandline/exec/
 ### Utilisez -q pour transmettre les ID à la commande docker rm, afin de Supprimer tous les conteneurs quittés
 
     > docker rm $(docker ps -a -f status=exited -q)
+
+### Arrêter tous les conteneurs Docker
+
+#### Comment ça fonctionne
+
+La commande docker ps listera tous les conteneurs en cours d' exécution . 
+
+L' indicateur -q ne répertoriera que les ID de ces conteneurs. 
+
+Une fois que nous avons la liste de tous les identifiants de conteneurs, nous pouvons simplement exécuter la docker killcommande, en transmettant tous ces identifiants, et ils seront tous arrêtés !
+
+```ps
+docker kill $(docker ps -q)
+```
+
+### Supprimer tous les conteneurs Docker
+
+#### Comment ça fonctionne
+Nous savons déjà que docker ps -q répertoriera tous les ID de conteneur en cours d'exécution.
+
+Le drapeau -a, renverra tous les conteneurs, pas seulement ceux en cours d'exécution. Par conséquent, cette commande supprimera tous les conteneurs (y compris les conteneurs en cours d'exécution et arrêtés).
+
+```ps
+docker rm $(docker ps -a -q)
+```
 
 ### Créer un container à partir d'une image (le contaire sera inactif tant qu'on l'aura pas ativer)
 
