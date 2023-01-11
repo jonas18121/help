@@ -176,3 +176,38 @@ class DefaultController extends Controller
     }
 }
 ```
+
+### Choissir un fichier de traduction/translate dans twig
+
+2 fichiers de trad core.fr.yaml et custom.page.fr.yaml
+
+```yaml
+# custom.page.fr.yaml
+
+action:
+    cancel: Annuler
+```
+
+```yaml
+# core.fr.yaml
+
+action:
+    cancel: Annuler
+```
+
+```twig
+<!-- Fichier twig --> 
+
+<!-- Le domaine de traduction définit pour ce fichier Twig entier est custom.page par défault qui réprésente le fichier custom.page.fr.yaml  -->
+{% trans_default_domain 'custom.page' %}
+
+<!-- On utilise custom.page.fr.yaml qui est par défault  -->
+<a herf="#">{{ 'action.cancel'|trans }}</a>
+
+<!-- Avec trans({}, 'core') on peut utiliser précisément core.fr.yaml --> 
+<!-- Sinon on aurait utiliser custom.page.fr.yaml qui est par défault  -->
+<a herf="#">{{ 'action.cancel'|trans({}, 'core') }}</a> 
+
+<!-- On peut l'utiliser aussi de cette manière --> 
+<a herf="#">{{ 'action.cancel'|trans([], domain = 'core') }}</a> 
+```
