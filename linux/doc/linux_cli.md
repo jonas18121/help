@@ -175,3 +175,20 @@ sudo ln -s /home/ubuntu/.nvm/versions/node/v14.18.1/bin/node /usr/bin/nodejs
 
 ln =
 Cela se remplace lnpar un lien symbolique vers un shell (ou tout autre exécutable) qui doit être exécuté en tant que root, utile dans le cas où une sudorègle autorise uniquement l'exécution lnpar chemin. Attention, ceci est une action destructrice.
+
+
+### Installer Adminer dans un projet sur un serveur
+
+- Aller sur [Adminer](https://www.adminer.org/), 
+- Click sur le bouton Download 
+- Puis télécharger le fichier nommée [Adminer 4.8.1 for MySQL](https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php)(ou le télécharger ici directement)
+- Renommer le fichier adminer-4.8.1-mysql.php en adminer.php
+- Se connecter au serveur du projet en question
+- Puis executer le commande ci-dessous
+```ps
+scp -P 22 ~/Desktop/adminer.php ubuntu@141.94.222.87:/var/www/projet-preprod.fr/app/public
+```
+    - `~/Desktop/adminer.php` représente l'endroit ou le fichier adminer.php a été télécharger dans ma machine
+    - `ubuntu@141.94.222.87` représente l'identifiant et l'ip sur serveur
+    - `/var/www/aecale-preprod.edgco.fr/app/public` représente l'endroit on veut installer le fichier adminer.php dans le projet sur serveur
+- Pour accéder a adminer on peut se rendre sur cette exemple d'url `https://projet-preprod.fr/adminer.php`
