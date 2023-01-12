@@ -184,7 +184,7 @@ Cela se remplace lnpar un lien symbolique vers un shell (ou tout autre exécutab
 - Puis télécharger le fichier nommée [Adminer 4.8.1 for MySQL](https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php)(ou le télécharger ici directement)
 - Renommer le fichier adminer-4.8.1-mysql.php en adminer.php
 - Se connecter au serveur du projet en question
-- Puis executer le commande ci-dessous
+- Puis executer le commande ci-dessous ou on peut mettre le fichier adminer.php dans projet-preprod.fr/app/public via FileZila
 ```ps
 scp -P 22 ~/Desktop/adminer.php ubuntu@141.94.222.87:/var/www/projet-preprod.fr/app/public
 ```
