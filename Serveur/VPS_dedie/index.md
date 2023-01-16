@@ -18,7 +18,7 @@ Un serveur privé virtuel (ou VPS pour Virtual Private Server) - ou serveur déd
 
 un Serveur VPS est une partie d'un Seveur dédié
 
-Expemle : 
+Expemle :
 
 Admettons qu'un Seveur dédié contient 4 coeurs avec 4 barrettes de rame.
 
