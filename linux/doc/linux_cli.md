@@ -195,3 +195,9 @@ scp -P 22 ~/Desktop/adminer.php name_id@141.95.278.81:/var/www/projet-preprod.fr
 `/var/www/aecale-preprod.edgco.fr/app/public` représente l'endroit on veut installer le fichier adminer.php dans le projet sur serveur
 
 - Pour accéder a adminer on peut se rendre sur cette exemple d'url `https://projet-preprod.fr/adminer.php`
+
+### Voir des fichier cacher dans un serveur
+
+```ps
+ls -lah
+```
