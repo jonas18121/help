@@ -41,3 +41,26 @@ exemple :
 site : https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units-fr
 
     > sudo systemctl restart php7.4-fpm
+
+### Voir des fichier cacher dans un serveur
+
+```ps
+ls -lah
+```
+
+### Voir les droit dans un serveur
+
+```ps
+ls -l
+```
+
+### Changer le propriétaire du dossier sur un serveur
+
+```ps
+sudo chown -R [USER NAME]:[USER NAME] /var/www
+```
+
+Exemple :
+```ps
+sudo chown -R www-data:www-data /var/www
+```
