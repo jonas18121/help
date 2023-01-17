@@ -323,14 +323,18 @@ On veut ajouter récursivement les mêmes droits (resp. rwx et rw) pour le group
 **Application 2** :
 
 Imaginons que précédemment on ait lancé la commande chmod -R 770 monrep. La situation est la suivante : 
- - les droits sont drwxrwx— (770) pour les répertoires et -rwxrwx—- (770) pour les fichiers.
+ - les droits sont drwxrwx— (770) pour les répertoires 
+ - et -rwxrwx—- (770) pour les fichiers.
 
 On désire supprimer les droits d'exécution uniquement sur les fichiers. C'est à dire qu'on veut aboutir à la situation suivante : 
- - drwxrwx— (770) pour les répertoires et -rw-rw—- (660) pour les fichiers.
+ - drwxrwx— (770) pour les répertoires 
+ - et -rw-rw—- (660) pour les fichiers.
 
 Comme chmod s'applique à la fois aux fichiers et répertoires, nous allons jongler avec x et X. Il faut enlever x puis ajouter X.
 
-Si on lance chmod -R u-x+X,g-x+X monrep cela n'aura aucun effet car X concerne à la fois les répertoires ET les fichiers qui ont un x quelque part. Donc si u-x enlève le premier x (ce qui donne -rw-rwx—), la suite +X va aussitôt remettre un x car il reste un x (celui du groupe !).
+Si on lance chmod -R u-x+X,g-x+X monrep cela n'aura aucun effet car X concerne à la fois les répertoires ET les fichiers qui ont un x quelque part. 
+
+Donc si u-x enlève le premier x (ce qui donne -rw-rwx—), la suite +X va aussitôt remettre un x car il reste un x (celui du groupe !).
 
 Donc il faut d'abord enlever tous les x : u-x,g-x avant de les remettre (sera fait uniquement pour les répertoires cette fois) ce qui donne finalement :
 
