@@ -93,3 +93,7 @@ Afin d'éviter des procedures long et couteux pour le client.
 #### Le Value Stream Map (VSM)
 
 C'est un outil du Lean Management, qui permet de connaitre les processus prenant du temps et n'apportant pas de valeur ajoutée
+
+### Mesure
+
+Il est nécessaire d'avoir des indicateurs de performance clés (KPI ou Key Performance Indicator) afin de savoir si les efforts de transf
