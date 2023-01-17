@@ -34,3 +34,5 @@ Ce Seveur dédié qui a été divisé en 4 parties pourra avoir jusqu'à 4 clien
 [Serveur VPS IONOS pas cher](https://www.ionos.fr/serveurs/vps?ac=OM.FR.FRo42K356238T7073a&itc=8UF8HPYG-9ZQWS5-&utm_source=google&utm_medium=cpc&utm_campaign=SGE-FR-VPS-MIXX---SERVER---&utm_term=&matchtype=&utm_content=DSA+-+VPS&gclid=Cj0KCQiAiJSeBhCCARIsAHnAzT_yQiXnz673aKiGycunOb9JDEY8vxUus8uKrL3X-bmyFQmC5wbGZKoaAtbPEALw_wcB&gclsrc=aw.ds)
 
 [Serveur VPS OVH pas cher](https://www.ovhcloud.com/fr/vps/definition/)
+
+[Serveur VPS Hostinger pas cher](https://www.hostinger.fr/vps)

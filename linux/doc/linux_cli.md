@@ -196,7 +196,7 @@ scp -P 22 ~/Desktop/adminer.php name_id@141.95.278.81:/var/www/projet-preprod.fr
 
 - Pour accéder a adminer on peut se rendre sur cette exemple d'url `https://projet-preprod.fr/adminer.php`
 
-### Voir des fichier cacher dans un serveur
+### Voir des fichiers cacher (avec les droits) dans un serveur en plus des fichiers 
 
 ```ps
 ls -lah
