@@ -72,6 +72,13 @@ Ou la commande ci-dessous depuis la racine du projet
 
     > sudo chmod 777 -R app
 
+ou 
+```ps
+chown -R www-data:www-data your_folder
+
+chmod -R 777 your_folder
+```
+
 ### Modif couleur projets
 
 - _custom.css > $themes > day-mode 
