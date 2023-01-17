@@ -16,6 +16,12 @@ Les droits des fichiers d'un répertoire peuvent être affichés par la commande
 ls -l
 ```
 
+Les droits des fichiers d'un répertoire et fichier caché peuvent être affichés par la commande
+
+```ps
+ls -lah
+```
+
 Les droits d'accès apparaissent alors comme une liste de 10 symboles. :
 
 ```ps
