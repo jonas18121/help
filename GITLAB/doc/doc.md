@@ -12,11 +12,11 @@ Github : [yodamad/gitlab-emoji](https://github.com/yodamad/gitlab-emoji)
 
 Exemple :
 
-**Symfony V5.4.2**
+**Symfony v5.4.2**
 
-**VX.Y.Z**
+**vX.Y.Z**
 
-**V** : Version
+**v** : Version
 
 **X** : C'est grosse maj
 
