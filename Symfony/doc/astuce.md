@@ -211,3 +211,41 @@ action:
 <!-- On peut l'utiliser aussi de cette manière --> 
 <a herf="#">{{ 'action.cancel'|trans([], domain = 'core') }}</a> 
 ```
+
+### Gérer la timezone de DateTime
+
+**En Object**
+
+```php
+$datetime = new \DateTime();
+$timezone = new \DateTimeZone('Europe/Paris');
+$datetime->setTimezone($timezone);
+echo $datetime->format('d/m/Y H:i:s');
+
+// ou
+$datetime = (new \DateTime('now'))->setTimezone(new \DateTimeZone('Europe/Paris'));
+echo $datetime->format('d/m/Y H:i:s');
+
+//ou
+$datetime = new \DateTime('now', new DateTimeZone('Europe/Paris'));
+echo $datetime->format('d/m/Y H:i:s');
+```
+
+OU 
+
+**En Procedural**
+
+```php
+date_default_timezone_set("Europe/Paris");
+$date = date('d/m/Y H:i');
+echo $date;
+```
+
+OU
+
+**Placez cette ligne de code au-dessus de votre script :**
+
+```php
+date_default_timezone_set('Europe/Paris');
+```
+
