@@ -94,3 +94,36 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
 3. Rendu
 
 name_product lundi 09 mai 2022
+
+### Gérer la timezone de DateTime
+
+Le filtre "Date" de Twig accepte un second paramètre : "timezone".
+
+Ainsi, vous pouvez facilement afficher tous les fuseaux horaires que vous souhaitez. Par example:
+
+```twig
+{{ "now"|date("m/d/Y H:i", "Europe/Paris") }}
+{{ "now"|date("m/d/Y H:i", "Asia/Calcutta") }}
+{{ "now"|date("m/d/Y H:i", "Europe/Berlin") }}
+```
+
+OU
+
+Dans la version actuelle, il a été pris en charge dans le fichier de configuration de l'application symfony :
+
+Voir la [doc](https://symfony.com/blog/new-in-symfony-2-7-default-date-and-number-format-configuration)
+```yaml
+twig:
+    date:
+        timezone: Asia/Tokyo
+```
+
+OU
+
+Par défaut, Twig utilisera le fuseau horaire par défaut défini dans le fichier php ini ou dans l'application globalement, ou déclaré dans twig.
+
+si vous transmettez un objet datetime au filtre de date avec timezone , vous pouvez alors transmettre false comme deuxième argument dans le filtre de date.
+
+```twig
+{{ "now"|date('m/d/Y H:i', false) }}
+```
