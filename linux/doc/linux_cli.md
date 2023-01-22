@@ -201,3 +201,39 @@ scp -P 22 ~/Desktop/adminer.php name_id@141.95.278.81:/var/www/projet-preprod.fr
 ```ps
 ls -lah
 ```
+
+### vérifié que le service snapd est en cours d'exécution
+https://forum.snapcraft.io/t/error-cannot-communicate-with-server/298/4
+
+```ps
+systemctl status snapd.service
+
+et 
+
+journalctl -u snapd.service
+```
+
+Si snapd.service est inactif, pour résoudre l'erreur, exécutez les commandes suivantes
+```ps
+systemctl start snapd.service
+```
+
+, puis essayez d'installer le package avec snap, dans mon cas, c'était .
+```ps
+sudo snap install libreoffice
+```
+
+Version de snap
+```ps
+snap version
+```
+
+liste de snap
+```ps
+snap list
+```
+
+snap refresh
+```ps
+sudo snap refresh core
+```
