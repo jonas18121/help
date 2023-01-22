@@ -1,5 +1,14 @@
 # C'est quoi Gitlab
 
+Dans la [documentation de GitLab](https://docs.gitlab.com/), on trouve :
+
+- Agile with GitLab
+- CI/CD
+- Collaboration
+- Security
+- Analytics
+- Administration
+
 ### Gitlab, c'est quoi ?
 
 Qu’est-ce que Gitlab ? Quelles sont ses principales fonctionnalités ? 
