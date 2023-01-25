@@ -65,7 +65,7 @@ gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRAT
 
 # Quelques arguments utiles pour Enregister le runner
 # --non-interactive : le rendre non interactive
-# --url "http://jonas1812/"
+# --url "https://gitlab.com/"
 # --registration-token $REGISTRATION_TOKEN "my_token"
 # --executor "shell" ; on execute en shell
 # --description "runner1"
@@ -96,6 +96,7 @@ sudo gitlab-runner start
 sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
 ```
 
+## Voir fichier hosts + Modifier gitlab.rb + Recharger la configuration
 ```ps
 cat /etc/hosts # voir le hosts 
 sudo nano /etc/hosts # modifier le hosts
