@@ -10,6 +10,9 @@
 
 [Installer un runner et executor docker](https://www.youtube.com/watch?v=Wbaczrx-US0)
 
+### param
+[Paramétrer les runner dans gitlab](https://gitlab.com/jonas1812/learn/-/settings/ci_cd)
+
 ## Créer un runner sous docker
 
 
@@ -33,6 +36,9 @@ gitlab/gitlab-runner:latest                                         # L'image du
 
 2. **On configure le DNS de l'instance gitlab**
 
+Cette partie n'est pas terminer
+
+
 
 
 ## Créer un runner manuellement sous Linux : Debian ou Ubuntu
@@ -55,7 +61,7 @@ sudo -s
 export REGISTRATION_TOKEN="my_token"
 
 # Enregister le runner
-gitlab-runner register --url http://jonas1812/ --registration-token $REGISTRATION_TOKEN
+gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
 
 # Quelques arguments utiles pour Enregister le runner
 # --non-interactive : le rendre non interactive
@@ -63,10 +69,72 @@ gitlab-runner register --url http://jonas1812/ --registration-token $REGISTRATIO
 # --registration-token $REGISTRATION_TOKEN "my_token"
 # --executor "shell" ; on execute en shell
 # --description "runner1"
-# --tag-list "shell, runner" : liste de tag que l'on rattache
+# --tag-list "shell, runner" : liste de tag que l'on rattache, on mette (shell, linux)
 # --run-untagged
 # --locked="false"
 
-# Voir le résultat dans un fichier .toml
-cat /etc/gitlab-runner/config
-toml```
+# Voir la configuration du runner dans un fichier .toml
+cat /etc/gitlab-runner/config.toml
+```
+
+## autre façon de faire sous linux
+
+```ps
+# Download the binary for your system
+sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+
+# Give it permission to execute
+sudo chmod +x /usr/local/bin/gitlab-runner
+
+# Create a GitLab Runner user
+sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+
+# Install and run as a service
+sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+sudo gitlab-runner start
+
+sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
+```
+
+```ps
+cat /etc/hosts # voir le hosts 
+sudo nano /etc/hosts # modifier le hosts
+sudo nano /etc/gitlab/gitlab.rb # Modifier gitlab.rb
+gitlab-ctl reconfigure # Recharger la configuration
+```
+
+
+# Si erreur :
+```ps
+FATAL: Failed to install gitlab-runner: Init already exists: /etc/systemd/system/gitlab-runner.service 
+```
+Vous pouvez simplement supprimer ce fichier :
+```ps
+rm /etc/systemd/system/gitlab-runner.service
+```
+Ou alors:
+```ps
+gitlab-runner uninstall
+```
+Et puis réinstallez gitlab-runner.
+
+ou
+
+Renommez le fichier init avec
+```ps
+sudo mv /etc/systemd/system/gitlab-runner.service  /etc/systemd/system/gitlab-runner.service.bak
+```
+et exécuter à nouveau
+```ps
+sudo gitlab-runner install --user=my-user --working-directory=/home/my-user
+```
+
+nettoyer le fichier de sauvegarde
+```ps
+sudo rm /etc/systemd/system/gitlab-runner.service.bak
+```
+
+Enfin, vous pouvez redémarrer le coureur avec service 
+```ps
+gitlab-runner start.
+```

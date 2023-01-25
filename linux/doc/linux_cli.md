@@ -269,3 +269,11 @@ Cette commande donnera exactement le même résultat que la commande uname
 ```ps
 sudo -s
 ```
+
+### Obtenir adresse IP
+
+[site](https://blog.shevarezo.fr/post/2019/01/08/comment-obtenir-adresse-ip-linux-ligne-de-commande)
+
+```ps
+ip route get 1.2.3.4 | awk '{print $7}'
+```
