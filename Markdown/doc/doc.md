@@ -30,3 +30,27 @@ Si j'ai seulement besoin de surligner le premier mot en tant que commande, j'uti
     ```properties
     npm run build
     ```  
+
+### Des graphiques avec mermaid.js
+
+[mermaid.js](https://mermaid.js.org/intro/)
+
+Exemple :
+
+        ```mermaid
+        graph TD;
+            A-->B;
+            A-->C;
+            B-->D;
+            C-->D;
+        ```
+
+Retourne :
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
