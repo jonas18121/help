@@ -237,3 +237,35 @@ snap refresh
 ```ps
 sudo snap refresh core
 ```
+
+### Comment savoir si son linux est en 32-bits ou 64-bits
+
+**La commande uname**
+
+Utiliser la commande suivante :
+
+```ps
+uname -m
+```
+
+Le résultat de cette commande vous indiquera si votre système est en 32 ou 64 bits. Cela peut vous afficher plusieurs choses :
+
+- Si le résultat est i686 ou i386 alors votre système d’exploitation est en 32-bits.
+
+- Si le résultat est x86_64 alors votre système d’exploitation est en 64-bits.
+
+**La commande arch**
+
+Vous pouvez aussi utilisez la commande arch :
+
+```ps
+arch
+```
+
+Cette commande donnera exactement le même résultat que la commande uname
+
+### Passer en root
+
+```ps
+sudo -s
+```
