@@ -30,8 +30,8 @@ $client->setApplicationName("My First Project");
 // $client->setRedirectUri('https://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
 // $client->setRedirectUri($this->redirectToRoute('frontend_index'));
 // $client->addScope(\Google\Service\Calendar::DRIVE_METADATA_READONLY);
-// $client->addScope(\Google\Service\Calendar::CALENDAR);
-$client->addScope(\Google_Service_Calendar::CALENDAR);
+$client->addScope([\Google_Service_Calendar::CALENDAR, \Google_Service_Calendar::CALENDAR_EVENTS]);
+// $client->addScope(\Google_Service_Calendar::CALENDAR);
 // dd($client);
 
 // offline access will give you both an access and refresh token so that
