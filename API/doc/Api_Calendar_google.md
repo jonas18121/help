@@ -66,7 +66,7 @@ $event = new \Google_Service_Calendar_Event(array(
         'timeZone' => 'Europe/Paris',
     ),
     'recurrence' => array(
-        'RRULE:FREQ=DAILY;COUNT=2'
+        'RRULE:FREQ=DAILY;COUNT=1'
     ),
     'attendees' => array(),
     'reminders' => array(
