@@ -73,9 +73,12 @@ Notez que PHP 7.x est la version stable prise en charge dans les référentiels 
     > sudo apt install php7.1-cli php7.1-xml php7.1-mysql
     > sudo apt install php7.2-cli php7.2-xml php7.2-mysql 
     > sudo apt install php7.3-cli php7.3-xml php7.3-mysql 
-    > sudo apt install php7.3-cli php7.4-xml php7.4-mysql  
-    > sudo apt install php7.3-cli php8.0-xml php8.0-mysql
+    > sudo apt install php7.4-cli php7.4-xml php7.4-mysql  
+    > sudo apt install php8.0-cli php8.0-xml php8.0-mysql
 
+```ps
+sudo apt install php8.1-cli php8.1-xml php8.1-mysql php8.1-sqlite
+```
 ### 6) Enfin, vérifiez votre version PHP par défaut utilisée sur votre système comme ceci.
 
     > php -v

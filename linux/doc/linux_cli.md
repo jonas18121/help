@@ -277,3 +277,25 @@ sudo -s
 ```ps
 ip route get 1.2.3.4 | awk '{print $7}'
 ```
+
+### Désinstaller la symfony-cli (linux)
+
+Voir les droits
+```ps
+ls -al /usr/local/bin/symfony
+```
+si c'est là
+
+supprimer
+
+```ps
+rm -rf /usr/local/bin/symfony
+```
+
+```ps
+sudo ln -s ~/usr/bin/symfony /usr/local/bin/symfony 
+
+sudo mv /usr/bin/symfony /usr/local/bin/symfony # bouger symfony.exe de /usr/bin/symfony à /usr/local/bin/symfony
+
+sudo cp -r -u /usr/local/bin/symfony /usr/bin/symfony # copier symfony.exe de /usr/local/bin/symfony à /usr/bin/symfony
+```ps
