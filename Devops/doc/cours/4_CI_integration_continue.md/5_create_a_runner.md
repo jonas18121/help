@@ -221,3 +221,17 @@ Enfin, vous pouvez redémarrer le coureur avec service
 ```ps
 gitlab-runner start.
 ```
+
+# commande
+
+### Voir la liste des runners sous linux
+```ps
+sudo gitlab-runner list
+```
+
+docker run -d \
+--name Jonas-runner-projet-test-docker \
+--restart always \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v /data/gitlab-runner/config:/etc/gitlab-runner \
+gitlab/gitlab-runner:latest
