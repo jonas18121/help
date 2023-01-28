@@ -681,3 +681,17 @@ Exemple
     > create:category
 
 Puis Symfony va créer un dossier `command` avec la classe `CreateCategoryCommand` qui est le nom de la commmande `create:category`
+
+### Désinstaller la symfony-cli (linux)
+
+Voir les droits
+```ps
+ls -al /usr/local/bin/symfony
+```
+si c'est là
+
+supprimer
+
+```ps
+rm -rf /usr/local/bin/symfony
+```
