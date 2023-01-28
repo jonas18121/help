@@ -21,9 +21,11 @@
 # Créer un répertoire
 sudo mkdir -p /data/ 
 
+# Puis 
+
 docker run -d \                                                     # Run docker
 
---name Jonas-runner \                                               # Donner un nom au container runner 
+--name Jonas-runner-docker \                                        # Donner un nom au container runner 
 
 --restart always \                                                  # On lui dit de toujours redémarrer
 
@@ -32,11 +34,91 @@ docker run -d \                                                     # Run docker
 -v /data/gitlab-runner/config:/etc/gitlab-runner \                   # Monter le volume pour stocker sa configuration, si on veut redémarrer ect...
 
 gitlab/gitlab-runner:latest                                         # L'image du runner dans sa dernière version
+
+############################################################################################################################################
+
+## Sans les commetaires #### 
+
+sudo mkdir -p /data/ 
+
+# Puis 
+
+docker run -d \
+--name Jonas-runner-docker \
+--restart always \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v /data/gitlab-runner/config:/etc/gitlab-runner \
+gitlab/gitlab-runner:latest
 ```
 
-2. **On configure le DNS de l'instance gitlab**
+Executer le runner sous docker
+```ps
+docker exec -it Jonas-runner-docker gitlab-runner register
+```
 
-Cette partie n'est pas terminer
+Après la commande ci-dessus on va de renter quelques valeurs
+
+```ps
+Enter the GitLab instance URL (for example, https://gitlab.com/):
+https://gitlab.com/ # valeur
+
+Enter the registration token:
+GR1kskjhdhgdj348941ETaK2jdhdSJqzE86hdhdjswxRYd86q # valeur pris dans le Setting > CI/CD > runners
+
+Enter a description for the runner:
+[fb194c3b4225]: Jonas-runner-docker # valeur
+
+Enter tags for the runner (comma-separated):
+docker, debian # valeur
+
+Enter optional maintenance note for the runner:
+ok # valeur
+
+Enter an executor: parallels, ssh, virtualbox, docker-ssh+machine, kubernetes, custom, docker-ssh, docker+machine, instance, docker, shell: # Spécifier un executeur
+docker # valeur
+
+Enter the default Docker image (for example, ruby:2.7): # L'image docker qui va être utiliser
+debian:latest # valeur
+
+
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+```
+
+Le lancer une pipepline, normalement tout est bon
+
+2. **On configure le DNS de l'instance gitlab** (cette partie est facultative)
+
+```ps
+cat /etc/hosts # voir le hosts 
+sudo nano /etc/hosts # modifier le hosts
+sudo nano /etc/gitlab/gitlab.rb # Modifier gitlab.rb
+gitlab-ctl reconfigure # Recharger la configuration
+```
+
+3. Voir l'image docker dans le PC
+```ps
+docker ps
+
+# retour
+685cfbf3a89e   5c8936e57a38                  "sh -c 'if [ -x /usr…"   38 seconds ago   Up 37 seconds             runner-twaqwpc-project-42796794-concurrent-0-5b3ff8b314589eeb-build-2 # temporaire le temps de l'execution de la pipepline
+fb194c3b4225   gitlab/gitlab-runner:latest   "/usr/bin/dumb-init …"   37 minutes ago   Up 37 minutes             Jonas-runner-docker
+```
+
+4. Voir les logs
+```ps
+docker logs runner-twaqwpc-project-42796794-concurrent-0-5b3ff8b314589eeb-build-2
+
+docker logs -f runner-twaqwpc-project-42796794-concurrent-0-5b3ff8b314589eeb-build-2
+
+# Exemple 
+jonas@jonas18121 ~ $ docker logs -f runner-twaqwpc-project-42796794-concurrent-0-6e7fa9edabccac57-build-2
+$ echo "Linting code... This will take about 10 seconds."
+Linting code... This will take about 10 seconds.
+$ sleep 200
+$ echo "No lint issues found."
+No lint issues found.
+```
+
 
 
 
