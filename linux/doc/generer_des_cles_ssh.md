@@ -102,7 +102,7 @@ Maintenant, chaque utilisateur ayant suivi ces indications doit envoyer la clé 
 cat ~/.ssh/id_rsa.pub
 ```
 **Retourne :**
-```ps
+```bash
     ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
     GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
     Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
@@ -118,7 +118,7 @@ cat ~/.ssh/id_rsa
 ```
 
 **Retourne :**
-```ps
+```bash
     -----BEGIN OPENSSH PRIVATE KEY-----
     PkhCDOcSC5o6NTG1vXrlriYBCvaM2pSPYG6VXu3E80IO7qER5a9G8TgX+AcCNP1ghf83Ra
     PkhCDOcSC5o6NTG1vXrlriYBCvaM2pSPYG6VXu3E80IO7qER5a9G8TgX+AcCNP1ghf83Ra
@@ -179,6 +179,8 @@ sudo nano ~/.ssh/config
 - **IdentityFile** : Mettre le chemin du fichier publique qu'on va tiliser pour un user précis
 
 ```ps
+# config
+
 # User1 Account Identity
 Host user1@gmail.com
   Hostname gitlab.com
