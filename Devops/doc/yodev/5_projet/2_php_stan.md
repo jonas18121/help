@@ -51,8 +51,8 @@ parameters:
 
 
     excludePaths:
-	- tests/tmp/*
-	- tests/*/data/*
+        - tests/tmp/*
+        - tests/*/data/*
 
     paths:
         - src
