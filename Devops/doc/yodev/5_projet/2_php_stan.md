@@ -50,9 +50,9 @@ parameters:
         - '#Call to an undefined#'
 
 
-	excludePaths:
-		- tests/tmp/*
-		- tests/*/data/*
+    excludePaths:
+	- tests/tmp/*
+	- tests/*/data/*
 
     paths:
         - src
