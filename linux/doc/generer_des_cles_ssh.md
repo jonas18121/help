@@ -14,13 +14,22 @@ Le processus est similaire sur tous les systèmes d’exploitation.
 
 Premièrement, l’utilisateur doit vérifier qu’il n’en a pas déjà une. Par défaut, les clés SSH d’un utilisateur sont stockées dans le répertoire **~/.ssh** du compte. 
 
-Vous pouvez facilement vérifier si vous avez déjà une clé en listant le contenu de ce répertoire :
+**Vous pouvez facilement vérifier si vous avez déjà une clé en listant le contenu de ce répertoire :**
 
-    > cd ~/.ssh
-    > ls
+```ps
+cd ~/.ssh
+```
 
+**Voir les fichiers/dossiers présent dans .ssh**
+```ps
+ls
+```
+
+**Retourne :**
+```ps
     authorized_keys2  id_dsa       known_hosts
     config            id_dsa.pub
+```
 
 Recherchez une paire de fichiers appelés quelquechose et quelquechose`.pub` où le quelquechose en question est généralement **id_dsa** ou **id_rsa**. 
 
@@ -88,21 +97,28 @@ The key's randomart image is:
 
 Maintenant, chaque utilisateur ayant suivi ces indications doit envoyer la clé publique à la personne en charge de l’administration du serveur Git (en supposant que vous utilisez un serveur SSH réglé pour l’utilisation de clés publiques). Ils doivent copier le contenu du fichier **.pub** et l’envoyer par courriel. 
 
-Les clés publiques ressemblent à ceci :
-
-    > cat ~/.ssh/id_rsa.pub
-
+**Les clés publiques ressemblent à ceci :**
+```ps
+cat ~/.ssh/id_rsa.pub
+```
+**Retourne :**
+```ps
     ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
     GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
     Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
     t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
     mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
     NrRFi9wrf+M7Q== schacon@mylaptop.local
+```
 
-Les clés secrètes ressemblent à ceci :
+**Les clés secrètes ressemblent à ceci :**
 
-    > cat ~/.ssh/id_rsa
+```ps
+cat ~/.ssh/id_rsa
+```
 
+**Retourne :**
+```ps
     -----BEGIN OPENSSH PRIVATE KEY-----
     PkhCDOcSC5o6NTG1vXrlriYBCvaM2pSPYG6VXu3E80IO7qER5a9G8TgX+AcCNP1ghf83Ra
     PkhCDOcSC5o6NTG1vXrlriYBCvaM2pSPYG6VXu3E80IO7qER5a9G8TgX+AcCNP1ghf83Ra
@@ -131,11 +147,11 @@ Les clés secrètes ressemblent à ceci :
     pzlljsCV0O2xFGhu1HsDhTCYLcTg4+SU3V96hKfCyEAL5Op9IgvrOXj4fa1gvM4Mo3kz+h
     hTu/os1/AVJ5Wa9JwVnq9Ncygw0nMyFXGGZAROjIoGy7TKMZ0/
     -----END OPENSSH PRIVATE KEY-----
-
+```
 
 ### Ecrire dans un fichier de key depuis un terminal
 
-```bash
+```ps
 nano ~/.ssh/id_rsa.pub
 ```
 
