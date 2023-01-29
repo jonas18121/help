@@ -1,6 +1,8 @@
 # Génération des clés publiques SSH sous linux
 
-Site [GIT](https://git-scm.com/book/fr/v2/Git-sur-le-serveur-G%C3%A9n%C3%A9ration-des-cl%C3%A9s-publiques-SSH)
+- Site [GIT](https://git-scm.com/book/fr/v2/Git-sur-le-serveur-G%C3%A9n%C3%A9ration-des-cl%C3%A9s-publiques-SSH)
+- [Utiliser des clés SSH pour communiquer avec GitLab](https://docs.gitlab.com/ee/user/ssh.html)
+- [Utiliser différents comptes sur une seule instance GitLab](https://docs.gitlab.com/ee/user/ssh.html#use-different-accounts-on-a-single-gitlab-instance)
 
 ## Génération des clés publiques SSH
 
@@ -136,3 +138,43 @@ Les clés secrètes ressemblent à ceci :
 ```bash
 nano ~/.ssh/id_rsa.pub
 ```
+
+### Utiliser différents comptes sur une seule instance GitLab
+
+- [Utiliser différents comptes sur une seule instance GitLab](https://docs.gitlab.com/ee/user/ssh.html#use-different-accounts-on-a-single-gitlab-instance)
+
+1. Creer un fichier nommé config dans le dosier ~/.ssh
+
+```ps
+touch ~/.ssh/config
+```
+
+2. Accéder au fichier config en écriture 
+
+```ps
+sudo nano ~/.ssh/config
+```
+
+3. Ecrire les user dans le fichier config
+
+- **Host** : Le nom qu'on va donner au host
+- **Hostname** : Toujours mettre gitlab.com
+- **PreferredAuthentications** : On indique que l'on veut s'authentifier via la clé publique
+- **IdentityFile** : Mettre le chemin du fichier publique qu'on va tiliser pour un user précis
+
+```ps
+# User1 Account Identity
+Host user1@gmail.com
+  Hostname gitlab.com
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa_1.pub
+
+# User2 Account Identity
+Host user2@gmail.com
+  Hostname gitlab.com
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa_2.pub
+```
+
+
+
