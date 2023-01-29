@@ -61,6 +61,8 @@ Using cache file "/home/user/Bureau/developpementWeb/code/formation-ci-cd/symfon
 
 - fix : réparer
 - src : dossier dans lequel php-cs-fixer va être executer
+
+On n'a pas besoin de préciser que l'on veut lancer l'analyse dans le dossier **src** puisqu'il est déjà precisé dans le fichier **.php-cs-fixer.dist.php**
 ```ps
 ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src
 ```
