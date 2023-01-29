@@ -12,7 +12,9 @@ Pour fournir une clé publique, chaque utilisateur de votre système doit la gé
 
 Le processus est similaire sur tous les systèmes d’exploitation. 
 
-Premièrement, l’utilisateur doit vérifier qu’il n’en a pas déjà une. Par défaut, les clés SSH d’un utilisateur sont stockées dans le répertoire **~/.ssh** du compte. 
+Premièrement, l’utilisateur doit vérifier qu’il n’en a pas déjà une. 
+
+Par défaut, les clés SSH d’un utilisateur sont stockées dans le répertoire **~/.ssh** du compte. 
 
 **Vous pouvez facilement vérifier si vous avez déjà une clé en listant le contenu de ce répertoire :**
 
