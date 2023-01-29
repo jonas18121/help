@@ -26,8 +26,13 @@ Le fichier en **.pub** est la clé publique tandis que l’autre est la clé pri
 
 Si vous ne voyez pas ces fichiers (ou n’avez même pas de répertoire .ssh), vous pouvez les créer en lançant un programme appelé **ssh-keygen** fourni par le paquet SSH sur les systèmes Linux/macOS et MSysGit pour Windows :
 
-    > ssh-keygen -o
+**Faire la commande ci-dessous**
+```ps
+ssh-keygen -o
+```
 
+**Retourne :**
+```ps
     Generating public/private rsa key pair.
     Enter file in which to save the key (/home/schacon/.ssh/id_rsa):
     Created directory '/home/schacon/.ssh'.
@@ -37,10 +42,47 @@ Si vous ne voyez pas ces fichiers (ou n’avez même pas de répertoire .ssh), v
     Your public key has been saved in /home/schacon/.ssh/id_rsa.pub.
     The key fingerprint is:
     d0:82:24:8e:d7:f1:bb:9b:33:53:96:93:49:da:9b:e3 schacon@mylaptop.local
+```
+
 
 Premièrement, le programme demande confirmation de l’endroit où vous souhaitez sauvegarder la clé (.ssh/id_rsa) puis il demande deux fois d’entrer un mot de passe qui peut être laissé vide si vous ne souhaitez pas devoir le taper quand vous utilisez la clé. 
 
 Cependant, si vous utilisez un mot de passe, assurez-vous d’ajouter l’option **-o** ; cela sauvegarde la clé privé dans un format qui est plus résistant au craquage par force brute des mots de passe que le format par défaut.
+
+**Ou, on peut aussi utiliser cette commande :**
+```ps
+ssh-keygen -t ed25519 -C "user18121-key"
+```
+
+**Paramètre à ajouter, ne pas mettre de passphrase**
+```ps
+user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user18121-key"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/home/user/.ssh/id_ed25519): /home/user/.ssh/user18121_key
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again:
+```
+
+**Retourne :**
+```ps
+Your identification has been saved in /home/user/.ssh/user18121_key.
+Your public key has been saved in /home/user/.ssh/user18121_key.pub.
+The key fingerprint is:
+SHA256:oMDfIAfqefeqfqU5xWK/cZ+n5edfgvzgeagvh6ogcvYivdqvqv/q9Eu42SZE9gOf3s user18121-key
+The key's randomart image is:
++--[ED25519 256]--+
+|  .=o            |
+| .=..            |
+| .++. .          |
+| o +o+..         |
+|o o o+..S.       |
+| + =..  o o      |
+|  X + .  =.      |
+| ooB =Eo....     |
+| .+=X+o.oo+.     |
++----[SHA256]-----+
+```
+
 
 Maintenant, chaque utilisateur ayant suivi ces indications doit envoyer la clé publique à la personne en charge de l’administration du serveur Git (en supposant que vous utilisez un serveur SSH réglé pour l’utilisation de clés publiques). Ils doivent copier le contenu du fichier **.pub** et l’envoyer par courriel. 
 
