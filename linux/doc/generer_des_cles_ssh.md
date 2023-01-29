@@ -27,8 +27,8 @@ ls
 
 **Retourne :**
 ```ps
-    authorized_keys2  id_dsa       known_hosts
-    config            id_dsa.pub
+authorized_keys2  id_dsa       known_hosts
+config            id_dsa.pub
 ```
 
 Recherchez une paire de fichiers appelés quelquechose et quelquechose`.pub` où le quelquechose en question est généralement **id_dsa** ou **id_rsa**. 
