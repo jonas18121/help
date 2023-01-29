@@ -102,6 +102,12 @@ sudo apt install php8.1-cli php8.1-xml php8.1-mysql php8.1-sqlite
     ------------ Set Default PHP Version 8.0 ------------
     > sudo update-alternatives --set php /usr/bin/php8.0
 
+#### Accéder à PHP.ini d'une version précise
+```ps
+cat /etc/php/7.4/cli/php.ini
+
+sudo nano /etc/php/7.4/cli/php.ini
+```
 ### 8) Pour définir la version PHP qui fonctionnera avec le Apache serveur Web, utilisez les commandes ci-dessous. Tout d’abord, désactivez la version actuelle avec le a2dismod puis activez celle que vous souhaitez avec la a2enmod commander.
 
     ----------- Disable PHP Version ----------- 

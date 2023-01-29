@@ -99,6 +99,15 @@ pour avoir la dernière version en mode microservice, API
 
     - symfony server:start -d
 
+## Faire tourner notre application avec la commande symfony en arrière plan
+```ps
+symfony serve -d
+```
+
+### Ouvrir l'application dans notre navigateur local
+```ps
+symfony open:local
+```
 ## Voir les log de l'application qui tourne en arrière plan
 
     - symfony server:log
