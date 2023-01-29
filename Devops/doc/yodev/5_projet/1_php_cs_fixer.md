@@ -26,8 +26,9 @@ La méthode recommandée pour installer PHP CS Fixer est d'utiliser Composer dan
 
 ### Créer un dossier pour php-cs-fixer
 Avec la commande ci-dessous le dossier `tools/` qui contiendra le dossier `php-cs-fixer/` sera installer dans le project au même niveau que les dossiers `src/`, `templates/` et `tests/`
+
+- --parents : C'est un paramètre pour indiquer à la commande mkdir qu'elle doit créer les dossiers intermédiaires qui n'existent pas.
 ```ps
-# --parents : C'est un paramètre pour indiquer à la commande mkdir qu'elle doit créer les dossiers intermédiaires qui n'existent pas.
 mkdir --parents tools/php-cs-fixer
 ```
 
