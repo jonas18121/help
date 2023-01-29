@@ -1,6 +1,6 @@
 # PHP CS FIXER
 
-- [site Symfony pour PHP CS FIXER](https://symfony.com/projects/php-cs-fixer)
+- [Site Symfony pour PHP CS FIXER](https://symfony.com/projects/php-cs-fixer)
 - [PHP CS FIXER](https://cs.symfony.com/)
 - [PHP CS FIXER Instalation](https://cs.symfony.com/doc/installation.html)
 - [PHP CS FIXER Utilisation](https://cs.symfony.com/doc/usage.html)
@@ -42,24 +42,25 @@ composer require --working-dir=tools/php-cs-fixer friendsofphp/php-cs-fixer
 
 ### Exécuter sans qu'il fasse de correction lui même (sans apporter de modifications à vos fichiers) . Idéal dans une pipepline
 
+- fix : réparer
+- --dry-run : ne pas faire de correction (sans apporter de modifications à vos fichiers)
+
 ```ps
-# fix : réparer
-# --dry-run : ne pas faire de correction (sans apporter de modifications à vos fichiers)
 ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --dry-run
 ```
 
 Retour lorsqu'il trouve une erreur comme il n'a pas fait de correction
 ```ps
-Loaded config default from "/home/jonas/Bureau/developpementWeb/code/formation-ci-cd/symfony-local/.php-cs-fixer.dist.php".
-Using cache file "/home/jonas/Bureau/developpementWeb/code/formation-ci-cd/symfony-local/var/.php-cs-fixer.cache".
+Loaded config default from "/home/user/Bureau/developpementWeb/code/formation-ci-cd/symfony-local/.php-cs-fixer.dist.php".
+Using cache file "/home/user/Bureau/developpementWeb/code/formation-ci-cd/symfony-local/var/.php-cs-fixer.cache".
    1) /home/user/Bureau/developpementWeb/code/formation-ci-cd/symfony-local/src/Controller/BlogController.php
 ```
 
 ### Exécuter et qu'il fasse de correction lui même (en apportant des modifications à vos fichiers). Idéal avant de commit
 
+- fix : réparer
+- src : dossier dans lequel php-cs-fixer va être executer
 ```ps
-# fix : réparer
-# src : dossier dans lequel php-cs-fixer va être executer
 ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src
 ```
 
