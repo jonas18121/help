@@ -249,3 +249,174 @@ OU
 date_default_timezone_set('Europe/Paris');
 ```
 
+### Obtenir le répertoire racine dans Symfony 5
+
+- [Accéder aux paramètres de configuration](https://symfony.com/doc/current/configuration.html#accessing-configuration-parameters)
+- [Liste des variables d'environnement](https://symfony.com/doc/current/configuration.html#listing-environment-variables)
+
+#### Dans les contrôleurs s'étendant de AbstractController 
+```php
+$projectRoot = $this->getParameter('kernel.project_dir');
+```
+
+OU
+
+```php
+$projectRoot = $this->get('kernel')->getProjectDir();
+```
+
+OU
+
+#### N'est pas recommander
+```php
+class Foo 
+{
+    /** KernelInterface $appKernel */
+    private $appKernel;
+
+    public function __construct(KernelInterface $appKernel)
+    {
+        $this->appKernel = $appKernel;
+    }
+
+    public function getProjectRoot()
+    {
+        return $this->appKernel->getProjectDir();
+    }
+}
+```
+
+OU
+
+#### Le moyen le plus simple de le faire sans injecter de dépendances inutiles est de créer une méthode utilitaire comme celle-ci (dans mon cas, c'est dans src\Utils\Utils.php):
+
+```php
+namespace App\Utils;
+
+public static function getRootDir(): string
+{
+    return __DIR__ . '/../..';
+}
+```
+
+#### Ensuite, appelez-le simplement n'importe où avec
+```php
+Utils::getRootDir();
+```
+**Cela fonctionne à la fois sur Windows et Linux, mais si vous préférez, vous pouvez utiliser la constante DIRECTORY_SEPARATOR au lieu de'/'**
+
+OU
+
+#### L'approche recommandée en global
+```yaml
+# config/services.yaml
+
+services:
+    _defaults:
+        bind:
+            # pass this value to any $projectDir argument for any service
+            # that's created in this file (including controller arguments)
+            $projectDir: '%kernel.project_dir%'
+```
+
+**Vous pouvez donc injecter chaque service et contrôleur en tant que $projectDir .**
+
+```php
+# YourController
+public class YourController {
+   public function index(string $projectDir){
+        // Your code
+   }
+}
+
+# YourService
+public class YourService {
+   public function __construct(string $projectDir){
+        // Your code
+   }
+}
+```
+
+OU 
+
+#### L'approche dans un service
+```yaml
+# config/services.yaml
+parameters:
+    app.contents_dir: '...'
+
+services:
+    App\Service\Foo:
+        arguments:
+            - $projectDir: '%kernel.project_dir%' 
+            - $contentsDir: '%app.contents_dir%'
+```
+
+```php
+// src/Service/Foo.php
+
+namespace src\Service;
+
+class Foo {
+
+  private $projectDir;
+  private $contentsDir;
+
+  public function __construct($projectDir, $contentsDir) 
+  {
+     $this->projectDir = $projectDir;
+     $this->contentsDir = $contentsDirr;
+  }
+}
+```
+
+### Pour ne pas supprimer un fichier/dossier dans un serveur
+
+- [Utiliser rsync](https://doc.ubuntu-fr.org/rsync), s'il est déjà installer
+- Ou [Installer rsync](https://serverspace.io/support/help/use-rsync-to-create-a-backup-on-ubuntu/)
+
+Faire la commande ci-dessous, pour savoir si rsync est déjà installer
+
+```ps
+sudo rsync --version
+```
+
+
+**Dans project/app/.settings/rsync** , on crée plusieurs fichiers pour chaque environnements :
+
+- rsync.develop.txt
+- rsync.preproduction.txt
+- rsync.production.txt
+- rsync.staging.txt
+
+Puis mettre le nom des dossiers/fichiers dans chaque fichiers de chaque environnements :
+
+Exemple : si on ne veut pas supprimer le contenu dans les dossiers **app/public/backups**, **app/public/media/**, **app/translations/edite/** mettre les lignes ci-dessous pour chaque fichiers de chaque environnements :
+
+rsync.develop.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
+
+rsync.preproduction.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
+
+rsync.production.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
+
+rsync.staging.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
