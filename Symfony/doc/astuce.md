@@ -369,3 +369,54 @@ class Foo {
   }
 }
 ```
+
+### Pour ne pas supprimer un fichier/dossier dans un serveur
+
+- [Utiliser rsync](https://doc.ubuntu-fr.org/rsync), s'il est déjà installer
+- Ou [Installer rsync](https://serverspace.io/support/help/use-rsync-to-create-a-backup-on-ubuntu/)
+
+Faire la commande ci-dessous, pour savoir si rsync est déjà installer
+
+```ps
+sudo rsync --version
+```
+
+
+**Dans project/app/.settings/rsync** , on crée plusieurs fichiers pour chaque environnements :
+
+- rsync.develop.txt
+- rsync.preproduction.txt
+- rsync.production.txt
+- rsync.staging.txt
+
+Puis mettre le nom des dossiers/fichiers dans chaque fichiers de chaque environnements :
+
+Exemple : si on ne veut pas supprimer le contenu dans les dossiers **app/public/backups**, **app/public/media/**, **app/translations/edite/** mettre les lignes ci-dessous pour chaque fichiers de chaque environnements :
+
+rsync.develop.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
+
+rsync.preproduction.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
+
+rsync.production.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
+
+rsync.staging.txt
+```txt
+- app/public/backups/*
+- app/public/media/*
+- app/translations/edite/*
+```
