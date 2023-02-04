@@ -222,6 +222,47 @@ Enfin, vous pouvez redémarrer le coureur avec service
 gitlab-runner start.
 ```
 
+## Créer un shared runner (runner partager) manuellement sous Linux : Debian ou Ubuntu (il faut mettre la CB pour gitlab)
+
+Vous pouvez créer un coureur de groupe pour votre instance GitLab autogérée ou pour GitLab.com. 
+
+Vous devez avoir le rôle Propriétaire pour le groupe.
+
+Pour créer un coureur de groupe :
+
+
+1. [Installez GitLab Runner](https://docs.gitlab.com/runner/install/) .
+2. Dans la barre supérieure, sélectionnez **Menu principal > Groupes et recherchez votre groupe**.
+3. Dans la barre latérale gauche, sélectionnez **CI/CD > Runners** .
+4. Dans le coin supérieur droit, sélectionnez **Enregistrer un coureur de groupe** .
+5. Sélectionnez Afficher **les instructions d'installation et d'enregistrement de l'exécuteur** . Ces instructions incluent le jeton, l'URL et une commande pour enregistrer un coureur.
+
+Alternativement, vous pouvez copier le jeton d'inscription et suivre la documentation pour savoir comment [inscrire un coureur](https://docs.gitlab.com/runner/register/) .
+
+```ps
+# Download the binary for your system
+sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+
+# Give it permission to execute
+sudo chmod +x /usr/local/bin/gitlab-runner
+
+# Create a GitLab Runner user
+sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+
+# Install and run as a service
+sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+sudo gitlab-runner start
+```
+### Commande pour enregistrer le runner de manière partager
+
+Si les commandes ci-dessus on déjà été exécuter pour créer des runner spécifique par exemple, il suffice juste d'exécuter la commande ci-dessous,
+
+pour enregistrer le runner de manière partager en ajoutant le token du groupe au lieu de mettre le token d'un seul projet spécifique.
+
+```ps
+sudo gitlab-runner register --url https://gitlab.com/ --registration-token your_token_group_GR1zdzd
+```
+
 # commande
 
 ### Voir la liste des runners sous linux

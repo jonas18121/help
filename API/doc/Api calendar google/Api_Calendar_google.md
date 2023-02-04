@@ -135,7 +135,7 @@ Suivre les étapes suivantes :
 $authUrl = null;
 
 // redirect_uri
-$redirect_uri = 'https://site.example.com';
+$redirect_uri = 'https://site.example.com/inscription';
 
 /** @var \Google_Client */
 $client = new \Google_Client();
@@ -261,7 +261,7 @@ class ApiCalendarManager
         $client->setClientId("Api_key");
         // $client->setClientSecret("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");
         // $client->setDeveloperKey("AIzaSyC1qBv1gG1ZQNsIpYWv1WT-P9LXIId9pUM");
-        // $client->setRedirectUri('https://app.aecale.fr');
+        // $client->setRedirectUri('https://site.example.com/inscription');
         // $client->createAuthUrl();
         $client->setAuthConfig($this->checkServiceAccountCredentialsFile());
         $client->setApplicationName('My First Project');
@@ -281,7 +281,7 @@ class ApiCalendarManager
         $authUrl = null;
 
         // redirect_uri
-        $redirect_uri = 'https://project.fr/inscription';
+        $redirect_uri = 'https://site.example.com/inscription';
 
         /** @var \Google_Client */
         $client = new \Google_Client();
