@@ -196,5 +196,10 @@ Host user2@gmail.com
   IdentityFile ~/.ssh/id_rsa_2.pub
 ```
 
+4. Dire a git de choisir le bon fichier de clé
+```ps
+git config core.sshCommand "ssh -o IdentitiesOnly=yes -i ~/.ssh/<NOM_DE_CLE_PRIVEE> -F /dev/null"
+```
+
 
 
