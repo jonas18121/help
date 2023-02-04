@@ -222,6 +222,108 @@ Enfin, vous pouvez redémarrer le coureur avec service
 gitlab-runner start.
 ```
 
+## Créer un shared runner (runner partager) manuellement sous Linux : Debian ou Ubuntu (il faut mettre la CB pour gitlab)
+
+Vous pouvez créer un coureur de groupe pour votre instance GitLab autogérée ou pour GitLab.com. 
+
+Vous devez avoir le rôle Propriétaire pour le groupe.
+
+Pour créer un coureur de groupe :
+
+
+1. [Installez GitLab Runner](https://docs.gitlab.com/runner/install/) .
+2. Dans la barre supérieure, sélectionnez **Menu principal > Groupes et recherchez votre groupe**.
+3. Dans la barre latérale gauche, sélectionnez **CI/CD > Runners** .
+4. Dans le coin supérieur droit, sélectionnez **Enregistrer un coureur de groupe** .
+5. Sélectionnez Afficher **les instructions d'installation et d'enregistrement de l'exécuteur** . Ces instructions incluent le jeton, l'URL et une commande pour enregistrer un coureur.
+
+Alternativement, vous pouvez copier le jeton d'inscription et suivre la documentation pour savoir comment [inscrire un coureur](https://docs.gitlab.com/runner/register/) .
+
+```ps
+# Download the binary for your system
+sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+
+# Give it permission to execute
+sudo chmod +x /usr/local/bin/gitlab-runner
+
+# Create a GitLab Runner user
+sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+
+# Install and run as a service
+sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+sudo gitlab-runner start
+```
+### Commande pour enregistrer le runner de manière partager
+
+Si les commandes ci-dessus on déjà été exécuter pour créer des runner spécifique par exemple, il suffice juste d'exécuter la commande ci-dessous,
+
+pour enregistrer le runner de manière partager en ajoutant le token du groupe au lieu de mettre le token d'un seul projet spécifique.
+
+```ps
+sudo gitlab-runner register --url https://gitlab.com/ --registration-token your_token_group_GR1zdzd
+```
+
+## Supprimer/Désinscrire un runner GitLab dans GitLab et dans le PC
+
+1. Depuis Gitlab, supprimer le runner souhaité du projet ou du group au quel il est lier
+2. Répertorier les coureurs pour obtenir leurs jetons et leurs URL :
+```ps
+sudo gitlab-runner list
+```
+Retour
+```ps
+jonas@jonas18121 ~ $ sudo gitlab-runner list
+[sudo] Mot de passe de jonas : 
+Runtime platform                                    arch=amd64 os=linux pid=75451 revision=12262148144 version=15.8.0
+Listing configured runners                          ConfigFile=/etc/gitlab-runner/config.toml
+jonas-runner                                        Executor=shell Token=mlfndkdnksnsssddxs_Zr-c2 URL=https://gitlab.com/
+Jonas Shared Runner                                 Executor=shell Token=pdidndkddbdjbdjnddbbXtLN URL=https://gitlab.com/
+```
+3. Vérifiez avec l'option de suppression en spécifiant le jeton et l'URL du coureur :
+```ps
+sudo gitlab-runner verify --delete -t mlfndkdnksnsssddxs_Zr-c2 -u https://gitlab.com/
+```
+Retour
+```ps
+Runtime platform                                    arch=amd64 os=linux pid=75451 revision=12262148144 version=15.8.0
+Running in system-mode.                            
+                                                   
+ERROR: Verifying runner... is removed               runner=kiFTHHSt
+Updated /etc/gitlab-runner/config.toml 
+```
+
+4. Vérifiez dans le fichier /etc/gitlab-runner/config.toml si le runner a bien été supprimer.
+```ps
+sudo cat /etc/gitlab-runner/config.toml
+```
+
+Retour
+```ps
+concurrent = 1
+check_interval = 0
+shutdown_timeout = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "Jonas Shared Runner"
+  url = "https://gitlab.com/"
+  id = 7585455511
+  token = "pdidndkddbdjbdjnddbbXtLN"
+  token_obtained_at = 2023-02-04T10:41:06Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "shell"
+  [runners.custom_build_dir]
+  [runners.cache]
+    MaxUploadedArchiveSize = 0
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+```
+
+5. Le runner nommé **jonas-runner** à bien été supprimer
+
 # commande
 
 ### Voir la liste des runners sous linux
@@ -229,9 +331,3 @@ gitlab-runner start.
 sudo gitlab-runner list
 ```
 
-docker run -d \
---name Jonas-runner-projet-test-docker \
---restart always \
--v /var/run/docker.sock:/var/run/docker.sock \
--v /data/gitlab-runner/config:/etc/gitlab-runner \
-gitlab/gitlab-runner:latest
