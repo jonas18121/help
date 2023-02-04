@@ -263,6 +263,67 @@ pour enregistrer le runner de manière partager en ajoutant le token du groupe a
 sudo gitlab-runner register --url https://gitlab.com/ --registration-token your_token_group_GR1zdzd
 ```
 
+## Supprimer/Désinscrire un runner GitLab dans GitLab et dans le PC
+
+1. Depuis Gitlab, supprimer le runner souhaité du projet ou du group au quel il est lier
+2. Répertorier les coureurs pour obtenir leurs jetons et leurs URL :
+```ps
+sudo gitlab-runner list
+```
+Retour
+```ps
+jonas@jonas18121 ~ $ sudo gitlab-runner list
+[sudo] Mot de passe de jonas : 
+Runtime platform                                    arch=amd64 os=linux pid=75451 revision=12262148144 version=15.8.0
+Listing configured runners                          ConfigFile=/etc/gitlab-runner/config.toml
+jonas-runner                                        Executor=shell Token=mlfndkdnksnsssddxs_Zr-c2 URL=https://gitlab.com/
+Jonas Shared Runner                                 Executor=shell Token=pdidndkddbdjbdjnddbbXtLN URL=https://gitlab.com/
+```
+3. Vérifiez avec l'option de suppression en spécifiant le jeton et l'URL du coureur :
+```ps
+sudo gitlab-runner verify --delete -t mlfndkdnksnsssddxs_Zr-c2 -u https://gitlab.com/
+```
+Retour
+```ps
+Runtime platform                                    arch=amd64 os=linux pid=75451 revision=12262148144 version=15.8.0
+Running in system-mode.                            
+                                                   
+ERROR: Verifying runner... is removed               runner=kiFTHHSt
+Updated /etc/gitlab-runner/config.toml 
+```
+
+4. Vérifiez dans le fichier /etc/gitlab-runner/config.toml si le runner a bien été supprimer.
+```ps
+sudo cat /etc/gitlab-runner/config.toml
+```
+
+Retour
+```ps
+concurrent = 1
+check_interval = 0
+shutdown_timeout = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "Jonas Shared Runner"
+  url = "https://gitlab.com/"
+  id = 7585455511
+  token = "pdidndkddbdjbdjnddbbXtLN"
+  token_obtained_at = 2023-02-04T10:41:06Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "shell"
+  [runners.custom_build_dir]
+  [runners.cache]
+    MaxUploadedArchiveSize = 0
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+```
+
+5. Le runner nommé **jonas-runner** à bien été supprimer
+
 # commande
 
 ### Voir la liste des runners sous linux
@@ -270,9 +331,3 @@ sudo gitlab-runner register --url https://gitlab.com/ --registration-token your_
 sudo gitlab-runner list
 ```
 
-docker run -d \
---name Jonas-runner-projet-test-docker \
---restart always \
--v /var/run/docker.sock:/var/run/docker.sock \
--v /data/gitlab-runner/config:/etc/gitlab-runner \
-gitlab/gitlab-runner:latest
