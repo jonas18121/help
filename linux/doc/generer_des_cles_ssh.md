@@ -67,6 +67,12 @@ Cependant, si vous utilisez un mot de passe, assurez-vous d’ajouter l’option
 ssh-keygen -t ed25519 -C "user18121-key"
 ```
 
+OU 
+
+```ps
+ssh-keygen -t ecdsa -b 521 -f .ssh
+```
+
 **Paramètre à ajouter, ne pas mettre de passphrase**
 ```ps
 user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user18121-key"
@@ -194,6 +200,11 @@ Host user2@gmail.com
   Hostname gitlab.com
   PreferredAuthentications publickey
   IdentityFile ~/.ssh/id_rsa_2.pub
+```
+
+4. Dire a git de choisir le bon fichier de clé
+```ps
+git config core.sshCommand "ssh -o IdentitiesOnly=yes -i ~/.ssh/<NOM_DE_CLE_PRIVEE> -F /dev/null"
 ```
 
 

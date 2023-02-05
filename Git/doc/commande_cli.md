@@ -31,6 +31,17 @@
 
     > git config --list  
 
+### Vous pouvez voir tous vos paramétrages et d’où ils viennent en utilisant :
+```ps
+git config --list --show-origin
+```
+
+### configurer son identité
+```ps
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+```
+
 ## Créer un nouveau dépôt GIT
 
     > git init
@@ -185,7 +196,24 @@ Puis
 ```bash
 git config --global --add safe.directory <path_of_directory>
 ```
+## Quand on a plusieurs clés SSH et qu'on veut que soit automatiquement choisie la bonne :
 
+1. Commande :
+```ps
+git config core.sshCommand "ssh -o IdentitiesOnly=yes -i ~/.ssh/<NOM_DE_CLE_PRIVEE> -F /dev/null"
+```
+2. Puis, dans ~.ssh/config :
+```ps
+# User1 Account Identity
+   Host <USER>
+     Hostname gitlab.com
+     PreferredAuthentications publickey
+     IdentityFile ~/.ssh/<NOM_DE_CLE_PRIVEE>
+```
+3. Et enfin : 
+```ps
+git remote add origin git@gitlab.com:<USER>/<REPOSITORY>.git
+```
 
 ## Généré une clé SSH
 

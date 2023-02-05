@@ -15,8 +15,9 @@
 
 ## Créer un runner sous docker
 
+1. Désactiver runner partager dans gitlab
 
-1. **On Crée le runner sous docker**
+2. **On Crée le runner sous docker**
 ```ps
 # Créer un répertoire
 sudo mkdir -p /data/ 
@@ -86,7 +87,7 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 
 Le lancer une pipepline, normalement tout est bon
 
-2. **On configure le DNS de l'instance gitlab** (cette partie est facultative)
+3. **On configure le DNS de l'instance gitlab** (cette partie est facultative)
 
 ```ps
 cat /etc/hosts # voir le hosts 
@@ -95,7 +96,7 @@ sudo nano /etc/gitlab/gitlab.rb # Modifier gitlab.rb
 gitlab-ctl reconfigure # Recharger la configuration
 ```
 
-3. Voir l'image docker dans le PC
+4. Voir l'image docker dans le PC
 ```ps
 docker ps
 
@@ -104,7 +105,7 @@ docker ps
 fb194c3b4225   gitlab/gitlab-runner:latest   "/usr/bin/dumb-init …"   37 minutes ago   Up 37 minutes             Jonas-runner-docker
 ```
 
-4. Voir les logs
+5. Voir les logs
 ```ps
 docker logs runner-twaqwpc-project-42796794-concurrent-0-5b3ff8b314589eeb-build-2
 
@@ -124,6 +125,8 @@ No lint issues found.
 
 
 ## Créer un runner manuellement sous Linux : Debian ou Ubuntu
+
+1. Désactiver runner partager dans gitlab
 
 ```ps
 # Télécharger le fichier .deb
@@ -178,6 +181,45 @@ sudo gitlab-runner start
 sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
 ```
 
+### Exemple
+
+Si les commandes ci-dessus on déjà été exécuter pour créer un autre runner spécifique par exemple, il suffit juste d'exécuter la commande ci-dessous,
+
+pour enregistrer le runner de manière spécifique en ajoutant le token du projet spécifique.
+```ps
+jonas@jonas18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-gitlab (main)$ sudo gitlab-runner register --url https://gitlab.com/ --registration-token GR134894hdgdjdbdjknEcHAPyF
+[sudo] Mot de passe de jonas : 
+Runtime platform                                    arch=amd64 os=linux pid=658493 revision=12475144 version=15.8.0
+Running in system-mode.                            
+                                                   
+Enter the GitLab instance URL (for example, https://gitlab.com/):
+
+[https://gitlab.com/]: 
+
+Enter the registration token:
+[GR134894hdgdjdbdjknEcHAPyF]: 
+
+Enter a description for the runner:
+[jonas18121]: jonas-runner-symfony-gitlab
+
+Enter tags for the runner (comma-separated):
+docker,shell
+
+Enter optional maintenance note for the runner:
+jonas-runner-symfony-gitlab
+
+WARNING: Support for registration tokens and runner parameters in the 'register' command has been deprecated in GitLab Runner 15.6 and will be replaced with support for authentication tokens. For more information, see https://gitlab.com/gitlab-org/gitlab/-/issues/380872 
+Registering runner... succeeded                     runner=GR444444444444KVH3
+
+Enter an executor: docker-ssh, parallels, shell, virtualbox, docker-ssh+machine, kubernetes, docker, ssh, docker+machine, instance, custom:
+docker
+
+Enter the default Docker image (for example, ruby:2.7):
+php
+
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+```
+
 ## Voir fichier hosts + Modifier gitlab.rb + Recharger la configuration
 ```ps
 cat /etc/hosts # voir le hosts 
@@ -224,6 +266,8 @@ gitlab-runner start.
 
 ## Créer un shared runner (runner partager) manuellement sous Linux : Debian ou Ubuntu (il faut mettre la CB pour gitlab)
 
+0. Activer runner partager dans gitlab
+
 Vous pouvez créer un coureur de groupe pour votre instance GitLab autogérée ou pour GitLab.com. 
 
 Vous devez avoir le rôle Propriétaire pour le groupe.
@@ -255,7 +299,7 @@ sudo gitlab-runner start
 ```
 ### Commande pour enregistrer le runner de manière partager
 
-Si les commandes ci-dessus on déjà été exécuter pour créer des runner spécifique par exemple, il suffice juste d'exécuter la commande ci-dessous,
+Si les commandes ci-dessus on déjà été exécuter pour créer des runner spécifique par exemple, il suffit juste d'exécuter la commande ci-dessous,
 
 pour enregistrer le runner de manière partager en ajoutant le token du groupe au lieu de mettre le token d'un seul projet spécifique.
 
