@@ -1,4 +1,88 @@
-# mettre un projet sur un serveur distant
+# mettre un projet manuellement sur un serveur distant
+
+
+
+
+1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
+```ps
+mkdir var
+
+cd var
+
+mkdir www
+
+cd www
+```
+
+2. Installer git dans le serveur distant
+
+Depuis votre shell, installez Git en utilisant apt-get :
+```ps
+sudo apt-get update
+sudo apt-get install git
+```
+Vérifiez que l'installation a réussi en tapant :git --version
+```ps
+git --version
+```
+
+3. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
+    - Copier-coller la clé publique qui permet de se connecter au serveur
+        - Dans le champ key de **Deploy Keys**, mettre la clé publique qui permet de se connecter au serveur
+        - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
+    - Ne cocher pas grant write permission (car on veur que ça soit uniquement en lecture)
+
+4. Copier les clés de votre poste vers le serveur dans un terminal local
+
+- **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
+- **user@serveur** : Envoier la clé publique sur le serveur
+- **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
+
+```ps
+scp -p ~/.ssh/id_gitlab.pub user@serveur:~/.ssh/
+
+scp -p ~/.ssh/id_gitlab user@serveur:~/.ssh/
+```
+
+Ou s'il faut préciser le port
+```ps
+scp -p -P 3022 ~/.ssh/id_gitlab.pub user@serveur:~/.ssh/
+
+scp -p -P 3022 ~/.ssh/id_gitlab user@serveur:~/.ssh/
+```
+5. A utiliser sur le serveur si besoin (en fonction des cas)
+```ps
+cd ~/.ssh/
+chmod 400 id_gitlab.pub
+chmod 400 id_gitlab
+```
+
+6. Dans le serveur distant, créer un fichier config dans ~.ssh/, puis l'ouvrir avec nano 
+```ps
+touch config
+
+nano config
+```
+
+7. Définir la clé à utiliser pour GitLab dans le fichier config du serveur distant :
+- **Host** : nom de hôte
+- **HostName** nom de hôte ou l'adresse IP du serveur distant
+- **IdentityFile** : chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH
+- **User** : nom de l'user, ce sera toujours si le repository vient de gitlab
+
+```ps
+Host gitlab.com
+    HostName gitlab.com
+    IdentityFile ~/.ssh/id_gitlab
+    User git
+```
+
+
+
+
+
+
+
 
 
 
