@@ -1,5 +1,196 @@
 # Se Connecter à un serveur distant depuis Linux
 
+[Voir vidéo](https://youtu.be/pLJC96zfwrE)
+
+## Se Connecter à un serveur distant depuis Linux avec une clé ssh (niveau débutant)
+
+1. Avec un premier terminal, générer une clé privé et public ssh sur son PC en local , exemple : (voir le fichier generer_des_cles_ssh.md dans le répertoire linux/doc/)
+```ps
+ssh-keygen -t ed25519 -C "user18121-key"
+```
+**Paramètre à ajouter, ne pas mettre de passphrase**
+```ps
+user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user18121-key"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/home/user/.ssh/id_ed25519): /home/user/.ssh/user18121_key
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again:
+```
+
+**Retourne :**
+```ps
+Your identification has been saved in /home/user/.ssh/user18121_key.
+Your public key has been saved in /home/user/.ssh/user18121_key.pub.
+The key fingerprint is:
+SHA256:oMDfIAfqefeqfqU5xWK/cZ+n5edfgvzgeagvh6ogcvYivdqvqv/q9Eu42SZE9gOf3s user18121-key
+The key's randomart image is:
++--[ED25519 256]--+
+|  .=o            |
+| .=..            |
+| .++. .          |
+| o +o+..         |
+|o o o+..S.       |
+| + =..  o o      |
+|  X + .  =.      |
+| ooB =Eo....     |
+| .+=X+o.oo+.     |
++----[SHA256]-----+
+```
+
+2. Avec un deuxième terminal, se connecter au serveur distant avec le bon password 
+```ps
+ssh user18121@172.17.0.7
+```
+
+3. Vérifier si le dossier **.ssh** existe dans le serveur
+```ps
+ls -lah
+```
+4. Si le dossier **.ssh** n'existe pas, il faut le créer
+```ps
+mkdir .ssh
+```
+5. Créer le fichier **authorized_keys** dans le dossier **.ssh**
+```ps
+touch authorized_keys
+```
+6. Ouvrir le fichier **authorized_keys** de façon à pouvoir écrire dedans
+```ps
+sudo nano authorized_keys
+```
+7. Depuis le premier terminal en local afficher le contenu de la clé public que l'on a généré plus haut
+```ps
+cat ~/.ssh/user18121_key.pub
+```
+**Retourne :**
+```bash
+    ed25519 EAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7 user18121-key
+```
+8. Copier la clé public pour la coller dans le fichier **authorized_keys** du serveur distant et enregistrer avec nano
+9. Se déconnecter du serveur distant
+```ps
+logout
+```
+10. Depuis le premier terminal en local, faire une première connecte avec la clé privé, puis se déconnecter.
+    - -i : pour éviter le password
+```ps
+ssh -i ~/.ssh/user18121_key user18121@172.17.0.7
+```
+11. Se connecter au serveur distant (sans mettre de password) 
+```ps
+ssh user18121@172.17.0.7
+```
+
+ça fonctionne !!!
+
+
+
+## Se Connecter à un serveur distant depuis Linux avec une clé ssh (niveau avancé)
+
+1. Avec un premier terminal, générer une clé privé et public ssh sur son PC en local , exemple : (voir le fichier generer_des_cles_ssh.md dans le répertoire linux/doc/)
+```ps
+ssh-keygen -t ed25519 -C "user22222-key"
+```
+**Paramètre à ajouter, ne pas mettre de passphrase**
+```ps
+user@user22222 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user22222-key"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/home/user/.ssh/id_ed25519): /home/user/.ssh/user22222_key
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again:
+```
+
+**Retourne :**
+```ps
+Your identification has been saved in /home/user/.ssh/user22222_key.
+Your public key has been saved in /home/user/.ssh/user22222_key.pub.
+The key fingerprint is:
+SHA256:oMDfIAfqefeqfqU5xWK/cZ+n5edfgvzgeagvh6ogcvYivdqvqv/q9Eu42SZE9gOf3s user22222-key
+The key's randomart image is:
++--[ED25519 256]--+
+|  .=o            |
+| .=..            |
+| .++. .          |
+| o +o+..         |
+|o o o+..S.       |
+| + =..  o o      |
+|  X + .  =.      |
+| ooB =Eo....     |
+| .+=X+o.oo+.     |
++----[SHA256]-----+
+```
+
+2. Avec un deuxième terminal, se connecter au serveur distant avec le bon password 
+```ps
+ssh user18121@172.17.0.7
+```
+
+3. On crée un autre user
+```ps
+sudo adduser user22222
+```
+**Retour** avec un nouveau mot de passe a créer pour le new user 
+```ps
+Adding user `user22222' ...
+Adding new group `user22222' (1000) ...
+Adding new user `user22222' (1000) with group `user22222' ...
+Creating home directory `/home/user22222' ...
+Copying files from `/etc/skel' ...
+New password: 
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for user22222
+Enter the new value, or press ENTER for the default
+	Full Name []: 
+	Room Number []: 
+	Work Phone []: 
+	Home Phone []: 
+	Other []: 
+Is the information correct? [Y/n] y
+```
+
+4. Voir le new user
+```ps
+id user22222
+```
+**Retour**
+```ps
+uid=1000(user22222) gid=1000(user22222) groups=1000(user22222)
+```
+
+5. Avec un terminal local on exceute la commande ci-dessous (qui copie la clé public pour la mettre directement dans le serveur distant)
+    - user22222 : le new user
+    - -i : pour éviter le password
+```ps
+ssh-copy-id -i ~/.ssh/user22222_key user22222@172.17.0.7
+```
+
+Pour la premier fois il va demander la password
+
+6. Puis, on peut se connecter au seveur distant avec le new user
+ ```ps
+ssh user22222@172.17.0.7
+```
+
+ça fonctionne !!!
+
+7. On peut aussi se connecter au user 2 depuis le user 1 (et inversement) avec
+ ```ps
+su - user22222
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## Se Connecter à un serveur distant avec ssh
 Site : https://www.malekal.com/comment-se-connecter-en-ssh-a-un-serveur-distant-depuis-linux/
 
 Voir aussi "Générer et se connecter en SSH avec des clés SSH" : https://www.malekal.com/generer-et-se-connecter-en-ssh-avec-des-cles-ssh/
