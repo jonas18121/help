@@ -67,6 +67,12 @@ Cependant, si vous utilisez un mot de passe, assurez-vous d’ajouter l’option
 ssh-keygen -t ed25519 -C "user18121-key"
 ```
 
+OU 
+
+```ps
+ssh-keygen -t ecdsa -b 521 -f .ssh
+```
+
 **Paramètre à ajouter, ne pas mettre de passphrase**
 ```ps
 user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user18121-key"

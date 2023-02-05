@@ -15,8 +15,9 @@
 
 ## Créer un runner sous docker
 
+1. Désactiver runner partager dans gitlab
 
-1. **On Crée le runner sous docker**
+2. **On Crée le runner sous docker**
 ```ps
 # Créer un répertoire
 sudo mkdir -p /data/ 
@@ -86,7 +87,7 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 
 Le lancer une pipepline, normalement tout est bon
 
-2. **On configure le DNS de l'instance gitlab** (cette partie est facultative)
+3. **On configure le DNS de l'instance gitlab** (cette partie est facultative)
 
 ```ps
 cat /etc/hosts # voir le hosts 
@@ -95,7 +96,7 @@ sudo nano /etc/gitlab/gitlab.rb # Modifier gitlab.rb
 gitlab-ctl reconfigure # Recharger la configuration
 ```
 
-3. Voir l'image docker dans le PC
+4. Voir l'image docker dans le PC
 ```ps
 docker ps
 
@@ -104,7 +105,7 @@ docker ps
 fb194c3b4225   gitlab/gitlab-runner:latest   "/usr/bin/dumb-init …"   37 minutes ago   Up 37 minutes             Jonas-runner-docker
 ```
 
-4. Voir les logs
+5. Voir les logs
 ```ps
 docker logs runner-twaqwpc-project-42796794-concurrent-0-5b3ff8b314589eeb-build-2
 
@@ -124,6 +125,8 @@ No lint issues found.
 
 
 ## Créer un runner manuellement sous Linux : Debian ou Ubuntu
+
+1. Désactiver runner partager dans gitlab
 
 ```ps
 # Télécharger le fichier .deb
@@ -262,6 +265,8 @@ gitlab-runner start.
 ```
 
 ## Créer un shared runner (runner partager) manuellement sous Linux : Debian ou Ubuntu (il faut mettre la CB pour gitlab)
+
+0. Activer runner partager dans gitlab
 
 Vous pouvez créer un coureur de groupe pour votre instance GitLab autogérée ou pour GitLab.com. 
 
