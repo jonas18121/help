@@ -159,8 +159,12 @@ uid=1000(user22222) gid=1000(user22222) groups=1000(user22222)
 ```
 
 5. Avec un terminal local on exceute la commande ci-dessous (qui copie la clé public pour la mettre directement dans le serveur distant)
-    - user22222 : le new user
-    - -i : pour éviter le password
+    - **user22222** : le new user
+    - **-i** : pour éviter le password
+    - **ssh-copy-id** est une commande utilisée pour copier la clé publique SSH d'un ordinateur local vers un ordinateur distant,<br> 
+    enregistré dans le fichier authorized_keys sur le serveur, permettant ainsi un accès sécurisé via SSH sans avoir à entrer un mot de passe. <br> 
+    Cela peut être utile pour automatiser des tâches telles que la synchronisation de fichiers ou l'exécution de commandes à distance.
+    - **~/.ssh/user22222_key** clé privée
 ```ps
 ssh-copy-id -i ~/.ssh/user22222_key user22222@172.17.0.7
 ```
