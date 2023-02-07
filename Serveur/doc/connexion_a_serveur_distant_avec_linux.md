@@ -10,9 +10,9 @@ ssh-keygen -t ed25519 -C "user18121-key"
 ```
 **Paramètre à ajouter, ne pas mettre de passphrase**
 ```ps
-user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user18121-key"
-Generating public/private ed25519 key pair.
-Enter file in which to save the key (/home/user/.ssh/id_ed25519): /home/user/.ssh/user18121_key
+user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t rsa -C "user18121-key"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/user/.ssh/id_rsa): /home/user/.ssh/user18121_key
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again:
 ```
@@ -24,7 +24,7 @@ Your public key has been saved in /home/user/.ssh/user18121_key.pub.
 The key fingerprint is:
 SHA256:oMDfIAfqefeqfqU5xWK/cZ+n5edfgvzgeagvh6ogcvYivdqvqv/q9Eu42SZE9gOf3s user18121-key
 The key's randomart image is:
-+--[ED25519 256]--+
++--[RSA 2048]------+
 |  .=o            |
 | .=..            |
 | .++. .          |
@@ -64,7 +64,7 @@ cat ~/.ssh/user18121_key.pub
 ```
 **Retourne :**
 ```bash
-    ed25519 EAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7 user18121-key
+    rsa EAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7 user18121-key
 ```
 8. Copier la clé public pour la coller dans le fichier **authorized_keys** du serveur distant et enregistrer avec nano
 9. Se déconnecter du serveur distant
@@ -89,13 +89,13 @@ ssh user18121@172.17.0.7
 
 1. Avec un premier terminal, générer une clé privé et public ssh sur son PC en local , exemple : (voir le fichier generer_des_cles_ssh.md dans le répertoire linux/doc/)
 ```ps
-ssh-keygen -t ed25519 -C "user22222-key"
+ssh-keygen -t rsa -C "user22222-key"
 ```
 **Paramètre à ajouter, ne pas mettre de passphrase**
 ```ps
-user@user22222 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user22222-key"
-Generating public/private ed25519 key pair.
-Enter file in which to save the key (/home/user/.ssh/id_ed25519): /home/user/.ssh/user22222_key
+user@user22222 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t rsa -C "user22222-key"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/user/.ssh/id_rsa): /home/user/.ssh/user22222_key
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again:
 ```
@@ -107,7 +107,7 @@ Your public key has been saved in /home/user/.ssh/user22222_key.pub.
 The key fingerprint is:
 SHA256:oMDfIAfqefeqfqU5xWK/cZ+n5edfgvzgeagvh6ogcvYivdqvqv/q9Eu42SZE9gOf3s user22222-key
 The key's randomart image is:
-+--[ED25519 256]--+
++--[RSA 2048]-----+
 |  .=o            |
 | .=..            |
 | .++. .          |
@@ -125,7 +125,7 @@ The key's randomart image is:
 ssh user18121@172.17.0.7
 ```
 
-3. On crée un autre user
+3. On crée un autre user (facultative)
 ```ps
 sudo adduser user22222
 ```
@@ -149,7 +149,7 @@ Enter the new value, or press ENTER for the default
 Is the information correct? [Y/n] y
 ```
 
-4. Voir le new user
+4. Voir le new user (facultative)
 ```ps
 id user22222
 ```
@@ -159,22 +159,26 @@ uid=1000(user22222) gid=1000(user22222) groups=1000(user22222)
 ```
 
 5. Avec un terminal local on exceute la commande ci-dessous (qui copie la clé public pour la mettre directement dans le serveur distant)
-    - user22222 : le new user
-    - -i : pour éviter le password
+    - **user22222** : le new user (ou le user normale)
+    - **-i** : pour éviter le password
+    - **ssh-copy-id** est une commande utilisée pour copier la clé publique SSH d'un ordinateur local vers un ordinateur distant,<br> 
+    enregistré dans le fichier authorized_keys sur le serveur, permettant ainsi un accès sécurisé via SSH sans avoir à entrer un mot de passe. <br> 
+    Cela peut être utile pour automatiser des tâches telles que la synchronisation de fichiers ou l'exécution de commandes à distance.
+    - **~/.ssh/user22222_key** clé privée
 ```ps
 ssh-copy-id -i ~/.ssh/user22222_key user22222@172.17.0.7
 ```
 
 Pour la premier fois il va demander la password
 
-6. Puis, on peut se connecter au seveur distant avec le new user
+6. Puis, on peut se connecter au seveur distant avec le new user (ou le user normale)
  ```ps
 ssh user22222@172.17.0.7
 ```
 
 ça fonctionne !!!
 
-7. On peut aussi se connecter au user 2 depuis le user 1 (et inversement) avec
+7. On peut aussi se connecter au user 2 depuis le user 1 (et inversement) avec (facultative)
  ```ps
 su - user22222
 ```
