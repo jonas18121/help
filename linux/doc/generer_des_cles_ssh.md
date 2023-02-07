@@ -64,7 +64,7 @@ Cependant, si vous utilisez un mot de passe, assurez-vous d’ajouter l’option
 
 **Ou, on peut aussi utiliser cette commande :**
 ```ps
-ssh-keygen -t ed25519 -C "user18121-key"
+ssh-keygen -t rsa -C "user18121-key"
 ```
 
 OU 
@@ -75,9 +75,9 @@ ssh-keygen -t ecdsa -b 521 -f .ssh
 
 **Paramètre à ajouter, ne pas mettre de passphrase**
 ```ps
-user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t ed25519 -C "user18121-key"
-Generating public/private ed25519 key pair.
-Enter file in which to save the key (/home/user/.ssh/id_ed25519): /home/user/.ssh/user18121_key
+user@user18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-local (master)$ ssh-keygen -t rsa -C "user18121-key"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/user/.ssh/id_rsa): /home/user/.ssh/user18121_key
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again:
 ```
@@ -89,7 +89,7 @@ Your public key has been saved in /home/user/.ssh/user18121_key.pub.
 The key fingerprint is:
 SHA256:oMDfIAfqefeqfqU5xWK/cZ+n5edfgvzgeagvh6ogcvYivdqvqv/q9Eu42SZE9gOf3s user18121-key
 The key's randomart image is:
-+--[ED25519 256]--+
++--[RSA 2048]--+
 |  .=o            |
 | .=..            |
 | .++. .          |

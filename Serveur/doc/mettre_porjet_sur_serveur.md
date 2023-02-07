@@ -77,8 +77,13 @@ Host gitlab.com
     User git
 ```
 
-
-
+8. Dans GitLab au chemin : **Settings > CI/CD > Variables > Add variables** on crée des variables
+- Key : SSH_PRIVATE_KEY
+    - Value : Le contenu de votre clé privée
+- Key : SSH_HOST
+    - Value : @ip -p {port} (ip+port de votre serveur ou  nom de domain)
+- Key : SSH_USER
+    - Value : nom de l'user (root ou autre)
 
 
 
