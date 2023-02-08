@@ -298,4 +298,9 @@ sudo ln -s ~/usr/bin/symfony /usr/local/bin/symfony
 sudo mv /usr/bin/symfony /usr/local/bin/symfony # bouger symfony.exe de /usr/bin/symfony à /usr/local/bin/symfony
 
 sudo cp -r -u /usr/local/bin/symfony /usr/bin/symfony # copier symfony.exe de /usr/local/bin/symfony à /usr/bin/symfony
+```
+
+### Voir info sur l'OS
 ```ps
+cat /etc/os-release 
+```
