@@ -2,6 +2,11 @@
 
 [Installation de PHP 8.1 sur Debian 11 pour son serveur Web](https://www.it-connect.fr/installation-de-php-8-1-sur-debian-11-pour-son-serveur-web/)
 
+## I Voir les info sur l'OS
+```ps
+cat /etc/os-release 
+```
+
 ## II. Installation des dépendances
 
 1. Avant de parler de l'installation de PHP 8.1, quelques paquets sont à installer. Commençons par mettre à jour le cache des paquets :
