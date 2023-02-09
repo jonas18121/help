@@ -1,7 +1,7 @@
 # mettre un projet manuellement sur un serveur distant
 
 
-
+## mettre un projet manuellement sur un serveur distant avec CICD
 
 1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
 ```ps
@@ -85,12 +85,80 @@ Host gitlab.com
 - Key : SSH_USER
     - Value : nom de l'user (root ou autre)
 
+FINI
+
+9. gitlab CICD pour deployer le projet dans le serveur (git pull etc..)
+
+10. 1. si on utilise apache :
+    - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
+    - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
+```ps
+    <VirtualHost *:80>
+        ServerName localhost
+
+        DocumentRoot /var/www/project/public
+        DirectoryIndex /index.php
+
+        <Directory /var/www/project/public>
+            AllowOverride None
+            Order Allow,Deny
+            Allow from All
+
+            FallbackResource /index.php
+        </Directory>
+
+        # uncomment the following lines if you install assets as symlinks
+        # or run into problems when compiling LESS/Sass/CoffeeScript assets
+        # <Directory /var/www/project>
+        #     Options FollowSymlinks
+        # </Directory>
+
+        # optionally disable the fallback resource for the asset directories
+        # which will allow Apache to return a 404 error when files are
+        # not found instead of passing the request to Symfony
+        <Directory /var/www/project/public/bundles>
+            FallbackResource disabled
+        </Directory>
+        ErrorLog /var/log/apache2/project_error.log
+        CustomLog /var/log/apache2/project_access.log combined
+
+        # optionally set the value of the environment variables used in the application
+        #SetEnv APP_ENV prod
+        #SetEnv APP_SECRET <app-secret-id>
+        #SetEnv DATABASE_URL "mysql://db_user:db_pass@host:3306/db_name"
+
+        # Important : il faut mettre cette commande pour les utilisateurs d'Apache, 
+        # afin d'utiliser les tokens dans postman par exemple
+        SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+    </VirtualHost>
+```
+ou 
+
+10. 2. OU si c'est nginx : Mettre la config nginx comme ci-dessus
+
+dans `/var/www/projet$ `
+
+    - Pour voir ce qu'il y a dans le dossier nginx
+```ps
+ls /etc/nginx
+```
+    - Pour voir ce qu'il y a dans le dossier sites-available de nginx    
+```ps
+ls /etc/nginx/sites-available
+```   
+
+    - Pour voir ce qu'il y a dans le dossier sites-available de apache2  
+```ps
+ls /etc/apache2/sites-available
+```
+    - sert a voir des commandes
+```
+certbot -h
+```
 
 
 
-
-
-
+## mettre un projet manuellement sur un serveur distant sans CICD
 1) il faut creer un dossier pour le backend sur le serveur, depuis le terminal qui pointe sur ce serveur
 
     > mkdir var
