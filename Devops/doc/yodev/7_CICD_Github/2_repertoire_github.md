@@ -30,7 +30,7 @@ jobs:
         - **branches** : sur lea branch main, (comme c'est un tableau, on peut mettre plusieurs branches)
 - **jobs** : dedans on pourra décrire des jobs
     - **ci** : le nom de ce job est ci
-        - **runs-on** : on indique dans quel environnement il doit s'executer, on dit ici la dernier version d'ubuntu
+        - **runs-on** : on indique dans quel environnement il doit s'executer, on dit ici la dernier version d'ubuntu (on peut mettre notre runner perso avec la valeur self-hosted)
             - **steps** : on indique les étapes
                 - **uses: actions/checkout@v2** : L'action actions/checkout@v2 est une action de base GitHub Actions qui permet de vérifier le code source d'un dépôt GitHub dans le $GITHUB_WORKSPACE du workflow. <br>
                 Cela signifie que le code source du dépôt est disponible pour les autres étapes du workflow pour accéder et utiliser.<br>
