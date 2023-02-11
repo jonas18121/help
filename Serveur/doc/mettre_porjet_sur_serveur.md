@@ -272,3 +272,51 @@ dans `/var/www/my_app/backend/api$ `
 autorisation pour le dossier sudo chmod 777./(folder name)
 
 pour le fichier sudo chmod 777 -R ./(file name)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+creer le sous-domaine sur serveur distant /etc/apache2/
+
+Pour créer un sous-domaine sur un serveur distant Apache2, vous pouvez suivre les étapes suivantes :
+
+Accédez au serveur : Vous pouvez accéder au serveur à distance en utilisant un client SSH tel que Putty ou un terminal intégré si vous êtes sur un système d'exploitation de type Unix.
+
+Créez un nouveau répertoire pour le sous-domaine : Le premier pas consiste à créer un nouveau répertoire pour le sous-domaine sur le serveur. Par exemple, si vous voulez créer le sous-domaine "subdomain.yourdomain.com", vous pouvez créer un répertoire nommé "subdomain".
+
+Créez un nouveau fichier de configuration de virtual host : Vous pouvez créer un nouveau fichier de configuration de virtual host pour le sous-domaine en utilisant un éditeur de texte tel que nano ou vim. Le fichier doit être enregistré avec un nom qui décrit clairement le sous-domaine, tel que "subdomain.conf".
+
+Ajoutez les paramètres de virtual host : Vous pouvez ajouter les paramètres suivants au fichier de configuration de virtual host pour configurer votre sous-domaine :
+
+bash
+Copy code
+<VirtualHost *:80>
+    ServerName subdomain.yourdomain.com
+    DocumentRoot /var/www/subdomain
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+Rechargez la configuration d'Apache : Une fois que vous avez enregistré le fichier de configuration, vous pouvez recharger la configuration d'Apache en utilisant la commande suivante :
+Copy code
+sudo service apache2 reload
+Configurez les enregistrements DNS : Vous devez également configurer les enregistrements DNS pour votre sous-domaine en ajoutant un nouvel enregistrement A pour le sous-domaine, pointant vers l'adresse IP de votre serveur.
+
+Vérifiez que le sous-domaine est opérationnel : Une fois que vous avez terminé les étapes ci-dessus, vous pouvez vérifier que le sous-domaine est opérationnel en accédant à "http://subdomain.yourdomain.com" dans un navigateur web.
+
+Note : Les étapes peuvent varier en fonction de la configuration de votre serveur et de la distribution Linux que vous utilisez. Il est donc important de consulter la documentation d'Apache et de votre système d'exploitation pour obtenir des instructions plus détaillées.
