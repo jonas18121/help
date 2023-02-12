@@ -105,7 +105,7 @@ Options:
 ```
 
 ## Erreur
-S"il y a l'erreur ci-dessous , il faut creer un user normale dans le serveur distant
+S"il y a l'erreur ci-dessous , il faut creer un user normale dans le serveur distant (Aller voir le fichier `creer_un_utilisateur.md`)
 
 `Do not run Composer as root/super user! See https://getcomposer.org/root for details`
 

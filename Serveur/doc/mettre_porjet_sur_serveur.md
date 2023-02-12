@@ -1,5 +1,7 @@
 # mettre un projet manuellement sur un serveur distant
 
+- [How to Setup Symfony 4 on Debian 9 Server](https://www.howtoforge.com/tutorial/how-to-setup-symfony-4-on-debian-9/)
+
 
 ## mettre un projet manuellement sur un serveur distant avec CICD depuis GitLab
 
@@ -350,8 +352,10 @@ sudo apt install curl git unzip
 ```
 
 12. Installer composer
+(voir le fichier installer_composer.md)
 
 13. Installer Symfony CLI
+(voir le fichier installer_symfony_cli.md)
 
 14. Installer MYSQL
 
