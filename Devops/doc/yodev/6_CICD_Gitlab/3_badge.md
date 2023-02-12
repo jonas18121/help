@@ -1,4 +1,4 @@
-# Un badge sur la home du projet ?
+# Ajouter un badge sur la home du projet GitLab
 
 Dans GitLab : **Settings > General > badges**
 
