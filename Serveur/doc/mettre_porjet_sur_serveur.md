@@ -352,8 +352,10 @@ sudo apt install curl git unzip
 ```
 
 12. Installer composer
+(voir le fichier installer_composer.md)
 
 13. Installer Symfony CLI
+(voir le fichier installer_symfony_cli.md)
 
 14. Installer MYSQL
 

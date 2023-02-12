@@ -1,5 +1,7 @@
 # Installer Symfony CLI dans un serveur web
 
+- [Installation et configuration du framework Symfony](https://symfony.com/doc/3.2/setup.html)
+
 1. Creer le dossier bin <br>
 Cette commande utilise mkdir pour créer un nouveau répertoire dans le système de fichiers.<br>
 Le paramètre -p permet de créer les répertoires intermédiaires s'ils n'existent pas, de sorte que le répertoire /usr/local/bin sera créé, <br>
