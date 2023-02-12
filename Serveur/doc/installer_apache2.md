@@ -15,6 +15,8 @@
 
 # Déinstaller Apache 2
 
+- [Comment désinstaller Apache2 sur Ubuntu](https://www.edureka.co/community/46181/how-to-uninstall-apache2-on-ubuntu)
+
 1. Arrêtez d'abord le service apache2 s'il s'exécute avec :
 ```ps
 sudo service apache2 stop

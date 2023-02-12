@@ -52,3 +52,19 @@ ssh user22222@172.17.0.7
  ```ps
 su - user22222
 ```
+
+5. Ajouter un utilisateur au groupe sudo ou admin, 
+
+Par exemple si l'user n'a pas le droit d'utiliser `sudo`, 
+on le met dans le groupe sudo pour qu'il puisse utiliser `sudo`
+```ps
+adduser name_user sudo
+
+adduser name_user admin
+```
+
+**option : on peut supprime un user d'un groupe**
+- [Commande deluser](https://manpages.ubuntu.com/manpages/xenial/fr/man8/deluser.8.html)
+```ps
+deluser name_user name_group
+```
