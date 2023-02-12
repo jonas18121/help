@@ -36,3 +36,5 @@ Ce Seveur dédié qui a été divisé en 4 parties pourra avoir jusqu'à 4 clien
 [Serveur VPS OVH pas cher](https://www.ovhcloud.com/fr/vps/definition/)
 
 [Serveur VPS Hostinger pas cher](https://www.hostinger.fr/vps)
+
+[hostmyservers.fr](https://www.hostmyservers.fr/vps-ssd)
