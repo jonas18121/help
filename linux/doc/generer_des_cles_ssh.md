@@ -208,4 +208,37 @@ git config core.sshCommand "ssh -o IdentitiesOnly=yes -i ~/.ssh/<NOM_DE_CLE_PRIV
 ```
 
 
+## 
 
+### vous utilisez plusieurs clés en même temps, vérifiez par :
+```ps
+ssh-add -l
+```
+
+### contrôle d'authentification pour github par exemple
+```ps
+ssh -T git@github.com
+```
+
+### Voir des clé privé et publique via leurs nom de fichiers
+```ps
+ls | grep id_rsa
+```
+
+### Essayez de pousser vers le référentiel en utilisant la clé qui sensé etre associée au repository
+```ps
+ssh -i ~/.ssh/id_rsa git@github.com
+
+# retour
+Hi user/project! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+### Ajoutez une clé ssh dans l'user agent
+```ps
+ssh-add /home/my_user/.ssh/my_key
+```
+
+### Supprimez toutes les clés de votre agent SSH et rajoutez uniquement la clé de compte correcte.
+```ps
+ssh-add -D
+```
