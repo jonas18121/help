@@ -2,6 +2,8 @@
 
 ## Créer un utilisateur et un groupe en même temps
 
+[useradd](https://debian-facile.org/doc:systeme:useradd)
+
 1. On crée un user2 depuis le super utilisateur root
 ```ps
 sudo adduser user22222
@@ -49,4 +51,20 @@ ssh user22222@172.17.0.7
 4. On peut aussi se connecter au user 2 depuis le user 1 (et inversement) avec (facultative)
  ```ps
 su - user22222
+```
+
+5. Ajouter un utilisateur au groupe sudo ou admin, 
+
+Par exemple si l'user n'a pas le droit d'utiliser `sudo`, <br>
+on le met dans le groupe sudo pour qu'il puisse utiliser `sudo`
+```ps
+adduser name_user sudo
+
+adduser name_user admin
+```
+
+**option : on peut supprime un user d'un groupe**
+- [Commande deluser](https://manpages.ubuntu.com/manpages/xenial/fr/man8/deluser.8.html)
+```ps
+deluser name_user name_group
 ```
