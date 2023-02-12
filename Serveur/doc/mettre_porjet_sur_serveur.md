@@ -327,10 +327,35 @@ certbot -h
 ```
 
 11. Installer PHP
+Voir le fichier `install_php_8_sur_serveur_debian_11` si on veut installer php 8.1
+
+12. Installer CURL, git et unzip
+
+[utilisation de curl](https://www.hostinger.fr/tutoriels/comment-utiliser-la-commande-curl-sous-linux)
+
+```ps
+# Vérifier la version de curl pour voir s'il existe
+# s'il n'existe pas, il faut l'installer 
+curl --version
+
+# Vérifier la version de git pour voir s'il existe
+# s'il n'existe pas, il faut l'installer 
+git --version
+
+# Commencez par mettre à jour le cache du gestionnaire de packages :
+sudo apt update
+
+# Installer CURL, git et unzip
+sudo apt install curl git unzip
+```
 
 12. Installer composer
 
 13. Installer Symfony CLI
+
+14. Installer MYSQL
+
+15. Installer PHPMyAdmin
 
 
 
