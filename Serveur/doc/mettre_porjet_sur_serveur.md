@@ -1,7 +1,7 @@
 # mettre un projet manuellement sur un serveur distant
 
 
-## mettre un projet manuellement sur un serveur distant avec CICD
+## mettre un projet manuellement sur un serveur distant avec CICD depuis GitLab
 
 1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
 ```ps
@@ -30,7 +30,7 @@ git --version
     - Copier-coller la clé publique qui permet de se connecter au serveur
         - Dans le champ key de **Deploy Keys**, mettre la clé publique qui permet de se connecter au serveur
         - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
-    - Ne cocher pas grant write permission (car on veur que ça soit uniquement en lecture)
+    - Ne cocher pas **grant write permission** (car on veut que ça soit uniquement en lecture)
 
 4. Copier les clés de votre poste vers le serveur dans un terminal local
 
@@ -77,7 +77,12 @@ Host gitlab.com
     User git
 ```
 
-8. Dans GitLab au chemin : **Settings > CI/CD > Variables > Add variables** on crée des variables
+8. Puis faire un git clone du projet dans le serveur distant
+```ps
+git clone git@gitlab.com:jonas1812/symfony-gitlab.git
+```
+
+9. Dans GitLab au chemin : **Settings > CI/CD > Variables > Add variables** on crée des variables
 - Key : SSH_PRIVATE_KEY
     - Value : Le contenu de votre clé privée
 - Key : SSH_HOST
@@ -87,9 +92,9 @@ Host gitlab.com
 
 FINI
 
-9. gitlab CICD pour deployer le projet dans le serveur (git pull etc..)
+10. Construire : gitlab CICD avec les fichiers yml pour deployer le projet dans le serveur (git pull etc..)
 
-10. 1. si on utilise apache :
+11. 1. si on utilise apache :
     - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
     - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
 ```ps
@@ -134,7 +139,7 @@ FINI
 ```
 ou 
 
-10. 2. OU si c'est nginx : Mettre la config nginx comme ci-dessus
+11. 2. OU si c'est nginx : Mettre la config nginx comme ci-dessus
 
 dans `/var/www/projet$ `
 
@@ -155,6 +160,185 @@ ls /etc/apache2/sites-available
 ```
 certbot -h
 ```
+
+
+
+
+## mettre un projet manuellement sur un serveur distant avec CICD depuis GitHub
+
+1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
+```ps
+mkdir var
+
+cd var
+
+mkdir www
+
+cd www
+```
+
+2. Installer git dans le serveur distant
+
+Depuis votre shell, installez Git en utilisant apt-get :
+```ps
+sudo apt-get update
+sudo apt-get install git
+```
+Vérifiez que l'installation a réussi en tapant :git --version
+```ps
+git --version
+```
+
+3. Dans GitHub, aller dans le chemin : **Settings > Deploy Keys > Add deploy key**
+    - Copier-coller la clé publique qui permet de se connecter au serveur
+        - Dans le champ key de **Deploy Keys**, mettre la clé publique qui permet de se connecter au serveur
+        - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
+    - Ne cocher pas **Allow write access** (car on veut que ça soit uniquement en lecture)
+
+4. Copier les clés de votre poste vers le serveur dans un terminal local
+
+- **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
+- **user@serveur** : Envoier la clé publique sur le serveur
+- **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
+
+```ps
+scp -p ~/.ssh/id_github.pub user@serveur:~/.ssh/
+
+scp -p ~/.ssh/id_github user@serveur:~/.ssh/
+```
+
+Ou s'il faut préciser le port
+```ps
+scp -p -P 3022 ~/.ssh/id_github.pub user@serveur:~/.ssh/
+
+scp -p -P 3022 ~/.ssh/id_github user@serveur:~/.ssh/
+```
+5. A utiliser sur le serveur si besoin (en fonction des cas)
+```ps
+cd ~/.ssh/
+chmod 400 id_github.pub
+chmod 400 id_gitlub
+```
+
+6. Dans le serveur distant, créer un fichier config dans ~.ssh/, puis l'ouvrir avec nano 
+```ps
+touch config
+
+nano config
+```
+
+7. Définir la clé à utiliser pour GitHub dans le fichier config du serveur distant :
+- **Host** : nom de hôte
+- **HostName** nom de hôte ou l'adresse IP du serveur distant
+- **IdentityFile** : chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH
+- **User** : nom de l'user, ce sera toujours si le repository vient de gitlab
+
+```ps
+Host gitlab.com
+    HostName gitlab.com
+    IdentityFile ~/.ssh/id_gitlab
+    User git
+```
+
+8. Puis faire un git clone du projet dans le serveur distant
+```ps
+git clone git@github.com:jonas18121/symfony-github.git
+```
+
+9. Dans Github au chemin : **Settings > Secrets and variables > Actions > New repository secret** on crée des variables
+- Key : SSH_PRIVATE_KEY
+    - Value : Le contenu de votre clé privée
+- Key : SSH_HOST
+    - Value : @ip -p {port} (ip+port de votre serveur ou nom de domain)(Pas obliger de mettre le port ici)
+- Key : SSH_USER
+    - Value : nom de l'user (root ou autre)
+- Key : SSH_PORT
+    - Value : Le port SSH de votre serveur
+
+FINI
+
+10. Construire : gitHub CICD avec les fichiers yml pour deployer le projet dans le serveur (git pull etc..)
+
+11. 1. si on utilise apache :
+    - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
+    - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
+```ps
+    <VirtualHost *:80>
+        ServerName localhost
+
+        DocumentRoot /var/www/project/public
+        DirectoryIndex /index.php
+
+        <Directory /var/www/project/public>
+            AllowOverride None
+            Order Allow,Deny
+            Allow from All
+
+            FallbackResource /index.php
+        </Directory>
+
+        # uncomment the following lines if you install assets as symlinks
+        # or run into problems when compiling LESS/Sass/CoffeeScript assets
+        # <Directory /var/www/project>
+        #     Options FollowSymlinks
+        # </Directory>
+
+        # optionally disable the fallback resource for the asset directories
+        # which will allow Apache to return a 404 error when files are
+        # not found instead of passing the request to Symfony
+        <Directory /var/www/project/public/bundles>
+            FallbackResource disabled
+        </Directory>
+        ErrorLog /var/log/apache2/project_error.log
+        CustomLog /var/log/apache2/project_access.log combined
+
+        # optionally set the value of the environment variables used in the application
+        #SetEnv APP_ENV prod
+        #SetEnv APP_SECRET <app-secret-id>
+        #SetEnv DATABASE_URL "mysql://db_user:db_pass@host:3306/db_name"
+
+        # Important : il faut mettre cette commande pour les utilisateurs d'Apache, 
+        # afin d'utiliser les tokens dans postman par exemple
+        SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+    </VirtualHost>
+```
+ou 
+
+11. 2. OU si c'est nginx : Mettre la config nginx comme ci-dessus
+
+dans `/var/www/projet$ `
+
+    - Pour voir ce qu'il y a dans le dossier nginx
+```ps
+ls /etc/nginx
+```
+    - Pour voir ce qu'il y a dans le dossier sites-available de nginx    
+```ps
+ls /etc/nginx/sites-available
+```   
+
+    - Pour voir ce qu'il y a dans le dossier sites-available de apache2  
+```ps
+ls /etc/apache2/sites-available
+```
+    - sert a voir des commandes
+```
+certbot -h
+```
+
+11. Installer PHP
+
+12. Installer composer
+
+13. Installer Symfony CLI
+
+
+
+
+
+
+
+
 
 
 
