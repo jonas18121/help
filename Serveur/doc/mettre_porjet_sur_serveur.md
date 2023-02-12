@@ -1,5 +1,7 @@
 # mettre un projet manuellement sur un serveur distant
 
+- [How to Setup Symfony 4 on Debian 9 Server](https://www.howtoforge.com/tutorial/how-to-setup-symfony-4-on-debian-9/)
+
 
 ## mettre un projet manuellement sur un serveur distant avec CICD depuis GitLab
 

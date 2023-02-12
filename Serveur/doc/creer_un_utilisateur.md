@@ -2,6 +2,8 @@
 
 ## Créer un utilisateur et un groupe en même temps
 
+[useradd](https://debian-facile.org/doc:systeme:useradd)
+
 1. On crée un user2 depuis le super utilisateur root
 ```ps
 sudo adduser user22222
