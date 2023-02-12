@@ -1,4 +1,4 @@
-# Installer Symfony CLI
+# Installer Symfony CLI dans un serveur web
 
 1. Creer le dossier bin <br>
 Cette commande utilise mkdir pour créer un nouveau répertoire dans le système de fichiers.<br>
