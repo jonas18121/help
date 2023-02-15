@@ -242,3 +242,34 @@ ssh-add /home/my_user/.ssh/my_key
 ```ps
 ssh-add -D
 ```
+
+
+## Configurer .ssh/config
+
+Ce code est un exemple de configuration du fichier ~/.ssh/config, qui permet de configurer les options de connexion SSH pour différents hôtes.
+
+Dans ce cas, le code définit une configuration pour l'hôte my_bridge. Il spécifie que l'hôte a une adresse IP de 161.35.197.155 et que la connexion doit être effectuée en utilisant l'utilisateur medev.
+
+Lorsqu'un utilisateur essaie de se connecter à l'hôte my_bridge à partir de la machine locale, la configuration définie dans le fichier ~/.ssh/config sera utilisée pour établir la connexion. Il n'est pas nécessaire de spécifier l'adresse IP ou l'utilisateur lors de la connexion, car ces informations sont déjà définies dans la configuration.
+
+```ps
+
+Host my_bridge
+    Hostname 711.307.194.247
+    User medev
+```
+
+Ce code est un exemple de configuration du fichier ~/.ssh/config, qui permet de configurer les options de connexion SSH pour différents hôtes.
+
+Dans ce cas, le code définit une configuration pour l'hôte projet-prod. Il spécifie que la connexion à cet hôte doit être effectuée en utilisant l'utilisateur my_user_remonte. De plus, la connexion doit être établie via un proxy, en utilisant la commande ssh avec l'option -o 'ForwardAgent yes'.
+
+Le proxy lui-même est défini comme my_bridge, ce qui signifie que la connexion initiale sera établie avec cet hôte. Ensuite, la commande ssh-add est utilisée pour ajouter les clés d'authentification à l'agent SSH en cours d'exécution sur la machine locale, ce qui permet d'authentifier la connexion à l'hôte distant. Enfin, la commande nc 127.147.014.77 22 est utilisée pour rediriger le trafic SSH vers le port 22 de l'hôte distant, qui est le port par défaut pour les connexions SSH.
+
+En résumé, cette configuration permet d'établir une connexion sécurisée SSH à l'hôte aecale-prod en utilisant un proxy et en redirigeant le trafic via un port spécifié.
+
+```ps
+
+Host projet-prod
+    User my_user_remonte
+    ProxyCommand ssh -o 'ForwardAgent yes' my_bridge 'ssh-add && nc 127.147.014.77 22'
+```
