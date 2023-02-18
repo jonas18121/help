@@ -383,15 +383,16 @@ sudo apt install curl git unzip
 ```
 
 14. Installer composer
-(voir le fichier installer_composer.md)
+(voir le fichier `help/Serveur/doc/installer_composer.md`)
 
 15. Installer Symfony CLI
-(voir le fichier installer_symfony_cli.md)
+(voir le fichier `help/Serveur/doc/installer_symfony_cli.md`)
 
 16. Installer MYSQL
+(voir le fichier `help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md`)
 
 17. Installer PHPMyAdmin
-
+(voir le fichier `help/Serveur/doc/installer_phpmyadmin.md`)
 
 
 

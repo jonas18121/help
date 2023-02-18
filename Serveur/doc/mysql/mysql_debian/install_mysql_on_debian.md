@@ -251,7 +251,7 @@ mysql> SHOW VARIABLES LIKE "%version%";
 8 rows in set (0.01 sec)
 ```
 
-## (Faclutatif) Étape 6 : Autoriser les connexions à distance à MySQL
+## Étape 6 (Faclutatif): Autoriser les connexions à distance à MySQL
 
 18. Si vous souhaitez accéder à distance à la base de données MySQL, vous pouvez autoriser les commandes ci-dessous
 
@@ -266,6 +266,27 @@ sudo ufw allow from 192.168.100.222 to any port 3306
 ```
 
 C'est tout pour l'installation de MySQL 5.7 sur Debian 11 et Debian 10.
+
+## Étape 7 (Faclutatif): Autoriser les connexions à distance à MySQL
+
+19. Créer un utilisateur de base de données pour phpMyAdmin sur Debian 11 <br>
+Bien qu'il ne soit pas nécessaire de créer un utilisateur distinct pour accéder avec phpMyAdmin, cependant, il est recommandé d'améliorer la sécurité globale, <br>
+de plus, après avoir désactivé la connexion root à distance, nous devons créer un nouvel utilisateur pour accéder à toutes les bases de données.
+
+```ps
+sudo mysql
+```
+
+```ps
+CREATE USER 'user'@localhost IDENTIFIED BY 'password';
+
+GRANT ALL PRIVILEGES ON *.* TO 'user'@localhost IDENTIFIED BY 'password';
+
+FLUSH PRIVILEGES;
+
+exit;
+```
+Remarque : Remplacez l' utilisateur et le mot de passe par ce que vous souhaitez définir.
 
 
 # Désintaller MySQL 5.7 sur Debian 11/Debian 10
