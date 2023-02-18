@@ -28,6 +28,8 @@ NB - après avoir activé ufw, assurez-vous que ssh est activé pour vous permet
 
 ## Désinstaller ufw
 
+- [Puis-je désinstaller complètement UFW ?](https://askubuntu.com/questions/275998/can-i-uninstall-ufw-completely)
+
 1. Pour désactiver UFW, vous pouvez taper ce qui suit :
 ```ps
 sudo ufw disable
