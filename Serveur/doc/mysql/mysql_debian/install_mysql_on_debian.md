@@ -22,21 +22,21 @@ sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb
 
 3. Notez que le référentiel MySQL 5.7 n'est pas encore disponible pour Debian 11 (Bullseye). 
 
-Dans ce cas, nous allons sélectionner Debian 10 (Buster) pour Debian 11 et Debian 10, puis appuyer sur la touche entrer.
+Dans ce cas, nous allons sélectionner `Debian 10 Buster (debian  buster)` pour Debian 11 et Debian 10, puis appuyer sur la touche entrer.
 
-Voir l'image /debian_buster.png
+Voir l'image `/debian_buster.png`
 
 4. Assurez-vous que mysql-8.0 est sélectionné, puis appuyer sur la touche entrer.
 
-Voir l'image /mysql_server.png
+Voir l'image `/mysql_server.png`
 
 5. Sélectionnez ensuite mysql-5.7 comme indiqué, puis appuyer sur la touche entrer.
 
-Voir l'image /mysql_5_7.png
+Voir l'image `/mysql_5_7.png`
 
 6. Ensuite, utilisez la touche fléchée vers le bas pour sélectionner OK , puis cliquez sur OK et le package sera installé
 
-Voir l'image /mysql_ok.png
+Voir l'image `/mysql_ok.png`
 
 ## Étape 2 : Installer le serveur MySQL 5.7 sur Debian 11 / Debian 10
 
@@ -70,7 +70,7 @@ sudo apt install -y mysql-community-server
 
 11. Définissez votre mot de passe root préféré lorsque vous y êtes invité
 
-Voir l'image /password.png
+Voir l'image `/password.png`
 
 **Exemple de résultat d'installation réussie :**
 ```ps
@@ -305,8 +305,8 @@ sudo apt-get remove dbconfig-mysql
 
 sudo apt-get dist-upgrade
 ```
-ou
-    - Sur les systèmes basés sur RHEL
+
+    - Ou sur les systèmes basés sur RHEL
 
 ```ps
 sudo dnf remove mysql-server mysql-client 
