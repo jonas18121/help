@@ -6,6 +6,8 @@ Dans cet article, nous allons voir comment installer MySQL 5.7 sur Debian 11 et 
 MySQL est l'une des bases de données relationnelles les plus utilisées. <br>
 Nous allons installer l'édition communautaire qui est un logiciel gratuit à installer géré sous licence publique générale.
 
+
+# Installer MySQL 5.7 sur Debian 11/Debian 10
 ## Étape 1 : Ajouter un référentiel MySQL sur Debian 11 / Debian 10
 
 1. Téléchargeons et installons le package de configuration du référentiel mysql sur Debian 11 et Debian 10. Exécutez la commande ci-dessous : 
@@ -264,3 +266,131 @@ sudo ufw allow from 192.168.100.222 to any port 3306
 ```
 
 C'est tout pour l'installation de MySQL 5.7 sur Debian 11 et Debian 10.
+
+
+# Désintaller MySQL 5.7 sur Debian 11/Debian 10
+
+## Étape 1 : Arrêter le service MySQL
+
+1. Vérifier si MYSQL est activer
+```ps
+sudo systemctl status mysql
+```
+
+2. Arrêter le service MySQL sur votre système, pui revérifier si MYSQL est activer
+```ps
+sudo systemctl stop mysql
+
+sudo systemctl status mysql
+```
+
+## Étape 2 : désinstaller les packages MySQL
+
+3. Désinstallez tous les packages MySQL installés sur votre serveur. <br> 
+Utilisez l'une des commandes suivantes selon votre distribution Linux. <br>
+Les noms des packages peuvent varier en fonction du système d'exploitation et des types d'installation.
+
+    - Sur les systèmes basés sur Debain
+
+```ps
+sudo apt-get purge mysql*
+
+sudo apt remove mysql-server mysql-client
+
+sudo apt autoremove 
+
+sudo apt autoclean 
+
+sudo apt-get remove dbconfig-mysql
+
+sudo apt-get dist-upgrade
+```
+ou
+    - Sur les systèmes basés sur RHEL
+
+```ps
+sudo dnf remove mysql-server mysql-client 
+```
+
+4. voir les packages mysql qui ne sont pas supprimer
+```ps
+dpkg -l | grep -i mysql 
+```
+
+**Exemple de retour**
+```ps
+rc  mysql-apt-config               0.8.18-1                                           all          Auto configuration for MySQL APT Repo.
+rc  mysql-common                   5.8+1.0.7                                          all          MySQL database common files, e.g. /etc/mysql/my.cnf
+rc  mysql-community-client         5.7.41-1debian10                                   amd64        MySQL Client
+rc  mysql-community-server         5.7.41-1debian10                                   amd64        MySQL Server
+ii  php8.1-mysql                   8.1.16+repack-1+0~20230214.36+debian11~1.gbpb38498 amd64        MySQL module for PHP
+```
+
+5. Ensuite, vous verrez les packages mysql et les supprimerez un par un sauf php8.1-mysql (si vous voulez le garder)
+```ps
+sudo apt purge [package_name]
+
+ou
+
+sudo dpkg purge [package_name]
+```
+
+**Exemple**
+```ps
+sudo apt purge mysql-apt-config
+
+sudo apt purge mysql-common
+
+sudo apt purge mysql-community-client
+
+sudo apt purge mysql-community-server
+
+sudo apt autoremove 
+
+sudo apt autoclean 
+```
+
+Cela supprime les packages MySQL et leurs dépendances de votre système.<br>
+Les commandes autoremove et autoclean suppriment les packages inutiles et nettoient le cache des packages.
+
+## Étape 3 : Supprimer les fichiers de configuration et de données MySQL
+
+4. Localiser les endroit ou sont placer les différents fichiers de mysql
+```ps
+whereis mysql
+```
+```ps
+# Retourne
+ufw: /etc/mysql /usr/share/mysql
+```
+
+5. Supprimer le ou les dossiers/fichiers
+```ps
+sudo rm -rf /etc/mysql
+
+sudo rm -rf /usr/share/mysql
+```
+
+6. Vous pouvez effectuer les 4 tests suivants pour confirmer que mysql a été supprimé :
+
+```ps
+Devrait renvoyer mysql:
+whereis mysql
+
+# Devrait renvoyer une ligne vide
+which mysql
+
+# Vérifiez si mysql est installé ou activé Devrait renvoyer comand not found
+sudo systemctl status mysql
+```
+
+Cette commande suivante répertorie tous les packages installés sur votre système et grep pour le mot 'mysql' . <br>
+Si aucun package MySQL n'est installé, vous avez réussi à supprimer MySQL de votre système.
+```ps
+dpkg -l | grep -i mysql 
+```
+
+7. Mettre à jour le cache du gestionnaire de packages :
+```ps
+sudo apt update
+```
