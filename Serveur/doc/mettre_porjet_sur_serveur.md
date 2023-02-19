@@ -234,7 +234,7 @@ git --version
 
 4. Copier les clés de votre poste vers le serveur dans un terminal local
 
-- **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
+- **scp --p ~/.ssh/id_github.pub** : Copier la clé publique sur notre PC
 - **user@serveur** : Envoier la clé publique sur le serveur
 - **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
 
@@ -271,9 +271,9 @@ nano config
 - **User** : nom de l'user, ce sera toujours si le repository vient de gitlab
 
 ```ps
-Host gitlab.com
+Host github.com
     HostName gitlab.com
-    IdentityFile ~/.ssh/id_gitlab
+    IdentityFile ~/.ssh/id_github
     User git
 ```
 
@@ -297,6 +297,7 @@ FINI
 10. Construire : gitHub CICD avec les fichiers yml pour deployer le projet dans le serveur (git pull etc..)
 
 11. 1. si on utilise apache :
+    - Voir le fichier [help/Serveur/doc/installer_apache2.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/apache/apache_debian/installer_apache2.md)
     - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
     - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
 ```ps
