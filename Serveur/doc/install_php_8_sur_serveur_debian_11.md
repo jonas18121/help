@@ -69,6 +69,10 @@ Ces extensions permettent d'ajouter des fonctions à PHP. Par exemple, il y a un
 10. En précisant `"php8.1-<nom de l'extension>"` on parvient à trouver ce que l'on souhaite. Voici quelques extensions populaires que vous pouvez installer sur votre serveur :
 ```ps
 sudo apt-get install php8.1-common php8.1-curl php8.1-bcmath php8.1-intl php8.1-mbstring php8.1-xmlrpc php8.1-mcrypt php8.1-mysql php8.1-gd php8.1-xml php8.1-cli php8.1-zip
+
+sudo apt-get install libapache2-mod-php8.1
+
+sudo a2enmod php8.1
 ```
 
 11. Si vous souhaitez installer PHP-FPM pour améliorer les performances, voici comment l'installer et l'activer sur votre serveur Web Apache :
@@ -91,6 +95,8 @@ sudo systemctl restart apache2
 ```ps
 sudo systemctl status php8.1-fpm
 ```
+
+/lib/systemd/system/php8.1-fpm.service
 
 Pour afficher la configuration complète de PHP sur votre serveur, vous pouvez créer une page PHP avec la fonction "phpinfo();" à la racine de votre serveur Web (à supprimer ensuite pour des raisons de sécurité).
 
