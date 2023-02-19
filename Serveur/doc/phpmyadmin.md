@@ -1,5 +1,7 @@
 # Installer/Désintaller PhpMyAdmin
 
+## Installer PhpMyAdmin
+
 1. Téléchargez le dernier package phpMyAdmin
 
 Bien que nous puissions installer PHPMyAdmin directement en utilisant le référentiel par défaut de Debian 11 Bullseye, cependant, la version sera ancienne. <br>
@@ -205,3 +207,43 @@ ou
 `http://your-domain.com/phpmyadmin`
 
 Vous devriez voir la page de connexion de phpmyadmin
+
+## Désactiver phpMyAdmin sans désinstaller
+
+Si vous souhaitez simplement désactiver l'accès à phpMyadmin, vous pouvez simplement désactiver phpMyAdmin sans le désinstaller.
+```ps
+sudo a2disconf phpmyadmin
+sudo systemctl reload apache2
+```ps
+
+Pour réactiver phpMyAdmin, exécutez :
+```ps
+sudo a2enconf phpmyadmin
+sudo systemctl reload apache2
+```
+
+## Déinstaller PhpMyAdmin
+
+1. Supprimer le fichier phpmyadmin.conf PhpMyAdmin
+
+```ps
+sudo rm /etc/apache2/conf-available/phpmyadmin.conf
+```
+
+2. Supprimer le dossier phpmyadmin
+
+```ps
+sudo rm -rf /var/www/html/phpmyadmin
+```
+
+3. Redémarrez le serveur Web Apache
+
+Pour que les modifications s'appliquent correctement, redémarrez le serveur Web Apache.
+```ps
+sudo systemctl restart apache2
+```
+
+4. Mettre à jour le cache du gestionnaire de packages :
+```ps
+sudo apt update
+```
