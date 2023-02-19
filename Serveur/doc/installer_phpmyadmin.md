@@ -215,7 +215,7 @@ Si vous souhaitez simplement désactiver l'accès à phpMyadmin, vous pouvez sim
 ```ps
 sudo a2disconf phpmyadmin
 sudo systemctl reload apache2
-```ps
+```
 
 Pour réactiver phpMyAdmin, exécutez :
 ```ps
