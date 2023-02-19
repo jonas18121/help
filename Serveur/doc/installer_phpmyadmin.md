@@ -1,5 +1,6 @@
 # Installer/Désintaller PhpMyAdmin
 
+- [Comment installer phpMyAdmin sur Debian 11 Bullseye (Apache)](https://www.how2shout.com/linux/how-to-install-phpmyadmin-on-debian-11-bullseye-apache/)
 ## Installer PhpMyAdmin
 
 1. Téléchargez le dernier package phpMyAdmin
