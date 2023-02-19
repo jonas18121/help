@@ -164,7 +164,7 @@ certbot -h
 ```
 
 12. Installer PHP
-Voir le fichier `install_php_8_sur_serveur_debian_11` si on veut installer php 8.1
+Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md) si on veut installer php 8.1
 
 13. Installer CURL, git et unzip
 
@@ -187,21 +187,21 @@ sudo apt install curl git unzip
 ```
 
 14. Installer composer
-(voir le fichier `help/Serveur/doc/installer_composer.md`)
+(voir le fichier [help/Serveur/doc/installer_composer.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md))
 
 15. Installer Symfony CLI
-(voir le fichier `help/Serveur/doc/installer_symfony_cli.md`)
+(voir le fichier [help/Serveur/doc/installer_symfony_cli.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/Installer_symfony_cli.md))
 
 16. Installer MYSQL
-(voir le fichier `help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md`)
+(voir le fichier [help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md))
 
 17. Installer PHPMyAdmin
-(voir le fichier `help/Serveur/doc/installer_phpmyadmin.md`)
+(voir le fichier [help/Serveur/doc/installer_phpmyadmin.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_phpmyadmin.md))
 
 
 
 
-## mettre un projet manuellement sur un serveur distant avec CICD depuis GitHub
+## Mettre un projet manuellement sur un serveur distant avec CICD depuis GitHub
 
 1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
 ```ps
@@ -364,7 +364,7 @@ certbot -h
 ```
 
 12. Installer PHP
-Voir le fichier `install_php_8_sur_serveur_debian_11` si on veut installer php 8.1
+Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md) si on veut installer php 8.1
 
 13. Installer CURL, git et unzip
 
@@ -387,16 +387,16 @@ sudo apt install curl git unzip
 ```
 
 14. Installer composer
-(voir le fichier `help/Serveur/doc/installer_composer.md`)
+(voir le fichier [help/Serveur/doc/installer_composer.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md))
 
 15. Installer Symfony CLI
-(voir le fichier `help/Serveur/doc/installer_symfony_cli.md`)
+(voir le fichier [help/Serveur/doc/installer_symfony_cli.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/Installer_symfony_cli.md))
 
 16. Installer MYSQL
-(voir le fichier `help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md`)
+(voir le fichier [help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md))
 
 17. Installer PHPMyAdmin
-(voir le fichier `help/Serveur/doc/installer_phpmyadmin.md`)
+(voir le fichier [help/Serveur/doc/installer_phpmyadmin.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_phpmyadmin.md))
 
 
 
