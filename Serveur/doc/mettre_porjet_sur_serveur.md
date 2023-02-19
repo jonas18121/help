@@ -145,23 +145,24 @@ ou
 
 dans `/var/www/projet$ `
 
-    - Pour voir ce qu'il y a dans le dossier nginx
+- Pour voir ce qu'il y a dans le dossier nginx
 ```ps
 ls /etc/nginx
 ```
-    - Pour voir ce qu'il y a dans le dossier sites-available de nginx    
+- Pour voir ce qu'il y a dans le dossier sites-available de nginx    
 ```ps
 ls /etc/nginx/sites-available
 ```   
 
-    - Pour voir ce qu'il y a dans le dossier sites-available de apache2  
+- Pour voir ce qu'il y a dans le dossier sites-available de apache2  
 ```ps
 ls /etc/apache2/sites-available
 ```
-    - sert a voir des commandes
+- sert a voir des commandes
 ```
 certbot -h
 ```
+
 12. Installer PHP
 Voir le fichier `install_php_8_sur_serveur_debian_11` si on veut installer php 8.1
 
@@ -186,14 +187,17 @@ sudo apt install curl git unzip
 ```
 
 14. Installer composer
-(voir le fichier installer_composer.md)
+(voir le fichier `help/Serveur/doc/installer_composer.md`)
 
 15. Installer Symfony CLI
-(voir le fichier installer_symfony_cli.md)
+(voir le fichier `help/Serveur/doc/installer_symfony_cli.md`)
 
 16. Installer MYSQL
+(voir le fichier `help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md`)
 
 17. Installer PHPMyAdmin
+(voir le fichier `help/Serveur/doc/installer_phpmyadmin.md`)
+
 
 
 
@@ -341,20 +345,20 @@ ou
 
 dans `/var/www/projet$ `
 
-    - Pour voir ce qu'il y a dans le dossier nginx
+- Pour voir ce qu'il y a dans le dossier nginx
 ```ps
 ls /etc/nginx
 ```
-    - Pour voir ce qu'il y a dans le dossier sites-available de nginx    
+- Pour voir ce qu'il y a dans le dossier sites-available de nginx    
 ```ps
 ls /etc/nginx/sites-available
 ```   
 
-    - Pour voir ce qu'il y a dans le dossier sites-available de apache2  
+- Pour voir ce qu'il y a dans le dossier sites-available de apache2  
 ```ps
 ls /etc/apache2/sites-available
 ```
-    - sert a voir des commandes
+- sert a voir des commandes
 ```
 certbot -h
 ```
