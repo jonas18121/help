@@ -168,6 +168,50 @@ Dans 000-default.conf
     </VirtualHost>
 ```
 
+### accéder au fichier 000-default.conf 
+```ps
+sudo nano /etc/apache2/sites-available/000-default.conf
+```
+### Faire les modification puis Redémarrer le service apache
+```ps
+sudo service apache2 restart
+# ou
+sudo service apache2 reload
+```
+### Voir les logs si problème
+```ps
+cat /var/log/apache2/error.log
+```
+### Voir les logs si problème avec nombre de ligne
+```ps
+tail -n 30 /var/log/apache2/error.log
+```
+
+### On peut configurer apache.conf
+
+```ps
+sudo nano /etc/apache2/apache2.conf
+```
+
+```ps
+<Directory />
+        Options FollowSymLinks
+        AllowOverride None
+        Require all denied
+</Directory>
+
+<Directory /usr/share>
+        AllowOverride None
+        Require all granted
+</Directory>
+
+<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+```
+
 # Déinstaller Apache 2
 
 - [Comment désinstaller Apache2 sur Ubuntu](https://www.edureka.co/community/46181/how-to-uninstall-apache2-on-ubuntu)

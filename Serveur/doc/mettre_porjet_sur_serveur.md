@@ -7,10 +7,16 @@
 
 1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
 ```ps
+# permission pour root
 mkdir var
+
 
 cd var
 
+# permission pour le user qui est connecter
+# Ex: connecter comme `jonas@localhost:/var$` 
+# les permissons du dossier www sont pour l'user jonas
+# sudo chown -R jonas:jonas www
 mkdir www
 
 cd www
@@ -82,6 +88,12 @@ Host gitlab.com
 8. Puis faire un git clone du projet dans le serveur distant
 ```ps
 git clone git@gitlab.com:jonas1812/symfony-gitlab.git
+
+# OU
+
+# copier le projet depuis son ordi pour le coller dans le serveur distant
+# pour permettre apache d'afficher les projet dans le navigateur regarder l'etape 11 
+scp -P 22 -r /home/user/code/symfony-gitlab user@adresseIP:/var/www
 ```
 
 9. Dans GitLab au chemin : **Settings > CI/CD > Variables > Add variables** on crée des variables
@@ -97,8 +109,25 @@ FINI
 10. Construire : gitlab CICD avec les fichiers yml pour deployer le projet dans le serveur (git pull etc..)
 
 11. 1. si on utilise apache :
+    - Voir le fichier [help/Serveur/doc/installer_apache2.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/apache/apache_debian/installer_apache2.md) avec les configurations à faire
     - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
     - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
+
+```ps
+# accéder au fichier 000-default.conf
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+# Redémarrer le service apache
+sudo service apache2 restart
+# ou
+sudo service apache2 reload
+
+# Voir les logs si problème
+cat /var/log/apache2/error.log
+
+# Voir les logs si problème avec nombre de ligne
+tail -n 30 /var/log/apache2/error.log
+```
 ```ps
     <VirtualHost *:80>
         ServerName localhost
@@ -139,6 +168,21 @@ FINI
         SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
     </VirtualHost>
 ```
+
+Voici ce que chaque ligne signifie :
+
+- `<Directory /var/www/>` : Déclare le début de la section de configuration pour le répertoire "/var/www/".
+
+- `Options Indexes FollowSymLinks` : Active les options "Indexes" et "FollowSymLinks". L'option "Indexes" permet d'afficher la liste des fichiers dans le répertoire si aucun fichier n'est spécifié dans l'URL. L'option "FollowSymLinks" autorise Apache à suivre les liens symboliques qui pointent vers d'autres fichiers ou répertoires.
+
+- `AllowOverride None` : Empêche les fichiers .htaccess dans le répertoire "/var/www/" de modifier la configuration Apache.
+
+- `Require all granted` : Autorise tous les utilisateurs à accéder au contenu du répertoire "/var/www/".
+
+Ensemble, ces directives permettent à Apache d'afficher le contenu du répertoire "/var/www/" aux utilisateurs et d'autoriser tous les utilisateurs à y accéder, tout en empêchant les fichiers .htaccess de modifier la configuration Apache pour ce répertoire.
+
+Il faute enlever `Indexes` pour la prod
+
 ou 
 
 11. 2. OU si c'est nginx : Mettre la config nginx comme ci-dessus
@@ -205,10 +249,16 @@ sudo apt install curl git unzip
 
 1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
 ```ps
+# permission pour root
 mkdir var
+
 
 cd var
 
+# permission pour le user qui est connecter
+# Ex: connecter comme `jonas@localhost:/var$` 
+# les permissons du dossier www sont pour l'user jonas
+# sudo chown -R jonas:jonas www
 mkdir www
 
 cd www
@@ -280,6 +330,12 @@ Host github.com
 8. Puis faire un git clone du projet dans le serveur distant
 ```ps
 git clone git@github.com:jonas18121/symfony-github.git
+
+# OU
+
+# copier le projet depuis son ordi pour le coller dans le serveur distant
+# pour permettre apache d'afficher les projet dans le navigateur regarder l'etape 11 
+scp -P 22 -r /home/user/code/symfony-gitlab user@adresseIP:/var/www
 ```
 
 9. Dans Github au chemin : **Settings > Secrets and variables > Actions > New repository secret** on crée des variables
@@ -297,9 +353,25 @@ FINI
 10. Construire : gitHub CICD avec les fichiers yml pour deployer le projet dans le serveur (git pull etc..)
 
 11. 1. si on utilise apache :
-    - Voir le fichier [help/Serveur/doc/installer_apache2.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/apache/apache_debian/installer_apache2.md)
+    - Voir le fichier [help/Serveur/doc/installer_apache2.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/apache/apache_debian/installer_apache2.md) avec les configurations à faire
     - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
     - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
+
+```ps
+# accéder au fichier 000-default.conf
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+# Redémarrer le service apache
+sudo service apache2 restart
+# ou
+sudo service apache2 reload
+
+# Voir les logs si problème
+cat /var/log/apache2/error.log
+
+# Voir les logs si problème avec nombre de ligne
+tail
+```
 ```ps
     <VirtualHost *:80>
         ServerName localhost
@@ -340,6 +412,20 @@ FINI
         SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
     </VirtualHost>
 ```
+
+Voici ce que chaque ligne signifie :
+
+- `<Directory /var/www/>` : Déclare le début de la section de configuration pour le répertoire "/var/www/".
+
+- `Options Indexes FollowSymLinks` : Active les options "Indexes" et "FollowSymLinks". L'option "Indexes" permet d'afficher la liste des fichiers dans le répertoire si aucun fichier n'est spécifié dans l'URL. L'option "FollowSymLinks" autorise Apache à suivre les liens symboliques qui pointent vers d'autres fichiers ou répertoires.
+
+- `AllowOverride None` : Empêche les fichiers .htaccess dans le répertoire "/var/www/" de modifier la configuration Apache.
+
+- `Require all granted` : Autorise tous les utilisateurs à accéder au contenu du répertoire "/var/www/".
+
+Ensemble, ces directives permettent à Apache d'afficher le contenu du répertoire "/var/www/" aux utilisateurs et d'autoriser tous les utilisateurs à y accéder, tout en empêchant les fichiers .htaccess de modifier la configuration Apache pour ce répertoire.
+
+Il faute enlever `Indexes` pour la prod
 ou 
 
 11. 2. OU si c'est nginx : Mettre la config nginx comme ci-dessus
