@@ -75,7 +75,7 @@ Listen 80
 cat /etc/apache2/apache2.conf
 ```
 
-Dedan on a la balise Directory
+Dedans on a la balise Directory
 
 - Dans le dossier (Directory) /var/www/ apache peut y accéder(Require all granted), (Require all denied) pour interdir l'accès à apache
 ```ps
@@ -187,7 +187,7 @@ cat /var/log/apache2/error.log
 tail -n 30 /var/log/apache2/error.log
 ```
 
-### On peut configurer apache.conf
+### 1) On peut configurer apache.conf
 
 ```ps
 sudo nano /etc/apache2/apache2.conf
@@ -210,6 +210,194 @@ sudo nano /etc/apache2/apache2.conf
         AllowOverride None
         Require all granted
 </Directory>
+```
+
+Voici ce que chaque ligne signifie :
+
+- `<Directory /var/www/>` : Déclare le début de la section de configuration pour le répertoire "/var/www/".
+
+- `Options Indexes FollowSymLinks` : Active les options "Indexes" et "FollowSymLinks". L'option "Indexes" permet d'afficher la liste des fichiers dans le répertoire si aucun fichier n'est spécifié dans l'URL. L'option "FollowSymLinks" autorise Apache à suivre les liens symboliques qui pointent vers d'autres fichiers ou répertoires.
+
+- `AllowOverride None` : Empêche les fichiers .htaccess dans le répertoire "/var/www/" de modifier la configuration Apache.
+
+- `Require all granted` : Autorise tous les utilisateurs à accéder au contenu du répertoire "/var/www/".
+
+Ensemble, ces directives permettent à Apache d'afficher le contenu du répertoire "/var/www/" aux utilisateurs et d'autoriser tous les utilisateurs à y accéder, tout en empêchant les fichiers .htaccess de modifier la configuration Apache pour ce répertoire.
+
+Il faute enlever `Indexes` pour la prod.
+
+
+### Création d'un lien symbolique entre un projet placer quelque part et le dossier /var/www
+
+Exemple: 
+
+On a un projet placer dans ce chemin `/home/dev/project` et on veut y accéder dans le navigateur Web
+
+- Dans `/etc/apache2/apache2.conf`, on a configuré apache2 qui pointe vers `/var/www/` de cette manière `<Directory /var/www/>`
+- Faire la commande suivante pour créé un lien symbolique qui va recopier le contenu du dossier `/home/dev/project` dans `/var/www/` en le nommant `monsite.fr` (`/var/www/monsite.fr`)
+```ps
+ln -s /home/dev/project /var/www/monsite.fr
+```
+Cette commande Linux crée un lien symbolique entre le répertoire `/home/dev/project` et le répertoire `/var/www/monsite.fr`.
+
+Plus précisément, elle crée un lien symbolique nommé `monsite.fr` dans le répertoire `/var/www/`, qui pointe vers le répertoire `/home/dev/project`.
+
+Ce lien symbolique permet d'accéder au contenu du répertoire `/home/dev/project` à partir de l'emplacement `/var/www/monsite.fr`.
+
+En d'autres termes, lorsque vous accédez à `monsite.fr` à partir du navigateur Web, le serveur Apache2 utilisera le contenu du répertoire `/home/dev/www` pour servir le site.
+
+Cela est souvent utilisé pour permettre à plusieurs sites Web d'utiliser le même code source tout en étant stockés dans différents répertoires sur le serveur.
+
+On pourra accéder à `monsite.fr` de cette manière `http://adresseIP/monsite.fr`
+
+### Faire en sorte d'accéder au site de cette manière http://monsite.fr au lieu de http://adresseIP/monsite.fr
+
+Par défaut il faudrait réserver un nom de domain qui pointe vers le serveur.
+
+Voici une astuce pour tester un nom de domain et accéder au site de cette manière http://monsite.fr au lieu de http://adresseIP/monsite.fr
+
+#### Aller dans le fichier hosts depuis un terminal qui point sur son ordi perso
+```ps
+sudo nano /etc/hosts
+```
+
+**Rajouter l'ip du serveur avec le nom de domain**
+```ps
+127.0.0.1       localhost.localdomain localhost
+127.0.1.1       localhost
+224.112.545.12  monsite.fr
+```
+
+### Créer un autre virtualhost pour monsite.fr
+```ps
+sudo nano /etc/apache2/sites-available/001-monsite.conf
+```
+**Dedans, on configure à notre sauce, on a aussi enlevé Indexes avec le moins (-)**
+```ps
+<VirtualHost *:80>
+    ServerAdmin contact@jonas.fr
+    ServerName monsite.fr
+    ServerAlias *.monsite.fr
+
+    DocumentRoot /var/www/monsite.fr
+
+    <Directory /var/www/monsite.fr>
+        Options -Indexes +FollowSymLinks
+	    AllowOverride All
+    </Directory>
+
+    ErrorLog /home/dev/logs/error.log
+
+</VirtualHost>
+```
+
+**On crée le dossier logs et le fichier error.log**
+```ps
+mkdir /home/dev/logs
+
+touch /home/dev/logs/error.log
+```
+**Voir les logs  en live**
+```ps
+tail -f /home/dev/logs/error.log
+```
+
+**Puis on crée un lien symbolique pour le fichier 001-monsite.conf**
+```ps
+sudo a2ensite 001-monsite
+```
+
+**Un lien symbolique pour le fichier 001-monsite.conf a été créer dans le dossier /etc/apache2/sites-enabled**
+```ps
+ls /etc/apache2/sites-enabled -l
+```
+**Retourne**
+```ps
+total 0
+lrwxrwxrwx 1 root root 35 Feb 12 22:39 000-default.conf -> ../sites-available/000-default.conf
+lrwxrwxrwx 1 root root 35 Feb 25 15:44 001-monsite.conf -> ../sites-available/001-monsite.conf
+```
+
+#### Tester la configuration d'apache2 pour voir si il a bien été construit
+```ps
+/usr/sbin/apache2ctl configtest
+```
+**S'il y a une erreur**
+```ps
+AH00526: Syntax error on line 8 of /etc/apache2/sites-enabled/001-monsite.conf:
+Either all Options must start with + or -, or no Option may.
+Action 'configtest' failed.
+The Apache error log may have more information.
+```
+
+**S'il n'y a pas d'erreur**
+```ps
+Syntaxe OK
+```
+
+#### Après modification redémarrer le service apache
+```ps
+# Redémarrer le service apache
+sudo service apache2 restart
+# ou
+sudo service apache2 reload
+
+# Voir les logs si problème
+cat /var/log/apache2/error.log
+
+# Voir les logs si problème avec nombre de ligne
+tail -n 30 /var/log/apache2/error.log
+```
+
+### Les mods
+#### Voir les mods activé
+```ps
+ls -la /etc/apache2/mods-enabled/
+```
+
+**Exemple de retour**
+```ps
+drwxr-xr-x 2 root root 4096 Feb 18 23:15 .
+drwxr-xr-x 8 root root 4096 Feb 25 14:20 ..
+lrwxrwxrwx 1 root root   28 Feb 18 23:10 proxy.load -> ../mods-available/proxy.load
+lrwxrwxrwx 1 root root   33 Feb 12 22:39 reqtimeout.conf -> ../mods-available/reqtimeout.conf
+lrwxrwxrwx 1 root root   33 Feb 12 22:39 reqtimeout.load -> ../mods-available/reqtimeout.load
+lrwxrwxrwx 1 root root   31 Feb 12 22:39 setenvif.conf -> ../mods-available/setenvif.conf
+lrwxrwxrwx 1 root root   31 Feb 12 22:39 setenvif.load -> ../mods-available/setenvif.load
+lrwxrwxrwx 1 root root   29 Feb 12 22:39 status.conf -> ../mods-available/status.conf
+lrwxrwxrwx 1 root root   29 Feb 12 22:39 status.load -> ../mods-available/status.load
+```
+#### Voir les mods disponible
+```ps
+ls -la /etc/apache2/mods-available/
+```
+**Exemple de retour**
+```ps
+-rw-r--r-- 1 root root    97 Jun  9  2022 proxy_http2.load
+-rw-r--r-- 1 root root    89 Jun  9  2022 proxy_http.load
+-rw-r--r-- 1 root root    62 Jun  9  2022 proxy.load
+-rw-r--r-- 1 root root    89 Jun  9  2022 proxy_scgi.load
+-rw-r--r-- 1 root root    91 Jun  9  2022 proxy_uwsgi.load
+-rw-r--r-- 1 root root    97 Jun  9  2022 proxy_wstunnel.load
+-rw-r--r-- 1 root root    85 Jun  9  2022 ratelimit.load
+-rw-r--r-- 1 root root    70 Jun  9  2022 reflector.load
+-rw-r--r-- 1 root root    68 Jun  9  2022 remoteip.load
+-rw-r--r-- 1 root root  1190 Jun  9  2022 reqtimeout.conf
+-rw-r--r-- 1 root root    72 Jun  9  2022 reqtimeout.load
+-rw-r--r-- 1 root root    66 Jun  9  2022 request.load
+-rw-r--r-- 1 root root    66 Jun  9  2022 rewrite.load
+```
+
+#### Activer un mod
+
+Exemple le module rewrite
+```ps
+sudo a2enmod rewirte
+
+# Redémarrer le service apache
+sudo service apache2 restart
+# ou
+sudo service apache2 reload
 ```
 
 # Déinstaller Apache 2
