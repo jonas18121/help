@@ -370,7 +370,7 @@ sudo service apache2 reload
 cat /var/log/apache2/error.log
 
 # Voir les logs si problème avec nombre de ligne
-tail
+tail -n 30 /var/log/apache2/error.log
 ```
 ```ps
     <VirtualHost *:80>
@@ -413,19 +413,6 @@ tail
     </VirtualHost>
 ```
 
-Voici ce que chaque ligne signifie :
-
-- `<Directory /var/www/>` : Déclare le début de la section de configuration pour le répertoire "/var/www/".
-
-- `Options Indexes FollowSymLinks` : Active les options "Indexes" et "FollowSymLinks". L'option "Indexes" permet d'afficher la liste des fichiers dans le répertoire si aucun fichier n'est spécifié dans l'URL. L'option "FollowSymLinks" autorise Apache à suivre les liens symboliques qui pointent vers d'autres fichiers ou répertoires.
-
-- `AllowOverride None` : Empêche les fichiers .htaccess dans le répertoire "/var/www/" de modifier la configuration Apache.
-
-- `Require all granted` : Autorise tous les utilisateurs à accéder au contenu du répertoire "/var/www/".
-
-Ensemble, ces directives permettent à Apache d'afficher le contenu du répertoire "/var/www/" aux utilisateurs et d'autoriser tous les utilisateurs à y accéder, tout en empêchant les fichiers .htaccess de modifier la configuration Apache pour ce répertoire.
-
-Il faute enlever `Indexes` pour la prod
 ou 
 
 11. 2. OU si c'est nginx : Mettre la config nginx comme ci-dessus
