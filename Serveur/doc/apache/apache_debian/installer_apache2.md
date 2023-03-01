@@ -318,6 +318,34 @@ lrwxrwxrwx 1 root root 35 Feb 12 22:39 000-default.conf -> ../sites-available/00
 lrwxrwxrwx 1 root root 35 Feb 25 15:44 001-monsite.conf -> ../sites-available/001-monsite.conf
 ```
 
+**On peut aussi désactiver un lien symbolique pour un fichier**
+Exemple pour le fichier 000-default.conf
+```ps
+sudo a2dissite 000-default
+```
+
+**Ou faire une redirection vers le site monsite.fr**
+Exemple pour le fichier 000-default.conf
+- 1) Mettre en commentaire `DocumentRoot`, `ErrorLog` et `CustomLog`
+- 2) Ajouter `Redirect 301 /` qui pointe vers `monsite.fr` avec un vrai nom de domaine
+```ps
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        # DocumentRoot /var/www/html
+
+        # ErrorLog ${APACHE_LOG_DIR}/error.log
+        # CustomLog ${APACHE_LOG_DIR}/access.log combined
+        Redirect 301 / http://monsite.fr/
+</VirtualHost>
+```
+
+**Redémarrer le service apache**
+```ps
+sudo service apache2 restart
+```
+
+**Vider le cache aussi**
+
 #### Tester la configuration d'apache2 pour voir si il a bien été construit
 ```ps
 /usr/sbin/apache2ctl configtest
@@ -347,6 +375,11 @@ cat /var/log/apache2/error.log
 
 # Voir les logs si problème avec nombre de ligne
 tail -n 30 /var/log/apache2/error.log
+```
+
+**Voir les logs  en live**
+```ps
+tail -f /home/dev/logs/error.log
 ```
 
 ### Les mods
