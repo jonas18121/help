@@ -86,7 +86,7 @@ Host gitlab.com
 ```
 
 8. Puis faire un git clone du projet dans le serveur distant
-```ps
+```sh
 git clone git@gitlab.com:jonas1812/symfony-gitlab.git
 
 # OU
@@ -113,7 +113,7 @@ FINI
     - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
     - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
 
-```ps
+```sh
 # accéder au fichier 000-default.conf
 sudo nano /etc/apache2/sites-available/000-default.conf
 
@@ -214,7 +214,7 @@ Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https:
 
 [utilisation de curl](https://www.hostinger.fr/tutoriels/comment-utiliser-la-commande-curl-sous-linux)
 
-```ps
+```sh
 # Vérifier la version de curl pour voir s'il existe
 # s'il n'existe pas, il faut l'installer 
 curl --version
@@ -248,7 +248,7 @@ sudo apt install curl git unzip
 ## Mettre un projet manuellement sur un serveur distant avec CICD depuis GitHub
 
 1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
-```ps
+```sh
 # permission pour root
 mkdir var
 
@@ -328,7 +328,7 @@ Host github.com
 ```
 
 8. Puis faire un git clone du projet dans le serveur distant
-```ps
+```sh
 git clone git@github.com:jonas18121/symfony-github.git
 
 # OU
@@ -357,7 +357,7 @@ FINI
     - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
     - Modifiez la configuration du site web pour définir les paramètres nécessaires, tels que le nom d'hôte et le chemin du fichier de document racine. Par exemple :
 
-```ps
+```sh
 # accéder au fichier 000-default.conf
 sudo nano /etc/apache2/sites-available/000-default.conf
 
@@ -444,7 +444,7 @@ Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https:
 
 [utilisation de curl](https://www.hostinger.fr/tutoriels/comment-utiliser-la-commande-curl-sous-linux)
 
-```ps
+```sh
 # Vérifier la version de curl pour voir s'il existe
 # s'il n'existe pas, il faut l'installer 
 curl --version
