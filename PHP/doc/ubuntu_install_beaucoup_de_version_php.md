@@ -1,5 +1,6 @@
 # Comment installer PHP 7.4 sur Ubuntu 20.04 / Ubuntu 18.04 / Ubuntu 16.04
 
+- [sys-admin.fr](https://sys-admin.fr/installation-php-7-4-sur-ubuntu/)
 
 ### Veuillez vous connecter en SSH (avec putty ou autre), et mettez à jour votre distribution :
 
