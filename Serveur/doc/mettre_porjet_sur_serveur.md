@@ -128,7 +128,7 @@ cat /var/log/apache2/error.log
 # Voir les logs si problème avec nombre de ligne
 tail -n 30 /var/log/apache2/error.log
 ```
-```ps
+```sh
     <VirtualHost *:80>
         ServerName localhost
 
@@ -372,7 +372,7 @@ cat /var/log/apache2/error.log
 # Voir les logs si problème avec nombre de ligne
 tail -n 30 /var/log/apache2/error.log
 ```
-```ps
+```sh
     <VirtualHost *:80>
         ServerName localhost
 
