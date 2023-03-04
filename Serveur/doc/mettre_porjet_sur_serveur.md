@@ -6,7 +6,7 @@
 ## mettre un projet manuellement sur un serveur distant avec CICD depuis GitLab
 
 1. Créer un dossier sur le serveur, depuis le terminal qui pointe sur ce serveur. Le chemin doit être `/var/www/`
-```properties
+```sh
 # permission pour root
 mkdir var
 
