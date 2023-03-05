@@ -40,22 +40,33 @@ git --version
         - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
     - Ne cocher pas **grant write permission** (car on veut que ça soit uniquement en lecture)
 
+**Attention :**
+
+Si vous avez déjà une clé qui existe pour un autre projet dans le même GitLab, vous pouvez l'utilisé, en allant dans : 
+    - **Deploy Keys**, onglet **Privately accessible deploy keys** puis cliquez sur Activer
+    - Rechargez la page, normalement la clé sera disponible dans l'onglet **Enabled deploy keys**
+    - Vous pouvez continuez les autres étapes
+
 4. Copier les clés de votre poste vers le serveur dans un terminal local
 
 - **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
 - **user@serveur** : Envoier la clé publique sur le serveur
 - **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
 
-```ps
+```sh
+# Clé publique
 scp -p ~/.ssh/id_gitlab.pub user@serveur:~/.ssh/
 
+# Clé privée
 scp -p ~/.ssh/id_gitlab user@serveur:~/.ssh/
 ```
 
 Ou s'il faut préciser le port
-```ps
+```sh
+# Clé publique
 scp -p -P 3022 ~/.ssh/id_gitlab.pub user@serveur:~/.ssh/
 
+# Clé privée
 scp -p -P 3022 ~/.ssh/id_gitlab user@serveur:~/.ssh/
 ```
 5. A utiliser sur le serveur si besoin (en fonction des cas)
@@ -75,7 +86,7 @@ nano config
 7. Définir la clé à utiliser pour GitLab dans le fichier config du serveur distant :
 - **Host** : nom de hôte
 - **HostName** nom de hôte ou l'adresse IP du serveur distant
-- **IdentityFile** : chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH
+- **IdentityFile** : Mettre la clé privée (chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH)
 - **User** : nom de l'user, ce sera toujours si le repository vient de gitlab
 
 ```ps
