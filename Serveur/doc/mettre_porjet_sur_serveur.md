@@ -84,10 +84,10 @@ nano config
 ```
 
 7. Définir la clé à utiliser pour GitLab dans le fichier config du serveur distant :
-- **Host** : nom de hôte
-- **HostName** nom de hôte ou l'adresse IP du serveur distant
+- **Host** : nom de hôte (obligation de mettre gitlab.com)
+- **HostName** nom de hôte ou l'adresse IP du serveur distant (obligation de mettre gitlab.com)
 - **IdentityFile** : Mettre la clé privée (chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH)
-- **User** : nom de l'user, ce sera toujours si le repository vient de gitlab
+- **User** : nom de l'user, ce sera toujours git si le repository vient de gitlab (obligation de mettre git)
 
 ```ps
 Host gitlab.com
