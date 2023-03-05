@@ -50,7 +50,7 @@ cat /etc/apache2/port.conf
 ```
 
 **Retourne**
-```ps
+```sh
 # If you just change the port or add more ports here, you will likely also
 # have to change the VirtualHost statement in
 # /etc/apache2/sites-enabled/000-default.conf
@@ -78,7 +78,7 @@ cat /etc/apache2/apache2.conf
 Dedans on a la balise Directory
 
 - Dans le dossier (Directory) /var/www/ apache peut y accéder(Require all granted), (Require all denied) pour interdir l'accès à apache
-```ps
+```sh
 <Directory /var/www/>
 	Options Indexes FollowSymLinks
 	AllowOverride None
@@ -117,7 +117,7 @@ lrwxrwxrwx 1 root root   35 Feb 12 22:39 000-default.conf -> ../sites-available/
 
 Dans 000-default.conf
 
-```ps
+```sh
     <VirtualHost *:80> # Serveur virtuel qui point sur le port 80 , * : accepte toute les IP
 
         # La directive ServerName définit le schéma de requête, le nom d'hôte et le port qui
@@ -172,7 +172,7 @@ Dans 000-default.conf
 ```ps
 sudo nano /etc/apache2/sites-available/000-default.conf
 ```
-### Faire les modification puis Redémarrer le service apache
+### Faire les modifications puis Redémarrer le service apache
 ```ps
 sudo service apache2 restart
 # ou
@@ -193,7 +193,7 @@ tail -n 30 /var/log/apache2/error.log
 sudo nano /etc/apache2/apache2.conf
 ```
 
-```ps
+```sh
 <Directory />
         Options FollowSymLinks
         AllowOverride None
@@ -227,7 +227,7 @@ Ensemble, ces directives permettent à Apache d'afficher le contenu du répertoi
 Il faute enlever `Indexes` pour la prod.
 
 
-### Création d'un lien symbolique entre un projet placer quelque part et le dossier /var/www
+### Création d'un lien symbolique entre un projet placer quelque part et le dossier /var/www (voir la partie "Créer un autre virtualhost pour monsite.fr" ci-dessous)
 
 Exemple: 
 
@@ -304,6 +304,11 @@ tail -f /home/dev/logs/error.log
 
 **Puis on crée un lien symbolique pour le fichier 001-monsite.conf**
 ```ps
+ln -s /home/dev/project /var/www/monsite.fr
+```
+
+**Activer le lien symbolique**
+```ps
 sudo a2ensite 001-monsite
 ```
 
@@ -339,12 +344,7 @@ Exemple pour le fichier 000-default.conf
 </VirtualHost>
 ```
 
-**Redémarrer le service apache**
-```ps
-sudo service apache2 restart
-```
-
-**Vider le cache aussi**
+**Vider le cache aussi avec CTRL + Shit + R ou via le navigateur**
 
 #### Tester la configuration d'apache2 pour voir si il a bien été construit
 ```ps

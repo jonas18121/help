@@ -24,10 +24,16 @@ cd www
 
 2. Installer git dans le serveur distant
 
-Depuis votre shell, installez Git en utilisant apt-get :
-```ps
+Depuis votre shell, installez Git en utilisant apt-get ou apt :
+```sh
 sudo apt-get update
 sudo apt-get install git
+sudo apt-get install zip unzip php-zip
+
+# OU
+sudo apt update
+sudo apt install git
+sudo apt install zip unzip php-zip
 ```
 Vérifiez que l'installation a réussi en tapant :git --version
 ```ps
@@ -253,7 +259,14 @@ sudo apt install curl git unzip
 17. Installer PHPMyAdmin
 (voir le fichier [help/Serveur/doc/installer_phpmyadmin.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_phpmyadmin.md))
 
+18. Si c'est un projet symfony, faite les commades qu'il pour que le projet fonctionne
 
+Exemple : 
+```sh
+composer install
+
+symfony server -d
+```
 
 
 ## Mettre un projet manuellement sur un serveur distant avec CICD depuis GitHub
@@ -278,9 +291,15 @@ cd www
 2. Installer git dans le serveur distant
 
 Depuis votre shell, installez Git en utilisant apt-get :
-```ps
+```sh
 sudo apt-get update
 sudo apt-get install git
+sudo apt-get install zip unzip php-zip
+
+# OU
+sudo apt update
+sudo apt install git
+sudo apt install zip unzip php-zip
 ```
 Vérifiez que l'installation a réussi en tapant :git --version
 ```ps
@@ -482,6 +501,15 @@ sudo apt install curl git unzip
 
 17. Installer PHPMyAdmin
 (voir le fichier [help/Serveur/doc/installer_phpmyadmin.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_phpmyadmin.md))
+
+18. Si c'est un projet symfony, faite les commades qu'il pour que le projet fonctionne
+
+Exemple : 
+```sh
+composer install
+
+symfony server -d
+```
 
 
 

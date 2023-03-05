@@ -1,3 +1,103 @@
+# Comment installer PHP (8.2, 7.4 et 5.6) sur Debian 11
+
+- [Comment installer PHP (8.2, 7.4 et 5.6) sur Debian 11](https://tecadmin.net/how-to-install-php-on-debian-11/)
+
+### Tout d'abord, mettez à jour tous les packages du système à l'aide de la commande ci-dessous :
+```sh
+sudo apt update
+```
+
+### Après la mise à jour des packages, installez maintenant les dépendances requises par la commande mentionnée ci-dessous :
+```sh
+sudo apt install software-properties-common ca-certificates lsb-release apt-transport-https 
+```
+
+## Étape 1 - Activer le référentiel SURY
+
+### L'étape suivante consiste à intégrer le référentiel SURY dans notre système. SURY est un référentiel PHP tiers basé sur Debian qui regroupe des logiciels PHP. Exécutez la commande suivante pour ajouter le référentiel SURY :
+
+```sh
+sudo sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list' 
+```
+
+### Importation de la clé GPG pour le référentiel par la commande mentionnée ci-dessous :
+
+```sh
+wget -qO - https://packages.sury.org/php/apt.gpg | sudo apt-key add - 
+```
+
+## Étape 2 - Installation de PHP sur Debian 11
+
+### Maintenant, mettez à nouveau à jour les packages pour les synchroniser avec le référentiel SURY récemment ajouté avant d'installer php :
+```sh
+sudo apt update 
+```
+
+Le référentiel SURY contient PHP 8.2, 8.1, 8.0, 7.4, 7.3, 7.2. 7.1, 7.0 et PHP 5.6. Comme la dernière version stable de PHP est 8.0, mais un grand nombre de sites Web ont encore besoin de PHP 7. Vous pouvez installer n'importe laquelle des versions PHP requises sur votre système.
+
+### Installer PHP latest sur Debian
+```sh
+sudo apt install php
+```
+
+### Installer PHP 8.2 sur Debian
+```sh
+sudo apt install php8.2
+```
+
+### Installer PHP 7.4 sur Debian
+```sh
+sudo apt install php7.4
+```
+
+### Installer PHP 5.6 sur Debian
+```sh
+sudo apt install php5.6
+```
+
+Remplacez la version 8.2, 7.4 ou 5.6 par la version PHP requise à installer sur votre système Debian. Même vous pouvez installer plusieurs versions de PHP sur un seul système Debian.
+
+## Étape 3 - Installation de l'extension PHP
+
+### Installation des extension de PHP
+
+```sh
+sudo apt install php8.2-cli php8.2-mbstring php8.2-xml php8.2-common php8.2-curl 
+```
+
+### Étape 4 - Vérification de la version PHP
+
+### Maintenant, après l'installation, vérifiez que la bonne version de PHP est installée en vérifiant le numéro de version à l'aide de la commande mentionnée ci-dessous :
+```sh
+php -v 
+```
+
+## Étape 5 - Basculer entre les versions de PHP
+
+
+### Vous pouvez utiliser la commande update-alternatives pour définir la version PHP par défaut.
+
+```sh
+sudo update-alternatives --config php
+```
+
+```sh
+There are 4 choices for the alternative php (providing /usr/bin/php).
+
+  Selection    Path             Priority   Status
+------------------------------------------------------------
+* 0            /usr/bin/php8.1   81        auto mode
+  1            /usr/bin/php5.6   56        manual mode
+  2            /usr/bin/php7.2   72        manual mode
+  3            /usr/bin/php7.4   74        manual mode
+  4            /usr/bin/php8.1   81        manual mode
+  5            /usr/bin/php8.2   82        manual mode
+
+Press  to keep the current choice[*], or type selection number: 4
+```
+
+-------------------------------------------------------------------------------
+
 # Comment installer PHP 7.4 sur Ubuntu 20.04 / Ubuntu 18.04 / Ubuntu 16.04
 
 - [sys-admin.fr](https://sys-admin.fr/installation-php-7-4-sur-ubuntu/)
@@ -6,7 +106,7 @@
 
 ```sh
 sudo apt update
-sudo apt upgrade
+sudo apt upgrade # Ne pas faire dans un serveur distant
 ```
 
 ### Ajout du dépôt :
@@ -20,6 +120,7 @@ sudo apt update
 ### Installation de la dernière version de PHP 7.4 sur Ubuntu :
 ```sh
 sudo apt update
+sudo apt install php
 sudo apt install php7.4
 ```
 
@@ -27,6 +128,8 @@ sudo apt install php7.4
 ```sh
 sudo apt install php7.4-cli php7.4-common php7.4-curl php7.4-mbstring php7.4-mysql php7.4-xml
 ```
+
+
 
 # Comment installer différentes versions de PHP (5.6, 7.0 et 7.1) dans Ubuntu
 
