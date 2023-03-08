@@ -1,4 +1,54 @@
 
+### Afficher en colonne plusieurs checkbox d'adresses qui proviennent d'un FormType en utilisant EntityType
+
+ - Utilisation de la balise `<div class="form-check row">`
+```twig
+{% set formHtml %}
+    {{ form_start(form, {action:path('application_order')}) }}
+        <div class="">
+            <div class="">
+                {% for address in form.addresses %}
+                    <div class="form-check row">
+                        <div class="row">
+                            <div class="col-md-1">
+                            {{ form_widget(address) }}
+                            </div>
+
+                            <div class="col-md-10">
+                            {{ form_label(address) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="form-error" id="addresses-error">
+                    {{ form_errors(form.addresses) }}
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endset %}
+
+{{  formHtml|replace({'[br]' : '<br>'})|raw }}
+```
+
+```php
+/** @var User */
+$user = $options['user'];
+$builder
+    ->add('addresses', EntityType::class, [
+        'required' => true,
+        'label' => 'Choississez votre adresse de livraison',
+        'class' => Address::class,
+        'choices' => $user->getAddresses(),
+        'multiple' => false,
+        'expanded' => true,
+        'constraints' => [
+            new NotBlank([
+                'message' => 'Veuillez choisir une adresse',
+            ]),
+        ],
+    ]);
+```
 
 ### Compter le nombre d'inscrit dans une session
 

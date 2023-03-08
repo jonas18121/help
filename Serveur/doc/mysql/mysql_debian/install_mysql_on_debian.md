@@ -298,7 +298,7 @@ Remarque : Remplacez l' utilisateur et le mot de passe par ce que vous souhaitez
 sudo systemctl status mysql
 ```
 
-2. Arrêter le service MySQL sur votre système, pui revérifier si MYSQL est activer
+2. Arrêter le service MySQL sur votre système, puis revérifier si MYSQL est activer
 ```ps
 sudo systemctl stop mysql
 
@@ -380,7 +380,7 @@ Les commandes autoremove et autoclean suppriment les packages inutiles et nettoi
 ```ps
 whereis mysql
 ```
-```ps
+```sh
 # Retourne
 ufw: /etc/mysql /usr/share/mysql
 ```
@@ -394,7 +394,7 @@ sudo rm -rf /usr/share/mysql
 
 6. Vous pouvez effectuer les 4 tests suivants pour confirmer que mysql a été supprimé :
 
-```ps
+```sh
 Devrait renvoyer mysql:
 whereis mysql
 

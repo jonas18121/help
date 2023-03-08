@@ -161,7 +161,7 @@ sudo nano /etc/apache2/conf-available/phpmyadmin.conf
 
 10. Copiez-collez les lignes suivantes :
 
-```ps
+```sh
 Alias /phpmyadmin /var/www/html/phpmyadmin
 
 <Directory /var/www/html/phpmyadmin/>
