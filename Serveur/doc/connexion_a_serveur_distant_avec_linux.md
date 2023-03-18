@@ -158,7 +158,8 @@ id user22222
 uid=1000(user22222) gid=1000(user22222) groups=1000(user22222)
 ```
 
-5. Avec un terminal local on exceute la commande ci-dessous (qui copie la clé public pour la mettre directement dans le serveur distant)
+5. Avec un terminal local on exceute la commande ci-dessous (qui copie la clé public pour la mettre directement dans le serveur distant dnas le fichier .ssh/authorized_keys)
+    - **172.17.0.7**: adresses IP du serveur
     - **user22222** : le new user (ou le user normale)
     - **-i** : pour éviter le password
     - **ssh-copy-id** est une commande utilisée pour copier la clé publique SSH d'un ordinateur local vers un ordinateur distant,<br> 

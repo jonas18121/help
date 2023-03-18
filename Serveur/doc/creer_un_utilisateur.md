@@ -65,7 +65,7 @@ su - user22222
 5. Ajouter un utilisateur au groupe sudo ou admin, 
 
 Par exemple si l'user n'a pas le droit d'utiliser `sudo`, <br>
-on le met dans le groupe sudo pour qu'il puisse utiliser `sudo`
+on le met dans le groupe sudo pour qu'il puisse utiliser `sudo` depuis l'user root
 ```ps
 adduser name_user sudo
 
