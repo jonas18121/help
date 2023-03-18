@@ -203,3 +203,53 @@ monolog:
             channels: payment
 
 ```
+
+### pour Résourdre make quality dans Repository
+
+Mettre de cette manière la variable `$query` ainsi que `/** @var Product */` puis faire make quality
+```php
+
+/**
+ * @return Product[]
+ */
+public function getAllPublishedProductWithSeedPage()
+{
+    $query = $this->em()->createQuery('SELECT p, sp
+        FROM App\Entity\Product p
+        LEFT JOIN p.page sp
+        WHERE sp.state = :state
+        ORDER BY p.id DESC')
+        ->setParameter('state', StateEnum::PUBLISHED);
+
+    /** @var Product[] $data */
+    $data = $query->execute();
+
+    if (empty($data)) {
+        return [];
+    }
+
+    return $data;
+}
+
+/**
+ * @return Product|null
+ */
+public function getProductWithSeedPage(Page $page)
+{
+    $query = $this->em()->createQuery('SELECT p, sp
+        FROM App\Entity\Product p
+        LEFT JOIN p.page sp
+        WHERE sp = :page');
+
+    $query->setParameter('page', $page);
+
+    /** @var Product|null $result */
+    $result = $query->getOneOrNullResult();
+
+    if (null === $result) {
+        return null;
+    }
+
+    return $result;
+}
+```
