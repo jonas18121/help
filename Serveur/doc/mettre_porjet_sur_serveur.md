@@ -53,7 +53,7 @@ git --version
     - Rechargez la page, normalement la clé sera disponible dans l'onglet **Enabled deploy keys**
     - Vous pouvez continuez les autres étapes
 
-4. Copier les clés de votre poste vers le serveur dans un terminal local
+4. 1. Copier les 2 clés (privée et publique) de votre poste vers le serveur dans un terminal local
 
 - **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
 - **user@serveur** : Envoyer la clé publique sur le serveur
@@ -75,6 +75,24 @@ scp -p -P 3022 ~/.ssh/id_gitlab.pub user@serveur:~/.ssh/
 # Clé privée
 scp -p -P 3022 ~/.ssh/id_gitlab user@serveur:~/.ssh/
 ```
+
+4. 2. Exécuter `ssh -vvvv git@gitlab.com` pour voir s'il récupère la clé SSH 
+```sh
+ssh -vvvv git@gitlab.com
+```
+
+4. 3. Exécuter ssh-agent avant de l'utiliser:
+```sh
+eval `ssh-agent -s`
+```
+
+4. 4. Ajouter la clé privée SSH "id_gitlab" à l'agent d'authentification SSH de votre système d'exploitation
+
+Ce qui vous permet de vous connecter à des serveurs distants sans avoir à entrer manuellement le mot de passe à chaque fois.
+```sh
+ssh-add ~/.ssh/id_gitlab
+```
+
 5. A utiliser sur le serveur si besoin (en fonction des cas)
 ```ps
 cd ~/.ssh/
@@ -312,24 +330,43 @@ git --version
         - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
     - Ne cocher pas **Allow write access** (car on veut que ça soit uniquement en lecture)
 
-4. Copier les clés de votre poste vers le serveur dans un terminal local
+4. 1. Copier les 2 clés (privée et publique) de votre poste vers le serveur dans un terminal local
 
 - **scp --p ~/.ssh/id_github.pub** : Copier la clé publique sur notre PC
 - **user@serveur** : Envoier la clé publique sur le serveur
 - **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
 
-```ps
+```sh
 scp -p ~/.ssh/id_github.pub user@serveur:~/.ssh/
 
 scp -p ~/.ssh/id_github user@serveur:~/.ssh/
 ```
 
 Ou s'il faut préciser le port
-```ps
+```sh
 scp -p -P 3022 ~/.ssh/id_github.pub user@serveur:~/.ssh/
 
 scp -p -P 3022 ~/.ssh/id_github user@serveur:~/.ssh/
 ```
+
+
+4. 2. Exécuter `ssh -vvvv git@gitlab.com` pour voir s'il récupère la clé SSH 
+```sh
+ssh -vvvv git@gitlab.com
+```
+
+4. 3. Exécuter ssh-agent avant de l'utiliser:
+```sh
+eval `ssh-agent -s`
+```
+
+4. 4. Ajouter la clé privée SSH "id_gitlab" à l'agent d'authentification SSH de votre système d'exploitation
+
+Ce qui vous permet de vous connecter à des serveurs distants sans avoir à entrer manuellement le mot de passe à chaque fois.
+```sh
+ssh-add ~/.ssh/id_gitlab
+```
+
 5. A utiliser sur le serveur si besoin (en fonction des cas)
 ```ps
 cd ~/.ssh/
@@ -350,10 +387,10 @@ nano config
 - **IdentityFile** : chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH
 - **User** : nom de l'user, ce sera toujours si le repository vient de gitlab
 
-```ps
+```sh
 Host github.com
     HostName gitlab.com
-    IdentityFile ~/.ssh/id_github
+    IdentityFile ~/.ssh/id_github  # clé privée
     User git
 ```
 
