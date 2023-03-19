@@ -40,7 +40,7 @@ Vérifiez que l'installation a réussi en tapant :git --version
 git --version
 ```
 
-3. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
+3. 1. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
     - Copier-coller la clé publique qui permet de se connecter au serveur
         - Dans le champ key de **Deploy Keys**, mettre la clé publique qui permet de se connecter au serveur
         - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
@@ -48,7 +48,7 @@ git --version
 
 **Attention :**
 
-Si vous avez déjà une clé qui existe pour un autre projet dans le même GitLab, vous pouvez l'utilisé, en allant dans : 
+3. 2. Si vous avez déjà une clé qui existe pour un autre projet dans le même GitLab, vous pouvez l'utilisé, en allant dans : 
     - **Deploy Keys**, onglet **Privately accessible deploy keys** puis cliquez sur Activer
     - Rechargez la page, normalement la clé sera disponible dans l'onglet **Enabled deploy keys**
     - Vous pouvez continuez les autres étapes
