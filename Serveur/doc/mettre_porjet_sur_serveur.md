@@ -56,8 +56,8 @@ git --version
 4. Copier les clés de votre poste vers le serveur dans un terminal local
 
 - **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
-- **user@serveur** : Envoier la clé publique sur le serveur
-- **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
+- **user@serveur** : Envoyer la clé publique sur le serveur
+- **:~/.ssh/** : Coller la clé publique dans ce chemin du serveur
 
 ```sh
 # Clé publique
@@ -95,10 +95,10 @@ nano config
 - **IdentityFile** : Mettre la clé privée (chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH)
 - **User** : nom de l'user, ce sera toujours git si le repository vient de gitlab (obligation de mettre git)
 
-```ps
+```sh
 Host gitlab.com
     HostName gitlab.com
-    IdentityFile ~/.ssh/id_gitlab
+    IdentityFile ~/.ssh/id_gitlab # clé privée
     User git
 ```
 
