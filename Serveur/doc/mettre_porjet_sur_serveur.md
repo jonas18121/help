@@ -504,10 +504,17 @@ ls /etc/apache2/sites-available
 certbot -h
 ```
 
-12. Installer PHP
+12. Faire foncitonner le projet
+```sh
+cd /var/www/project
+
+composer install
+```
+
+13. Installer PHP
 Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md) si on veut installer php 8.1
 
-13. Installer CURL, git et unzip
+14. Installer CURL, git et unzip
 
 [utilisation de curl](https://www.hostinger.fr/tutoriels/comment-utiliser-la-commande-curl-sous-linux)
 
@@ -527,19 +534,19 @@ sudo apt update
 sudo apt install curl git unzip
 ```
 
-14. Installer composer
+15. Installer composer
 (voir le fichier [help/Serveur/doc/installer_composer.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md))
 
-15. Installer Symfony CLI
+16. Installer Symfony CLI
 (voir le fichier [help/Serveur/doc/installer_symfony_cli.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/Installer_symfony_cli.md))
 
-16. Installer MYSQL
+17. Installer MYSQL
 (voir le fichier [help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md))
 
-17. Installer PHPMyAdmin
+18. Installer PHPMyAdmin
 (voir le fichier [help/Serveur/doc/installer_phpmyadmin.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_phpmyadmin.md))
 
-18. Si c'est un projet symfony, faite les commades qu'il pour que le projet fonctionne
+19. Si c'est un projet symfony, faite les commades qu'il pour que le projet fonctionne
 
 Exemple : 
 ```sh
