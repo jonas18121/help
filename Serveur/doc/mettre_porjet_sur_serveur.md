@@ -40,7 +40,7 @@ Vérifiez que l'installation a réussi en tapant :git --version
 git --version
 ```
 
-3. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
+3. 1. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
     - Copier-coller la clé publique qui permet de se connecter au serveur
         - Dans le champ key de **Deploy Keys**, mettre la clé publique qui permet de se connecter au serveur
         - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
@@ -48,16 +48,16 @@ git --version
 
 **Attention :**
 
-Si vous avez déjà une clé qui existe pour un autre projet dans le même GitLab, vous pouvez l'utilisé, en allant dans : 
+3. 2. Si vous avez déjà une clé qui existe pour un autre projet dans le même GitLab, vous pouvez l'utilisé, en allant dans : 
     - **Deploy Keys**, onglet **Privately accessible deploy keys** puis cliquez sur Activer
     - Rechargez la page, normalement la clé sera disponible dans l'onglet **Enabled deploy keys**
     - Vous pouvez continuez les autres étapes
 
-4. Copier les clés de votre poste vers le serveur dans un terminal local
+4. 1. Copier les 2 clés (privée et publique) de votre poste vers le serveur dans un terminal local
 
 - **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
-- **user@serveur** : Envoier la clé publique sur le serveur
-- **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
+- **user@serveur** : Envoyer la clé publique sur le serveur
+- **:~/.ssh/** : Coller la clé publique dans ce chemin du serveur
 
 ```sh
 # Clé publique
@@ -75,6 +75,24 @@ scp -p -P 3022 ~/.ssh/id_gitlab.pub user@serveur:~/.ssh/
 # Clé privée
 scp -p -P 3022 ~/.ssh/id_gitlab user@serveur:~/.ssh/
 ```
+
+4. 2. Exécuter `ssh -vvvv git@gitlab.com` pour voir s'il récupère la clé SSH 
+```sh
+ssh -vvvv git@gitlab.com
+```
+
+4. 3. Exécuter ssh-agent avant de l'utiliser:
+```sh
+eval `ssh-agent -s`
+```
+
+4. 4. Ajouter la clé privée SSH "id_gitlab" à l'agent d'authentification SSH de votre système d'exploitation
+
+Ce qui vous permet de vous connecter à des serveurs distants sans avoir à entrer manuellement le mot de passe à chaque fois.
+```sh
+ssh-add ~/.ssh/id_gitlab
+```
+
 5. A utiliser sur le serveur si besoin (en fonction des cas)
 ```ps
 cd ~/.ssh/
@@ -95,10 +113,10 @@ nano config
 - **IdentityFile** : Mettre la clé privée (chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH)
 - **User** : nom de l'user, ce sera toujours git si le repository vient de gitlab (obligation de mettre git)
 
-```ps
+```sh
 Host gitlab.com
     HostName gitlab.com
-    IdentityFile ~/.ssh/id_gitlab
+    IdentityFile ~/.ssh/id_gitlab # clé privée
     User git
 ```
 
@@ -312,24 +330,43 @@ git --version
         - Dans le champ title de **Deploy Keys**, mettre le nom du fichier qui contien la clé publique pour le reconnaitre rapidement
     - Ne cocher pas **Allow write access** (car on veut que ça soit uniquement en lecture)
 
-4. Copier les clés de votre poste vers le serveur dans un terminal local
+4. 1. Copier les 2 clés (privée et publique) de votre poste vers le serveur dans un terminal local
 
 - **scp --p ~/.ssh/id_github.pub** : Copier la clé publique sur notre PC
 - **user@serveur** : Envoier la clé publique sur le serveur
 - **:~/.ssh/** : coller la clé publique dans ce chemin du serveur
 
-```ps
+```sh
 scp -p ~/.ssh/id_github.pub user@serveur:~/.ssh/
 
 scp -p ~/.ssh/id_github user@serveur:~/.ssh/
 ```
 
 Ou s'il faut préciser le port
-```ps
+```sh
 scp -p -P 3022 ~/.ssh/id_github.pub user@serveur:~/.ssh/
 
 scp -p -P 3022 ~/.ssh/id_github user@serveur:~/.ssh/
 ```
+
+
+4. 2. Exécuter `ssh -vvvv git@gitlab.com` pour voir s'il récupère la clé SSH 
+```sh
+ssh -vvvv git@gitlab.com
+```
+
+4. 3. Exécuter ssh-agent avant de l'utiliser:
+```sh
+eval `ssh-agent -s`
+```
+
+4. 4. Ajouter la clé privée SSH "id_gitlab" à l'agent d'authentification SSH de votre système d'exploitation
+
+Ce qui vous permet de vous connecter à des serveurs distants sans avoir à entrer manuellement le mot de passe à chaque fois.
+```sh
+ssh-add ~/.ssh/id_gitlab
+```
+
 5. A utiliser sur le serveur si besoin (en fonction des cas)
 ```ps
 cd ~/.ssh/
@@ -350,10 +387,10 @@ nano config
 - **IdentityFile** : chemin d'accès à la clé privée associée à la clé publique utilisée pour l'authentification SSH
 - **User** : nom de l'user, ce sera toujours si le repository vient de gitlab
 
-```ps
+```sh
 Host github.com
     HostName gitlab.com
-    IdentityFile ~/.ssh/id_github
+    IdentityFile ~/.ssh/id_github  # clé privée
     User git
 ```
 
@@ -467,10 +504,17 @@ ls /etc/apache2/sites-available
 certbot -h
 ```
 
-12. Installer PHP
+12. Faire foncitonner le projet
+```sh
+cd /var/www/project
+
+composer install
+```
+
+13. Installer PHP
 Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md) si on veut installer php 8.1
 
-13. Installer CURL, git et unzip
+14. Installer CURL, git et unzip
 
 [utilisation de curl](https://www.hostinger.fr/tutoriels/comment-utiliser-la-commande-curl-sous-linux)
 
@@ -490,19 +534,19 @@ sudo apt update
 sudo apt install curl git unzip
 ```
 
-14. Installer composer
+15. Installer composer
 (voir le fichier [help/Serveur/doc/installer_composer.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md))
 
-15. Installer Symfony CLI
+16. Installer Symfony CLI
 (voir le fichier [help/Serveur/doc/installer_symfony_cli.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/Installer_symfony_cli.md))
 
-16. Installer MYSQL
+17. Installer MYSQL
 (voir le fichier [help/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/mysql/mysql_debian/install_mysql_on_debian.md))
 
-17. Installer PHPMyAdmin
+18. Installer PHPMyAdmin
 (voir le fichier [help/Serveur/doc/installer_phpmyadmin.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_phpmyadmin.md))
 
-18. Si c'est un projet symfony, faite les commades qu'il pour que le projet fonctionne
+19. Si c'est un projet symfony, faite les commades qu'il pour que le projet fonctionne
 
 Exemple : 
 ```sh
