@@ -420,3 +420,35 @@ rsync.staging.txt
 - app/public/media/*
 - app/translations/edite/*
 ```
+
+### Doctrine : exemple de DQL pour Modifier une colonnes
+
+```php
+# AddresseRepository
+public function switchAddressByDefaultOnFalse(int $id): void
+{
+    $bool = false;
+    $this->createQueryBuilder('a')
+        ->update('App\Entity\Address', 'address')
+        ->set('address.addressByDefault', ':bool')
+        ->andWhere('address.user = :id')
+        ->setParameter('id', $id)
+        ->setParameter('bool', $bool)
+        ->getQuery()
+        ->getResult();
+}
+```
+
+### Doctrine : exemple de DQL pour Supprimer des données dans une table
+```php
+# AddresseRepository
+public function deleteAllAddress(int $id): void
+{
+    $this->createQueryBuilder('a')
+        ->delete('App\Entity\Address', 'address')
+        ->andWhere('address.user = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult();
+}
+```
