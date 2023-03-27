@@ -206,50 +206,34 @@ monolog:
 
 ### pour Résourdre make quality dans Repository
 
-Mettre de cette manière la variable `$query` ainsi que `/** @var Product */` puis faire make quality
+Mettre de cette manière la variable `$order` puis faire make quality
 ```php
 
-/**
- * @return Product[]
- */
-public function getAllPublishedProductWithSeedPage()
+public function getLastOrder(): Order
 {
-    $query = $this->em()->createQuery('SELECT p, sp
-        FROM App\Entity\Product p
-        LEFT JOIN p.page sp
-        WHERE sp.state = :state
-        ORDER BY p.id DESC')
-        ->setParameter('state', StateEnum::PUBLISHED);
+    $order = $this->createQueryBuilder('o')
+        ->orderBy('o.id', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getSingleResult();
 
-    /** @var Product[] $data */
-    $data = $query->execute();
-
-    if (empty($data)) {
-        return [];
+    if ($order instanceof Order) {
+        return $order;
     }
 
-    return $data;
+    throw new \Exception('$order must be an instance of Order.');
 }
+```
 
-/**
- * @return Product|null
- */
-public function getProductWithSeedPage(Page $page)
-{
-    $query = $this->em()->createQuery('SELECT p, sp
-        FROM App\Entity\Product p
-        LEFT JOIN p.page sp
-        WHERE sp = :page');
+### Bdd avec gitlab
 
-    $query->setParameter('page', $page);
+Pour envoyer la bdd sur gitlab il faut faire
+```sh
+bin/console app:seed:system:backup:database:gitlab
+```
+Et ça va ici en exemple https://gitlab.com/project/project/backups/-/tree/master/dev
 
-    /** @var Product|null $result */
-    $result = $query->getOneOrNullResult();
-
-    if (null === $result) {
-        return null;
-    }
-
-    return $result;
-}
+Pour récupéré depuis la dev 
+```sh
+bin/console app:seed:system:backup:database:gitlab:load -s dev
 ```
