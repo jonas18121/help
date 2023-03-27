@@ -1,6 +1,9 @@
 
 ### Afficher en colonne plusieurs checkbox d'adresses qui proviennent d'un FormType en utilisant EntityType
 
+#### Façon 1
+
+Dans le Twig
  - Utilisation de la balise `<div class="form-check row">`
 ```twig
 {% set formHtml %}
@@ -31,6 +34,7 @@
 {{  formHtml|replace({'[br]' : '<br>'})|raw }}
 ```
 
+Dans le FormType
 ```php
 /** @var User */
 $user = $options['user'];
@@ -48,6 +52,97 @@ $builder
             ]),
         ],
     ]);
+```
+
+Dans l'entité Address 
+```php
+class Address
+{
+    # .....code
+
+    public function __toString()
+    {
+        return $this->getAddressLine1() . (null !== $this->getAddressLine2() ? ' ' . $this->getAddressLine2() : null)
+        . (null !== $this->getAddressLine3() ? ' ' . $this->getAddressLine3() : null) . '[br]' . $this->getZipcode() . ' ' . $this->getCity() . ' - ' . $this->getCountry();
+    }
+
+    # .....code
+}
+```
+
+#### Façon 2 qui est mieux
+
+Dans le twig
+- On utilise `address.vars.label`
+```twig
+{{ form_start(form, {action:path('application_my_account_orders_index')}) }}
+    <div class="">
+        <div class="">
+            {% for address in form.addresses %}
+                <div class="form-check row">
+                    <div class="row">
+                        <div class="col-md-1">
+                            {{ form_widget(address) }}
+                        </div>
+                        <div class="col-md-10">
+                            {{ address.vars.label|raw }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="form-error" id="addresses-error">
+                {{ form_errors(form.addresses) }}
+            </div>
+            <a href="{{ path('application_my_account_address_add') }}">Ajouter une adresse</a> 
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group d-flex justify-content-center">
+            <input 
+                type="submit" 
+                value="Valider ma commande" 
+                class="btn btn-secondary btn-md inline-block mb-3"
+            >
+        </div>
+    </div>
+{{ form_end(form) }}
+```
+
+Dans le FormType
+- On utilise `choice_label`
+```php
+/** @var User */
+$user = $options['user'];
+$builder
+    ->add('addresses', EntityType::class, [
+        'required' => true,
+        'label' => 'Choississez votre adresse de livraison',
+        'class' => Address::class,
+        'choices' => $user->getAddresses(),
+        'multiple' => false,
+        'expanded' => true,
+        'choice_label' => function ($address) {
+            return $address->getAddressLine1() . (null !== $address->getAddressLine2() ? ' ' . $address->getAddressLine2() : null)
+            . (null !== $address->getAddressLine3() ? ' ' . $address->getAddressLine3() : null) . '<br />' . $address->getZipcode() . ' ' . $address->getCity() . ' - ' . $address->getCountry();
+        },
+        'constraints' => [
+            new NotBlank([
+                'message' => 'Veuillez choisir une adresse',
+            ]),
+        ],
+    ]);
+```
+
+Dans l'entité Address 
+
+- On supprime __toString() car on en n'a plus besoin
+```php
+class Address
+{
+    # .....code
+
+    # .....code
+}
 ```
 
 ### Compter le nombre d'inscrit dans une session
