@@ -177,6 +177,45 @@ class DefaultController extends Controller
 }
 ```
 
+### Utiliser le service session pour ajouter un message flash depuis une autre classe.
+
+La méthode $this->addFlash() est également définie dans la classe Symfony\Bundle\FrameworkBundle\Controller\AbstractController 
+
+et n'est pas directement accessible depuis d'autres classes que les contrôleurs. 
+
+Cependant, il est possible d'utiliser le service session pour ajouter un message flash depuis une autre classe.
+
+Voici un exemple de code qui montre comment utiliser le service session pour ajouter un message flash à partir d'une classe autre que le contrôleur :
+
+```php
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+class ExampleClass
+{
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
+    public function addFlashMessage()
+    {
+        $this->session->getFlashBag()->add('success', 'Le message a été envoyé avec succès.');
+    }
+}
+```
+
+Dans cet exemple, la classe ExampleClass dispose d'une dépendance SessionInterface qui est injectée via le mécanisme de l'injection de dépendances de Symfony. 
+
+La méthode addFlashMessage() utilise ensuite le service session pour ajouter un message flash à la session de l'utilisateur en utilisant la méthode add() de la FlashBag. 
+
+Dans ce cas, le message est de type success et a pour contenu "Le message a été envoyé avec succès.".
+
+Il est important de noter que pour pouvoir injecter le service session dans une classe, cette classe doit être instanciée par le conteneur de services de Symfony. 
+
+Cela signifie que la classe doit être déclarée en tant que service dans le fichier de configuration services.yaml de votre application Symfony.
+
 ### Choissir un fichier de traduction/translate dans twig
 
 2 fichiers de trad core.fr.yaml et custom.page.fr.yaml
@@ -452,3 +491,45 @@ public function deleteAllAddress(int $id): void
         ->getResult();
 }
 ```
+
+### Rediriger vers une autre route à partir d'une autre classe que le contrôleur
+
+La méthode $this->redirectToRoute() est disponible dans les contrôleurs Symfony car elle est définie dans la classe Symfony\Bundle\FrameworkBundle\Controller\AbstractController. 
+
+Cependant, si vous souhaitez rediriger vers une autre route à partir d'une autre classe que le contrôleur, vous pouvez utiliser le service router qui est injecté automatiquement dans la plupart des classes dans Symfony.
+
+Voici un exemple de code qui montre comment utiliser le service router pour rediriger vers une autre route à partir d'une classe autre que le contrôleur :
+
+```php
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\RouterInterface;
+
+class ExampleClass
+{
+    private $router;
+
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
+
+    public function redirectToAnotherRoute()
+    {
+        $routeName = 'nom_de_la_route';
+        $routeParams = array('parametre1' => 'valeur1', 'parametre2' => 'valeur2');
+        $url = $this->router->generate($routeName, $routeParams);
+
+        return new RedirectResponse($url);
+    }
+}
+```
+
+Dans cet exemple, la classe ExampleClass dispose d'une dépendance RouterInterface qui est injectée via le mécanisme de l'injection de dépendances de Symfony. 
+
+La méthode redirectToAnotherRoute() utilise ensuite le service router pour générer l'URL de la route à laquelle rediriger à partir de son nom et de ses éventuels paramètres. 
+
+Enfin, elle retourne une instance de la classe RedirectResponse qui permet de rediriger vers l'URL générée.
+
+Il est important de noter que pour pouvoir injecter le service router dans une classe, cette classe doit être instanciée par le conteneur de services de Symfony. 
+
+Cela signifie que la classe doit être déclarée en tant que service dans le fichier de configuration services.yaml de votre application Symfony.
