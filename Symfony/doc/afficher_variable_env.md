@@ -18,11 +18,13 @@ Dans le fichier `.env`, on définit la variable `APP_PARAM`.
 APP_PARAM=param_value_here
 ```
 
-### Dans le fichier `config/services.yaml`
+### Dans le fichier `config/services.yaml` ou `config/packages/parameters.yaml`
 
-Dans le fichier `config/services.yaml`, on appel la variable `APP_PARAM` en valeur d'un paramètre `app.paramname` qui représentera `APP_PARAM`.
+Dans le fichier `config/services.yaml` ou `config/packages/parameters.yaml`, on appel la variable `APP_PARAM` en valeur d'un paramètre `app.paramname` qui représentera `APP_PARAM`.
 ```yaml
 # config/services.yaml
+# OU
+# config/packages/parameters.yaml
 
 parameters:
     app.paramname: '%env(APP_PARAM)%'
