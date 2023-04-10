@@ -1,5 +1,50 @@
 # Astuces en CSS
 
+### Utilisation de font-family
+
+- [Google Fonts](https://fonts.google.com/specimen/Montserrat?query=mon)
+- [Télécharger le font Monserrat](https://fonts.google.com/download?family=Montserrat)
+
+Pour utiliser ce fichier de police Montserrat-VariableFont_wght.ttf dans votre projet, vous devez l'intégrer dans votre code CSS à l'aide de la règle @font-face. Voici un exemple de code CSS pour intégrer cette police variable :
+
+```css
+@font-face {
+  font-family: 'Montserrat';
+  src: url('fonts/Montserrat-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+}
+```
+Dans cet exemple, la police variable Montserrat est nommée et définie dans la règle @font-face. <br>
+Le chemin d'accès à la police de caractères est spécifié dans l'URL. La valeur format('truetype-variations') est utilisée pour indiquer que la police de caractères est une police variable.<br> 
+Les poids de police disponibles pour cette police variable sont spécifiés à l'aide de la propriété font-weight, allant de 100 (très léger) à 900 (très gras). <br>
+La propriété font-style est utilisée pour spécifier le style de police (normal, italique, oblique, etc.).
+
+Une fois la règle @font-face définie, vous pouvez utiliser la police variable Montserrat en spécifiant le nom de la police de caractères dans votre code CSS, comme suit :
+
+```css
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+}
+```
+Dans cet exemple, la police variable Montserrat est appliquée au corps du texte avec une épaisseur de police de 400. <br>
+Les variantes de police disponibles pour cette police variable peuvent être utilisées en spécifiant des valeurs de poids de police différentes, comme suit :
+```css
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+```
+
+Dans cet exemple, des épaisseurs de police plus élevées sont utilisées pour les titres de niveau 1 et 2.
+
+
 ### Ajuster la hauteur de la couleur du background d'une balise HTML
 
 HTML
