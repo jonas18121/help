@@ -533,3 +533,32 @@ Enfin, elle retourne une instance de la classe RedirectResponse qui permet de re
 Il est important de noter que pour pouvoir injecter le service router dans une classe, cette classe doit être instanciée par le conteneur de services de Symfony. 
 
 Cela signifie que la classe doit être déclarée en tant que service dans le fichier de configuration services.yaml de votre application Symfony.
+
+
+### Dans FormType 
+
+Avec le schéma ci dessous, il autorise , les nombres entier et décimaux avec le nombre de décimaux qu'on veut écrire après la virgule
+
+Ex : `74.5555555555`
+
+```php
+
+->add('priceToBase', NumberType::class, [
+    'required' => true,
+    'label' => 'Prix de base (€)',
+    'html5' => false
+]);
+```
+
+Avec le schéma ci dessous, il autorise , les nombres entier et décimaux puis va arrondir a 2 nombre de décimaux si on écrit plus de 2 chiffres après la virgule
+
+Ex : `74.5555555555` => `74.56`
+
+```php
+->add('priceToBase', NumberType::class, [
+    'required' => true,
+    'label' => 'Prix de base (€)',
+    'html5' => false,
+    'scale' => 2,
+]);
+```
