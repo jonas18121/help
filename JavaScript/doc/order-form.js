@@ -418,3 +418,21 @@ function showWarningEditedPage() {
     $('#message-warning-edited-page').show();
 }
 
+//////////// exemple de code symfony pour rendre un template en json
+
+    /**
+     * @Route("/backend/order/tools/product/{id}/add", name="backend_order_tools_product_add")
+     */
+    // public function toolsOrderAddProduct(
+    //     Product $product
+    // ): JsonResponse {
+    //     if ($product->getStock() > 0) {
+    //         $viewParameters = [];
+    //         $viewParameters['product'] = $product;
+    //         $viewParameters['quantity'] = 1;
+
+    //         return new JsonResponse(['result' => 'success', 'data' => $this->render('Backend/Pages/Order/Bloc/product.item.select.html.twig', $viewParameters)->getContent()]);
+    //     }
+
+    //     return new JsonResponse(['result' => 'error', 'data' => 'Ce produit est en rupture de stock.']);
+    // }
