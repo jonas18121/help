@@ -26,6 +26,12 @@ exemple :
 ```bash
     > mysql -u utilisateur -p [base_de_données]
 ```
+
+###  Se connecter à phpmyadmin en local depuis un terminal sur un projet symfony qui est sous docker
+
+```bash
+docker exec -it contenaire_mysql mysql -u user_bdd -p
+```
 ## Déconnexion à Mysql
 
 ```sql
