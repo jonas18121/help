@@ -237,3 +237,19 @@ Pour récupéré depuis la dev
 ```sh
 bin/console app:seed:system:backup:database:gitlab:load -s dev
 ```
+
+### git config
+
+```sh
+git config --global core.fileMode false
+
+git config --global core.editor nano
+
+git config --global push.default simple
+
+git config --global branch.autosetuprebase always
+
+git config --global pull.rebase true
+
+git config --global fetch.prune true
+```
