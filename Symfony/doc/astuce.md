@@ -562,3 +562,36 @@ Ex : `74.5555555555` => `74.56`
     'scale' => 2,
 ]);
 ```
+### Insérer du code HTML dans le message traduit
+
+Pour insérer du code HTML dans le message traduit, vous pouvez utiliser le filtre `|raw` autour de l'ensemble du message traduit.<br> 
+Ensuite, vous pouvez utiliser les balises Twig normales pour générer le lien HTML.
+
+Dans votre fichier de traduction (par exemple, messages.fr.yaml), définissez une clé avec des paramètres numériques :
+```yaml
+# messages.fr.yaml
+
+application.section.email.footer.message: Cliquez sur le lien de mon projet nommé %dataProjectName%
+```
+
+Voici comment vous pouvez le faire dans le twig :
+```twig
+<p>{{ 'application.section.email.footer.message'|trans({'%dataProjectName%': '<a href="' ~ data_project_url ~ '">' ~ dataProjectName ~ '</a>'})|raw }}</p>
+```
+
+Dans cet exemple, nous supposons que `dataProjectName` est une variable Twig contenant le nom du projet et `data_project_url` est une variable Twig contenant l'url du projet.
+
+La clé `application.section.email.footer.message` est traduite en utilisant `trans()`.
+
+Ensuite, nous appliquons `|raw` pour désactiver l'échappement HTML sur l'ensemble du message traduit.
+
+On utilise `%dataProjectName%` pour mettre `<a href="' ~ data_project_url ~ '">' ~ dataProjectName ~ '</a>` dedans
+
+
+#### Résultat dans le navigateur
+```html
+<p>Cliquez sur le lien de mon projet nommé <a href="https://monprojet.com">Le nom de mon projet</a></p>
+```
+
+
+
