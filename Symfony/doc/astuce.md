@@ -579,9 +579,12 @@ Voici comment vous pouvez le faire dans le twig :
 <p>{{ 'application.section.email.footer.message'|trans({'%dataProjectName%': '<a href="' ~ data_project_url ~ '">' ~ dataProjectName ~ '</a>'})|raw }}</p>
 ```
 
-Dans cet exemple, nous supposons que `dataProjectName` est une variable Twig contenant le nom du projet et `data_project_url` est une variable Twig contenant l'url du projet.<br> 
-La clé `application.section.email.footer.message` est traduite en utilisant `trans()`. <br> 
+Dans cet exemple, nous supposons que `dataProjectName` est une variable Twig contenant le nom du projet et `data_project_url` est une variable Twig contenant l'url du projet.
+
+La clé `application.section.email.footer.message` est traduite en utilisant `trans()`.
+
 Ensuite, nous appliquons `|raw` pour désactiver l'échappement HTML sur l'ensemble du message traduit.
+
 On utilise `%dataProjectName%` pour mettre `<a href="' ~ data_project_url ~ '">' ~ dataProjectName ~ '</a>` dedans
 
 
