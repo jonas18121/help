@@ -83,6 +83,30 @@ ssh user18121@172.17.0.7
 
 ça fonctionne !!!
 
+12. Permettre la connection au serveur distant sans utiliser de password, on va dans .ssh/config en local :
+
+- **Host** : nom de hôte, C'est le nom que vous donnez à cette configuration d'hôte spécifique. Vous pouvez utiliser n'importe quel nom que vous souhaitez pour identifier cet hôte dans votre fichier de configuration.
+- **IdentitiesOnly=yes** : Cette directive spécifie que seule la clé d'identité spécifiée dans la configuration sera utilisée pour l'authentification. Cela désactive l'utilisation des autres méthodes d'authentification telles que les mots de passe.
+- **HostName** nom de hôte ou l'adresse IP du serveur distant 
+- **IdentityFile** : Mettre la clé public (chemin d'accès à la clé public associée à la clé privée utilisée pour l'authentification SSH)
+- **PreferredAuthentications publickey** : Cette directive spécifie que la méthode d'authentification préférée est l'authentification par clé publique. Cela signifie que vous utiliserez une paire de clés (clé publique et clé privée) pour vous authentifier auprès du serveur distant.
+- **User** : nom de l'user, C'est le nom d'utilisateur avec lequel vous vous connectez au serveur distant
+- **Port** : On définit le port
+
+```sh
+Host user22222-login
+    HostName 172.17.0.7
+    IdentitiesOnly=yes
+    PreferredAuthentications publickey
+    Port 22
+    IdentityFile ~/.ssh/my_rsa_key.pub # clé public
+    User user22222
+```
+
+Avec la configuration ci-dessus, on peut ce connecter sans utiliser de password 
+```sh
+ssh user22222-login
+```
 
 
 ## Se Connecter à un serveur distant depuis Linux avec une clé ssh (niveau avancé)
@@ -184,7 +208,30 @@ ssh user22222@172.17.0.7
 su - user22222
 ```
 
+8. Permettre la connection au serveur distant sans utiliser de password, on va dans .ssh/config en local :
 
+- **Host** : nom de hôte, C'est le nom que vous donnez à cette configuration d'hôte spécifique. Vous pouvez utiliser n'importe quel nom que vous souhaitez pour identifier cet hôte dans votre fichier de configuration.
+- **IdentitiesOnly=yes** : Cette directive spécifie que seule la clé d'identité spécifiée dans la configuration sera utilisée pour l'authentification. Cela désactive l'utilisation des autres méthodes d'authentification telles que les mots de passe.
+- **HostName** nom de hôte ou l'adresse IP du serveur distant 
+- **IdentityFile** : Mettre la clé public (chemin d'accès à la clé public associée à la clé privée utilisée pour l'authentification SSH)
+- **PreferredAuthentications publickey** : Cette directive spécifie que la méthode d'authentification préférée est l'authentification par clé publique. Cela signifie que vous utiliserez une paire de clés (clé publique et clé privée) pour vous authentifier auprès du serveur distant.
+- **User** : nom de l'user, C'est le nom d'utilisateur avec lequel vous vous connectez au serveur distant
+- **Port** : On définit le port
+
+```sh
+Host user22222-login
+    HostName 172.17.0.7
+    IdentitiesOnly=yes
+    PreferredAuthentications publickey
+    Port 22
+    IdentityFile ~/.ssh/my_rsa_key.pub # clé public
+    User user22222
+```
+
+Avec la configuration ci-dessus, on peut ce connecter sans utiliser de password 
+```sh
+ssh user22222-login
+```
 
 
 
