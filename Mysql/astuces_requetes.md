@@ -47,8 +47,10 @@ Year(created_at) = YEAR(:search) : on recherche uniquement l'années
 
 MONTH(created_at) = MONTH(:search) : on recherche uniquement le mois
 
-Dans l'exemple de requête SQL, 
+#### Dans l'exemple de requête SQL, 
 
 `LPAD(MONTH(created_at), 2, '0')` est utilisé pour formater le mois de la colonne created_at en une chaîne de caractères de deux chiffres, en ajoutant un 0 à gauche si nécessaire. 
 
 Cela permet de comparer les mois sous forme de chaînes de caractères de longueur fixe dans la condition de la requête.
+
+L'opérateur `<>` en SQL signifie "différent de". Il est utilisé pour comparer si deux expressions sont différentes l'une de l'autre.
