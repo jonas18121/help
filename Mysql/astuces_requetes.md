@@ -46,3 +46,9 @@ Si les concaténations sont pareil, cela signifie que les enregistrements sont p
 Year(created_at) = YEAR(:search) : on recherche uniquement l'années
 
 MONTH(created_at) = MONTH(:search) : on recherche uniquement le mois
+
+Dans l'exemple de requête SQL, 
+
+`LPAD(MONTH(created_at), 2, '0')` est utilisé pour formater le mois de la colonne created_at en une chaîne de caractères de deux chiffres, en ajoutant un 0 à gauche si nécessaire. 
+
+Cela permet de comparer les mois sous forme de chaînes de caractères de longueur fixe dans la condition de la requête.
