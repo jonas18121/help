@@ -409,6 +409,45 @@ class Foo {
 }
 ```
 
+###
+
+Dans un gestionnaire (manager) Symfony, vous pouvez accéder aux paramètres définis dans le fichier parameters.yaml en utilisant le service `parameter_bag` fourni par Symfony. 
+
+Voici comment vous pouvez utiliser $this->getParameter('project_name') dans un gestionnaire :
+
+```php
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
+// ...
+
+class YourManager
+{
+    private $parameterBag;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->parameterBag = $parameterBag;
+    }
+
+    public function someMethod()
+    {
+        $projectName = $this->parameterBag->get('project_name');
+
+        // Utilisez la valeur de $projectName comme vous le souhaitez
+    }
+}
+```
+
+Dans cet exemple, le gestionnaire (YourManager) prend le service `ParameterBagInterface` en tant que dépendance via l'injection de dépendances dans le constructeur. 
+
+Cela vous permet d'accéder aux paramètres du conteneur de services.
+
+Ensuite, dans la méthode someMethod(), vous pouvez utiliser `$this->parameterBag->get('project_name')` pour récupérer la valeur du paramètre `project_name` défini dans le fichier parameters.yaml. 
+
+Vous pouvez utiliser la valeur de $projectName comme vous le souhaitez dans votre gestionnaire.
+
+Assurez-vous d'avoir configuré correctement les services et les dépendances pour que le gestionnaire puisse accéder au service `parameter_bag`.
+
 ### Pour ne pas supprimer un fichier/dossier dans un serveur
 
 - [Utiliser rsync](https://doc.ubuntu-fr.org/rsync), s'il est déjà installer
@@ -591,6 +630,19 @@ On utilise `%dataProjectName%` pour mettre `<a href="' ~ data_project_url ~ '">'
 #### Résultat dans le navigateur
 ```html
 <p>Cliquez sur le lien de mon projet nommé <a href="https://monprojet.com">Le nom de mon projet</a></p>
+```
+
+###
+
+```php
+$month = 5;
+
+if (strlen((string) $month) < 2) {
+    $month = str_pad((string) $month, 2, '0', STR_PAD_LEFT);
+}
+
+// Retourne
+// $month = "05"
 ```
 
 
