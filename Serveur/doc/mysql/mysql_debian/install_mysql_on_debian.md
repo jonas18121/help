@@ -10,6 +10,11 @@ Nous allons installer l'édition communautaire qui est un logiciel gratuit à in
 # Installer MySQL 5.7 sur Debian 11/Debian 10
 ## Étape 1 : Ajouter un référentiel MySQL sur Debian 11 / Debian 10
 
+0. Installer le paquet gnupg, si ce n'est pas fait.
+```ps
+sudo apt install gnupg
+```
+
 1. Téléchargeons et installons le package de configuration du référentiel mysql sur Debian 11 et Debian 10. Exécutez la commande ci-dessous : 
 ```ps
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.18-1_all.deb
