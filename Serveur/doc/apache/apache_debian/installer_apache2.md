@@ -44,9 +44,9 @@ Explication de l'image [serveur_debian.png](https://github.com/jonas18121/help/b
 ### Sécurité (1) Le parefeu qui peut bloqué des requètes de type http
 ### Sécurité (2) Apache répond que a un port spécifique, par défaut c'est le port 80
 
-On peut voir/changer le port dans le fichier port.conf 
+On peut voir/changer le port dans le fichier ports.conf 
 ```ps      
-cat /etc/apache2/port.conf
+cat /etc/apache2/ports.conf
 ```
 
 **Retourne**
