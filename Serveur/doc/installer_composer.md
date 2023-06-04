@@ -56,7 +56,7 @@ Si vous recevez un message indiquant Installer corrupt, vous devez télécharger
 Exécutez ensuite la commande pour vérifier à nouveau le programme d'installation. <br>
 Une fois que vous avez un programme d'installation vérifié, vous pouvez continuer.
 
-8. Pour installer composerglobalement, utilisez la commande suivante pour télécharger et installer Composer en tant que commande système nommée composer sous `/usr/local/bin` :
+8. Pour installer composer globalement, utilisez la commande suivante pour télécharger et installer Composer en tant que commande système nommée composer sous `/usr/local/bin` :
 ```ps
 sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 ```
