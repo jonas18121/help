@@ -279,7 +279,7 @@ sudo apt install curl git unzip
 17. Installer PHPMyAdmin
 (voir le fichier [help/Serveur/doc/installer_phpmyadmin.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_phpmyadmin.md))
 
-18. Si c'est un projet symfony, faite les commades qu'il pour que le projet fonctionne
+18. Si c'est un projet symfony, faite les commades pour que le projet fonctionne
 
 Exemple : 
 ```sh
@@ -514,7 +514,9 @@ composer install
 ```
 
 13. Installer PHP
-Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/installer_composer.md) si on veut installer php 8.1
+Voir le fichier [help/Serveur/doc/install_php_8_sur_serveur_debian_11.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/PHP/install_php_8_sur_serveur_debian_11.md) si on veut installer php 8.1
+
+OU Voir un exemple avec [PHP7.1](https://github.com/jonas18121/help/blob/master/Serveur/doc/PHP/install_php7.1.md)
 
 14. Installer CURL, git et unzip
 
