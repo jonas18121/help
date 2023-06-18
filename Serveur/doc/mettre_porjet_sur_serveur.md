@@ -54,10 +54,9 @@ git --version
     - Vous pouvez continuez les autres étapes
 
 4. 1. Copier les 2 clés (privée et publique) de votre poste vers le serveur dans un terminal local
-
-- **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
-- **user@serveur** : Envoyer la clé publique sur le serveur
-- **:~/.ssh/** : Coller la clé publique dans ce chemin du serveur
+    - **scp --p ~/.ssh/id_gitlab.pub** : Copier la clé publique sur notre PC
+    - **user@serveur** : Envoyer la clé publique sur le serveur
+    - **:~/.ssh/** : Coller la clé publique dans ce chemin du serveur
 
 ```sh
 # Clé publique
@@ -74,6 +73,26 @@ scp -p -P 3022 ~/.ssh/id_gitlab.pub user@serveur:~/.ssh/
 
 # Clé privée
 scp -p -P 3022 ~/.ssh/id_gitlab user@serveur:~/.ssh/
+```
+
+Ou si on utilise un nom de `host` créer dans le fichier `.ssh/config`
+
+Exemple de nom de host : 
+```sh
+Host jonas-18121
+  IdentitiesOnly=yes
+  Hostname 140.112.521.368
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_gitlab.pub
+  Port 3022
+  User jonas
+```
+```sh
+# Clé publique
+scp -p ~/.ssh/id_gitlab.pub jonas-18121:~/.ssh/
+
+# Clé privée
+scp -p ~/.ssh/id_gitlab jonas-18121:~/.ssh/
 ```
 
 4. 2. Exécuter `ssh -vvvv git@gitlab.com` pour voir s'il récupère la clé SSH 
