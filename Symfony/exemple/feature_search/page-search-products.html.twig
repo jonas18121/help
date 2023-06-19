@@ -1,0 +1,47 @@
+
+<div class="container rounded bg-black my-5 p-0 page-search-products">
+	<div class="py-1">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 mt-5">
+					<div class="text-left">
+						<p class="pt-2">
+							{# exemple de phrase : Recherche "pierre" : 3 produit(s) trouvé(s) #}
+							{{ 'frontend.search.message.product_found'|trans({
+									'%query%': '"<b>' ~ query ~ '</b>"',
+									'%count%': '<b>' ~ count ~ '</b>',
+								})|raw }}
+						</p>
+					</div>
+				</div>
+				{% if products|length > 0 %}
+					<div class="col-md-4 mt-5">
+						<div class="d-flex align-items-center">
+							<select class="form-control" name="s" id="search-sort">
+								<option value="alphabetic">{{'frontend.search.select.option_1'|trans}}</option>
+								<option value="newer">{{'frontend.search.select.option_2'|trans}}</option>
+								<option value="older">{{'frontend.search.select.option_3'|trans}}</option>
+								<option value="cheaper">{{'frontend.search.select.option_4'|trans}}</option>
+								<option value="expensive">{{'frontend.search.select.option_5'|trans}}</option>
+							</select>
+							<label for="search-sort" class="ml-4 mt-2" id="icon-down" title="{{'frontend.search.btn.select.label'|trans}}">
+								<i class="fas fa-sort-amount-down-alt"></i>
+							</label>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+
+		{% if products|length > 0 %} 
+			{#  code list #}
+			{% include 'Frontend/Pages/page-search-products/Blocs/content-page-search-products-list.html.twig' with {'products': products} %}
+		{% else %}
+			<div class=" my-5 text-center">
+				{# Désolé, aucun produit trouvé #}
+				<span class="p-2 bg-primary rounded">{{ 'frontend.search.message.product_not_found'|trans }}</span>
+			</div>
+		{% endif %}
+	</div>
+</div>

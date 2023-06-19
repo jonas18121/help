@@ -18,7 +18,7 @@
 1. Désactiver runner partager dans gitlab
 
 2. **On Crée le runner sous docker**
-```ps
+```sh
 # Créer un répertoire
 sudo mkdir -p /data/ 
 
@@ -89,7 +89,7 @@ Le lancer une pipepline, normalement tout est bon
 
 3. **On configure le DNS de l'instance gitlab** (cette partie est facultative)
 
-```ps
+```sh
 cat /etc/hosts # voir le hosts 
 sudo nano /etc/hosts # modifier le hosts
 sudo nano /etc/gitlab/gitlab.rb # Modifier gitlab.rb
@@ -97,7 +97,7 @@ gitlab-ctl reconfigure # Recharger la configuration
 ```
 
 4. Voir l'image docker dans le PC
-```ps
+```sh
 docker ps
 
 # retour
@@ -106,7 +106,7 @@ fb194c3b4225   gitlab/gitlab-runner:latest   "/usr/bin/dumb-init …"   37 minut
 ```
 
 5. Voir les logs
-```ps
+```sh
 docker logs runner-twaqwpc-project-42796794-concurrent-0-5b3ff8b314589eeb-build-2
 
 docker logs -f runner-twaqwpc-project-42796794-concurrent-0-5b3ff8b314589eeb-build-2
@@ -128,7 +128,7 @@ No lint issues found.
 
 1. Désactiver runner partager dans gitlab
 
-```ps
+```sh
 # Télécharger le fichier .deb
 curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
 
@@ -164,7 +164,7 @@ cat /etc/gitlab-runner/config.toml
 
 ## autre façon de faire sous linux
 
-```ps
+```sh
 # Download the binary for your system
 sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
 
@@ -186,7 +186,7 @@ sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGI
 Si les commandes ci-dessus on déjà été exécuter pour créer un autre runner spécifique par exemple, il suffit juste d'exécuter la commande ci-dessous,
 
 pour enregistrer le runner de manière spécifique en ajoutant le token du projet spécifique.
-```ps
+```sh
 jonas@jonas18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-gitlab (main)$ sudo gitlab-runner register --url https://gitlab.com/ --registration-token GR134894hdgdjdbdjknEcHAPyF
 [sudo] Mot de passe de jonas : 
 Runtime platform                                    arch=amd64 os=linux pid=658493 revision=12475144 version=15.8.0
@@ -220,8 +220,13 @@ php
 Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
 ```
 
+Démarrer manuellement avec la commande ci-dessous
+```sh
+gitlab-runner run
+```
+
 ## Voir fichier hosts + Modifier gitlab.rb + Recharger la configuration
-```ps
+```sh
 cat /etc/hosts # voir le hosts 
 sudo nano /etc/hosts # modifier le hosts
 sudo nano /etc/gitlab/gitlab.rb # Modifier gitlab.rb
