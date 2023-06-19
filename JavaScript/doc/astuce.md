@@ -78,6 +78,9 @@ let isInvalid = false;
 
 ### Traduction avec variable
 
+- Installer [willdurand/js-translation-bundle](https://packagist.org/packages/willdurand/js-translation-bundle)
+- Télécharger [toastr](https://www.cdnpkg.com/toastr.js/file/toastr.min.js/) (Facultatif) 
+
 Dans le fichier `translation.js`
 - On Définit la variable `name` avec le signe du pourcentage
 ```js
