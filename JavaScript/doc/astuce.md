@@ -104,6 +104,7 @@ Dans le fichier `specific.js`
 - La clé `name` entre crochet, va modifier la variable `%name%` définit dans le fichier `translation.js`
 ```js
 // specific.js
+
 import toastr from '../../../../public/assets/shared_all/plugins/toastr/toastr.min.js';
 import '../../translations.js'
 import Translator from '../../../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js';
