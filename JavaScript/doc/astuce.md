@@ -45,28 +45,6 @@ let valueClass = $( "#id_input_select option:selected" )[0].classList['value'];
 
 ```js
 let isInvalid = false;
-  // const cardNumberInput = document.getElementById('page_product_update_category');
-  // const cardForm = document.getElementById('page_product_update');
-
-  // const errorDiv = document.getElementById('invalid-category');
-
-
-  // categoryId = cardNumberInput.value;
-  // categoryName = cardNumberInput.options[cardNumberInput.selectedIndex].text;
-
-  // isInvalid = categoryName.split(' ').some(function(word){return word === 'supprimé'});
-
-
-  // console.log(errorDiv);
-  // console.log(cardNumberInput.selectedIndex);
-
-
-  
-  
-  
-  
-  
-  // console.log(categoryName);
   
     // get form
     const cardForm = $('#page_product_update');
@@ -96,4 +74,46 @@ let isInvalid = false;
             $('html,body').animate({scrollTop: 0}, 'slow');
         }
     })
+```
+
+### Traduction avec variable
+
+Dans le fichier `translation.js`
+- On Définit la variable `name` avec le signe du pourcentage
+```js
+// translation.js
+
+import Translator from '../../../../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js';
+
+$(function() {
+    (function (Translator) {
+        Translator.fallback      = 'fr';
+        Translator.defaultDomain = 'javascript';
+        Translator.add('frontend.js.message.hello', 'Bonjour %name%, comment vas tu ?', 'javascript', 'fr');
+        Translator.add('frontend.js.message.hello', 'Hello %name%, how are you ?', 'javascript', 'en');
+    })(Translator);   
+});
+```
+
+Dans le fichier `specific.js` 
+- On va utiliser `Translator.trans(`
+- On lui passe en valeur la variable `name` entre les crochets, 
+- La clé `name` entre crochet, va modifier la variable `%name%` définit dans le fichier `translation.js`
+```js
+// specific.js
+import toastr from '../../../../public/assets/shared_all/plugins/toastr/toastr.min.js';
+import '../../translations.js'
+import Translator from '../../../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js';
+
+let name = 'Jonas';
+
+$(function () {    
+    $("#idName").text(
+        Translator.trans(
+            'frontend.js.message.hello', 
+            {name: name}, 
+            'javascript'
+        )
+    );
+});
 ```
