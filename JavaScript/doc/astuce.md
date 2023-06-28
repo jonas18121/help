@@ -104,6 +104,7 @@ Dans le fichier `specific.js`
 - La clé `name` entre crochet, va modifier la variable `%name%` définit dans le fichier `translation.js`
 ```js
 // specific.js
+
 import toastr from '../../../../public/assets/shared_all/plugins/toastr/toastr.min.js';
 import '../../translations.js'
 import Translator from '../../../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js';
@@ -119,4 +120,160 @@ $(function () {
         )
     );
 });
+```
+
+### Afficher et positionner dynamiquement un élément en fonction d'un autre élément sélectionné.
+
+```js
+function toogleShippingAddresses(elementDomId) {
+
+    // $(elementDomId).on(event, function(){
+        let shippingAddresses = $('#shippingAddresses');
+        if ($(elementDomId).is(':checked')) {
+    
+            shippingAddresses.show(1000);
+    
+            if (elementDomId === '#order_shippingModes_2') {
+                let targetElement = $(elementDomId);
+                // let targetElementTop = targetElement.offset().top + targetElement.outerHeight();
+                // let targetElementTop = targetElement.position().top + targetElement.outerHeight();
+                let targetElementTop = targetElement.offset().top - 1010;
+
+                console.log(elementDomId);
+                console.log(targetElement.position().top);
+                console.log(targetElement.outerHeight());
+                console.log(targetElementTop);
+                console.log(targetElement.offset().top);
+
+                shippingAddresses.css('top', targetElementTop);
+            }
+    
+            if ($(elementDomId).is('#order_shippingModes_3')) {
+                let targetElement = $(elementDomId);
+                // let targetElementTop = targetElement.position().top + targetElement.outerHeight();
+                let targetElementTop = targetElement.offset().top - 1060;
+
+                console.log(elementDomId);
+                console.log(targetElement.position().top);
+                console.log(targetElement.outerHeight());
+                console.log(targetElementTop);
+                console.log(targetElement.offset().top);
+
+                shippingAddresses.css('top', targetElementTop);
+            }
+    
+            // make scrollable
+            let shippingAddressCount = $('#shippingAddresses .form-check').length;
+            if (shippingAddressCount > 4) {
+                shippingAddresses.css('height', '380px');
+                shippingAddresses.css('overflow-y', 'auto');
+            }
+        }
+        else {
+            shippingAddresses.hide(1000);
+        }
+    // }); 
+}
+```
+
+Ce code est une fonction nommée `toogleShippingAddresses` qui prend en paramètre l'ID d'un élément DOM. Voici une explication ligne par ligne du code :
+
+1. La fonction commence par sélectionner l'élément avec l'ID `#shippingAddresses` et le stocke dans la variable `shippingAddresses`.
+
+2. Ensuite, il vérifie si l'élément avec l'ID spécifié est coché (utilisation de `$(elementDomId).is(':checked')`).
+
+3. Si l'élément est coché, il affiche l'élément `#shippingAddresses` avec une animation de 1000 ms en utilisant `shippingAddresses.show(1000)`.
+
+4. Ensuite, il vérifie si l'élément en question correspond à `#order_shippingModes_2` en comparant elementDomId avec `'#order_shippingModes_2'`.
+
+5. Si c'est le cas, il sélectionne l'élément avec l'ID `#order_shippingModes_2` et le stocke dans la variable `targetElement`.
+
+6. Ensuite, il calcule la position verticale de targetElement en utilisant `targetElement.offset().top` et soustrait une valeur spécifique pour ajuster le positionnement (par exemple, 1010 dans cet exemple).
+
+7. Les valeurs de position et de hauteur de `targetElement` sont affichées dans la console à des fins de débogage.
+
+8. Enfin, il applique la valeur de `targetElementTop` comme position top de l'élément #shippingAddresses en utilisant `shippingAddresses.css('top', targetElementTop)`.
+
+9. Le même processus est répété pour l'élément avec l'ID `#order_shippingModes_3` en ajustant les valeurs spécifiques.
+
+10. Enfin, il vérifie si le nombre d'éléments avec la classe `.form-check` à l'intérieur de #shippingAddresses est supérieur à 4. Si c'est le cas, il applique des styles pour rendre la zone de contenu de `#shippingAddresses` scrollable.
+
+11. Si l'élément n'est pas coché, il masque `#shippingAddresses` avec une animation de 1000 ms en utilisant `shippingAddresses.hide(1000)`.
+
+C'est ainsi que la fonction `toogleShippingAddresses` fonctionne pour afficher et positionner dynamiquement l'élément `#shippingAddresses` en fonction de l'élément sélectionné.
+
+### Afficher un spinner de chargement dans jQuery 
+
+
+```html
+<div id="loadingSpin"></div>
+```
+
+Lorsque l'on click sur un element qui exécute du ajax, le spinner va s'activer
+
+- `.ajaxStart(function () { ... })` : Cette méthode est utilisée pour définir un gestionnaire de l'événement ajaxStart. 
+Cela signifie que lorsque des requêtes AJAX sont initiées, la fonction anonyme passée en paramètre sera exécutée.
+
+- `.ajaxStop(function () { ... })` : Cette méthode est utilisée pour définir un gestionnaire de l'événement ajaxStop. 
+Cela signifie que lorsque toutes les requêtes AJAX en cours sont terminées, la fonction anonyme passée en paramètre sera exécutée.
+
+```js
+var $loading = $('#loadingSpin').hide();
+$(document)
+    .ajaxStart(function () {
+        $loading.show();
+    })
+    .ajaxStop(function () {
+        $loading.hide();
+    });
+```
+
+Exemple de requète Ajax,
+
+- Lorsque la requète Ajax, va être exécuter `ajaxStart` va être activer
+- Lorsque la requète Ajax, sera terminer `ajaxStop` va être activer
+```js
+let baseUrl = window.location.origin;
+$.ajax({
+    url: baseUrl + '/mon/chemin/' + $('#id').val() + '/auth',
+    data: {},
+    success: function(response) {
+        
+    },
+    error: function (xhr, textStatus, error) {
+        'Error : ' + xhr.statusText + '.';
+    },
+    complete: function (data) {
+        // Nothing
+    }
+});
+```
+
+CSS pour créer le spinner
+```css
+ #loadingSpin::before {
+    animation: 1.5s linear infinite spinner;
+    animation-play-state: inherit;
+    border: solid 8px #cfd0d1;
+    border-bottom-color: $main-color;
+    border-radius: 50%;
+    content: "";
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 100px;
+    will-change: transform;
+    z-index: 1000;
+}
+
+@keyframes spinner {
+    0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+}
 ```
