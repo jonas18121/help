@@ -201,3 +201,79 @@ Ce code est une fonction nommée `toogleShippingAddresses` qui prend en paramèt
 11. Si l'élément n'est pas coché, il masque `#shippingAddresses` avec une animation de 1000 ms en utilisant `shippingAddresses.hide(1000)`.
 
 C'est ainsi que la fonction `toogleShippingAddresses` fonctionne pour afficher et positionner dynamiquement l'élément `#shippingAddresses` en fonction de l'élément sélectionné.
+
+### Afficher un spinner de chargement dans jQuery 
+
+
+```html
+<div id="loadingSpin"></div>
+```
+
+Lorsque l'on click sur un element qui exécute du ajax, le spinner va s'activer
+
+- `.ajaxStart(function () { ... })` : Cette méthode est utilisée pour définir un gestionnaire de l'événement ajaxStart. 
+Cela signifie que lorsque des requêtes AJAX sont initiées, la fonction anonyme passée en paramètre sera exécutée.
+
+- `.ajaxStop(function () { ... })` : Cette méthode est utilisée pour définir un gestionnaire de l'événement ajaxStop. 
+Cela signifie que lorsque toutes les requêtes AJAX en cours sont terminées, la fonction anonyme passée en paramètre sera exécutée.
+
+```js
+var $loading = $('#loadingSpin').hide();
+$(document)
+    .ajaxStart(function () {
+        $loading.show();
+    })
+    .ajaxStop(function () {
+        $loading.hide();
+    });
+```
+
+Exemple de requète Ajax,
+
+- Lorsque la requète Ajax, va être exécuter `ajaxStart` va être activer
+- Lorsque la requète Ajax, sera terminer `ajaxStop` va être activer
+```js
+let baseUrl = window.location.origin;
+$.ajax({
+    url: baseUrl + '/mon/chemin/' + $('#id').val() + '/auth',
+    data: {},
+    success: function(response) {
+        
+    },
+    error: function (xhr, textStatus, error) {
+        'Error : ' + xhr.statusText + '.';
+    },
+    complete: function (data) {
+        // Nothing
+    }
+});
+```
+
+CSS pour créer le spinner
+```css
+ #loadingSpin::before {
+    animation: 1.5s linear infinite spinner;
+    animation-play-state: inherit;
+    border: solid 8px #cfd0d1;
+    border-bottom-color: $main-color;
+    border-radius: 50%;
+    content: "";
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 100px;
+    will-change: transform;
+    z-index: 1000;
+}
+
+@keyframes spinner {
+    0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+}
+```
