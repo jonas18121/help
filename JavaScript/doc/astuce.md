@@ -202,7 +202,7 @@ Ce code est une fonction nommée `toogleShippingAddresses` qui prend en paramèt
 
 C'est ainsi que la fonction `toogleShippingAddresses` fonctionne pour afficher et positionner dynamiquement l'élément `#shippingAddresses` en fonction de l'élément sélectionné.
 
-### Afficher un spinner de chargement dans jQuery 
+### Afficher un spinner de chargement dans jQuery (Chargement de page)
 
 
 ```html
@@ -277,3 +277,59 @@ CSS pour créer le spinner
     }
 }
 ```
+
+### Observer les changements dans le DOM (Document Object Model) d'une div spécifique
+
+```js
+/** 
+ * Observez les changements DOM dans la span, si la span est vide, on enlève la cochée de l'entrée radio
+ * 
+ * Fonction pour réagir au changement de contenu span
+*/
+function handleContentChange() {
+    $('span[onclick="function_close_JS();"]').on('click', function() {
+        $('#observerDiv').css({'display': 'none', 'top': '16px'});
+        $('#id_input_radio').prop('checked', false);
+    });
+}
+ //////////// Observez les changements DOM dans la div, si la div est vide, on enlève la cochée de l'entrée radio  //////////          
+// Observer les changements DOM dans la div
+const observer = new MutationObserver(handleContentChange);
+// Configurer la surveillance pour surveiller les modifications de l'enfant de div
+const config = { childList: true };
+// Commencer à observer sur la div
+observer.observe(document.getElementById('observerDiv'), config);
+```
+
+Contenue de #observerDiv vide
+```html
+<div id="observerDiv" class=""></div>
+<input type="radio" id="id_input_radio"/>
+```
+Contenue de #observerDiv plein
+```html
+<div id="observerDiv" class="">
+    <span onclick="function_close_JS()">
+        code ....
+    </span>
+</div>
+<input type="radio" id="id_input_radio"/>
+```
+
+Ce code JavaScript permet d'observer les changements dans le DOM (Document Object Model) d'une div spécifique, et plus précisément dans le contenu de cette div.
+
+Voici une explication ligne par ligne du code :
+
+1. - Le commentaire indique que le but est d'observer les changements dans la div et de supprimer la sélection (checked) d'un élément radio (radio input) si la div est vide.
+
+2. - On crée une nouvelle instance de MutationObserver, qui est une interface JavaScript permettant de réagir aux mutations (changements) observées dans le DOM.
+
+3. - On définit une fonction nommée "handleContentChange" qui sera appelée lorsque des changements dans le contenu de la div observée seront détectés.
+
+4. - On crée un objet de configuration nommé "config" avec la propriété "childList" définie à "true". Cela indique à l'observateur de surveiller les changements apportés aux enfants (éléments enfants) de la div observée.
+
+5. - On utilise la méthode "getElementById" pour récupérer la référence à l'élément de div spécifique avec l'ID "observerDiv" dans le document.
+
+6. - On appelle la méthode "observe" de l'instance de MutationObserver pour commencer à observer les changements dans la div. On lui passe en paramètre l'élément de div et l'objet de configuration.
+
+En résumé, ce code met en place un observateur de mutations (MutationObserver) pour surveiller les changements dans le contenu de la div avec l'ID "observerDiv".<br> Lorsque des modifications sont détectées, la fonction "handleContentChange" sera appelée, mais le code de cette fonction n'est pas inclus dans l'extrait fourni.
