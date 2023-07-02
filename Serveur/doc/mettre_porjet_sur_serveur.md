@@ -162,6 +162,8 @@ FINI
 
 10. Construire : gitlab CICD avec les fichiers yml pour deployer le projet dans le serveur (git pull etc..)
 
+Faire `git pull` avec le fichier `.gitlab-ci.yml` dans le projet, pour que la pepline puisse fonctionner
+
 11. 1. si on utilise apache :
     - Voir le fichier [help/Serveur/doc/installer_apache2.md](https://github.com/jonas18121/help/blob/master/Serveur/doc/apache/apache_debian/installer_apache2.md) avec les configurations à faire
     - Ouvrez le fichier de configuration d'Apache pour le site web, généralement nommé "000-default.conf" ou "default.conf" dans le répertoire "/etc/apache2/sites-available".
