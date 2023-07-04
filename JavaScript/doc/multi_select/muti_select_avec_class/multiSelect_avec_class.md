@@ -71,25 +71,28 @@ export class MultiSelectFunction {
      * Manage multiple selection with ajax
      * 
      * @param {string} urlComplement
+     * @param {string} elementDomId
      * 
      * @returns {void}
      */
-    manageMultiSelectWithAjax(urlComplement) {
-        const multiSelectFunction = this;
-        let baseUrl = window.location.origin;
-        $.ajax({
-            url: baseUrl + urlComplement,
-            data: {},
-            success: function(response) {
-                multiSelectFunction.manageMultiSelect('.multiSelectUpdated', 80, response);
-            },
-            error: function (xhr, textStatus, error) {
-                'Error : ' + xhr.statusText + '.';
-            },
-            complete: function (data) {
-                // Nothing
-            }
-        });
+    manageMultiSelectWithAjax(urlComplement, elementDomId) {
+        if ($('body').find(elementDomId).length > 0) {
+            const multiSelectFunction = this;
+            let baseUrl = window.location.origin;
+            $.ajax({
+                url: baseUrl + urlComplement,
+                data: {},
+                success: function(response) {
+                    multiSelectFunction.manageMultiSelect(elementDomId, 80, response);
+                },
+                error: function (xhr, textStatus, error) {
+                    'Error : ' + xhr.statusText + '.';
+                },
+                complete: function (data) {
+                    // Nothing
+                }
+            });
+        }
     }
     
     /**
@@ -272,7 +275,7 @@ $(function() {
 
     // For form update
     let productId = $('#page-container').attr('data-product-id');
-    multiSelectFunction.manageMultiSelectWithAjax('/backend/category/' + productId + '/product');
+    multiSelectFunction.manageMultiSelectWithAjax('/backend/category/' + productId + '/product', '.multiSelectUpdated');
 
     // For form create
     multiSelectFunction.manageMultiSelect('.multiSelectCreated', 45, null);
