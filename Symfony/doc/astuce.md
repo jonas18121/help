@@ -288,7 +288,7 @@ OU
 date_default_timezone_set('Europe/Paris');
 ```
 
-###  Convertir une chaîne de caractères représentant une date au format "jour/mois/année" en un objet DateTime en PHP
+### Convertir une chaîne de caractères représentant une date au format "jour/mois/année" en un objet DateTime en PHP
 
 Pour convertir une chaîne de caractères représentant une date au format `"jour/mois/année"` en un objet DateTime en PHP, vous pouvez utiliser la fonction `DateTime::createFromFormat()`.
 
