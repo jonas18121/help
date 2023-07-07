@@ -229,4 +229,30 @@ export class FormCheckFunction {
             $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
         }
     }
+
+    /**
+     * empty Input
+     * 
+     * @param {string[]} elementsInput 
+     * 
+     * @returns {void} 
+     */
+    emptyInput(elementsInput) {
+        for (let index = 0; index < elementsInput.length; index++) {
+            $(elementsInput[index]).val('');
+        }
+    }
+
+    /**
+     * Reset value of select to first option
+     * 
+     * @param {string[]} elementsSelect 
+     * 
+     * @returns {void} 
+     */
+    resetSelect(elementsSelect) {
+        for (let index = 0; index < elementsSelect.length; index++) {
+            $(elementsSelect[index]).val($(elementsSelect[index] + ' option:first').val());
+        }
+    }
 }
