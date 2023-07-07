@@ -288,6 +288,31 @@ OU
 date_default_timezone_set('Europe/Paris');
 ```
 
+###  Convertir une chaîne de caractères représentant une date au format "jour/mois/année" en un objet DateTime en PHP
+
+Pour convertir une chaîne de caractères représentant une date au format `"jour/mois/année"` en un objet DateTime en PHP, vous pouvez utiliser la fonction `DateTime::createFromFormat()`.
+
+Voici comment vous pouvez convertir la chaîne "09/07/2023" en un objet DateTime :
+
+```php
+$dateString = "09/07/2023";
+$date = DateTime::createFromFormat("d/m/Y", $dateString);
+
+if ($date) {
+    echo $date->format("Y-m-d"); // Affiche la date au format "année-mois-jour" (par exemple : 2023-07-09)
+} else {
+    echo "La conversion de la date a échoué.";
+}
+```
+
+La fonction `createFromFormat()` prend deux arguments : le premier est le format de la chaîne de caractères d'origine, et le deuxième est la chaîne elle-même.
+
+Dans cet exemple, le format `"d/m/Y"` est utilisé pour spécifier que la chaîne de caractères est au format "jour/mois/année". 
+
+Si la conversion réussit, vous obtiendrez un objet DateTime correspondant à la date spécifiée. 
+
+Vous pouvez ensuite utiliser les méthodes de l'objet DateTime, comme `format()`, pour formater la date selon vos besoins.
+
 ### Obtenir le répertoire racine dans Symfony 5
 
 - [Accéder aux paramètres de configuration](https://symfony.com/doc/current/configuration.html#accessing-configuration-parameters)
