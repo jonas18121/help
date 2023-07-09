@@ -306,9 +306,17 @@ Exemple :
 ```sh
 composer install
 
-symfony server -d
-```
+// symfony server -d
 
+php bin/console doctrine:database:create
+
+php bin/console doctrine:schema:create
+
+php bin/console doctrine:fixtures:load
+```
+A partir de cela, nous pouvons nous rendre sur l'adresse dans le navigateur ex: `http://adressesIP` et le site fonctionnera.
+
+S'il y a des erreurs, il faut les corrigées
 
 ## Mettre un projet manuellement sur un serveur distant avec CICD depuis GitHub
 
