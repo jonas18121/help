@@ -313,6 +313,63 @@ Si la conversion réussit, vous obtiendrez un objet DateTime correspondant à la
 
 Vous pouvez ensuite utiliser les méthodes de l'objet DateTime, comme `format()`, pour formater la date selon vos besoins.
 
+### Reformater une date au format "YYYY-MM-DD HH:mm:ss" en "DD/MM/YYYY HH:mm" en utilisant jQuery
+
+Pour reformater une date au format "YYYY-MM-DD HH:mm:ss" en "DD/MM/YYYY HH:mm" en utilisant jQuery et la localisation pour la France, vous pouvez utiliser la bibliothèque Moment.js. Voici comment vous pouvez procéder :
+
+Incluez la bibliothèque Moment.js et le fichier de localisation pour la France dans votre page HTML :
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/fr.js"></script>
+```
+
+Assurez-vous d'ajuster le chemin vers les fichiers Moment.js selon votre configuration.
+
+Utilisez Moment.js pour formater la date selon vos besoins :
+
+```js
+var dateStr = "2023-07-09 14:30:00.000000";
+var formattedDate = moment(dateStr, "YYYY-MM-DD HH:mm:ss").locale('fr').format("DD/MM/YYYY HH:mm");
+
+console.log(formattedDate); // Affiche "09/07/2023 14:30"
+
+```
+### Utiliser Moment.js avec Moment-Timezone dans Symfony
+
+Pour utiliser Moment.js avec Moment-Timezone dans Symfony, vous pouvez l'installer à l'aide de l'utilitaire npm (Node Package Manager) et l'ajouter à votre projet Symfony.
+
+Voici les étapes à suivre :
+
+Ouvrez une fenêtre de terminal et naviguez vers le répertoire racine de votre projet Symfony.
+
+Exécutez la commande suivante pour installer Moment.js et Moment-Timezone :
+
+```ps
+yarn add moment moment-timezone
+```
+
+Une fois l'installation terminée, vous pouvez importer Moment.js dans votre fichier JavaScript Symfony :
+
+```js 
+import moment from 'moment';
+import 'moment-timezone';
+
+var dateStr = "2023-07-09 14:30:00.000000";
+var formattedDate = moment(dateStr, "YYYY-MM-DD HH:mm:ss").locale('fr').format("DD/MM/YYYY HH:mm");
+var formattedDate = moment.tz(formattedDate, "Europe/Paris").locale('fr').format("DD/MM/YYYY HH:mm");
+
+console.log(formattedDate); // Affiche "09/07/2023 14:30"
+```
+
+Dans cet exemple, nous utilisons l'instruction import pour importer Moment.js et Moment-Timezone. 
+
+Ensuite, nous utilisons moment.tz() pour analyser la chaîne de date en spécifiant explicitement le fuseau horaire "Europe/Paris" pour la France. 
+
+Ensuite, nous utilisons .locale('fr') pour définir la localisation sur "fr" (France), ce qui nous permet d'obtenir le format de date "DD/MM/YYYY". 
+
+Enfin, nous utilisons .format("DD/MM/YYYY HH:mm") pour formater la date dans le format souhaité.
+
 ### Obtenir le répertoire racine dans Symfony 5
 
 - [Accéder aux paramètres de configuration](https://symfony.com/doc/current/configuration.html#accessing-configuration-parameters)

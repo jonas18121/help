@@ -229,4 +229,150 @@ export class FormCheckFunction {
             $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
         }
     }
+
+    /**
+    * Pour les input de type date
+    * input : id de l'input
+    * inputError : id de la div pour affiché les message d'erreurs
+    * messageError : message d'erreur
+    * messageSuccess : message de success
+    * messageErrorDateSmall : message d'erreur si la date saisie dans l'input est plus petit que la date du jour 
+    */
+        validInputDateBirthdate(input, inputError, messageError, messageErrorEmpty, messageSuccess = null, messageErrorDateSmall = null){
+        let validInputError = $(`#${inputError}`);
+        let validInput = $(`#${input}`);
+        let regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+
+        let isValid = false;
+
+        let dateCurrent = new Date();
+        let dateInput = new Date(validInput.val());
+
+        if (dateCurrent.getFullYear()-100 > dateInput.getFullYear()){
+            length = messageErrorDateSmall;
+            color = "red";
+        }
+        else if(validInput.val() == ""){
+            length = messageErrorEmpty;
+            color = "red";
+        }
+        else if(regex.test(validInput.val())){
+            length = messageSuccess;
+            color = "green";
+            isValid = true;
+        }
+        else if(!regex.test(validInput.val())){
+            length = messageError;
+            color = "red";
+        }
+                  
+        validInputError.html(length).text();
+        validInputError.css({ "color": `${color}`});
+
+        return isValid;
+    }
+
+    /**
+    * Pour les input de type date
+    * input : id de l'input
+    * inputError : id de la div pour affiché les message d'erreurs
+    * messageError : message d'erreur
+    * messageSuccess : message de success
+    * messageErrorDateSmall : message d'erreur si la date saisie dans l'input est plus petit que la date du jour 
+    */
+    validInputDateIdentity(input, inputError, messageError, messageErrorEmpty, messageSuccess = null, messageErrorDateSmall = null){
+        let validInputError = $(`#${inputError}`);
+        let validInput = $(`#${input}`);
+        let regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+
+        let isValid = false;
+
+        // Date current
+        let dateCurrent = new Date();
+        let dateCurrentDate = dateCurrent.getDate();
+        dateCurrentDate = dateCurrentDate.toString();
+        if(dateCurrentDate.length < 2){
+            dateCurrentDate = 0 + '' + dateCurrentDate;
+        }
+
+        let dateCurrentMonth = dateCurrent.getMonth()+1;
+        dateCurrentMonth = dateCurrentMonth.toString();
+        if(dateCurrentMonth.length < 2){
+            dateCurrentMonth = 0 + '' + dateCurrentMonth;
+        }
+        dateCurrent = parseInt(dateCurrent.getFullYear() + '' + dateCurrentMonth + '' + dateCurrentDate);
+        //////////////////////////////////////// End date current //////////////////////////////////////////////////////
+
+        // Date of input
+        validInputArray = validInput.val().split('/');
+        
+        //                  param #1 = month,              param #2 = day,              param #3 = year,
+        let retrievedDate = validInputArray['1'] + '/' + validInputArray['0']  + '/' + validInputArray['2']
+
+        let dateInput = new Date(retrievedDate);
+
+        let dateInputDate = dateInput.getDate();
+        dateInputDate = dateInputDate.toString();
+        if(dateInputDate.length < 2){
+            dateInputDate = 0 + '' + dateInputDate;
+        }
+
+        let dateInputMonth = dateInput.getMonth()+1;
+        dateInputMonth = dateInputMonth.toString();
+        if(dateInputMonth.length < 2){
+            dateInputMonth = 0 + '' + dateInputMonth;
+        }
+        dateInput = parseInt(dateInput.getFullYear() + '' + dateInputMonth + '' + dateInputDate);
+        ////////////////////////////////////// End date of input ////////////////////////////////////////////////////////
+
+        // Compare date
+        if(dateCurrent >= dateInput){
+            length = messageErrorDateSmall;
+            color = "red";
+        }
+        else if(validInput == "" || isNaN(dateInput)){
+            length = messageErrorEmpty;
+            color = "red";
+        }
+        else if(regex.test(validInput.val())){
+            length = messageSuccess;
+            color = "green";
+            isValid = true;
+        }
+        else if(!regex.test(validInput.val())){
+            length = messageError;
+            color = "red";
+        }    
+
+        validInputError.html(length).text();
+        validInputError.css({ "color": `${color}`});
+
+        return isValid;
+    }
+
+    /**
+     * Empty value of Input
+     * 
+     * @param {string[]} elementsInput 
+     * 
+     * @returns {void} 
+     */
+    emptyInput(elementsInput) {
+        for (let index = 0; index < elementsInput.length; index++) {
+            $(elementsInput[index]).val('');
+        }
+    }
+
+    /**
+     * Reset value of select to first option
+     * 
+     * @param {string[]} elementsSelect 
+     * 
+     * @returns {void} 
+     */
+    resetSelect(elementsSelect) {
+        for (let index = 0; index < elementsSelect.length; index++) {
+            $(elementsSelect[index]).val($(elementsSelect[index] + ' option:first').val());
+        }
+    }
 }
