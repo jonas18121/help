@@ -333,3 +333,26 @@ Voici une explication ligne par ligne du code :
 6. - On appelle la méthode "observe" de l'instance de MutationObserver pour commencer à observer les changements dans la div. On lui passe en paramètre l'élément de div et l'objet de configuration.
 
 En résumé, ce code met en place un observateur de mutations (MutationObserver) pour surveiller les changements dans le contenu de la div avec l'ID "observerDiv".<br> Lorsque des modifications sont détectées, la fonction "handleContentChange" sera appelée, mais le code de cette fonction n'est pas inclus dans l'extrait fourni.
+
+### Ecrire un text dans une couleur spécifique pendant quelque seconde puis revenir à la couleur initiale
+
+```js
+let myText = 'Hello'
+$('#myId').text(myText).css('color', 'green').delay(5000).queue(function(next) {
+    $(this).css('color', 'black');
+        next();
+    }
+);
+```
+
+Dans cet exemple : 
+
+1. nous utilisons la méthode `text()` pour modifier le contenu de `$('#myId')` avec la valeur de `myText`. 
+
+2. Ensuite, nous utilisons la méthode `css()` pour changer la couleur du texte en vert `('green')`.
+
+3. Ensuite, nous utilisons la méthode `delay()` pour ajouter une pause de 5 secondes. 
+
+4. Après cette pause, nous utilisons la méthode `queue()` pour ajouter une fonction qui sera exécutée après la pause. Dans cette fonction, nous rétablirons la couleur originale en utilisant la valeur `black` avec la méthode `css('color', 'black')`.
+
+Ainsi, le texte sera temporairement en vert pendant 5 secondes avant de revenir à sa couleur d'origine.
