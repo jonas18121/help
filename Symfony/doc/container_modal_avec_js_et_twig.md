@@ -96,6 +96,7 @@ $(function() {
 ```
 
 **Général**
+
 Le conteneur de modal
 ```twig
 {# template/Modal/container-modal.html.twig #}
@@ -127,6 +128,7 @@ Le conteneur de modal
 ```
 
 **Spécifique**
+
 Représente une modale spécifique qui va utiliser container-modal.html.twig
 ```twig
 {# templates/Backend/Pages/product/Blocs/modal-date.html.twig #}
@@ -192,6 +194,7 @@ Représente une modale spécifique qui va utiliser container-modal.html.twig
 ```
 
 **Spécifique**
+
 On include la modal spécifique `modal-date.html.twig` dans une page spécifique
 ```twig
 {% block content %}
