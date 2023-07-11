@@ -727,5 +727,19 @@ if (strlen((string) $month) < 2) {
 // $month = "05"
 ```
 
+###  vérifier si le champ spécifique existe et a une valeur dans $form
 
+```php
+if ($form->has('Addresses1') && $form->get('Addresses1')->getData() !== null) {
+    // Addresses1 existe et a une valeur
+    // Effectuez les actions souhaitées ici
+} else {
+    // Addresses1 n'existe pas ou n'a pas de valeur
+    // Effectuez d'autres actions si nécessaire
+}
+```
+La méthode `has()` vérifie si un champ existe dans le formulaire, puis nous vérifions si le champ `Addresses1` a une valeur non nulle en utilisant `getData()`. 
 
+Si le champ existe et a une valeur, le code à l'intérieur du premier bloc if sera exécuté. 
+
+Sinon, le code à l'intérieur du bloc else sera exécuté.
