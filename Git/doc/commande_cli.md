@@ -141,6 +141,61 @@ Si erreur : `fatal: refus de fusionner des historiques sans relation`, ajouter `
 
     > git commit --amend 
 
+## Récupérer une branche supprimer avec git branch -D
+
+Si vous avez utilisé la commande "git branch -D" pour supprimer une branche dans Git, il est possible de récupérer cette branche si vous avez effectué la suppression de manière récente.
+
+Lorsque vous supprimez une branche avec "git branch -D", les commits associés à cette branche ne sont pas immédiatement supprimés. Cependant, la référence de la branche est supprimée, ce qui la rend invisible dans la liste des branches.
+
+Pour récupérer une branche supprimée, vous pouvez utiliser la commande "git reflog" pour afficher l'historique des références de votre dépôt Git. Cela inclut également les références de branches supprimées.
+
+Voici les étapes à suivre pour récupérer une branche supprimée :
+
+1. Ouvrez un terminal ou une invite de commandes.
+
+2. Accédez au répertoire de votre dépôt Git.
+
+3. Exécutez la commande suivante pour afficher l'historique des références (y compris les références de branches supprimées) :
+
+```ps
+git reflog
+```
+**Retour**
+```ps
+ecfab4a7 HEAD@{3}: checkout: moving from fix/todo to develop
+64715b9b (origin/fix/todo) HEAD@{4}: commit: [Fix] : comment commit
+536258d56e HEAD@{5}: commit: [Fix] : js select 3
+b75135fa90 HEAD@{6}: commit: [Fix] : js select
+```
+
+Parcourez la liste des commits et des actions effectuées sur les branches pour trouver l'identifiant (commit hash) du commit le plus récent de la branche supprimée.
+
+Une fois que vous avez identifié l'identifiant du commit, vous pouvez recréer la branche supprimée en utilisant la commande suivante :
+
+```ps
+git branch branch_name commit_hash
+```
+**Exemple**
+```ps
+git git branch fix/todo 64715b9b
+```
+
+Remplacez "branch_name" par le nom de la branche que vous souhaitez recréer et "commit_hash" par l'identifiant du commit que vous avez trouvé à l'étape précédente.
+
+Vous pouvez ensuite récupérer les modifications de la branche en utilisant la commande :
+
+```ps
+git checkout branch_name
+```
+
+```ps
+git checkout fix/todo
+```
+
+Cela vous placera sur la branche récupérée avec les modifications et le contenu tels qu'ils étaient au moment de la suppression.
+
+Veuillez noter que si vous avez effectué un push de la branche supprimée avant de la récupérer, vous devrez également la restaurer sur le dépôt distant en utilisant la commande "git push origin branch_name".
+
 
 ## Interface graphique du dépôt local 
 
