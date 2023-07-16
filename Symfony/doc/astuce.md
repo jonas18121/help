@@ -251,6 +251,17 @@ action:
 <a herf="#">{{ 'action.cancel'|trans([], domain = 'core') }}</a> 
 ```
 
+### Utiliser translate en incorporant une variable dans un fichier php
+
+```php
+$limitOrders = 10; // Valeur de la variable limitOrders
+
+// Utilisation de la fonction de traduction avec la variable incorporée
+$translatedString = $this->get('translator')->trans('test.key.translate.order', ['%limitOrders%' => $limitOrders]);
+
+echo $translatedString;
+```
+
 ### Gérer la timezone de DateTime
 
 **En Object**
@@ -268,6 +279,9 @@ echo $datetime->format('d/m/Y H:i:s');
 //ou
 $datetime = new \DateTime('now', new DateTimeZone('Europe/Paris'));
 echo $datetime->format('d/m/Y H:i:s');
+
+// ou
+$value->getDateAt()->setTimezone(new \DateTimeZone('Europe/Paris'))->format('d/m/Y h:m:s')
 ```
 
 OU 
@@ -743,3 +757,67 @@ La méthode `has()` vérifie si un champ existe dans le formulaire, puis nous v�
 Si le champ existe et a une valeur, le code à l'intérieur du premier bloc if sera exécuté. 
 
 Sinon, le code à l'intérieur du bloc else sera exécuté.
+
+### Champ select et radio décomposé, avec |raw pour les balise html dans les options s'ily en a
+
+#### select
+```php
+// FormType
+
+->add('category', ChoiceType::class, [
+    'mapped' => false,
+    'required' => false,
+    'label' => 'category',
+    'placeholder' => 'category',
+    'choices' => $newSelectCategories,
+])
+```
+```twig
+{{ form_label(form.category, null, {label_attr: {class: 'form-label'}}) }}
+<select class="form-control form-control-sm" name="{{ form.category.vars.full_name }}">
+    {% for choice in form.category.vars.choices %}
+        <option value="{{ choice.value }}">
+            {{ choice.label|raw }}
+        </option>
+    {% endfor %}
+</select>
+<div class="category-error">
+    {{ form_errors(form.category) }}
+</div>
+```
+
+#### radio
+
+```php
+// FormType
+
+->add('category', EntityType::class, [
+    'required' => true,
+    'label' => false,
+    'class' => Category::class,
+    'multiple' => false,
+    'expanded' => true,
+    'choices' => $newSelectCategories,
+])
+```
+
+```php
+{{ form_label(form.category, null, {label_attr: {class: 'form-label'}}) }}
+<div>
+    {% for category in form.category %}
+        <div class="form-check bg-gray-900 p-3 mt-3 rounded">
+            <div class="row align-items-start">
+                <div class="col-md-1">
+                    {{ form_widget(category) }}
+                </div>
+                <div class="col-md-10" id="{{ category.vars.id }}">
+                    {{ category.vars.label|raw }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="category-error">
+        {{ form_errors(form.category) }}
+    </div>
+</div>
+```
