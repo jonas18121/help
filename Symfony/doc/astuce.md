@@ -728,7 +728,7 @@ On utilise `%dataProjectName%` pour mettre `<a href="' ~ data_project_url ~ '">'
 <p>Cliquez sur le lien de mon projet nommé <a href="https://monprojet.com">Le nom de mon projet</a></p>
 ```
 
-###
+### S'assurer que la variable X est toujours représentée par deux chiffres
 
 ```php
 $month = 5;
@@ -740,6 +740,21 @@ if (strlen((string) $month) < 2) {
 // Retourne
 // $month = "05"
 ```
+
+Ce code en PHP effectue les opérations suivantes :
+
+1. Déclaration et initialisation de la variable `$month` avec la valeur 5.
+
+2. La condition `if` vérifie si la longueur de la variable `$month` convertie en chaîne de caractères est inférieure à 2. Cette condition permet de vérifier si `$month` est un nombre à un seul chiffre.
+
+3. Si la condition est vraie, cela signifie que `$month` est un nombre à un seul chiffre. <br>
+Dans ce cas, la fonction `str_pad` est utilisée pour ajouter un zéro à gauche de `$month` afin de le formater avec deux chiffres. <br>
+Les arguments de `str_pad` sont : la variable à formater (`(string) $month`), la longueur finale souhaitée (`2`), le caractère de remplissage (`'0'`) et le type de remplissage (`STR_PAD_LEFT`).
+
+4. Après l'exécution de ces lignes, la variable `$month` contiendra la valeur `05` si elle était initialement `5`, ou la valeur originale si elle était déjà un nombre à deux chiffres.<br>
+
+En résumé, ce code assure que la variable `$month` est toujours représentée par deux chiffres, en ajoutant un zéro à gauche si nécessaire.<br> 
+Cela peut être utile, par exemple, lors de la génération de dates ou de l'interfaçage avec des systèmes qui attendent une représentation de mois avec deux chiffres.
 
 ###  vérifier si le champ spécifique existe et a une valeur dans $form
 
