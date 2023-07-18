@@ -836,3 +836,37 @@ Sinon, le code à l'intérieur du bloc else sera exécuté.
     </div>
 </div>
 ```
+
+#### Déconnecter automatiquement un utilisateur depuis un contrôleur Symfony sans avoir à appeler explicitement la route de déconnexion (logout) dans une redirection
+
+Pour déconnecter automatiquement un utilisateur depuis un contrôleur Symfony sans avoir à appeler explicitement la route de déconnexion (logout) dans une redirection, vous pouvez utiliser le service security.helper pour invalider la session de l'utilisateur actuellement authentifié.
+
+Voici comment vous pouvez le faire dans votre contrôleur :
+
+```php
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
+// ...
+
+public function logoutUser(TokenStorageInterface $tokenStorage)
+{
+    // Récupérer le token de sécurité de l'utilisateur actuellement authentifié
+    $token = $tokenStorage->getToken();
+
+    // Vérifier si l'utilisateur est connecté
+    if ($token !== null && $token->isAuthenticated()) {
+        // Invalider la session de l'utilisateur
+        $tokenStorage->setToken(null);
+        $this->get('session')->invalidate();
+    }
+
+    // ...
+}
+```
+
+Dans cet exemple, nous injectons le service `security.helper` via l'interface TokenStorageInterface dans la méthode `logoutUser()` du contrôleur. <br>
+Ensuite, nous vérifions si l'utilisateur est connecté en vérifiant si le token de sécurité est défini et si l'utilisateur est authentifié. <br> 
+Si c'est le cas, nous invalidons la session de l'utilisateur en réinitialisant le token à `null` et en invalidant la session.
+
+Veuillez noter que cette approche ne déclenchera pas automatiquement les événements associés à la déconnexion dans Symfony (par exemple, l'exécution des écouteurs d'événements de déconnexion). <br>
+Si vous avez besoin de déclencher ces événements personnalisés, il serait préférable de rediriger vers la route de déconnexion `(logout)` spécifiée dans votre configuration de sécurité.
