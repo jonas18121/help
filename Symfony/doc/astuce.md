@@ -844,6 +844,8 @@ Pour déconnecter automatiquement un utilisateur depuis un contrôleur Symfony s
 Voici comment vous pouvez le faire dans votre contrôleur :
 
 ```php
+// controller 
+
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 // ...
@@ -862,6 +864,30 @@ public function logoutUser(TokenStorageInterface $tokenStorage)
 
     // ...
 }
+```
+
+```php
+// controller 
+
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\HttpFoundation\Request;
+
+// ...
+
+public function logoutUser(TokenStorageInterface $tokenStorage, Request $request)
+{
+    // Vérifier si l'utilisateur est connecté
+    if (null !== $tokenStorage->getToken() && null !== $this->getUser()) {
+        // Invalider la session de l'utilisateur
+        $tokenStorage->setToken(null);
+        $request->getSession()->invalidate();
+    }
+
+    // ...
+}
+
+// Depuis Symfony 5.4
+
 ```
 
 Dans cet exemple, nous injectons le service `security.helper` via l'interface TokenStorageInterface dans la méthode `logoutUser()` du contrôleur. <br>
