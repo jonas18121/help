@@ -356,3 +356,41 @@ Dans cet exemple :
 4. Après cette pause, nous utilisons la méthode `queue()` pour ajouter une fonction qui sera exécutée après la pause. Dans cette fonction, nous rétablirons la couleur originale en utilisant la valeur `black` avec la méthode `css('color', 'black')`.
 
 Ainsi, le texte sera temporairement en vert pendant 5 secondes avant de revenir à sa couleur d'origine.
+
+### Supprimer un attribut sur une ou plusieurs input en jQuery
+
+```js
+$(function () {
+    removeAttribut('#id_or_class_input', 'disabled');
+});
+
+/**
+ *
+ * @param {string} elementDomId
+ * @param {string} attribut
+ *
+ * @returns {void}
+ */
+function removeAttribut(elementDomId, attribut) {
+	$(elementDomId).removeAttr(attribut);
+}
+```
+
+### Ajouter un attribut sur une ou plusieurs input en jQuery
+
+```js
+$(function () {
+    addAttribut('#id_or_class_input', 'disabled');
+});
+
+/**
+ *
+ * @param {string} elementDomId
+ * @param {string} attribut
+ *
+ * @returns {void}
+ */
+function addAttribut(elementDomId, attribut) {
+	$(elementDomId).attr(attribut, attribut);
+}
+```
