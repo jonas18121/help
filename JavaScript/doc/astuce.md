@@ -358,7 +358,7 @@ Dans cet exemple :
 
 Ainsi, le texte sera temporairement en vert pendant 5 secondes avant de revenir à sa couleur d'origine.
 
-#### En utilisant .attr()
+#### En utilisant .attr() et !important
 ```js
 let myText = 'Hello'
 $('#myId').text(myText).attr('style', 'color: green !important').delay(5000).queue(function(next) {
