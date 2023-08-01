@@ -394,3 +394,156 @@ function addAttribut(elementDomId, attribut) {
 	$(elementDomId).attr(attribut, attribut);
 }
 ```
+
+### recupéré les input depuis #partial-refund-form
+
+Voici le code pour récupérer les valeurs des champs de saisie du formulaire avec l'identifiant partial-refund-form en utilisant jQuery
+
+```twig
+<!-- Inclure la bibliothèque jQuery si ce n'est pas déjà fait -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Votre formulaire HTML -->
+<form id="partial-refund-form" method="post">
+    <div class="form-group">
+        <!-- Vos champs de saisie ici -->
+        {% for orderline in order.orderlines %}
+        <div class="mb-3">
+            <p><strong>{{ orderline.productName }}</strong></p>
+            <span class="mr-2">
+                <label>Quantité actuelle</label> 
+                <input 
+                    type="number" 
+                    name="partial-refund-field-quantity-actualize"
+                    class=""
+                    id="partial-refund-field-quantity-actualize"
+                    disabled
+                    value="{{ orderline.quantity }}"
+                    min="0"
+                    max="{{ orderline.quantity }}"
+                />
+            </span>
+
+            <span class="">
+                <label>Modifier la quantité</label> 
+                <input 
+                    type="number" 
+                    name="partial-refund-field-quantity-new-{{ orderline.id }}"
+                    class=""
+                    id="partial-refund-field-quantity-new-{{ orderline.id }}"
+                    value="0"
+                    min="0"
+                    max="{{ orderline.quantity }}"
+                />
+                <div id="partial-refund-field-quantity-new-{{ orderline.id }}-error"></div>
+
+                <!-- Zone pour afficher la valeur récupérée du champ de saisie -->
+                <div id="partial-refund-field-quantity-new-{{ orderline.id }}-value"></div>
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <!-- Autres éléments de formulaire ici -->
+    </div>
+    <div>
+        {{ 'seed.backend.others.required_field'|trans }}
+    </div>
+
+    <!-- Bouton de soumission -->
+    <input type="submit" value="Soumettre">
+</form>
+```
+
+JavaScript pour récupérer les valeurs des champs de saisie
+```js
+$(document).ready(function() {
+    // Gérer la soumission du formulaire
+    $('#partial-refund-form').submit(function(event) {
+        event.preventDefault(); // Empêcher l'envoi du formulaire
+
+        // Collecter les données des champs de saisie
+        var formData = {};
+
+        // Récupérer les données du champ de saisie pour chaque orderline
+        $('[id^="partial-refund-field-quantity-new-"]').each(function() {
+            var orderlineId = $(this).attr('id').split('-').pop();
+            var quantity = $(this).val();
+            formData[orderlineId] = quantity;
+
+            // Afficher la valeur récupérée à côté du champ de saisie
+            $('#partial-refund-field-quantity-new-' + orderlineId + '-value').text('Valeur : ' + quantity);
+        });
+
+        // Effectuer d'autres opérations ou soumettre les données via AJAX si nécessaire
+        // ...
+    });
+});
+```
+
+Dans ce code, j'ai ajouté une div avec l'identifiant "partial-refund-field-quantity-new-{{ orderline.id }}-value" juste à côté de chaque champ de saisie destiné à entrer la quantité modifiée. 
+
+C'est dans cette div que nous allons afficher la valeur récupérée du champ de saisie lors de la soumission du formulaire.
+
+Dans le gestionnaire d'événement de soumission du formulaire, après avoir récupéré les valeurs des champs de saisie et les avoir stockées dans l'objet formData, nous utilisons `$('#partial-refund-field-quantity-new-' + orderlineId + '-value').text('Valeur : ' + quantity);` pour afficher la valeur récupérée à côté de chaque champ de saisie. 
+
+Nous ajoutons le préfixe "Valeur : " pour rendre le texte plus descriptif.
+
+
+### Récupérer les IDs de quantity et total de chaque orderline en utilisant jQuery
+
+Pour récupérer les IDs de `quantity` et `total` de chaque orderline en utilisant jQuery, 
+
+vous pouvez utiliser une boucle `.each()` pour parcourir tous les éléments `<tr>` avec l'ID orderline-info. 
+
+Ensuite, vous pouvez extraire les IDs nécessaires en utilisant `.find()` pour rechercher les éléments enfants spécifiques. 
+
+Voici comment le faire :
+
+```twig
+<!-- Inclure la bibliothèque jQuery si ce n'est pas déjà fait -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Votre code HTML avec la boucle for -->
+<table>
+    {% for orderLine in order.orderLines %}
+    <tr id="orderline-info">
+        <td class="size-small">{{ orderLine.id }}</td>
+        <td class="size-small">{{ orderLine.price }}</td>
+        <td class="size-small" id="quantity-{{ orderLine.id }}">{{ orderLine.quantity }}</td>
+        <td class="size-small" id="total-{{ orderLine.id }}">{{ orderLine.total }}</td>
+        <td>{{ orderLine.productName }}</td>
+        <td class="size-small">{{ orderLine.productWeight }} (Total : {{ orderLine.getTotalWeight() }} kg)</td>
+        <td class="size-small">{{ orderLine.createdAt|date('Y-m-d H:i') }}</td>
+    </tr>
+    {% endfor %}
+</table>
+```
+
+JavaScript (jQuery) pour récupérer les IDs quantity et total
+```js
+$(document).ready(function() {
+    // Utiliser la boucle each() pour parcourir tous les éléments <tr> avec l'ID 'orderline-info'
+    $('#orderline-info').each(function() {
+        // Récupérer l'ID de quantity pour cette orderline
+        var quantityId = $(this).find('.size-small[id^="quantity-"]').attr('id');
+        console.log('ID quantity : ' + quantityId);
+
+        // Récupérer l'ID de total pour cette orderline
+        var totalId = $(this).find('.size-small[id^="total-"]').attr('id');
+        console.log('ID total : ' + totalId);
+    });
+});
+```
+
+Dans le code ci-dessus, nous utilisons `$('#orderline-info').each(...)` pour parcourir chaque élément `<tr>` avec l'ID orderline-info. 
+
+Ensuite, à l'intérieur de la boucle `.each()`, nous utilisons `.find('.size-small[id^="quantity-"]')` pour rechercher l'élément ayant la classe size-small et dont l'ID commence par `"quantity-"`. 
+
+De même, nous utilisons `.find('.size-small[id^="total-"]')` pour rechercher l'élément ayant la classe size-small et dont l'ID commence par `"total-"`.
+
+Ensuite, nous utilisons `.attr('id')` pour récupérer l'ID complet de chaque élément trouvé. 
+
+Nous affichons ensuite ces IDs dans la console à l'aide de `console.log()` pour démonstration. 
+
+Vous pouvez remplacer `console.log()` par toute autre action que vous souhaitez effectuer avec ces IDs, comme les stocker dans des variables ou les utiliser pour d'autres opérations.
