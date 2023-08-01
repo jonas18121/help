@@ -336,6 +336,7 @@ En résumé, ce code met en place un observateur de mutations (MutationObserver)
 
 ### Ecrire un text dans une couleur spécifique pendant quelque seconde puis revenir à la couleur initiale
 
+#### En utilisant .css()
 ```js
 let myText = 'Hello'
 $('#myId').text(myText).css('color', 'green').delay(5000).queue(function(next) {
@@ -356,6 +357,16 @@ Dans cet exemple :
 4. Après cette pause, nous utilisons la méthode `queue()` pour ajouter une fonction qui sera exécutée après la pause. Dans cette fonction, nous rétablirons la couleur originale en utilisant la valeur `black` avec la méthode `css('color', 'black')`.
 
 Ainsi, le texte sera temporairement en vert pendant 5 secondes avant de revenir à sa couleur d'origine.
+
+#### En utilisant .attr()
+```js
+let myText = 'Hello'
+$('#myId').text(myText).attr('style', 'color: green !important').delay(5000).queue(function(next) {
+    $(this).css('color', 'black');
+        next();
+    }
+);
+```
 
 ### Supprimer un attribut sur une ou plusieurs input en jQuery
 
@@ -507,7 +518,7 @@ Voici comment le faire :
 <!-- Votre code HTML avec la boucle for -->
 <table>
     {% for orderLine in order.orderLines %}
-    <tr id="orderline-info">
+    <tr class="orderline-info">
         <td class="size-small">{{ orderLine.id }}</td>
         <td class="size-small">{{ orderLine.price }}</td>
         <td class="size-small" id="quantity-{{ orderLine.id }}">{{ orderLine.quantity }}</td>
@@ -523,8 +534,8 @@ Voici comment le faire :
 JavaScript (jQuery) pour récupérer les IDs quantity et total
 ```js
 $(document).ready(function() {
-    // Utiliser la boucle each() pour parcourir tous les éléments <tr> avec l'ID 'orderline-info'
-    $('#orderline-info').each(function() {
+    // Utiliser la boucle each() pour parcourir tous les éléments <tr> avec la class 'orderline-info'
+    $('.orderline-info').each(function() {
         // Récupérer l'ID de quantity pour cette orderline
         var quantityId = $(this).find('.size-small[id^="quantity-"]').attr('id');
         console.log('ID quantity : ' + quantityId);
@@ -536,7 +547,7 @@ $(document).ready(function() {
 });
 ```
 
-Dans le code ci-dessus, nous utilisons `$('#orderline-info').each(...)` pour parcourir chaque élément `<tr>` avec l'ID orderline-info. 
+Dans le code ci-dessus, nous utilisons `$('#orderline-info').each(...)` pour parcourir chaque élément `<tr>` avec la class ID orderline-info. 
 
 Ensuite, à l'intérieur de la boucle `.each()`, nous utilisons `.find('.size-small[id^="quantity-"]')` pour rechercher l'élément ayant la classe size-small et dont l'ID commence par `"quantity-"`. 
 
