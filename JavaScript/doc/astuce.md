@@ -558,3 +558,77 @@ Ensuite, nous utilisons `.attr('id')` pour récupérer l'ID complet de chaque é
 Nous affichons ensuite ces IDs dans la console à l'aide de `console.log()` pour démonstration. 
 
 Vous pouvez remplacer `console.log()` par toute autre action que vous souhaitez effectuer avec ces IDs, comme les stocker dans des variables ou les utiliser pour d'autres opérations.
+
+### Ajouter du contenu dans une balise <tr> à un tableau HTML à l'aide de jQuery après la méthode success d'une requête AJAX
+
+Dans ce code, la fonction success de la requête AJAX est l'endroit où vous traitez les données de réponse et ajoutez la htmlString au tableau avec l'ID spécifié (votre-id-de-tableau). Remplacez 'votre_point_d_api' par le véritable point d'API que vous utilisez pour la requête AJAX.
+
+Assurez-vous d'avoir déjà créé le tableau avec l'ID spécifié dans votre fichier HTML avant d'exécuter ce script. La htmlString sera ajoutée en tant que nouvelle ligne dans le tableau.
+
+```js
+// Supposons que vous ayez déjà effectué une requête AJAX et reçu une réponse dans la variable 'data'.
+// De plus, la variable 'htmlString' contient le contenu HTML dynamique.
+
+$.ajax({
+    url: 'votre_point_d_api',
+    type: 'GET',
+    success: function(data) {
+        // Traitez votre réponse AJAX ici
+
+        var dateOriginale = response.data[0].orderInvoice.orderInvoiceCreatedAt;
+        var dateFormatee = moment(dateOriginale);
+        var dateFormateeString = dateFormatee.format('YYYY-MM-DD HH:mm');
+
+        var htmlString = `
+        <tr class="orderline-info">
+            <td class="size-small" id="response.data[0].">{{ orderLine.id }}</td>
+            <td class="size-small">{{ orderLine.price }}</td>
+            <td class="size-small" id="quantity-{{ orderLine.id }}">{{ orderLine.quantity }}</td>
+            <td class="size-small" id="total-{{ orderLine.id }}">{{ orderLine.total }}</td>
+            <td>{{ orderLine.productName }}</td>
+            <td class="size-small" id="product-weight-{{ orderLine.id }}">{{ orderLine.productWeight }} (Total : {{ orderLine.getTotalWeight() }} kg)</td>
+            <td class="size-small">${dateFormateeString}</td> <!-- Insérer la date formatée ici -->
+        </tr>
+        `;
+
+        // Ajoutez la 'htmlString' au tableau HTML avec l'ID 'votre-id-de-tableau'
+        $('#votre-id-de-tableau').append(htmlString);
+    },
+    error: function(xhr, status, error) {
+        // Gérez les erreurs, le cas échéant
+    }
+});
+```
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemple de tableau</title>
+</head>
+<body>
+
+    <!-- Le tableau où vous souhaitez ajouter le contenu -->
+    <table id="votre-id-de-tableau">
+        <tr>
+            <th>ID</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <!-- Ajoutez ici les autres en-têtes de colonnes selon vos besoins -->
+        </tr>
+        <!-- Vous pouvez avoir des lignes de contenu pré-existantes ici, si nécessaire -->
+    </table>
+
+    <!-- Placez ici votre code jQuery pour effectuer la requête AJAX et ajouter le contenu -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Votre code jQuery avec la requête AJAX et l'ajout de contenu ici
+    </script>
+</body>
+</html>
+```
+
+**Résumé :** On utilise `$('#votre-id-de-tableau').append(htmlString);`
