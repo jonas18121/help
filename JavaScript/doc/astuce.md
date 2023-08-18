@@ -559,7 +559,7 @@ Nous affichons ensuite ces IDs dans la console à l'aide de `console.log()` pour
 
 Vous pouvez remplacer `console.log()` par toute autre action que vous souhaitez effectuer avec ces IDs, comme les stocker dans des variables ou les utiliser pour d'autres opérations.
 
-### Ajouter du contenu dans une balise <tr> à un tableau HTML à l'aide de jQuery après la méthode success d'une requête AJAX
+### Ajouter du contenu dans une balise tr à un tableau HTML à l'aide de jQuery après la méthode success d'une requête AJAX
 
 Dans ce code, la fonction success de la requête AJAX est l'endroit où vous traitez les données de réponse et ajoutez la htmlString au tableau avec l'ID spécifié (votre-id-de-tableau). Remplacez 'votre_point_d_api' par le véritable point d'API que vous utilisez pour la requête AJAX.
 
