@@ -704,3 +704,49 @@ supprimer
 ```ps
 rm -rf /usr/local/bin/symfony
 ```
+
+### Installer Webpack Encore dans Symfony
+
+```ps
+composer require symfony/webpack-encore-bundle
+
+# puis
+
+yarn install
+
+# ou
+
+npm install
+```
+
+Run webpack
+
+```ps
+# compiler les actifs et recompiler automatiquement lorsque les fichiers changent
+yarn watch
+
+# ou
+
+npm run watch
+
+# Ou, exécutez dev-sever qui peut parfois mettre à jour votre code sans actualiser la page
+yarn dev-server
+
+# ou
+
+npm run dev-server
+
+# compiler les actifs une fois
+yarn dev
+
+# ou
+
+npm run dev
+
+# Lors du déploiement, créer une version de production
+yarn build
+
+# ou
+
+npm run build
+```
