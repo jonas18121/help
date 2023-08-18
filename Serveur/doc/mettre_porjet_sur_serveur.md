@@ -22,7 +22,7 @@ mkdir www
 cd www
 ```
 
-2. Installer git dans le serveur distant
+2. 1. Installer git dans le serveur distant
 
 Depuis votre shell, installez Git en utilisant apt-get ou apt :
 ```sh
@@ -35,9 +35,31 @@ sudo apt update
 sudo apt install git
 sudo apt install zip unzip php-zip
 ```
-Vérifiez que l'installation a réussi en tapant :git --version
-```ps
+
+Vérifiez que l'installation a réussi en tapant :
+```sh
 git --version
+```
+
+2. 1. Installer nodejs et npm dans le serveur distant
+
+Depuis votre shell, installez nodejs et npm en utilisant apt-get ou apt :
+```sh
+sudo apt-get update
+sudo apt-get install nodejs npm -y
+
+# OU
+sudo apt update
+sudo apt install nodejs npm -y
+```
+
+Vérifiez que l'installation a réussi en tapant :
+```sh
+# node
+node -v
+
+# npm
+npm -v
 ```
 
 3. 1. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
