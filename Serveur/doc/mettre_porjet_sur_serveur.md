@@ -53,13 +53,24 @@ sudo apt update
 sudo apt install nodejs npm -y
 ```
 
-Vérifiez que l'installation a réussi en tapant :
+Vérifier que l'installation a réussi en tapant :
 ```sh
 # node
 node -v
 
 # npm
 npm -v
+```
+
+2. 2. Installer yarn
+
+```sh
+sudo npm install -g yarn
+```
+
+Vérifier que l'installation a réussi en tapant :
+```sh
+yarn -v
 ```
 
 3. 1. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
