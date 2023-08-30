@@ -192,23 +192,31 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ExampleClass
 {
-    private $session;
+    private SessionInterface $session;
+    private RequestStack $requestStack;
 
-    public function __construct(SessionInterface $session)
+    public function __construct(SessionInterface $session, RequestStack $requestStack)
     {
         $this->session = $session;
+        $this->requestStack = $requestStack;
     }
 
-    public function addFlashMessage()
+    public function addFlashMessageWhitSession()
     {
         $this->session->getFlashBag()->add('success', 'Le message a été envoyé avec succès.');
+    }
+
+    // OU
+    public function addFlashMessageWhitRequestStack()
+    {
+        $this->requestStack->getSession()->getFlashBag()->add('success', 'Une commande a été créée.');
     }
 }
 ```
 
 Dans cet exemple, la classe ExampleClass dispose d'une dépendance SessionInterface qui est injectée via le mécanisme de l'injection de dépendances de Symfony. 
 
-La méthode addFlashMessage() utilise ensuite le service session pour ajouter un message flash à la session de l'utilisateur en utilisant la méthode add() de la FlashBag. 
+La méthode addFlashMessageWhitSession() utilise ensuite le service session pour ajouter un message flash à la session de l'utilisateur en utilisant la méthode add() de la FlashBag. 
 
 Dans ce cas, le message est de type success et a pour contenu "Le message a été envoyé avec succès.".
 
