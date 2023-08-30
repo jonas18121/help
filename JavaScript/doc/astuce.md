@@ -632,3 +632,56 @@ $.ajax({
 ```
 
 **Résumé :** On utilise `$('#votre-id-de-tableau').append(htmlString);`
+
+### Stoper (arrêter) un événement (event) au clic sur une balise `<a>` en utilisant jQuery,
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<a href="https://www.example.com" id="myLink">Cliquez-moi</a>
+
+<script>
+    $(document).ready(function() {
+        $("#myLink").on('click', (event) => {
+            event.preventDefault(); // Empêche le comportement par défaut de l'élément <a>
+            event.stopPropagation(); // Arrête la propagation de l'événement
+            alert("L'événement a été stoppé, mais le lien ne sera pas suivi.");
+        });
+    });
+</script>
+
+</body>
+</html>
+```
+
+Dans cet exemple, lorsque l'utilisateur clique sur le lien, l'événement de clic est stoppé à l'aide de `event.stopPropagation()`, <br> 
+et le comportement par défaut du lien (naviguer vers l'URL spécifiée dans l'attribut `href`) est empêché à l'aide de `event.preventDefault()`. <br>
+Cela signifie que l'alerte sera affichée sans que le navigateur ne soit redirigé vers l'URL.
+
+
+### Récupéré un number dans une chaine de caractère (string)
+
+```js
+// Chaine de caractère qui contien un nombre
+let payeString = "Payer | 152 €";
+
+// 3 manières de faire ci-dessous
+
+// 1) regex /[0-9]+/
+let paye1 = parseInt(payeString.match(/[0-9]+/));
+console.log(paye1); // Retourne 152
+
+// 2) regex /\d+/
+let paye2 = parseInt(payeString.match(/\d+/));
+console.log(paye2); // Retourne 152
+
+// 3) split 
+let paye3 = payeString.split(' ');
+console.log(parseInt(paye3[2])); // Retourne 152
+
+```
