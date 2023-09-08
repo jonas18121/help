@@ -272,3 +272,100 @@ si vous transmettez un objet datetime au filtre de date avec timezone , vous pou
 ```twig
 {{ "now"|date('m/d/Y H:i', false) }}
 ```
+
+### générer un tableau associatif en twig
+
+Ce code Twig semble être utilisé pour générer un tableau de lignes de facturation (facture d'achat) à partir d'un ensemble de lignes de commande (orderLines) et pour calculer des totaux par taux de TVA (taxe sur la valeur ajoutée). Voici une explication étape par étape du code :
+
+
+```twig
+{% set tvaRates = {} %}
+{% for orderLine in order.orderLines %}
+
+    {% set sellingPrice = orderLine.price %}
+    {% set sellingPriceWithTva = orderLine.priceWithTva %}
+
+    {# Array for tva rates  #}
+    {% set key = 'tva_' ~ orderLine.tva %}
+    {% if key in tvaRates|keys %}
+        {% set tvaRates = tvaRates|merge({(key): tvaRates[key]|merge([orderLine])}) %}
+    {% else %}
+        {% set tvaRates = tvaRates|merge({(key): [orderLine]}) %}
+    {% endif %}
+
+    <tr class="item">
+        <td>{{ orderLine.productName }}</td>
+        <td>{{ orderLine.quantity }}</td>
+        {% if modeVatCurrent != modeVatFranchise %}
+            <td class="number">{{ sellingPrice|round(2) }}</td>
+        {% endif %}
+        <td class="number">{{ sellingPriceWithTva|round(2) }}</td>
+        <td class="number">{{ orderLine.total|round(2) }}</td>
+    </tr>
+{% endfor %}
+```
+1. **{% set tvaRates = {} %}** : Cela initialise une variable tvaRates comme un tableau associatif vide qui sera utilisé pour stocker les totaux par taux de TVA.
+2. on boucle sur `order.orderLines`
+3. **{% set key = 'tva_' ~ orderLine.tva %}** : Cela crée une clé key en concaténant la chaîne `'tva_'` avec la valeur du taux de TVA de la ligne de commande 
+4. **{% if key in tvaRates|keys %}** : Cette condition vérifie si la clé `key` existe déjà dans le tableau tvaRates. Si la clé existe, cela signifie qu'il y a déjà une ligne avec le même taux de TVA dans le tableau.
+5. **tvaRates|merge({(key): tvaRates[key]|merge([orderLine])})**:  la ligne de commande actuelle (orderLine) est fusionnée avec les lignes existantes qui ont le même taux de TVA. Cela permet d'ajouter la ligne de commande au total existant pour ce taux de TVA.
+6. Si la clé n'existe pas dans le tableau tvaRates, cela signifie que c'est la première fois que ce taux de TVA est rencontré. 
+7. **{% set tvaRates = tvaRates|merge({(key): [orderLine]}) %}** Dans ce cas, une nouvelle entrée est créée dans le tableau tvaRates avec la clé key et la valeur est un tableau contenant uniquement la ligne de commande actuelle. Cela initialise le total pour ce taux de TVA.
+
+```twig
+{# Manage for each tva rate #}
+{% set totalAllTVA = {} %}
+{% for key, orderLines in tvaRates %}
+
+    {% set parts = key|split("_") %}
+    {% set tvaRate = parts[1] %} 
+
+    {% set tvaLinePrice = 0.0 %}
+    {% for orderLine in orderLines %}
+        {% if tvaRate == orderLine.tva %}
+            {% set productTvaRate = orderLine.tva %}
+            {% set sellingPrice = orderLine.price %}
+            {% set sellingPriceWithTva = orderLine.priceWithTva %}
+            {% set tvaAmount = sellingPriceWithTva - sellingPrice %}
+            {% set tvaTotalLine = sellingPriceWithTva * orderLine.quantity %}
+
+            {# Calculate tva line price #}
+            {% if 0.0 == orderLine.tva %}
+                {% set tvaLinePrice = 0.0 %}
+            {% else %}
+                {% if tvaRate == orderLine.tva %}
+                    {% set tvaLinePrice = tvaLinePrice + (tvaTotalLine - (sellingPrice * orderLine.quantity)) %}
+                {% endif %}
+            {% endif %}
+
+            {# Create array for totalAllTVA #}
+            {% set key = 'tva_' ~ orderLine.tva %}
+            {% set totalAllTVA = totalAllTVA|merge({(key): tvaLinePrice }) %}
+
+            {# Calculate total HT for each orderLine #}
+            {% set totalHT = totalHT + (sellingPrice * orderLine.quantity) %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+```
+
+1. **{% set totalAllTVA = {} %}** : Cela initialise une variable totalAllTVA comme un tableau associatif vide. Cette variable sera utilisée pour stocker les montants totaux pour chaque taux de TVA.
+2. **{% for key, orderLines in tvaRates %}** : Cela commence une boucle for qui itère à travers chaque élément du tableau tvaRates. key est la clé du taux de TVA (par exemple, "tva_20"), et orderLines est un tableau contenant les lignes de commande associées à ce taux de TVA.
+
+3. `{% set parts = key|split("_") %}` : Cela divise la clé key en deux parties en utilisant "_" comme délimiteur. La deuxième partie est extraite en tant que tvaRate, qui contient la valeur du taux de TVA (par exemple, "20").
+
+4. **{% set tvaLinePrice = 0.0 %}** : Cela initialise une variable tvaLinePrice à zéro pour stocker le montant total de TVA pour ce taux de TVA.
+
+5. Ensuite, il y a une boucle for imbriquée qui itère à travers les orderLines associées à ce taux de TVA.
+
+6. **{% if tvaRate == orderLine.tva %}** : Cette condition vérifie si le taux de TVA de la ligne de commande actuelle (orderLine.tva) correspond au taux de TVA en cours de traitement (tvaRate).
+
+7. Dans la section suivante, différentes opérations sont effectuées pour calculer les montants liés à la TVA :
+
+- Les variables productTvaRate, sellingPrice, sellingPriceWithTva, tvaAmount, et tvaTotalLine sont calculées en fonction des données de la ligne de commande actuelle.
+- Le montant total de TVA pour la ligne de commande actuelle (tvaLinePrice) est calculé en fonction du taux de TVA et des prix de vente.
+- Un tableau totalAllTVA est mis à jour avec la clé correspondante au taux de TVA en cours de traitement et le montant total de TVA calculé.
+
+8. {% set totalHT = totalHT + (sellingPrice * orderLine.quantity) %} : Le montant total hors taxe (totalHT) est également calculé pour chaque ligne de commande et mis à jour au fur et à mesure.
+
+9. La boucle for externe continue de traiter les différentes clés de taux de TVA dans tvaRates.
