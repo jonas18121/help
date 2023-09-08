@@ -273,7 +273,7 @@ si vous transmettez un objet datetime au filtre de date avec timezone , vous pou
 {{ "now"|date('m/d/Y H:i', false) }}
 ```
 
-### générer un tableau associatif en twig
+### Générer un tableau associatif en twig
 
 Ce code Twig semble être utilisé pour générer un tableau de lignes de facturation (facture d'achat) à partir d'un ensemble de lignes de commande (orderLines) et pour calculer des totaux par taux de TVA (taxe sur la valeur ajoutée). Voici une explication étape par étape du code :
 
