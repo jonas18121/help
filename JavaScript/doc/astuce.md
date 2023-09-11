@@ -685,3 +685,23 @@ let paye3 = payeString.split(' ');
 console.log(parseInt(paye3[2])); // Retourne 152
 
 ```
+
+```js
+// Chaine de caractère qui contien un nombre
+let payeString = "Payer | 152.25 €";
+
+// 3 manières de faire ci-dessous
+
+// 1) regex /[0-9]+/
+let paye1 = parseInt(payeString.match(/\d[\d\s]*([,.])\d{2}/));
+console.log(paye1); // Retourne 152
+
+// 2) regex /\d+/
+let paye2 = parseInt(payeString.match(/\d[\d\s]*([,.])\d{2}/));
+console.log(paye2); // Retourne 152
+
+// 3) split 
+let paye3 = payeString.split(' ');
+console.log(parseInt(paye3[2])); // Retourne 152
+
+```

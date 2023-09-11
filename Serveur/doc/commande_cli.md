@@ -1,3 +1,6 @@
+## Sauvegarder toutes une os sur un disque externe :  
+
+https://wolfgang-ziegler.com/blog/migrate-linux-to-larger-ssd
 
 ## Copier une clé privée ou public ssh dans nodepad
 
