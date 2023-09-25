@@ -473,6 +473,16 @@ Exemple :
     mysql> SELECT [colonne], ROUND(AVG([colonne]), 2) FROM [table] GROUP BY [catégorie];
 ```
 
+## Changer l'interclassement (collation) d'une table dans une base de données MySQL
+
+```sql
+    mysql> ALTER TABLE nom_de_la_table CONVERT TO CHARACTER SET nom_du_nouveau_charset COLLATE nom_du_nouvel_interclassement;
+
+
+    -- exemple
+    mysql> ALTER TABLE app_exam_audit CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
 
 <hr>
 
