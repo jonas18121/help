@@ -16,8 +16,10 @@ Ce site montre les différente version : https://docs.docker.com/compose/compose
 
 Dans `docker-compose.yml`
 
+```yml
     version: "3.8"
     services:
+```
 
 ##  Spécifier nos services dans `docker-compose.yml`
 
@@ -27,24 +29,25 @@ Dans `docker-compose.yml`
 
 Dans `docker-compose.yml`
 
-    version: "3.8"
-    services:
-        db:
-            image: mysql
-            container_name: wallky_mysql
-            restart: always
-            volumes:
-                - db-data:/var/lib/mysql
-            environment:
-                MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-            networks:
-                - dev
+```yml
+version: "3.8"
+services:
+    db:
+        image: mysql
+        container_name: wallky_mysql
+        restart: always
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        networks:
+            - dev
 
-    networks:
-        dev:
-    volumes:
-        db-data:
-
+networks:
+    dev:
+volumes:
+    db-data:
+```
 
  - `version:` = Indique la version de Docker Compose que nous utilisons, Docker fournira les fonctionnalités appropriées.
 
@@ -68,19 +71,20 @@ Dans `docker-compose.yml`
 
 
 ### Conteneur phpMyAdmin
-
-    phpmyadmin:
-            image: phpmyadmin
-            container_name: wallky_phpmyadmin
-            restart: always
-            depends_on:
-                - db
-            ports:
-                - 8080:80
-            environment:
-                PMA_HOST: db
-            networks:
-                - dev
+```yml
+phpmyadmin:
+    image: phpmyadmin
+    container_name: wallky_phpmyadmin
+    restart: always
+    depends_on:
+        - db
+    ports:
+        - 8080:80
+    environment:
+        PMA_HOST: db
+    networks:
+        - dev
+```
 
  - `depends_on:` ça veut dire que le service `phpmyadmin` va attendre que le service `db` soit disponible avant de démarré, car il dépend de lui
 
@@ -92,40 +96,48 @@ Dans `docker-compose.yml`
 
 A ce stade  le fichier `docker-compose.yml` devrait être comme ça :
 
-    version: "3.8"
-    services:
-        db:
-            image: mysql
-            container_name: wallky_mysql
-            restart: always
-            volumes:
-                - db-data:/var/lib/mysql
-            environment:
-                MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-            networks:
-                - dev
+```yml
+version: "3.8"
+services:
+    db:
+        image: mysql
+        container_name: wallky_mysql
+        restart: always
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        networks:
+            - dev
 
-        phpmyadmin:
-            image: phpmyadmin
-            container_name: wallky_phpmyadmin
-            restart: always
-            depends_on:
-                - db
-            ports:
-                - 8080:80
-            environment:
-                PMA_HOST: db
-            networks:
-                - dev
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: wallky_phpmyadmin
+        restart: always
+        depends_on:
+            - db
+        ports:
+            - 8080:80
+        environment:
+            PMA_HOST: db
+        networks:
+            - dev
 
-    networks:
-        dev:
-    volumes:
-        db-data:
+networks:
+    dev:
+volumes:
+    db-data:
+```
 
 Si on fait la commande en CLI ci-dessous, on devrais pouvoir accéder à phpMyAdmin aux adresses suivante `127.0.0.1:8080` ou `localhost:8080`
 
     > docker-compose up
+
+Ne pas oubliez de mettre le nom du conteneur mysql (wallky_mysql) dans la definition du `DATABASE_URL`
+
+```make
+DATABASE_URL="mysql://root:@wallky_mysql:3306/home_stock_gitlab?serverVersion=5.7"
+```
 
 
 
@@ -145,43 +157,46 @@ On va construire nous même notre image à l’aide d’un Dockerfile
 
 Dans `php/Dockerfile`
 
-    FROM php:7.4-apache
+```ps
+FROM php:7.4-apache
 
-    RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-    RUN apt-get update \
-        && apt-get install -y --no-install-recommends locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
 
-    RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-        echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
-        locale-gen
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
+    locale-gen
 
-    RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
-    mv composer.phar /usr/local/bin/composer
+RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
+mv composer.phar /usr/local/bin/composer
 
-    RUN docker-php-ext-configure intl
-    RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip unzip calendar dom mbstring zip gd xsl
-    RUN pecl install apcu && docker-php-ext-enable apcu
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install pdo pdo_mysql gd opcache intl zip unzip calendar dom mbstring zip gd xsl
+RUN pecl install apcu && docker-php-ext-enable apcu
 
-    WORKDIR /var/www/
+WORKDIR /var/www/
+```
 
 
 5) On rajoute dans le fichier `docker-compose.yml` un service qu'on appellera `www`
 
 dans `docker-compose.yml`
-
-    www:
-        build: php
-        container_name: wallky_www
-        ports:
-            - "8741:80"
-        volumes:
-            - ./php/vhosts:/etc/apache2/sites-enabled
-            - ./:/var/www
-        user: '1000:1000' 
-        restart: always
-        networks:
-            - dev
+```yml
+www:
+    build: php
+    container_name: wallky_www
+    ports:
+        - "8741:80"
+    volumes:
+        - ./php/vhosts:/etc/apache2/sites-enabled
+        - ./:/var/www
+    user: '1000:1000' 
+    restart: always
+    networks:
+        - dev
+```
 
 `build:` = Le répertoire dans lequel on va chercher notre Dockerfile, ici c'est la répertoire php
 
@@ -196,41 +211,42 @@ dans `docker-compose.yml`
 site symfony : https://symfony.com/doc/current/setup/web_server_configuration.html
 
 Dans `vhost.conf`
+```bash
+<VirtualHost *:80>
+    ServerName localhost
 
-    <VirtualHost *:80>
-        ServerName localhost
+    DocumentRoot /var/www/api/public
+    DirectoryIndex /index.php
 
-        DocumentRoot /var/www/api/public
-        DirectoryIndex /index.php
+    <Directory /var/www/api/public>
+        AllowOverride None
+        Order Allow,Deny
+        Allow from All
 
-        <Directory /var/www/api/public>
-            AllowOverride None
-            Order Allow,Deny
-            Allow from All
+        FallbackResource /index.php
+    </Directory>
 
-            FallbackResource /index.php
-        </Directory>
+    # uncomment the following lines if you install assets as symlinks
+    # or run into problems when compiling LESS/Sass/CoffeeScript assets
+    # <Directory /var/www/api>
+    #     Options FollowSymlinks
+    # </Directory>
 
-        # uncomment the following lines if you install assets as symlinks
-        # or run into problems when compiling LESS/Sass/CoffeeScript assets
-        # <Directory /var/www/api>
-        #     Options FollowSymlinks
-        # </Directory>
+    # optionally disable the fallback resource for the asset directories
+    # which will allow Apache to return a 404 error when files are
+    # not found instead of passing the request to Symfony
+    <Directory /var/www/api/public/bundles>
+        FallbackResource disabled
+    </Directory>
+    ErrorLog /var/log/apache2/api_error.log
+    CustomLog /var/log/apache2/api_access.log combined
 
-        # optionally disable the fallback resource for the asset directories
-        # which will allow Apache to return a 404 error when files are
-        # not found instead of passing the request to Symfony
-        <Directory /var/www/api/public/bundles>
-            FallbackResource disabled
-        </Directory>
-        ErrorLog /var/log/apache2/api_error.log
-        CustomLog /var/log/apache2/api_access.log combined
-
-        # optionally set the value of the environment variables used in the application
-        #SetEnv APP_ENV prod
-        #SetEnv APP_SECRET <app-secret-id>
-        #SetEnv DATABASE_URL "mysql://db_user:db_pass@host:3306/db_name"
-    </VirtualHost>
+    # optionally set the value of the environment variables used in the application
+    #SetEnv APP_ENV prod
+    #SetEnv APP_SECRET <app-secret-id>
+    #SetEnv DATABASE_URL "mysql://db_user:db_pass@host:3306/db_name"
+</VirtualHost>
+```
 
 Dans le paramètre DocumentRoot et les balise Directory, il faut mettre le chemin et le nom de l'application lorsqu'on va le créer avec symfony
 
@@ -247,7 +263,7 @@ Si on fait la commande ci-dessous et qu'on ce rend a cette addresse `127.0.0.1:8
     > docker-compose up
 
 A ce stade  le fichier `docker-compose.yml` devrait être comme ça :
-
+```yml
     version: "3.8"
 
     services:
@@ -290,6 +306,7 @@ A ce stade  le fichier `docker-compose.yml` devrait être comme ça :
         dev:
     volumes:
         db-data:
+```
 
 ## Céer un projet Symfony via Docker
 
