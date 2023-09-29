@@ -331,3 +331,79 @@ Entrer dans la cli de git bash du projet,
 Puis cd `api`, afin de pouvoir executer des commandes symfony (php bin/console), pour travailler sur Symfony
 
 Bravo !!!
+
+### Conteneur Node avec son dockerfile
+
+Dans  docker-compose.yml
+```yml
+  # NODE
+  node:
+    container_name: ${APP_NAME}_node
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    volumes:
+      - './app:/var/www/app'
+```
+
+Dans `node/Dockerfile`
+```ps
+FROM node:19.0.0
+
+RUN apt-get -qq update \
+	&& apt-get install apt-utils --assume-yes
+
+RUN apt-get install zip --assume-yes
+
+RUN apt-get install curl --assume-yes
+
+RUN apt-get install ruby-dev --assume-yes \
+	&& apt-get install rubygems --assume-yes \
+	&& gem update \
+	&& gem install compass \
+	&& gem install dpl
+
+RUN npm -g install typings --silent
+
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+
+RUN apt-get install yarn --assume-yes
+
+WORKDIR /var/www/app
+
+CMD ["node"]
+```
+
+Ce Dockerfile décrit les étapes pour construire une image Docker qui servira probablement d'environnement de développement ou d'exécution pour une application Node.js. 
+
+Voici une explication détaillée de chaque instruction :
+
+1. `FROM node:19.0.0`: Cette ligne indique que l'image Docker sera basée sur l'image officielle de Node.js version 19.0.0. Cela signifie que votre conteneur sera construit à partir de cette base.
+
+2. `RUN apt-get -qq update && apt-get install apt-utils --assume-yes`: Ces deux commandes sont utilisées pour mettre à jour les références des paquets du système d'exploitation (via apt-get update) et installer apt-utils. --assume-yes est utilisé pour répondre automatiquement "oui" à toutes les questions d'installation. L'installation d'apt-utils est généralement faite en premier pour éviter d'éventuels problèmes lors de l'installation d'autres paquets.
+
+3. `RUN apt-get install zip --assume-yes`: Cette commande installe le paquet zip, qui est un utilitaire de compression de fichiers.
+
+4. `RUN apt-get install curl --assume-yes`: Cette commande installe le paquet curl, un outil permettant d'effectuer des requêtes HTTP depuis la ligne de commande.
+
+5. `RUN apt-get install ruby-dev --assume-yes`: Cette commande installe le paquet ruby-dev, qui contient les en-têtes de développement Ruby nécessaires pour compiler des gemmes (packages Ruby).
+
+6. `&& apt-get install rubygems --assume-yes`: Cette commande installe le paquet rubygems, qui est le gestionnaire de packages Ruby.
+
+7. `&& gem update`: Une fois RubyGems installé, cette commande met à jour RubyGems lui-même pour s'assurer qu'il est à jour.
+
+8. `&& gem install compass`: Cette commande installe la gemme (package) Ruby appelée compass. compass est un framework CSS.
+
+9. `&& gem install dpl`: Cette commande installe la gemme dpl, qui est un outil permettant le déploiement continu (Continuous Deployment).
+
+10. `RUN npm -g install typings --silent`: Cette commande utilise npm pour installer globalement le package typings. L'option --silent est utilisée pour supprimer la sortie verbale, ce qui permet d'installer le package silencieusement.
+
+11. `RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash`: Cette commande télécharge et exécute un script d'installation de NVM (Node Version Manager) depuis GitHub. NVM est utilisé pour gérer différentes versions de Node.js sur votre système.
+
+12. `RUN apt-get install yarn --assume-yes`: Cette commande installe le paquet yarn, qui est un gestionnaire de packages JavaScript alternatif à npm, très apprécié pour sa performance et sa facilité d'utilisation.
+
+13. `WORKDIR /var/www/app`: Cette instruction définit le répertoire de travail par défaut dans le conteneur à /var/www/app. Cela signifie que toutes les commandes ultérieures seront exécutées à partir de ce répertoire.
+
+14. `CMD ["node"]`: Enfin, cette instruction définit la commande par défaut à exécuter lorsque le conteneur est lancé. Dans ce cas, il s'agit de node, ce qui signifie que le conteneur exécutera Node.js en tant qu'application par défaut lorsqu'il sera démarré.
+
+En résumé, ce Dockerfile configure un environnement de développement ou d'exécution Node.js avec plusieurs outils et dépendances utiles pour le développement web. Vous pouvez personnaliser ce Dockerfile en fonction des besoins spécifiques de votre application Node.js.
