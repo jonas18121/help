@@ -73,6 +73,19 @@ Vérifier que l'installation a réussi en tapant :
 yarn -v
 ```
 
+2. 3. Installer webpack
+
+```sh
+sudo apt-get update
+sudo apt-get -y install webpack
+sudo apt-get update
+```
+
+Vérifier que l'installation a réussi en tapant :
+```sh
+webpack -v
+```
+
 3. 1. Dans GitLab, aller dans le chemin : **Settings > Repository > Deploy Keys**
     - Copier-coller la clé publique qui permet de se connecter au serveur
         - Dans le champ key de **Deploy Keys**, mettre la clé publique qui permet de se connecter au serveur
