@@ -155,3 +155,51 @@ function distance($x1,$y1,$x2,$y2) {
     return sqrt(pow($x2 - $x1, 2) + pow($y2 - $y1, 2));
 }
 ```
+
+exo 9: https://www.codingame.com/playgrounds/41820/exercice-php---base/exercice-9
+
+Il faut écrire une fonction premiers qui retourne un tableau contenant les $n premiers nombres premiers. n est un paramètre fourni à la fonction.
+
+Attention : 1 n'est pas un nombre premier.
+
+```php
+function estPremier($nombre)
+{
+    if ($nombre <= 1) {
+        return false;
+    }
+    
+    if ($nombre <= 3) {
+        return true;
+    }
+
+    if ($nombre % 2 == 0 || $nombre % 3 == 0) {
+        return false;
+    }
+
+    $i = 5;
+    while ($i * $i <= $nombre) {
+        if ($nombre % $i == 0 || $nombre % ($i + 2) == 0) {
+            return false;
+        }
+        $i += 6;
+    }
+
+    return true;
+}
+
+function premiers($n)
+{
+    $nombresPremiers = array();
+    $nombre = 2; // Commence avec le premier nombre premier
+
+    while (count($nombresPremiers) < $n) {
+        if (estPremier($nombre)) {
+            $nombresPremiers[] = $nombre;
+        }
+        $nombre++;
+    }
+
+    return $nombresPremiers;
+}
+```
