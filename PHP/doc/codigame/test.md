@@ -206,6 +206,16 @@ function premiers($n)
 
 exo 3 tutoriel
 
+Dans cet exercice, on vous demande d'écrire un programme capable d'analyser un relevé de températures pour trouver quelle température se rapproche le plus de zéro.
+
+Implémentez la fonction computeClosestToZero(array $ts)  qui prend un tableau de températures $ts  en paramètre et renvoie la température la plus proche de zéro.
+
+contrainte
+
+- Si le tableau est vide, la fonction doit renvoyer 0
+- 0<= taille $ts <= 1000
+- Si deux températures sont aussi proches de zéro, la fonction devra renvoyer la température positive (par exemple si les températures sont -5 et 5, renvoyez 5)
+
 ```php
 function computeClosestToZero(array $ts): int
 {
