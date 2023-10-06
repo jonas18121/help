@@ -203,3 +203,39 @@ function premiers($n)
     return $nombresPremiers;
 }
 ```
+
+exo 3 tutoriel
+
+```php
+function computeClosestToZero(array $ts): int
+{
+    // Si le tableau est vide, renvoyer 0
+    if (empty($ts)) {
+        return 0;
+    }
+
+    // Initialiser la température la plus proche de zéro à la première valeur du tableau
+    $closest = $ts[0];
+
+    // Parcourir le tableau
+    foreach ($ts as $temperature) {
+        // Si la différence entre la température actuelle et zéro est plus petite que la différence entre la température la plus proche de zéro et zéro, mettre à jour la température la plus proche de zéro
+        if (abs($temperature) < abs($closest)) {
+            $closest = $temperature;
+        }
+    }
+
+
+    foreach ($ts as $temperature) {
+        // on prend le nombre positif si $temperature est égale au $closest
+        if (abs($temperature) === abs($closest)) {
+            $closest = $temperature;
+        }
+    }
+
+    // Retourner la température la plus proche de zéro
+    return $closest;
+}
+
+computeClosestToZero([5, 4, 3, 2, 1, -5, -4, -3, -2 ]);
+```
