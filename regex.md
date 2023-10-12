@@ -112,6 +112,46 @@ En résumé, pour accepter les accents, les chiffres, les espaces et les virgule
 - \s pour les espaces et la ponctuation
 - \w pour les caractères alphanumériques, y compris les caractères accentués
 
+## Accepter valider une chaîne de caractères qui peut contenir des lettres (y compris les caractères accentués), des espaces et des tirets (moins), tout en garantissant que la chaîne ne commence ni ne se termine par un tiret
+
+L'expression régulière /^(?!.*-^)(?!.*-$)[\p{L}\s-]+$/ est conçue pour valider une chaîne de caractères qui peut contenir des lettres (y compris les caractères accentués), des espaces et des tirets (moins), tout en garantissant que la chaîne ne commence ni ne se termine par ou un tiret. Voici une explication détaillée de chaque partie de cette expression régulière :
+
+```php
+/^(?!.*-^)(?!.*-$)[\p{L}\s-]+$/
+```
+1. `^` : C'est une ancre qui indique que la correspondance doit commencer au début de la chaîne.
+
+2. `(?!.*-^)` : C'est la première assertion négative qui signifie "ne pas permettre de tiret au début de la chaîne." 
+    
+    - `(?! ... )`  Il s'agit de la syntaxe d'une assertion négative en expression régulière. Elle spécifie que le texte recherché à l'intérieur de l'assertion négative NE doit PAS être présent dans la chaîne.
+
+    - `.*` Cela correspond à n'importe quel caractère (sauf un saut de ligne) zéro fois ou plus. Il signifie que la chaîne peut contenir n'importe quel texte avant le modèle que nous cherchons à exclure.
+    
+    - `-` C'est le caractère tiret (moins) littéral. Dans cet exemple, nous cherchons à exclure un tiret en début de chaîne.
+
+    - `^` C'est une ancre qui représente le début de la chaîne.
+
+3. (?!.*-$) : C'est la deuxième assertion négative qui signifie "ne pas permettre de tiret à la fin de la chaîne." 
+
+    - `(?! ... )`  Il s'agit de la syntaxe d'une assertion négative en expression régulière. Elle spécifie que le texte recherché à l'intérieur de l'assertion négative NE doit PAS être présent dans la chaîne.
+
+    - `.*` Cela correspond à n'importe quel caractère (sauf un saut de ligne) zéro fois ou plus. Il signifie que la chaîne peut contenir n'importe quel texte avant le modèle que nous cherchons à exclure.
+    
+    - `-` C'est le caractère tiret (moins) littéral. Dans cet exemple, nous cherchons à exclure un tiret en fin de chaîne.
+
+    - `$` C'est une ancre qui représente la fin de la chaîne.
+
+4. `[\p{L}\s-]+` : Cela correspond à une ou plusieurs lettres (caractères Unicode), espaces et tirets (moins). 
+
+    - `\p{L}` est la classe de caractères Unicode pour les lettres, 
+    
+    - `\s` représente un espace 
+    
+    - `-` est un caractère de tiret. Cette partie de l'expression permet d'accepter des lettres, des espaces et des tirets.
+
+5. `$` : C'est une autre ancre qui indique que la correspondance doit se terminer à la fin de la chaîne.
+
+En résumé, cette expression régulière permet de valider des chaînes de caractères qui peuvent contenir des lettres, des espaces et des tirets, tout en garantissant qu'ils ne commencent ni ne se terminent par ou un tiret. Elle garantit que la chaîne commence et se termine par des lettres, sans tiret au début ou à la fin.
 
 ## Les classes de caractères abrégées ou prédéfinies
 
