@@ -68,6 +68,50 @@ Exemple de format autorisé : 0701010101 ou +33701010101 et pas de numéro comme
     ^(?:(?:\+|00)33|0)[12345679](?:\d{2}){4}$
 ```
 
+## Accepter les accents, les chiffres, les espaces et les virgules, point, tirets underscore en regex
+
+
+Pour accepter les accents, les chiffres, les espaces et les virgules, point, tirets underscore en regex en PHP, vous pouvez utiliser la regex suivante :
+
+```php
+/^[\p{L}\p{N}\s,.-_]+$/u
+```
+
+Cette regex accepte une chaîne de caractères composée uniquement de lettres, de chiffres, d'espaces, de virgules, de points, de tirets et d'underscore. Les caractères accentués sont acceptés car la classe \p{L} est utilisée. Les chiffres sont acceptés car la classe \p{N} est utilisée. Les espaces, les virgules, les points, les tirets et les underscores sont acceptés car ils sont inclus dans la classe \w.
+
+Voici un exemple de code qui utilise cette regex :
+
+```php
+$regex = '/^[\p{L}\p{N}\s,.-_]+$/u';
+
+$string = 'Ceci est une chaîne avec des accents, des chiffres, des espaces, des virgules, des points, des tirets et des underscores';
+
+if (preg_match($regex, $string)) {
+    echo 'La chaîne contient des accents, des chiffres, des espaces, des virgules, des points, des tirets et des underscores';
+} else {
+    echo 'La chaîne ne contient pas d\'accents, de chiffres, d\'espaces, de virgules, de points, de tirets ou d\'underscores';
+}
+```
+
+Ce code affichera la sortie suivante :
+
+La chaîne contient des accents, des chiffres, des espaces, des virgules, des points, des tirets et des underscores
+
+Vous pouvez également utiliser la regex suivante :
+
+```php
+/^[a-zA-ZÀ-ÖØ-ÿœŒ0-9,.-_]+$/u
+```
+
+Cette regex est équivalente à la première, mais elle utilise des plages de caractères au lieu des classes de caractères.
+
+En résumé, pour accepter les accents, les chiffres, les espaces et les virgules, point, tirets underscore en regex en PHP, vous pouvez utiliser les classes de caractères suivantes :
+
+- \p{L} pour les lettres, y compris les caractères accentués
+- \p{N} pour les chiffres
+- \s pour les espaces et la ponctuation
+- \w pour les caractères alphanumériques, y compris les caractères accentués
+
 
 ## Les classes de caractères abrégées ou prédéfinies
 
