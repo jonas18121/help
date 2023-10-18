@@ -1,4 +1,127 @@
-////// Generic Function ////// 
+# Explication d'utilisation de Async et await en utilisant les methode de FormCheckFunction
+
+
+```twig
+{# registration.html #}
+
+{% extends "base.html.twig" %}
+
+{% block title 'Inscription' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {#{{ encore_entry_link_tags('app') }}#}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#{{ encore_entry_script_tags('app') }}#}
+    {{ encore_entry_script_tags('frontend/page-register') }}
+    {{ encore_entry_script_tags('frontend/page-register-check') }}
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    <h1 class="">S'inscrire</h1>
+
+    <div class="container_form">
+
+        {{ form_start(formRegistration, { 'attr' : { class: 'form', id: 'user-registration-form' }} ) }}
+
+            {# ... code #}
+
+            <div class="div_form">
+                <label for="inputEmail" class="form_label">{{ form_label(formRegistration.email) }}</label>
+                <div>
+                    {{ form_widget(formRegistration.email, {attr : {class : 'form_input' }} ) }}
+                </div>
+                <small class="error_input_small" id="error_email">{{ form_errors(formRegistration.email) }} </small>
+            </div>
+
+           {# ... code #}
+
+            <div class="form_action">
+                <a href="{{ path('app_login')}}">Vous avez un compte ? Connectez-vous</a> 
+            </div>
+
+            <button type="submit" class="btn">S'incrire</button>
+
+        {{ form_end(formRegistration) }}
+    </div>
+</div>
+{% endblock body %}
+```
+
+
+
+
+```js
+// page-register-check.js
+
+import { FormCheckFunction } from '../../form/form-check-function';
+
+const colorRed = '#dc3545';
+const colorGreen = '#28a745';
+const colorOrange = '#D07B21';
+
+$(function () {
+    const formCheckFunction = new FormCheckFunction();
+    checkEmailWhileWriteIntoInput(formCheckFunction);
+    checkEmailAfterSubmit(formCheckFunction);
+});
+
+/**
+ *  vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input
+ * 
+ * @param {FormCheckFunction} formCheckFunction 
+ */
+function checkEmailWhileWriteIntoInput(formCheckFunction) {
+    $(document).on('input', async function (event) {
+        await formCheckFunction.isEmailExist(
+            '#registration_email', 
+            '/registration/email/', 
+            'Cette adresse email est déjà utilisé.', 
+            colorOrange, 
+            colorOrange
+        );
+	});
+}
+
+/**
+ * vérifier si l'email dans le champ est valide après le submit du formulaire
+ * 
+ * @param {FormCheckFunction} formCheckFunction 
+ */
+function checkEmailAfterSubmit(formCheckFunction) {
+    $(document).on('submit', '#user-registration-form', async function (event) {
+        event.preventDefault();
+
+        // Supprimer le gestionnaire d'événement pour éviter une récursion infinie
+        $(document).off('submit', '#user-registration-form');
+
+        const formRegister = $('#user-registration-form');
+
+		let data = [];
+        await data.push(
+            await formCheckFunction.isEmailExist(
+                '#registration_email', 
+                '/registration/email/', 
+                'Cette email est déjà utilisé.', 
+                colorRed, 
+                colorOrange
+            ) 
+        );
+
+		await formCheckFunction.checkOnSubmitAsync(formCheckFunction.isValidField(data), event, formRegister);
+	});
+}
+```
+
+
+```js
+// form-check-function.js
 
 export class FormCheckFunction {
 
@@ -476,3 +599,4 @@ export class FormCheckFunction {
         }
     }
 }
+```
