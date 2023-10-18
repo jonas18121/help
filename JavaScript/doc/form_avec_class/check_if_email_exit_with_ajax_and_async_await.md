@@ -276,13 +276,14 @@ export class FormCheckFunction {
     /**
      * @param {string} input : input id
      * @param {string} partUrl : part of the url
+     * @param {string} tagError : tag error
      * @param {string} messageError : error message, the field is empty
      * @param {string} temporaryColor : temporary color
      * @param {string} permanentColor : permanent color
      * 
      *  @returns {Promise}
      */
-    async findEmailExist(input, partUrl, messageError, temporaryColor, permanentColor) 
+    async findEmailExist(input, partUrl, tagError, messageError, temporaryColor, permanentColor) 
     {
         return new Promise(function(resolve, reject) {
             let email = $(input).val();
@@ -297,12 +298,12 @@ export class FormCheckFunction {
                     success: function (response) {
 
                         if (response.result == 'success') {
-                            $('#error_email').text('');
+                            $(tagError).text('');
 
                             isValid = true;
                         } 
                         else {
-                            $('#error_email').text(messageError)
+                            $(tagError).text(messageError)
                             .css('color', temporaryColor)
                             .delay(50000)
                             .queue(function (next) {
