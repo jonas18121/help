@@ -13,7 +13,7 @@ export class FormCheckFunction {
      * @param {string} temporaryColor : temporary color
      * @param {string} permanentColor : permanent color
      * 
-     *  @returns {string}
+     * @returns {string}
      */
     async isEmailExist(input, partUrl, messageError, temporaryColor, permanentColor) {
         try {
@@ -35,7 +35,7 @@ export class FormCheckFunction {
      * @param {string} temporaryColor : temporary color
      * @param {string} permanentColor : permanent color
      * 
-     *  @returns {Promise}
+     * @returns {Promise}
      */
     async findEmailExist(input, partUrl, tagError, messageError, temporaryColor, permanentColor) 
     {

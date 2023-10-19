@@ -1,8 +1,14 @@
 # Vérifier si un email existe dans la BDD avec Ajax et Async/Await
 
+Dans le registration.html.twig 
+
+- L'id du formulaire est `user-registration-form`
+- On ce concentre sur l'input email
+- L'id de l'input email est `registration_email`
+- L'id pour afficher les message d'erreur est `error_email`
 
 ```twig
-{# registration.html #}
+{# registration.html.twig #}
 
 {% extends "base.html.twig" %}
 
@@ -54,6 +60,15 @@
 {% endblock body %}
 ```
 
+Dans securityController.php
+
+- On ce concentre sur la méthode `isEmailExist()`
+- `/registration/email/{email}` : est le chemin qui nous permettra d'exécuter la méthode `isEmailExist()` depuis JS/AJAX exemple : `/registration/email/1`
+- `if (null !== $userRepository->isEmailExist($email)) {` : On verifie cette methode trouve l'email dans la BDD ou pas
+- `return new JsonResponse(['result' => 'error', 'data' => ['isEmailExist' => true]]);` : S'il trouve l'email dans la BDD, il retourne true
+- `return new JsonResponse(['result' => 'success', 'data' => ['isEmailExist' => false]]);` : Sinon il retourne false
+
+
 ```php
 // securityController.php
 
@@ -98,8 +113,6 @@ class SecurityController extends AbstractController
         ]);
     }
 
-
-
     /**
      * @Route("/login", name="app_login")
      */
@@ -141,6 +154,10 @@ class SecurityController extends AbstractController
 }
 ```
 
+Dans userRepository.php
+
+- La methode `isEmailExist` permet de verifier si l'email qui est en paramètre existe dans le BDD ou pas
+
 ```php
 // userRepository.php
 
@@ -179,6 +196,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 }
 ```
 
+Dans page-register-check.js
+
+- On importe `FormCheckFunction`, puis on l'instance
+- Puis on appel `checkEmailWhileWriteIntoInput(formCheckFunction);` et `checkEmailAfterSubmit(formCheckFunction);`
+
+- Dans `checkEmailWhileWriteIntoInput(formCheckFunction);` (vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input)
+    - `$(document).on('input', async function (event) {`
+        - `$(document)` : Cela sélectionne l'élément racine du DOM, le document HTML. L'événement "input" sera surveillé sur tout le document.
+        - `on()` : de jQuery pour attacher un gestionnaire d'événement à l'événement "input" sur le document. Cela signifie que chaque fois qu'un élément du DOM reçoit un événement "input", ce gestionnaire d'événement sera déclenché. L'événement "input" se produit généralement lorsque l'utilisateur entre des données dans un champ de formulaire ou modifie le contenu d'un élément éditable
+        - `async function (event)` : Le code est défini comme asynchrone, ce qui signifie que la fonction gère de manière asynchrone les actions qui peuvent nécessiter du temps, comme des opérations réseau, des requêtes AJAX, etc.
+    - `await formCheckFunction.isEmailExist(` : methode qui contient de l'AJAX dedans, `await` permet d'attendre que la requête AJAX retourne une réponse.
+
+- Dans `checkEmailAfterSubmit(formCheckFunction);` (vérifier si l'email dans le champ est valide après le submit du formulaire)
+    - `$(document).on('submit', '#user-registration-form', async function (event) {`
+        - `$(document)` : Cela sélectionne l'élément racine du DOM, le document HTML. L'événement "input" sera surveillé sur tout le document.
+        - `on('submit', '#user-registration-form', async function (event) {` : Il s'agit de la méthode .on() de jQuery, qui est utilisée pour attacher un gestionnaire d'événement à un ou plusieurs éléments du DOM. Dans cet exemple, l'événement est "submit", ce qui signifie que le gestionnaire sera déclenché lorsque le formulaire est soumis.
+            - `submit` : L'événement que vous souhaitez surveiller, dans ce cas, c'est l'événement de soumission d'un formulaire.
+            - `#user-registration-form` : Le sélecteur CSS qui spécifie quel formulaire déclenchera cet événement. Dans cet exemple, il s'agit de l'élément de formulaire avec l'ID user-registration-form. Le gestionnaire sera exécuté lorsque ce formulaire est soumis.
+            - `async function (event) {` : C'est la fonction de rappel (callback function) qui sera exécutée lorsque l'événement de soumission se produit. Cette fonction de rappel est déclarée comme asynchrone en utilisant le mot-clé async, ce qui signifie que vous pouvez utiliser await à l'intérieur de cette fonction pour gérer des opérations asynchrones.
+        - `event.preventDefault();` : Stopper le submit
+        - `$(document).off('submit', '#user-registration-form');` Supprimer le gestionnaire d'événement sumbit pour éviter une récursion infinie, comme dans la méthode `checkOnSubmitAsync` on submit avec `form.submit();` sinon ça fera une boucle infinie
+            - `.off()` de jQuery pour désactiver un gestionnaire d'événement spécifique.
+            - `submit`: C'est le type de l'événement que vous souhaitez désactiver. Dans ce cas, c'est l'événement de soumission de formulaire.
+            - `#user-registration-form`: C'est le sélecteur CSS qui spécifie à quel élément vous souhaitez désactiver le gestionnaire d'événement. Plus précisément, c'est l'élément de formulaire avec l'ID user-registration-form auquel vous souhaitez supprimer le gestionnaire d'événement.
+        - Pour chaque `await` devant les méthodes qui suis, on attend que la méthode AJAX `isEmailExist()` retourne une réponse
+
 
 ```js
 // page-register-check.js
@@ -199,6 +242,8 @@ $(function () {
  *  vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input
  * 
  * @param {FormCheckFunction} formCheckFunction 
+ * 
+ * @returns {void}
  */
 function checkEmailWhileWriteIntoInput(formCheckFunction) {
     $(document).on('input', async function (event) {
@@ -216,12 +261,14 @@ function checkEmailWhileWriteIntoInput(formCheckFunction) {
  * vérifier si l'email dans le champ est valide après le submit du formulaire
  * 
  * @param {FormCheckFunction} formCheckFunction 
+ * 
+ * @returns {void}
  */
 function checkEmailAfterSubmit(formCheckFunction) {
     $(document).on('submit', '#user-registration-form', async function (event) {
         event.preventDefault();
 
-        // Supprimer le gestionnaire d'événement pour éviter une récursion infinie
+        // Supprimer le gestionnaire d'événement sumbit pour éviter une récursion infinie
         $(document).off('submit', '#user-registration-form');
 
         const formRegister = $('#user-registration-form');
@@ -241,7 +288,10 @@ function checkEmailAfterSubmit(formCheckFunction) {
 	});
 }
 ```
+Dans form-check-function.js
 
+- `findEmailExist` : Requête AJAX qui va retourner une réponse avec une promise qui va permettre d'attendre la réponse (resolve ou reject).
+- `isEmailExist` : Méthode qui appel `findEmailExist` et attend sa réponse avec `async/await`
 
 ```js
 // form-check-function.js
