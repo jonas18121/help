@@ -756,6 +756,9 @@ npm run build
 C'est un analyseur statique de code PHP
 
 [PHPSTAN](https://phpstan.org/user-guide/getting-started)
+[Les règles](https://phpstan.org/user-guide/rule-levels)
+[Templates génériques](https://phpstan.org/writing-php-code/phpdocs-basics#generics)
+[Video Grafikart](https://www.youtube.com/watch?v=NkbuFsgHB_c)
 
 ```bash
 composer require --dev phpstan/phpstan
@@ -771,15 +774,15 @@ vendor/bin/phpstan analyse src tests
 Il y a 8 niveaux, le niveau par défaut est 0. Si on veut tester au niveau 8 faire la commande ci-dessous : 
 
 ```bash
-vendor/bin/phpstan analyse src tests --level 8
+vendor/bin/phpstan analyse src tests --level 8 --memory-limit=2G
 
 # ou
 
-vendor/bin/phpstan analyse src tests -l 8
+vendor/bin/phpstan analyse src tests -l 8 --memory-limit=2G
 
 # ou
 
-vendor/bin/phpstan analyse src tests --level=max -c phpstan.dist.neon
+vendor/bin/phpstan analyse src tests --level=max -c phpstan.dist.neon --memory-limit=2G
 ```
 
 On peut aussi configurer le fichier `phpstan.dist.neon` ce qui permet d'utiliser juste la commande `vendor/bin/phpstan analyse`
@@ -796,5 +799,5 @@ parameters:
 ```
 
 ```bash
-vendor/bin/phpstan analyse
+vendor/bin/phpstan analyse --memory-limit=2G
 ```
