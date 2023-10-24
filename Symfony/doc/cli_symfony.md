@@ -100,12 +100,12 @@ pour avoir la dernière version en mode microservice, API
     - symfony server:start -d
 
 ## Faire tourner notre application avec la commande symfony en arrière plan
-```ps
+```bash
 symfony serve -d
 ```
 
 ### Ouvrir l'application dans notre navigateur local
-```ps
+```bash
 symfony open:local
 ```
 ## Voir les log de l'application qui tourne en arrière plan
@@ -694,20 +694,20 @@ Puis Symfony va créer un dossier `command` avec la classe `CreateCategoryComman
 ### Désinstaller la symfony-cli (linux)
 
 Voir les droits
-```ps
+```bash
 ls -al /usr/local/bin/symfony
 ```
 si c'est là
 
 supprimer
 
-```ps
+```bash
 rm -rf /usr/local/bin/symfony
 ```
 
 ### Installer Webpack Encore dans Symfony
 
-```ps
+```bash
 composer require symfony/webpack-encore-bundle
 
 # puis
@@ -721,7 +721,7 @@ npm install
 
 Run webpack
 
-```ps
+```bash
 # compiler les actifs et recompiler automatiquement lorsque les fichiers changent
 yarn watch
 
@@ -749,4 +749,52 @@ yarn build
 # ou
 
 npm run build
+```
+
+### Installer PHPSTAN
+
+C'est un analyseur statique de code PHP
+
+[PHPSTAN](https://phpstan.org/user-guide/getting-started)
+
+```bash
+composer require --dev phpstan/phpstan
+```
+#### Première exécution
+
+par exemple, si vous avez vos classes dans des répertoires src et tests, vous pouvez exécuter PHPStan comme ceci :
+
+```bash
+vendor/bin/phpstan analyse src tests
+```
+
+Il y a 8 niveaux, le niveau par défaut est 0. Si on veut tester au niveau 8 faire la commande ci-dessous : 
+
+```bash
+vendor/bin/phpstan analyse src tests --level 8
+
+# ou
+
+vendor/bin/phpstan analyse src tests -l 8
+
+# ou
+
+vendor/bin/phpstan analyse src tests --level=max -c phpstan.dist.neon
+```
+
+On peut aussi configurer le fichier `phpstan.dist.neon` ce qui permet d'utiliser juste la commande `vendor/bin/phpstan analyse`
+
+```bash
+# phpstan.dist.neon
+
+parameters:
+    level: 8
+    paths:
+        - public/
+        - src/
+        - tests/
+```
+
+```bash
+vendor/bin/phpstan analyse
 ```
