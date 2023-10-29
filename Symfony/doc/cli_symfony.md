@@ -753,12 +753,16 @@ npm run build
 
 ### Installer PHPSTAN
 
+Voir aussi ce [lien](https://github.com/jonas18121/help/blob/master/Devops/doc/yodev/5_projet/2_php_stan.md)
+
 C'est un analyseur statique de code PHP
 
-[PHPSTAN](https://phpstan.org/user-guide/getting-started)
-[Les règles](https://phpstan.org/user-guide/rule-levels)
-[Templates génériques](https://phpstan.org/writing-php-code/phpdocs-basics#generics)
-[Video Grafikart](https://www.youtube.com/watch?v=NkbuFsgHB_c)
+- [PHPSTAN](https://phpstan.org/user-guide/getting-started)
+- [Les règles](https://phpstan.org/user-guide/rule-levels)
+- [Templates génériques](https://phpstan.org/writing-php-code/phpdocs-basics#generics)
+- [Video Grafikart](https://www.youtube.com/watch?v=NkbuFsgHB_c)
+- [Ignorer certaines erreurs](https://phpstan.org/user-guide/ignoring-errors)
+- [Résolution de l'erreur PHPStan « Aucun type de valeur spécifié dans le type itérable »](https://phpstan.org/blog/solving-phpstan-no-value-type-specified-in-iterable-type)
 
 ```bash
 composer require --dev phpstan/phpstan
@@ -796,8 +800,16 @@ parameters:
         - public/
         - src/
         - tests/
+    ignoreErrors:
+        -
+          message: '#Property [a-zA-Z0-9\\_]+::\$id is never written, only read.#'
+          path: src/Entity/*
+    checkGenericClassInNonGenericObjectType: false
 ```
 
 ```bash
 vendor/bin/phpstan analyse --memory-limit=2G
 ```
+### Installer PHP CS FIXER
+
+Voir ce [lien](https://github.com/jonas18121/help/blob/master/Devops/doc/yodev/5_projet/1_php_cs_fixer.md)

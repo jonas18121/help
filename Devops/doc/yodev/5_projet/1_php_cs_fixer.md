@@ -67,9 +67,26 @@ On n'a pas besoin de préciser que l'on veut lancer l'analyse dans le dossier **
 ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src
 ```
 
+Pour avoir de nombreuses informations détaillées pendant son exécution et voir les modifications apportées au code source, rajouter `-vvv` et `--diff`
+```bash
+tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --diff
+```
+
+1. `tools/php-cs-fixer/vendor/bin/php-cs-fixer`: C'est le chemin vers le binaire exécutable de PHP CS Fixer. Cela indique à votre système où trouver l'exécutable pour lancer l'outil.
+
+2. `fix`: C'est la commande principale que vous souhaitez exécuter avec PHP CS Fixer. La commande "fix" est utilisée pour appliquer les correctifs de codage automatiques au code source PHP.
+
+3. `-vvv`: Cela spécifie le niveau de débogage ou de verbosité de la sortie. Trois "v" signifient une sortie très verbeuse, ce qui signifie que la commande affichera de nombreuses informations détaillées pendant son exécution. Cela peut être utile pour le débogage ou la compréhension de ce que fait PHP CS Fixer en interne.
+
+4. `--diff`: Cette option permet à PHP CS Fixer de générer un diff montrant les modifications apportées au code source. Cela permet de voir exactement quelles corrections ont été appliquées au code.
+
 ### Configuration de .php-cs-fixer.dist.php
 
-La configuration ce fait dans le fichier **.php-cs-fixer.dist.php**, voici un exemple ci-dessous
+La configuration ce fait dans le fichier **.php-cs-fixer.dist.php** que l'on va créer manuellement, si ce n'est pas fait automatiquement. 
+
+On peut regarder sur [.php-cs-fixer.dist.php](https://github.com/symfony/demo/blob/main/.php-cs-fixer.dist.php) de Symfony Demo 
+
+voici un exemple ci-dessous
 
 - **->exclude()** : Exclure des dossiers/fichiers
 - **->notPath()** : Exclure des executables
