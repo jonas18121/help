@@ -1,6 +1,6 @@
 # Utilisation de PHPUnit dans Docker
 
-Dans php/Dockerfile
+#### Dans php/Dockerfile
 
 - Pour l'installation de xdebug
     - Installation de l'extention amqp
@@ -67,10 +67,10 @@ RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 WORKDIR /var/www/app
 ```
 
-Dans phpunit.xml.dist
+#### Dans phpunit.xml.dist
 
 - Utilisation des balises filter et whitelist
-- Puis utilisation des balises logging et log pout gitlab ci
+- Puis utilisation des balises logging et log pour le gitlab ci
 ```xml
 <!-- phpunit.xml.dist -->
 
@@ -131,7 +131,7 @@ Dans phpunit.xml.dist
 </phpunit>
 ```
 
-Dans app/makefile
+#### Dans app/makefile
 
 On a les commandes pour executer les tests Unit/Func et pour le coverage 
 ```makefile
