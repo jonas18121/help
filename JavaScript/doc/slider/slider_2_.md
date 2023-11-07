@@ -1,4 +1,4 @@
-# Slider 1 débutant
+# Slider 2 débutant
 
 ```html
 <!DOCTYPE html>
@@ -105,7 +105,7 @@ $(function () {
 
     function slideLeft() {
         $(imgSlider[step]).animate({ left: '100%' }, 500);
-        step = (step + 1) % countImg;
+        step = (step - 1 + countImg) % countImg;
         $(imgSlider[step]).css('left', '-100%');
         $(imgSlider[step]).animate({ left: '0' }, 500);
         resetInterval();
@@ -113,7 +113,7 @@ $(function () {
 
     function slideRight() {
         $(imgSlider[step]).animate({ left: '-100%' }, 500);
-        step = (step - 1 + countImg) % countImg;
+        step = (step + 1) % countImg;
         $(imgSlider[step]).css('left', '100%');
         $(imgSlider[step]).animate({ left: '0' }, 500);
         resetInterval();
