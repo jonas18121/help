@@ -94,6 +94,7 @@ div {
     border-bottom: 1px solid black;
     box-shadow: none;
     transition: all .5s;/* Effet de transition */
+    background-color: transparent;
 }
 
 /* Il faut mettre un placerholder pour que tout ce système fonctionne  */
@@ -101,15 +102,19 @@ div {
     color: transparent;
 }
 
-.form-input:focus {
+/* .form-input:has(+ .form-label:focus) == selectionne le form-input qui est suivi de form-label qui à un focus  */
+.form-input:focus,
+.form-input:has(+ .form-label:focus) 
+{
     box-shadow: none;
     outline: none; /* Enlever la surbrillance au focus */
     border-bottom: 3px solid rgba(35, 125, 7, 0.8); /* Modification du border bottom au focus */
 }
 
-/* Le label monte au focus et reste en haut, si l'user écrit */
+/* Le label monte au focus(sur l'input ou sur le label) et reste en haut, si l'user écrit */
 /* Le label doit etre sous l'input */
 .form-input:focus + .form-label,
+.form-input + .form-label:focus,
 .form-input:not(:placeholder-shown) + .form-label
 {
     transform: translateY(-2.9em) scale(.8);
