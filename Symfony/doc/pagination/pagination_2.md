@@ -1,4 +1,4 @@
-# Faire une pagination avec KNP Paginator avec la logique dans le controller
+# Faire une pagination avec KNP Paginator avec la logique dans le repository
 
 - [KNP Paginator](https://github.com/KnpLabs/KnpPaginatorBundle)
 
@@ -30,13 +30,66 @@ knp_paginator:
         filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template
 ```
 
-### 3) La logique dans le controller
+### 4) La logique dans le repository
 
-- Injection de dépendance de PaginatorInterface
-- On appel `$paginationInterface->paginate(` en lui passant :
+- Injection de dépendance de PaginatorInterface dans le constructeur
+- Dans `findAllProduct` On appel `$this->paginationInterface->paginate(` en lui passant :
     - `$data` : le tableau de produit
-    - `$request->query->getInt('page', 1)` : le nombre de page sur lequel aller en premier
+    - `$page` qui prendra `$request->query->getInt('page', 1)` depuis le controller : le nombre de page sur lequel aller en premier
     - `10` : Le nombre d'article à afficher au maximum par pages
+
+```php
+namespace App\Repository;
+
+use App\Classe\SearchData;
+use App\Entity\Product;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
+use Knp\Component\Pager\PaginatorInterface;
+
+/**
+ * @method Product|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Product|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Product[]    findAll()
+ * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class StorageSpaceRepository extends ServiceEntityRepository
+{
+    private PaginatorInterface $paginationInterface;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        PaginatorInterface $paginationInterface
+    ) {
+        parent::__construct($registry, Product::class);
+
+        $this->paginationInterface = $paginationInterface;
+    }
+
+    public function findAllProduct(int $page): SlidingPagination
+    {
+        /** @var array<int, Product> */
+        $data = $this->createQueryBuilder('p')
+            ->select('p')
+            ->getQuery()
+            ->getResult();
+
+        /** @var SlidingPagination */
+        $pagination = $this->paginationInterface->paginate($data, $page, 10);
+
+        if ($pagination instanceof SlidingPagination) {
+            return $pagination;
+        }
+    }
+}
+```
+
+### 4) La logique dans le controller
+
+- On appel `findAllProduct` en lui passant :
+    - `$request->query->getInt('page', 1)` : le nombre de page sur lequel aller en premier
 
 ```php
 class ProductController extends AbstractController
@@ -47,25 +100,14 @@ class ProductController extends AbstractController
     public function getAllStorageSpace(
         Request $request,
         ProductRepository $productRepository,
-        PaginatorInterface $paginationInterface
     ): Response {
-        // All Product
-        $data = $storageSpaceRepository->findAllProduct();
-
-        $pagination = $paginationInterface->paginate(
-            $data,
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
-        );
-
         return $this->render('product/get_all_product.html.twig', [
-            'pagination' => $pagination,
+            'pagination' => $productRepository->findAllProduct($request->query->getInt('page', 1)),
         ]);
     }
-}
 ```
 
-### 4) Dans le fichier Twig
+### 5) Dans le fichier Twig
 
 Dans le fichier twig qui recoit la liste de produits avec la pagination dans `products`
 
