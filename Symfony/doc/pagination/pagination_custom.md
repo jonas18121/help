@@ -108,6 +108,10 @@ On peut aussi modifier le CSS sans remplacer `@KnpPaginator/Pagination/sliding.h
 Ex :
 
 ```css
+.navigation {
+    margin: 0 0 3vw;
+}
+
 .navigation .pagination .first,
 .navigation .pagination .previous,
 .navigation .pagination .next,
