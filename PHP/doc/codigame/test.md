@@ -254,3 +254,36 @@ function computeClosestToZero(array $ts): int
 
 computeClosestToZero([5, 4, 3, 2, 1, -5, -4, -3, -2 ]);
 ```
+
+Exo : PHP - Système de tri de paquets (tutoriel)
+
+Sélectionner les colis du plus lourd au plus léger.
+ 
+  Règles
+Vous travaillez pour une usine autonome qui dispose d'un bras robotique pour déplacer des colis. Le bras peut se déplacer au dessus de chaque tapis roulant pour y attraper un colis et former un tas de colis.
+
+Les colis sont triés par ordre du plus lourd au plus léger sur chaque tapis roulant. Votre objectif est de prendre le colis le plus lourd parmi les 3 tapis pour le déposer sur un tas.
+
+  Implémentation
+Implémentez la fonction solve($weight0, $weight1, $weight2) qui prend en argument 3 entiers : $weight0, $weight1 et $weight2. Ces valeurs représentent le poids des colis présents respectivement sur les tapis d'indice 0, 1 et 2. Lorsqu'un tapis est vide, la valeur envoyée est 0.
+La fonction doit retourner l'indice du tapis qui contient le colis le plus lourd. Par exemple, si les valeurs pour $weight0, $weight1 et $weight2 sont 85, 100 et 90 alors la réponse attendue est 1. En cas d'égalité, plusieurs bonnes réponses sont possibles.
+
+La fonction solve($weight0, $weight1, $weight2) sera appelée en boucle tant qu'il reste au moins un colis sur l'un des tapis.
+
+```php
+function solve($weight0, $weight1, $weight2) {
+    if($weight0 >= $weight1 && $weight0 >= $weight2){
+        return 0;
+    }
+
+    if($weight1 >= $weight0 && $weight1 >= $weight2){
+        return 1;
+    }
+
+    if($weight2 >= $weight0 && $weight2 >= $weight1){
+        return 2;
+    }
+}
+
+solve(100, 80, 130);
+```
