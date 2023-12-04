@@ -70,7 +70,7 @@ Exemple de format autorisé : 0701010101 ou +33701010101 et pas de numéro comme
 
 ## Accepter les accents, les chiffres, les espaces et les virgules, point, tirets underscore en regex
 
-
+### Cas 1 : N'accepte pas les tirets entre deux mots
 Pour accepter les accents, les chiffres, les espaces et les virgules, point, tirets underscore en regex en PHP, vous pouvez utiliser la regex suivante :
 
 ```php
@@ -111,6 +111,56 @@ En résumé, pour accepter les accents, les chiffres, les espaces et les virgule
 - \p{N} pour les chiffres
 - \s pour les espaces et la ponctuation
 - \w pour les caractères alphanumériques, y compris les caractères accentués
+
+### Cas 2 : Accepte les tirets entre deux mots
+
+Pour accepter ce genre de texte avec le tiret entre 2 mots comme ceci **123, rue du clochétier-dôme**
+
+Il faut utiliser cette regex :
+
+```php
+/^\d{0,},?\s?[\p{L}\d\s,-_]+$/u
+```
+
+La regex `/^\d{0,},?\s?[\p{L}\d\s,-_]+$/u` est une expression régulière utilisée pour valider une chaîne de caractères, généralement dans le contexte d'une adresse qui peut ou non contenir un numéro de rue
+
+Voici un exemple de code qui utilise cette regex :
+
+```php
+$regex = '/^\d{0,},?\s?[\p{L}\d\s,-_]+$/u';
+
+$string = '123, rue du clochétier-dôme';
+
+if (preg_match($regex, $string)) {
+    echo 'Accepter';
+} else {
+    echo 'Refuser';
+}
+```
+
+1. `^` : C'est une ancre d'expression régulière qui indique le début de la chaîne.
+
+2. `\d{0,}` : Correspond à zéro ou plus de chiffres (0-9). Cela permet d'accepter un numéro de rue optionnel.
+
+3. `,?` : Permet une virgule , optionnelle après le numéro.
+
+4. `\s?` : Permet un espace blanc optionnel après la virgule.
+
+5. `[\p{L}\d\s,-_]+` :
+
+    - `[\p{L}\d\s,-_]+` : C'est une classe de caractères définie par les crochets []. Elle accepte un ou plusieurs caractères qui peuvent être des lettres, des chiffres, des espaces, des virgules, des tirets et des underscores.
+    - `\p{L}` : Correspond à n'importe quelle lettre (Unicode).
+    - `\d` : Correspond à un chiffre (0-9).
+    - `\s` : Correspond à un espace blanc.
+    - `,` : Correspond à une virgule.
+    - `-_` : Correspond à un tiret ou un trait de soulignement.
+
+6. `$` : C'est une autre ancre d'expression régulière qui indique la fin de la chaîne.
+
+7. `u` : Modificateur Unicode. Il indique à PHP d'interpréter la chaîne comme une chaîne Unicode.
+
+En résumé, cette regex peut être utilisée pour valider des adresses qui peuvent avoir ou non un numéro de rue, et elle permet une variété de caractères dans le nom de la rue, y compris des lettres, des chiffres, des espaces, des virgules, des tirets et des underscores.
+
 
 ## Accepter valider une chaîne de caractères qui peut contenir des lettres (y compris les caractères accentués), des espaces et des tirets (moins), tout en garantissant que la chaîne ne commence ni ne se termine par un tiret
 
