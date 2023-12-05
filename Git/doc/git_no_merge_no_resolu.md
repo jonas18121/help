@@ -1,4 +1,4 @@
-# Erreur no merge sur derveur distant
+# Erreur no merge sur derveur distant (non résolu)
 
 ```bash
 Auto packing the repository in background for optimum performance.
