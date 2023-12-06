@@ -1,6 +1,6 @@
 # Erreur no merge sur derveur distant (résolu)
 
-Mais dans la pipeline il y a "updated upstream into a topic branch" qui s'affiche à l'infinit juste après le "git pull origin staging"
+Dans la pipeline il y a "updated upstream into a topic branch" qui s'affiche à l'infinit juste après le "git pull origin staging"
 
 Exemple : 
 
