@@ -1,5 +1,7 @@
 # Redirection après login vers la page que l'user voulait aller sans être connecter
 
+- [Personnalisation des réponses de l'authentificateur de connexion par formulaire](https://symfony.com/doc/current/security/form_login.html#control-the-redirect-using-request-parameters)
+
 Exemple : 
 
 Un utilisateur anonyme clique pour reserver un article,
