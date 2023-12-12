@@ -112,9 +112,9 @@ WORKDIR /var/www/app
     </coverage> -->
 
     <logging>
-        <log type="coverage-html" target="home/jonas/builds/glrt-1So/0/Jonas18121/homeStockGitlab/app/public/tests-report" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"/>
+        <log type="coverage-html" target="public/tests-report" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"/>
         <!-- <log type="coverage-text" target="home/jonas/builds/glrt-1So/0/Jonas18121/homeStockGitlab/app/public/tests-report/test-coverage/phpunit-coverage.xml"/> -->
-        <log type="coverage-text" target="home/jonas/builds/glrt-1So/0/Jonas18121/homeStockGitlab/app/public/tests-report/phpunit-coverage.xml"/>
+        <log type="coverage-text" target="public/tests-report/phpunit-coverage.xml"/>
         <!-- ... d'autres options de configuration ... -->
     </logging>
 
@@ -150,3 +150,9 @@ phpunit-test-coverage: ## Run unit tests with coverage (app)
 	@echo -e '\nReport : \e]8;;https://YourNameDomain/tests-report/test-coverage/index.html\ahttps://YourNameDomain/tests-report/test-coverage/index.html\e]8;;\a'
 	XDEBUG_MODE=coverage $(BIN_PHP) vendor/bin/simple-phpunit --coverage-text --coverage-html public/tests-report/test-coverage
 ```
+
+#### Voir dans le navigateur
+
+**tests-report :** https://YourNameDomain/tests-report/test-testdox.html
+
+**test-coverage :** https://YourNameDomain/tests-report/test-coverage/index.html
