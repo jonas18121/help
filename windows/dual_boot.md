@@ -14,7 +14,7 @@ Remarque importante : Avant de procéder, assurez-vous d'avoir sauvegardé toute
 
 4. Étendre la partition Windows (facultatif) : Si vous souhaitez étendre la partition Windows pour utiliser l'espace libéré, cliquez avec le bouton droit sur la partition Windows, puis sélectionnez "Étendre le volume". Suivez les instructions à l'écran pour terminer le processus.
 
-5. Mettre à jour le chargeur d'amorçage : La suppression de la partition Linux peut laisser le chargeur d'amorçage GRUB intact. Pour réparer le chargeur d'amorçage Windows, vous pouvez utiliser l'outil de réparation de démarrage. Pour ce faire, démarrez votre ordinateur à partir du support d'installation de Windows, sélectionnez "Réparer l'ordinateur" > "Dépannage" > "Invite de commandes", puis utilisez les commandes suivantes :
+5. (important) Mettre à jour le chargeur d'amorçage : La suppression de la partition Linux peut laisser le chargeur d'amorçage GRUB intact. Pour réparer le chargeur d'amorçage Windows, vous pouvez utiliser l'outil de réparation de démarrage. Pour ce faire, démarrez votre ordinateur à partir du support d'installation de Windows, sélectionnez "Réparer l'ordinateur" > "Dépannage" > "Invite de commandes", puis utilisez les commandes suivantes :
 
 ```bash
 bootrec /fixmbr
@@ -26,3 +26,45 @@ bootrec /fixboot
 7. Redémarrer : Redémarrez votre ordinateur pour appliquer les modifications.
 
 Après avoir suivi ces étapes, Ubuntu devrait être complètement supprimé de votre système, et votre ordinateur devrait démarrer directement sous Windows sans utiliser le chargeur d'amorçage GRUB.
+
+## Au redémarrage du PC on arrive sur le terminal GNU GRUB
+
+Si un problème survient et qu' au redémarrage du PC on arrive sur le terminal GNU GRUB, faire les commandes suivantes, les une après les autres :
+
+1. faire ls pour voir les différents liste de partitions disponible
+```bash
+ls
+```
+
+**Exemple de retour**
+```bash
+(proc) (hd0,gpt1) (hd0) (hd1,gpt5) (hd1,gpt4) (hd1,gpt3) (hd1,gpt2) (hd1,gpt1)
+```
+
+2. Rentrer dans `/EFI/Microsoft/Boot/bootmgfw.efi` en passant par une des partition exemple : (hd1,gpt1)
+
+```bash
+# 1
+insmod ntfs
+
+# 2
+set root=(hd1,gpt1)
+
+# 3
+chainloader (${root})/EFI/Microsoft/Boot/bootmgfw.efi
+```
+
+Essayez chaque partition jusqu'a trouver celui qui contient `/EFI/Microsoft/Boot/bootmgfw.efi` dedans et retourne `EndEntred` 
+
+**Exemple de retour**
+```bash
+EndEntred
+```
+
+Pour moi ça a fontionné avec `set root=(hd1,gpt1)` et non avec `set root=(hd0,gpt1)` ou autres
+
+3. Puis lancer le boot 
+
+```bash
+boot
+```
