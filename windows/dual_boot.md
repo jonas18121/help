@@ -54,11 +54,11 @@ set root=(hd1,gpt1)
 chainloader (${root})/EFI/Microsoft/Boot/bootmgfw.efi
 ```
 
-Essayez chaque partition jusqu'a trouver celui qui contient `/EFI/Microsoft/Boot/bootmgfw.efi` dedans et retourne `EndEntred` 
+Essayez chaque partition jusqu'a trouver celui qui contient `/EFI/Microsoft/Boot/bootmgfw.efi` dedans et retourne `EndEntire` 
 
 **Exemple de retour**
 ```bash
-EndEntred
+EndEntire
 ```
 
 Pour moi ça a fontionné avec `set root=(hd1,gpt1)` et non avec `set root=(hd0,gpt1)` ou autres
