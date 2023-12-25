@@ -144,6 +144,10 @@ scp -p ~/.ssh/id_gitlab jonas-18121:~/.ssh/
 4. 2. Exécuter `ssh -vvvv git@gitlab.com` pour voir s'il récupère la clé SSH 
 ```sh
 ssh -vvvv git@gitlab.com
+
+# ou
+
+ssh -T git@gitlab.com
 ```
 
 4. 3. Exécuter ssh-agent avant de l'utiliser:
