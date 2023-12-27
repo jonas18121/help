@@ -228,6 +228,7 @@ gitlab-runner run
 
 `ERROR: Failed to load config stat /home/user_name/.gitlab-runner/config.toml: no such file or directory  builds=0 max_builds=1
 `
+
 Allez dans ce dossier `/etc/gitlab-runner` et copier le fichier `config.toml` pour le coller dans `/home/user_name/.gitlab-runner/`
 
 Ensuite relancez 
@@ -383,6 +384,25 @@ shutdown_timeout = 0
 ```
 
 5. Le runner nommé **jonas-runner** à bien été supprimer
+
+## Kill un runner
+
+1. Voir si un runner est en cours
+
+```bash
+ps -ax | grep gitlab-runner
+
+# Retour 
+
+27034 ?        Ssl    0:06 /usr/bin/gitlab-runner run --working-directory /home/gitlab-runner --config /etc/gitlab-runner/config.toml --service gitlab-runner --syslog --user gitlab-runner
+```
+
+
+2. kill le runner via son id
+
+```bash
+sudo kill -9 27034
+```
 
 # commande
 
