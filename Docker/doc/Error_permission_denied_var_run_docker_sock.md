@@ -1,5 +1,7 @@
 # Fix Docker Permission Denied Error /var/run/docker.sock (lire jusqu'en bas)
 
+- [Fix Docker Permission Denied Error](https://www.linkedin.com/pulse/fix-docker-permission-denied-error-om-prakash-singh/)
+
 J'ai installé Docker sur Ubuntu. C'était super facile. Mais lorsque j'ai essayé d'exécuter une commande docker, cela m'a renvoyé cette erreur :
 
 ```bash
