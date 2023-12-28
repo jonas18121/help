@@ -178,14 +178,14 @@ sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/
 sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
 sudo gitlab-runner start
 
-sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
+sudo gitlab-runner register --url https://gitlab.com/ --registration-token YOUR_TOKEN_FROM_GITLAB_CICD_SETTING_RUNNER
 ```
 
 ### Exemple
 
 Si les commandes ci-dessus on déjà été exécuter pour créer un autre runner spécifique par exemple, il suffit juste d'exécuter la commande ci-dessous,
 
-pour enregistrer le runner de manière spécifique en ajoutant le token du projet spécifique.
+1. pour enregistrer le runner de manière spécifique en ajoutant le token du projet spécifique.
 ```sh
 jonas@jonas18121 ~/Bureau/developpementWeb/code/formation-ci-cd/symfony-gitlab (main)$ sudo gitlab-runner register --url https://gitlab.com/ --registration-token GR134894hdgdjdbdjknEcHAPyF
 [sudo] Mot de passe de jonas : 
@@ -220,7 +220,19 @@ php
 Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
 ```
 
-Démarrer manuellement avec la commande ci-dessous
+2. Démarrer manuellement avec la commande ci-dessous
+```sh
+gitlab-runner run
+```
+3. Si il y a une erreur /home/user_name/.gitlab-runner/config.toml
+
+`ERROR: Failed to load config stat /home/user_name/.gitlab-runner/config.toml: no such file or directory  builds=0 max_builds=1
+`
+
+Allez dans ce dossier `/etc/gitlab-runner` et copier le fichier `config.toml` pour le coller dans `/home/user_name/.gitlab-runner/`
+
+Ensuite relancez 
+
 ```sh
 gitlab-runner run
 ```
@@ -372,6 +384,25 @@ shutdown_timeout = 0
 ```
 
 5. Le runner nommé **jonas-runner** à bien été supprimer
+
+## Kill un runner
+
+1. Voir si un runner est en cours
+
+```bash
+ps -ax | grep gitlab-runner
+
+# Retour 
+
+27034 ?        Ssl    0:06 /usr/bin/gitlab-runner run --working-directory /home/gitlab-runner --config /etc/gitlab-runner/config.toml --service gitlab-runner --syslog --user gitlab-runner
+```
+
+
+2. kill le runner via son id
+
+```bash
+sudo kill -9 27034
+```
 
 # commande
 
