@@ -231,7 +231,44 @@ gitlab-runner run
 
 Allez dans ce dossier `/etc/gitlab-runner` et copier le fichier `config.toml` pour le coller dans `/home/user_name/.gitlab-runner/`
 
-Ensuite relancez 
+4. Si on veut utiliser du Docker dans la pipeline de Gitlab, il faudra mettre en true le module `privileged` qui ce trouve dans les différents fichiers `config.toml` qu'on a généré : `/home/user_name/.gitlab-runner/config.toml` et `/etc/gitlab-runner/config.toml` 
+
+- [Utiliser l'exécuteur Docker](https://docs.gitlab.com/runner/executors/docker.html#use-the-docker-executor)
+
+- [Chercher gitlab-runner.runners.privileged=true dans ce lien](https://gitlab.com/gitlab-org/charts/gitlab/-/issues/478)
+
+Ex : 
+```sh
+# /home/user_name/.gitlab-runner/config.toml
+
+concurrent = 4
+
+[[runners]]
+name = "myRunner"
+url = "https://gitlab.com/ci"
+token = "......"
+executor = "docker"
+[runners.docker]
+  tls_verify = true
+  image = "my.registry.tld:5000/alpine:latest"
+  privileged = true
+  disable_entrypoint_overwrite = false
+  oom_kill_disable = false
+  disable_cache = false
+  volumes = [
+    "/cache",
+  ]
+  shm_size = 0
+  allowed_pull_policies = ["always", "if-not-present"]
+  allowed_images = ["my.registry.tld:5000/*:*"]
+  allowed_services = ["my.registry.tld:5000/*:*"]
+  [runners.docker.volume_driver_ops]
+    "size" = "50G"
+```
+
+`privileged = false` était sur false et on la modifié à true maintenant `privileged = true`
+
+5. Ensuite relancez 
 
 ```sh
 gitlab-runner run
