@@ -6,7 +6,7 @@
 
 3. Ouvrez le fichier id_gitlab.pub et copiez tout le texte de celui-ci.
 
-4. Accédez à [User setting > SSH Keys](https://gitlab.com/-/profile/keys) de votre profil gitlab 
+4. Accédez à [profile (Name user) > Edit profil > User setting > SSH Keys](https://gitlab.com/-/profile/keys) de votre profil gitlab 
 
 5. Cliquez sur le bouton `Add new key`
 
