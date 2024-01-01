@@ -24,3 +24,7 @@ Exemple :
 
 **Z** : C'est corrections mineures ou petits ajouts
 
+## Utiliser la registry de conteneur de Gitlab
+
+- [Utiliser la registry de conteneur de Gitlab](https://blog.stephane-robert.info/post/gitlab-container-docker-registry/)
+
