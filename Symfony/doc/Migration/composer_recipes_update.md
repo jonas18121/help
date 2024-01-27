@@ -1,4 +1,9 @@
-# composer recipes:update
+# Mise à niveau d'une version majeure
+
+suivre ce lien
+- [Mise à niveau d'une version majeure](https://symfony.com/doc/5.x/setup/upgrade_major.html)
+
+## composer recipes:update
 
 ```bash
 composer recipes:update
