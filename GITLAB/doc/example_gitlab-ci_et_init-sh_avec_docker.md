@@ -30,6 +30,8 @@ before_script:
   # - docker info
   - chmod +x init.sh
   - sh ./init.sh
+  # - docker login -u ${DEPLOY_USER} -p ${DEPLOY_TOKEN} registry.gitlab.com # https://blog.stephane-robert.info/post/gitlab-container-docker-registry/
+  - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   - zip --version
   # - apt-get update && apt-get install zip -y # on install extension php zip 
   - docker-compose --version
@@ -200,3 +202,4 @@ curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv compose
 # # Reste de votre script
 # usermod -aG docker $USER
 ```
+
