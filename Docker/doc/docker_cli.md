@@ -7,12 +7,6 @@
     > docker-compose rm <nom_du_service_dans_docker-compose.yml>
 
 
-
-
-
-
-
-
 ## Voir la liste des container/images/service
 
 ### Voir la liste des images 
@@ -73,6 +67,7 @@
 
 
 
+# La commande docker
 
 
 ## Executer une nouvelle cli dans le container
@@ -86,9 +81,6 @@ https://docs.docker.com/engine/reference/commandline/exec/
 ### Entrer dans la cli de git bash du projet
 
     > docker exec -it <nom_du_container_du_projet> bash
-
-
-# La commande docker
 
 ### Télécharger une image
 
@@ -252,11 +244,6 @@ Are you sure you want to continue? [y/N]
 
 
 
-
-
-
-
-
 ## Les volumes
 
 ### voir les volumes 
@@ -266,6 +253,29 @@ Are you sure you want to continue? [y/N]
 ### Supprimer un volume
 
     > docker volume rm <nom_volume>
+
+
+## Se mettre en utilisateur root dans un container docker
+
+1) Commencez par identifier le nom ou l'ID de votre conteneur Docker en utilisant la commande ci-dessous :
+
+```ps
+docker ps
+```
+
+2) Une fois que vous avez identifié le conteneur dans lequel vous souhaitez devenir l'utilisateur root, vous pouvez exécuter la commande suivante pour accéder à un shell interactif à l'intérieur de ce conteneur en tant qu'utilisateur root :
+
+
+```ps
+docker exec -u 0 -it <nom_ou_ID_du_conteneur> /bin/bash
+
+# ou
+
+docker exec -u 0 -it <nom_ou_ID_du_conteneur> bash
+```
+
+
+
 
 
 # Seulment pour Linux
