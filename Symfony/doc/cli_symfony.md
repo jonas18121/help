@@ -4,12 +4,12 @@
 
 On peut utiliser 2 styles de début de commande soit symfony console ... ou php bin/console ..
 
-```bash
+```ps
 symfony console make:controller
 ```
 Ou 
 
-```bash
+```ps
 php bin/console make:controller
 ```
 
@@ -72,20 +72,20 @@ pour avoir la dernière version en mode microservice, API
 
 pour avoir la dernière version complète avec toutes les dépendances
 
-```bash
+```ps
     composer create-project symfony/skeleton:"^5.4" my_project_directory
 ```
 
-```bash
+```ps
     cd my_project_directory
 ```
 
-```bash
+```ps
     composer require webapp
 ```
 
 pour avoir la dernière version en mode microservice, API
-```bash
+```ps
  composer create-project symfony/skeleton:"^5.4" my_project_directory
 ```
 `S'il y a des problème lors de la creation de l'application , faire la même opération dans la CMD de git bash`
@@ -100,12 +100,12 @@ pour avoir la dernière version en mode microservice, API
     - symfony server:start -d
 
 ## Faire tourner notre application avec la commande symfony en arrière plan
-```bash
+```ps
 symfony serve -d
 ```
 
 ### Ouvrir l'application dans notre navigateur local
-```bash
+```ps
 symfony open:local
 ```
 ## Voir les log de l'application qui tourne en arrière plan
@@ -419,12 +419,12 @@ https://symfony.com/doc/4.4/security.html
 
 installer le bundle symfony/security-bundle
 
-```bash
+```ps
 composer require symfony/security-bundle
 ```
 
 ### Créer une classe User
-```bash
+```ps
 php bin/console make:user
 
     The name of the security user class (e.g. User) [User]:
@@ -447,7 +447,7 @@ php bin/console make:user
 ```
 
 Si on veut rajouter des champs dans src/Entity/User 
-```bash
+```ps
 php bin/console make:entity User
 
 # puis faire la migration 
@@ -461,7 +461,7 @@ php bin/console doctrine:migrations:migrate
 
 puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form_login_setup.html
 
-```bash
+```ps
 php bin/console make:auth
 
     What style of authentication do you want? [Empty authenticator]:
@@ -486,18 +486,18 @@ php bin/console make:auth
 
 ## Voir les détail d'une dépendance
 
-```bash
+```ps
 composer show <la_dépendance>
 ```
 
 Exemple :
 
-```bash
+```ps
 composer show symfony/flex
 ```
 
 ## Voir l'ensemble des routes du projet
-```bash
+```ps
 symfony console debug:router
 
 # ou
@@ -505,7 +505,7 @@ symfony console debug:router
 php bin/console debug:router
 ```
 ## Voir l'ensemble des sevices du projet
-```bash
+```ps
 symfony console debug:autowiring
 
 # ou
@@ -515,7 +515,7 @@ php bin/console debug:autowiring
 
 
 ## Filtrée et voir un ensemble sevice qui concerne la session dans le projet
-```bash
+```ps
 symfony console debug:autowiring session
 
 # ou
@@ -528,7 +528,7 @@ php bin/console debug:autowiring session
 on installe VichUploaderBundle 
 https://github.com/dustin10/VichUploaderBundle/blob/master/docs/installation.md
 
-```bash
+```ps
 composer require vich/uploader-bundle
 ```
 puis on choissie avec quel base de donnés ( orm ou mongodb ou phpcr ) on veut agir dans un fichier config/packages/vich_uploader.yaml ou app/config/config.yml
@@ -593,7 +593,7 @@ EasyAdmin crée de superbes backends d'administration pour vos applications Symf
 
 ### Installation 
 
-```bash
+```ps
 composer require easycorp/easyadmin-bundle
 
 # ou
@@ -605,7 +605,7 @@ composer require admin
 
 on crée notre dashboard représenté sous forme de controlleur
 
-```bash
+```ps
 symfony console make:admin:dashboard
 
 # ou
@@ -623,7 +623,7 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 
 ### Créer les controlleurs assiocée aux entités à manager
 
-```bash
+```ps
 symfony console make:admin:crud
 
 # ou
@@ -635,43 +635,43 @@ Voir exemple d'un fichier [crud](https://github.com/jonas18121/help/blob/master/
 
 ## API Plateform
 
-```bash
+```ps
 composer require api
 ```
 
 ## une version précise de API plateform
 
-```bash
+```ps
 composer require api-platform/core:v2.5 --with-all-dependencies 
 ```
 
 ### Si on execute la commande ci-dessous, on verra les différentes commandes pour exporter un fichier
 
-```bash
+```ps
 php bin/console api
 ```
 
 ### Si on execute la commande ci-dessous, on verra des données en format JSON qui contient la définition de notre API
 
-```bash
+```ps
 php bin/console api:openapi:export
 ```
 
 ### Si on execute la commande ci-dessous, on verra des données en format yaml qui contient la définition de notre API
 
-```bash
+```ps
 php bin/console api:openapi:export --yaml
 ```
 
 ## lexik/jwt-authentication-bundle
 
-```bash
+```ps
 composer require lexik/jwt-authentication-bundle
 ```
 
 ### Généré des clés SSL (SSL keys) privées et public
 
-```bash
+```ps
 php bin/console lexik:jwt:generate-keypair
 ```
 
@@ -687,37 +687,37 @@ Sinon, une erreur sera levée pour vous empêcher d'écraser vos clés accidente
 
 ### phpunit/phpunit
 
-```bash
+```ps
 composer require phpunit/phpunit --dev
 ```
 
 ### test 
 
-```bash
+```ps
 composer require test --dev
 ```
 
 ### Créer une base de données dans un environnement de test
 
-```bash
+```ps
 php bin/console doctrine:database:create --env=test
 ```
 
 ### Créer la structure des tables dans la base de données qui est dans un environnement de test
 
-```bash
+```ps
 php bin/console doctrine:schema:update --env=test --force
 ```
 
 ### Envoyer des fixtures dans la base de données qui est dans un environnement de test
 
-```bash
+```ps
 php bin/console doctrine:fixtures:load --env=test
 ```
 
 ## Créer une commande personnalisé
 
-```bash
+```ps
 php bin/console make:command
 ```
 
@@ -742,20 +742,20 @@ Puis Symfony va créer un dossier `command` avec la classe `CreateCategoryComman
 ### Désinstaller la symfony-cli (linux)
 
 Voir les droits
-```bash
+```ps
 ls -al /usr/local/bin/symfony
 ```
 si c'est là
 
 supprimer
 
-```bash
+```ps
 rm -rf /usr/local/bin/symfony
 ```
 
 ### Installer Webpack Encore dans Symfony
 
-```bash
+```ps
 composer require symfony/webpack-encore-bundle
 
 # puis
@@ -769,7 +769,7 @@ npm install
 
 Run webpack
 
-```bash
+```ps
 # compiler les actifs et recompiler automatiquement lorsque les fichiers changent
 yarn watch
 
@@ -812,20 +812,20 @@ C'est un analyseur statique de code PHP
 - [Ignorer certaines erreurs](https://phpstan.org/user-guide/ignoring-errors)
 - [Résolution de l'erreur PHPStan « Aucun type de valeur spécifié dans le type itérable »](https://phpstan.org/blog/solving-phpstan-no-value-type-specified-in-iterable-type)
 
-```bash
+```ps
 composer require --dev phpstan/phpstan
 ```
 #### Première exécution
 
 par exemple, si vous avez vos classes dans des répertoires src et tests, vous pouvez exécuter PHPStan comme ceci :
 
-```bash
+```ps
 vendor/bin/phpstan analyse src tests
 ```
 
 Il y a 8 niveaux, le niveau par défaut est 0. Si on veut tester au niveau 8 faire la commande ci-dessous : 
 
-```bash
+```ps
 vendor/bin/phpstan analyse src tests --level 8 --memory-limit=2G
 
 # ou
@@ -839,7 +839,7 @@ vendor/bin/phpstan analyse src tests --level=max -c phpstan.dist.neon --memory-l
 
 On peut aussi configurer le fichier `phpstan.dist.neon` ce qui permet d'utiliser juste la commande `vendor/bin/phpstan analyse`
 
-```bash
+```ps
 # phpstan.dist.neon
 
 parameters:
@@ -855,7 +855,7 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
 ```
 
-```bash
+```ps
 vendor/bin/phpstan analyse --memory-limit=2G
 ```
 ### Installer PHP CS FIXER
