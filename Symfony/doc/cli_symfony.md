@@ -419,12 +419,13 @@ https://symfony.com/doc/4.4/security.html
 
 installer le bundle symfony/security-bundle
 
-    - composer require symfony/security-bundle
-
+```bash
+composer require symfony/security-bundle
+```
 
 ### Créer une classe User
-
-    - php bin/console make:user
+```bash
+php bin/console make:user
 
     The name of the security user class (e.g. User) [User]:
     > User
@@ -443,24 +444,25 @@ installer le bundle symfony/security-bundle
     created: src/Repository/UserRepository.php
     updated: src/Entity/User.php
     updated: config/packages/security.yaml
-
+```
 
 Si on veut rajouter des champs dans src/Entity/User 
+```bash
+php bin/console make:entity User
 
-    - php bin/console make:entity User
-
-puis faire la migration 
+# puis faire la migration 
     
-    - php bin/console make:migration
+php bin/console make:migration
 
-    - php bin/console doctrine:migrations:migrate
-
+php bin/console doctrine:migrations:migrate
+```
 
 ### Créer un formulaire de connexion 
 
 puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form_login_setup.html
 
-    - php bin/console make:auth
+```bash
+php bin/console make:auth
 
     What style of authentication do you want? [Empty authenticator]:
         [0] Empty authenticator
@@ -480,50 +482,58 @@ puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form
     updated: config/packages/security.yaml
     created: src/Controller/SecurityController.php
     created: templates/security/login.html.twig
-
+```
 
 ## Voir les détail d'une dépendance
 
-    > composer show <la_dépendance>
+```bash
+composer show <la_dépendance>
+```
 
 Exemple :
 
-    > composer show symfony/flex
+```bash
+composer show symfony/flex
+```
 
 ## Voir l'ensemble des routes du projet
+```bash
+symfony console debug:router
 
-    > symfony console debug:router
+# ou
 
-ou
-
-    > php bin/console debug:router
-
+php bin/console debug:router
+```
 ## Voir l'ensemble des sevices du projet
+```bash
+symfony console debug:autowiring
 
-    > symfony console debug:autowiring
+# ou
 
-ou
+php bin/console debug:autowiring
+```
 
-    > php bin/console debug:autowiring
 
 ## Filtrée et voir un ensemble sevice qui concerne la session dans le projet
+```bash
+symfony console debug:autowiring session
 
-    > symfony console debug:autowiring session
+# ou
 
-ou
-
-    > php bin/console debug:autowiring session
-
+php bin/console debug:autowiring session
+```
 ## Upload un fichier (dont une image, Upload image)
 
 
 on installe VichUploaderBundle 
 https://github.com/dustin10/VichUploaderBundle/blob/master/docs/installation.md
 
-    - composer require vich/uploader-bundle
-
+```bash
+composer require vich/uploader-bundle
+```
 puis on choissie avec quel base de donnés ( orm ou mongodb ou phpcr ) on veut agir dans un fichier config/packages/vich_uploader.yaml ou app/config/config.yml
 
+```yaml
     vich_uploader:
         db_driver: orm 
 
@@ -531,6 +541,7 @@ puis on choissie avec quel base de donnés ( orm ou mongodb ou phpcr ) on veut a
     inject_on_load: false
     delete_on_update: true
     delete_on_remove: true
+```
 
 
 ### Avec cette vidéo 
@@ -547,8 +558,10 @@ puis on va dans les entités qui pourrons avoir des images
 
 #### Dans services.yaml
 
+```yaml
 parameters:
     app.path.images: /uploads/images
+```
 
 ##### Definition:
 app.path.images est une constante qui contiendra le chemin, dans lequel les images seront stocké
@@ -580,17 +593,25 @@ EasyAdmin crée de superbes backends d'administration pour vos applications Symf
 
 ### Installation 
 
-    - composer require easycorp/easyadmin-bundle
-    ou
-    - composer require admin
+```bash
+composer require easycorp/easyadmin-bundle
+
+# ou
+ 
+composer require admin
+```
 
 ### Créer un Dashboard
 
 on crée notre dashboard représenté sous forme de controlleur
 
-    - symfony console make:admin:dashboard
-    ou
-    - php bin/console make:admin:dashboard
+```bash
+symfony console make:admin:dashboard
+
+# ou
+ 
+php bin/console make:admin:dashboard
+```
 
 puis configurer le DashboardController.php,
 en ajoutant un ou plusieurs entité, grace a yield MenuItem::linkToCrud();
@@ -602,42 +623,57 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 
 ### Créer les controlleurs assiocée aux entités à manager
 
-    - symfony console make:admin:crud
-    ou
-    - php bin/console make:admin:crud
+```bash
+symfony console make:admin:crud
+
+# ou
+ 
+php bin/console make:admin:crud
+```
 
 Voir exemple d'un fichier [crud](https://github.com/jonas18121/help/blob/master/Symfony/doc/easyadmin.md)
 
-
-
 ## API Plateform
 
-    > composer require api
+```bash
+composer require api
+```
 
 ## une version précise de API plateform
 
-    > composer require api-platform/core:v2.5 --with-all-dependencies 
-    
+```bash
+composer require api-platform/core:v2.5 --with-all-dependencies 
+```
+
 ### Si on execute la commande ci-dessous, on verra les différentes commandes pour exporter un fichier
 
-    > php bin/console api
+```bash
+php bin/console api
+```
 
 ### Si on execute la commande ci-dessous, on verra des données en format JSON qui contient la définition de notre API
 
-    > php bin/console api:openapi:export
+```bash
+php bin/console api:openapi:export
+```
 
 ### Si on execute la commande ci-dessous, on verra des données en format yaml qui contient la définition de notre API
 
-    > php bin/console api:openapi:export --yaml
-
+```bash
+php bin/console api:openapi:export --yaml
+```
 
 ## lexik/jwt-authentication-bundle
 
-    > composer require lexik/jwt-authentication-bundle
+```bash
+composer require lexik/jwt-authentication-bundle
+```
 
 ### Généré des clés SSL (SSL keys) privées et public
 
-    > php bin/console lexik:jwt:generate-keypair
+```bash
+php bin/console lexik:jwt:generate-keypair
+```
 
 Options disponibles:
 
@@ -651,27 +687,39 @@ Sinon, une erreur sera levée pour vous empêcher d'écraser vos clés accidente
 
 ### phpunit/phpunit
 
-    > composer require phpunit/phpunit --dev
+```bash
+composer require phpunit/phpunit --dev
+```
 
 ### test 
 
-    > composer require test --dev
+```bash
+composer require test --dev
+```
 
 ### Créer une base de données dans un environnement de test
 
-    > php bin/console doctrine:database:create --env=test
+```bash
+php bin/console doctrine:database:create --env=test
+```
 
 ### Créer la structure des tables dans la base de données qui est dans un environnement de test
 
-    > php bin/console doctrine:schema:update --env=test --force
+```bash
+php bin/console doctrine:schema:update --env=test --force
+```
 
 ### Envoyer des fixtures dans la base de données qui est dans un environnement de test
 
-    > php bin/console doctrine:fixtures:load --env=test
+```bash
+php bin/console doctrine:fixtures:load --env=test
+```
 
 ## Créer une commande personnalisé
 
-    > php bin/console make:command
+```bash
+php bin/console make:command
+```
 
 Le site de Symfony, créer une commande : https://symfony.com/doc/current/console.html
 
