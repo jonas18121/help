@@ -1,5 +1,11 @@
 # Astuces
 
+### Voir le code source de Symfony
+
+- [Voir les différentes classes contenu dans Symfony/src/Symfony](https://github.com/symfony/symfony/tree/d7b9240533a824c80276b848e9415735da203b38/src/Symfony)
+- [Voir les différentes classes contenu dans src/Symfony/Component](https://github.com/symfony/symfony/tree/d7b9240533a824c80276b848e9415735da203b38/src/Symfony/Component)
+- [Voir les différentes classes contenu dans src/Symfony/Component/HttpFoundation](https://github.com/symfony/symfony/tree/d7b9240533a824c80276b848e9415735da203b38/src/Symfony/Component/HttpFoundation)
+
 ### Afficher les valeurs d'une propriété de collection
 
 `->getValues()` permet d'afficher les valeurs d'une propriété de collection
@@ -781,7 +787,7 @@ Si le champ existe et a une valeur, le code à l'intérieur du premier bloc if s
 
 Sinon, le code à l'intérieur du bloc else sera exécuté.
 
-### Champ select et radio décomposé, avec |raw pour les balise html dans les options s'ily en a
+### Champ select et radio décomposé, avec |raw pour les balise html dans les options s'il y en a
 
 #### select
 ```php
@@ -904,3 +910,26 @@ Si c'est le cas, nous invalidons la session de l'utilisateur en réinitialisant 
 
 Veuillez noter que cette approche ne déclenchera pas automatiquement les événements associés à la déconnexion dans Symfony (par exemple, l'exécution des écouteurs d'événements de déconnexion). <br>
 Si vous avez besoin de déclencher ces événements personnalisés, il serait préférable de rediriger vers la route de déconnexion `(logout)` spécifiée dans votre configuration de sécurité.
+
+### ParameterBag depuis request
+
+Grace au ParameterBag nous pouvons bien gérer nos parametre
+
+exemple :
+
+- getInt()
+- getAlpha()
+- getString()
+
+Et bien dautres il faut aller voir le code source du [ParameterBag](https://github.com/symfony/symfony/blob/d7b9240533a824c80276b848e9415735da203b38/src/Symfony/Component/HttpFoundation/ParameterBag.php#L24)
+
+```php
+class RecipeController extends AbstractController
+{
+    #[Route('/recipe/{slug}-{id}', name: 'app_recipe_show')]
+    public function index(Request $request): Response
+    {
+        dd($request->attributes->getString("slug"), $request->attributes->getInt("id"));
+    }
+}
+```
