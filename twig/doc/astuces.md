@@ -1,4 +1,9 @@
 
+## Références Twig dans Symfony
+
+- [Twig Configuration Reference (TwigBundle)](https://symfony.com/doc/current/reference/configuration/twig.html)
+- [Twig Extensions Defined by Symfony](https://symfony.com/doc/current/reference/twig_reference.html)
+
 ### Afficher en colonne plusieurs checkbox d'adresses qui proviennent d'un FormType en utilisant EntityType
 
 #### Façon 1
@@ -221,7 +226,9 @@ Dans `app/templates/Frontend/Pages/Exam/exam-details.html.twig`
 
 1. Intaller `twig/intl-extra` dans Symfony
 
-    > composer require twig/intl-extra
+```ps
+composer require twig/intl-extra
+```
 
 2. Utiliser le filtre `|format_datetime` dans Twig
 
@@ -369,3 +376,67 @@ Ce code Twig semble être utilisé pour générer un tableau de lignes de factur
 8. {% set totalHT = totalHT + (sellingPrice * orderLine.quantity) %} : Le montant total hors taxe (totalHT) est également calculé pour chaque ligne de commande et mis à jour au fur et à mesure.
 
 9. La boucle for externe continue de traiter les différentes clés de taux de TVA dans tvaRates.
+
+### Générer les routes dans twig
+
+Dans Twig, `url()` et `path()` sont deux fonctions utilisées pour générer des URL dans vos templates. Voici une explication de chacune avec des exemples :
+
+### 1. `url()` :
+
+La fonction `url()` génère une URL absolue à partir d'un nom de route défini dans votre application. Elle est utile lorsque vous devez créer des liens vers des pages spécifiques de votre application.
+
+Exemple :
+
+Supposons que vous ayez une route nommée `homepage` dans votre application Symfony, vous pouvez utiliser `url('homepage')` pour générer l'URL correspondante dans votre template Twig.
+
+```twig
+<a href="{{ url('homepage') }}">Accueil</a>
+```
+
+Cela générera quelque chose comme : **<a href="http://votresite.com/">Accueil</a>**
+
+C'est idéal dans les emails
+
+### 2. `path()` :
+
+La fonction `path()` génère un chemin relatif à partir d'un nom de route. Elle est similaire à `url()`, mais elle génère uniquement le chemin relatif par rapport à la racine de votre site, sans le domaine.
+
+Exemple :
+
+Reprenons l'exemple précédent, mais avec `path()` cette fois-ci :
+
+```twig
+<a href="{{ path('homepage') }}">Accueil</a>
+```
+
+Cela générera quelque chose comme : **<a href="/">Accueil</a>**
+
+L'utilisation de `url()` ou `path()` dépendra de vos besoins spécifiques. Si vous avez besoin d'une URL absolue (avec le nom de domaine), utilisez `url()`. Si vous avez besoin d'un chemin relatif, utilisez `path()`.
+
+### 3. Utilisation de variables globales :
+
+Twig fournit également des variables globales qui peuvent être utilisées pour générer des URL, telles que `app.request.uri` qui contient l'URL de la requête en cours.
+
+### 4. Gérer les nom de routes commençant par un préfix
+
+Dans cette expression Twig, `{{ app.current_route starts with 'app_recipe_' ? 'active' : ''}}`, plusieurs éléments sont en jeu :
+
+- `app.current_route` : C'est une variable globale fournie par Symfony dans les templates Twig qui contient le nom de la route de la page actuelle.
+
+- `starts with 'app_recipe_'` : C'est une condition qui vérifie si le nom de la route actuelle commence par `'app_recipe_'`.
+
+- `? 'active' : ''` : C'est un opérateur ternaire. Si la condition avant le ? est vraie, le résultat sera `'active'`, sinon le résultat sera une chaîne vide `''`.
+
+Ainsi, cette expression est généralement utilisée pour ajouter la classe CSS 'active' à un élément HTML (par exemple, un élément de menu) si la route actuelle correspond à un schéma spécifique de nom de route, tel que `'app_recipe_'`.
+
+Exemple d'utilisation dans un template Twig :
+
+```twig
+<div class="{{ app.current_route starts with 'app_recipe_' ? 'active' : ''}}">
+    <!-- Contenu de votre élément HTML -->
+</div>
+```
+
+Si la route actuelle correspond à une route dont le nom commence par `'app_recipe_'`, alors la classe `'active'` sera ajoutée au `<div>`, sinon aucune classe ne sera ajoutée. 
+
+Cela est souvent utilisé pour styliser visuellement la navigation en indiquant quelle section ou quelle page est active dans une application.

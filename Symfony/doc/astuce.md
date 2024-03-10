@@ -6,6 +6,29 @@
 - [Voir les différentes classes contenu dans src/Symfony/Component](https://github.com/symfony/symfony/tree/d7b9240533a824c80276b848e9415735da203b38/src/Symfony/Component)
 - [Voir les différentes classes contenu dans src/Symfony/Component/HttpFoundation](https://github.com/symfony/symfony/tree/d7b9240533a824c80276b848e9415735da203b38/src/Symfony/Component/HttpFoundation)
 
+## Documents de références dans Symfony
+
+- [Reference Documents](https://symfony.com/doc/current/reference/index.html)
+- [Framework Configuration Reference (FrameworkBundle)](https://symfony.com/doc/current/reference/configuration/framework.html)
+- [Doctrine Configuration Reference (DoctrineBundle)](https://symfony.com/doc/current/reference/configuration/doctrine.html)
+- [Security Configuration Reference (SecurityBundle)](https://symfony.com/doc/current/reference/configuration/security.html)
+- [Twig Configuration Reference (TwigBundle)](https://symfony.com/doc/current/reference/configuration/twig.html)
+- [Logging Configuration Reference (MonologBundle)](https://symfony.com/doc/current/reference/configuration/monolog.html)
+- [Profiler Configuration Reference (WebProfilerBundle)](https://symfony.com/doc/current/reference/configuration/web_profiler.html)
+- [Debug Configuration Reference (DebugBundle)](https://symfony.com/doc/current/reference/configuration/debug.html)
+- [Form Types Reference](https://symfony.com/doc/current/reference/forms/types.html)
+- [Validation Constraints Reference](https://symfony.com/doc/current/reference/constraints.html)
+- [Form Functions and Variables Reference](https://symfony.com/doc/current/form/form_customization.html#reference-form-twig-functions-variables)
+- [The YAML Format](https://symfony.com/doc/current/reference/formats/yaml.html)
+- [The XLIFF format](https://symfony.com/doc/current/reference/formats/xliff.html)
+- [How to Translate Messages using the ICU MessageFormat](https://symfony.com/doc/current/reference/formats/message_format.html)
+- [The Expression Syntax](https://symfony.com/doc/current/reference/formats/expression_language.html)
+- [Configuring in the Kernel](https://symfony.com/doc/current/reference/configuration/kernel.html)
+- [Twig Extensions Defined by Symfony](https://symfony.com/doc/current/reference/twig_reference.html)
+- [Built-in Symfony Service Tags](https://symfony.com/doc/current/reference/dic_tags.html)
+- [Symfony Attributes Overview](https://symfony.com/doc/current/reference/attributes.html)
+- [Built-in Symfony Events](https://symfony.com/doc/current/reference/events.html)
+
 ### Afficher les valeurs d'une propriété de collection
 
 `->getValues()` permet d'afficher les valeurs d'une propriété de collection
