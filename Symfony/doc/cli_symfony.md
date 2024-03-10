@@ -1,11 +1,23 @@
 # Créer une application Symfony
 
+## Style de début de commande
+
+On peut utiliser 2 styles de début de commande soit symfony console ... ou php bin/console ..
+
+```ps
+symfony console make:controller
+```
+Ou 
+
+```ps
+php bin/console make:controller
+```
 
 ## Créer une application Symfony avec la commande symfony
 
 pour avoir la dernière version complète avec toutes les dépendances
 
-    - symfony new my_project_name --full
+    - symfony new my_project_name --webapp
 
 pour avoir la dernière version en mode microservice, API
 
@@ -22,18 +34,18 @@ pour avoir la dernière version en mode microservice, API
 
     - composer create-project symfony/skeleton my_project_name
 
-## Créer une application Symfony avec une version précis avec la commande symfony
+## Créer une application Symfony 4 avec une version précis avec la commande symfony
 
 pour avoir la dernière version complète avec toutes les dépendances
 
-    - symfony new my_project_name --version=4.4 --full
+    - symfony new my_project_name --version=4.4 --webapp
 
 pour avoir la dernière version en mode microservice, API
 
     - symfony new my_project_name --version=4.4
 
 
-## Créer une application Symfony avec une version précis avec la commande composer
+## Créer une application Symfony 4 avec une version précis avec la commande composer
 
 pour avoir la dernière version complète avec toutes les dépendances
 
@@ -45,10 +57,64 @@ pour avoir la dernière version en mode microservice, API
 
 `S'il y a des problème lors de la creation de l'application , faire la même opération dans la CMD de git bash`
 
+## Créer une application Symfony 5 avec une version précis avec la commande symfony
+
+pour avoir la dernière version complète avec toutes les dépendances
+
+    - symfony new my_project_directory --version=5.4 --webapp
+
+pour avoir la dernière version en mode microservice, API
+
+    - symfony new my_project_directory --version=5.4
+
+
+## Créer une application Symfony 5 avec une version précis avec la commande composer
+
+pour avoir la dernière version complète avec toutes les dépendances
+
+```ps
+    composer create-project symfony/skeleton:"^5.4" my_project_directory
+```
+
+```ps
+    cd my_project_directory
+```
+
+```ps
+    composer require webapp
+```
+
+pour avoir la dernière version en mode microservice, API
+```ps
+ composer create-project symfony/skeleton:"^5.4" my_project_directory
+```
+`S'il y a des problème lors de la creation de l'application , faire la même opération dans la CMD de git bash`
+
 
 ## Faire tourner notre application avec la commande symfony
 
     - symfony server:start
+
+## Faire tourner notre application avec la commande symfony en arrière plan
+
+    - symfony server:start -d
+
+## Faire tourner notre application avec la commande symfony en arrière plan
+```ps
+symfony serve -d
+```
+
+### Ouvrir l'application dans notre navigateur local
+```ps
+symfony open:local
+```
+## Voir les log de l'application qui tourne en arrière plan
+
+    - symfony server:log
+
+## Stopper notre application qui tourne en arrière plan
+
+    - symfony server:stop
 
 ## Faire tourner notre application avec la commande composer
 
@@ -353,12 +419,13 @@ https://symfony.com/doc/4.4/security.html
 
 installer le bundle symfony/security-bundle
 
-    - composer require symfony/security-bundle
-
+```ps
+composer require symfony/security-bundle
+```
 
 ### Créer une classe User
-
-    - php bin/console make:user
+```ps
+php bin/console make:user
 
     The name of the security user class (e.g. User) [User]:
     > User
@@ -377,24 +444,25 @@ installer le bundle symfony/security-bundle
     created: src/Repository/UserRepository.php
     updated: src/Entity/User.php
     updated: config/packages/security.yaml
-
+```
 
 Si on veut rajouter des champs dans src/Entity/User 
+```ps
+php bin/console make:entity User
 
-    - php bin/console make:entity User
-
-puis faire la migration 
+# puis faire la migration 
     
-    - php bin/console make:migration
+php bin/console make:migration
 
-    - php bin/console doctrine:migrations:migrate
-
+php bin/console doctrine:migrations:migrate
+```
 
 ### Créer un formulaire de connexion 
 
 puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form_login_setup.html
 
-    - php bin/console make:auth
+```ps
+php bin/console make:auth
 
     What style of authentication do you want? [Empty authenticator]:
         [0] Empty authenticator
@@ -414,26 +482,58 @@ puis créer un formulaire de connexion https://symfony.com/doc/4.4/security/form
     updated: config/packages/security.yaml
     created: src/Controller/SecurityController.php
     created: templates/security/login.html.twig
-
+```
 
 ## Voir les détail d'une dépendance
 
-    > composer show <la_dépendance>
+```ps
+composer show <la_dépendance>
+```
 
 Exemple :
 
-    > composer show symfony/flex
+```ps
+composer show symfony/flex
+```
 
+## Voir l'ensemble des routes du projet
+```ps
+symfony console debug:router
+
+# ou
+
+php bin/console debug:router
+```
+## Voir l'ensemble des sevices du projet
+```ps
+symfony console debug:autowiring
+
+# ou
+
+php bin/console debug:autowiring
+```
+
+
+## Filtrée et voir un ensemble sevice qui concerne la session dans le projet
+```ps
+symfony console debug:autowiring session
+
+# ou
+
+php bin/console debug:autowiring session
+```
 ## Upload un fichier (dont une image, Upload image)
 
 
 on installe VichUploaderBundle 
 https://github.com/dustin10/VichUploaderBundle/blob/master/docs/installation.md
 
-    - composer require vich/uploader-bundle
-
+```ps
+composer require vich/uploader-bundle
+```
 puis on choissie avec quel base de donnés ( orm ou mongodb ou phpcr ) on veut agir dans un fichier config/packages/vich_uploader.yaml ou app/config/config.yml
 
+```yaml
     vich_uploader:
         db_driver: orm 
 
@@ -441,6 +541,7 @@ puis on choissie avec quel base de donnés ( orm ou mongodb ou phpcr ) on veut a
     inject_on_load: false
     delete_on_update: true
     delete_on_remove: true
+```
 
 
 ### Avec cette vidéo 
@@ -457,8 +558,10 @@ puis on va dans les entités qui pourrons avoir des images
 
 #### Dans services.yaml
 
+```yaml
 parameters:
     app.path.images: /uploads/images
+```
 
 ##### Definition:
 app.path.images est une constante qui contiendra le chemin, dans lequel les images seront stocké
@@ -484,21 +587,31 @@ la constante %kernel.project_dir% , permet d'accéder à la racine du projet
 
 ## EasyAdmin version 3.x
 
+Site [Symfony](https://symfony.com/bundles/EasyAdminBundle/current/index.html), Faire attention à la version utiliser
+
 EasyAdmin crée de superbes backends d'administration pour vos applications Symfony. C'est gratuit, rapide et entièrement documenté.
 
 ### Installation 
 
-    - composer require easycorp/easyadmin-bundle
-    ou
-    - composer require admin
+```ps
+composer require easycorp/easyadmin-bundle
+
+# ou
+ 
+composer require admin
+```
 
 ### Créer un Dashboard
 
 on crée notre dashboard représenté sous forme de controlleur
 
-    - symfony console make:admin:dashboard
-    ou
-    - php bin/console make:admin:dashboard
+```ps
+symfony console make:admin:dashboard
+
+# ou
+ 
+php bin/console make:admin:dashboard
+```
 
 puis configurer le DashboardController.php,
 en ajoutant un ou plusieurs entité, grace a yield MenuItem::linkToCrud();
@@ -510,40 +623,57 @@ le controlleur aura pour nom StorageSpaceCrudController par exemple
 
 ### Créer les controlleurs assiocée aux entités à manager
 
-    - symfony console make:admin:crud
-    ou
-    - php bin/console make:admin:crud
+```ps
+symfony console make:admin:crud
 
+# ou
+ 
+php bin/console make:admin:crud
+```
 
+Voir exemple d'un fichier [crud](https://github.com/jonas18121/help/blob/master/Symfony/doc/easyadmin.md)
 
 ## API Plateform
 
-    > composer require api
+```ps
+composer require api
+```
 
 ## une version précise de API plateform
 
-    > composer require api-platform/core:v2.5 --with-all-dependencies 
-    
+```ps
+composer require api-platform/core:v2.5 --with-all-dependencies 
+```
+
 ### Si on execute la commande ci-dessous, on verra les différentes commandes pour exporter un fichier
 
-    > php bin/console api
+```ps
+php bin/console api
+```
 
 ### Si on execute la commande ci-dessous, on verra des données en format JSON qui contient la définition de notre API
 
-    > php bin/console api:openapi:export
+```ps
+php bin/console api:openapi:export
+```
 
 ### Si on execute la commande ci-dessous, on verra des données en format yaml qui contient la définition de notre API
 
-    > php bin/console api:openapi:export --yaml
-
+```ps
+php bin/console api:openapi:export --yaml
+```
 
 ## lexik/jwt-authentication-bundle
 
-    > composer require lexik/jwt-authentication-bundle
+```ps
+composer require lexik/jwt-authentication-bundle
+```
 
 ### Généré des clés SSL (SSL keys) privées et public
 
-    > php bin/console lexik:jwt:generate-keypair
+```ps
+php bin/console lexik:jwt:generate-keypair
+```
 
 Options disponibles:
 
@@ -557,27 +687,39 @@ Sinon, une erreur sera levée pour vous empêcher d'écraser vos clés accidente
 
 ### phpunit/phpunit
 
-    > composer require phpunit/phpunit --dev
+```ps
+composer require phpunit/phpunit --dev
+```
 
 ### test 
 
-    > composer require test --dev
+```ps
+composer require test --dev
+```
 
 ### Créer une base de données dans un environnement de test
 
-    > php bin/console doctrine:database:create --env=test
+```ps
+php bin/console doctrine:database:create --env=test
+```
 
 ### Créer la structure des tables dans la base de données qui est dans un environnement de test
 
-    > php bin/console doctrine:schema:update --env=test --force
+```ps
+php bin/console doctrine:schema:update --env=test --force
+```
 
 ### Envoyer des fixtures dans la base de données qui est dans un environnement de test
 
-    > php bin/console doctrine:fixtures:load --env=test
+```ps
+php bin/console doctrine:fixtures:load --env=test
+```
 
 ## Créer une commande personnalisé
 
-    > php bin/console make:command
+```ps
+php bin/console make:command
+```
 
 Le site de Symfony, créer une commande : https://symfony.com/doc/current/console.html
 
@@ -596,3 +738,126 @@ Exemple
     > create:category
 
 Puis Symfony va créer un dossier `command` avec la classe `CreateCategoryCommand` qui est le nom de la commmande `create:category`
+
+### Désinstaller la symfony-cli (linux)
+
+Voir les droits
+```ps
+ls -al /usr/local/bin/symfony
+```
+si c'est là
+
+supprimer
+
+```ps
+rm -rf /usr/local/bin/symfony
+```
+
+### Installer Webpack Encore dans Symfony
+
+```ps
+composer require symfony/webpack-encore-bundle
+
+# puis
+
+yarn install
+
+# ou
+
+npm install
+```
+
+Run webpack
+
+```ps
+# compiler les actifs et recompiler automatiquement lorsque les fichiers changent
+yarn watch
+
+# ou
+
+npm run watch
+
+# Ou, exécutez dev-sever qui peut parfois mettre à jour votre code sans actualiser la page
+yarn dev-server
+
+# ou
+
+npm run dev-server
+
+# compiler les actifs une fois
+yarn dev
+
+# ou
+
+npm run dev
+
+# Lors du déploiement, créer une version de production
+yarn build
+
+# ou
+
+npm run build
+```
+
+### Installer PHPSTAN
+
+Voir aussi ce [lien](https://github.com/jonas18121/help/blob/master/Devops/doc/yodev/5_projet/2_php_stan.md)
+
+C'est un analyseur statique de code PHP
+
+- [PHPSTAN](https://phpstan.org/user-guide/getting-started)
+- [Les règles](https://phpstan.org/user-guide/rule-levels)
+- [Templates génériques](https://phpstan.org/writing-php-code/phpdocs-basics#generics)
+- [Video Grafikart](https://www.youtube.com/watch?v=NkbuFsgHB_c)
+- [Ignorer certaines erreurs](https://phpstan.org/user-guide/ignoring-errors)
+- [Résolution de l'erreur PHPStan « Aucun type de valeur spécifié dans le type itérable »](https://phpstan.org/blog/solving-phpstan-no-value-type-specified-in-iterable-type)
+
+```ps
+composer require --dev phpstan/phpstan
+```
+#### Première exécution
+
+par exemple, si vous avez vos classes dans des répertoires src et tests, vous pouvez exécuter PHPStan comme ceci :
+
+```ps
+vendor/bin/phpstan analyse src tests
+```
+
+Il y a 8 niveaux, le niveau par défaut est 0. Si on veut tester au niveau 8 faire la commande ci-dessous : 
+
+```ps
+vendor/bin/phpstan analyse src tests --level 8 --memory-limit=2G
+
+# ou
+
+vendor/bin/phpstan analyse src tests -l 8 --memory-limit=2G
+
+# ou
+
+vendor/bin/phpstan analyse src tests --level=max -c phpstan.dist.neon --memory-limit=2G
+```
+
+On peut aussi configurer le fichier `phpstan.dist.neon` ce qui permet d'utiliser juste la commande `vendor/bin/phpstan analyse`
+
+```ps
+# phpstan.dist.neon
+
+parameters:
+    level: 8
+    paths:
+        - public/
+        - src/
+        - tests/
+    ignoreErrors:
+        -
+          message: '#Property [a-zA-Z0-9\\_]+::\$id is never written, only read.#'
+          path: src/Entity/*
+    checkGenericClassInNonGenericObjectType: false
+```
+
+```ps
+vendor/bin/phpstan analyse --memory-limit=2G
+```
+### Installer PHP CS FIXER
+
+Voir ce [lien](https://github.com/jonas18121/help/blob/master/Devops/doc/yodev/5_projet/1_php_cs_fixer.md)

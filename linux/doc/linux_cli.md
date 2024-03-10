@@ -117,3 +117,190 @@ sudo apt clean
 ```bash
 sudo apt autoremove
 ```
+
+## Intall Symfony Cli dans linux
+
+Site [Symfony](https://symfony.com/download)
+
+```bash
+curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
+```
+
+```bash
+sudo apt install symfony-cli
+```
+
+### Le compte root
+
+Le compte root existe sous Ubuntu, mais il est désactivé (pas de mot de passe).
+
+La commande suivante permet quand même de se connecter quand même sur le compte root :
+
+``bash
+sudo su -
+``
+
+Mais on peut aller plus loin et donner un mot de passe au compte root avec la commande :
+
+``bash
+sudo passwd
+``
+
+Ensuite, la commande suivante devrait fonctionner directement :
+``bash
+su -
+``
+
+Cela ne suit évidemment pas les standards choisis par Canonical...
+
+
+
+Bouger un dossier projet
+``bash
+mv aecale-preprod_2.edgco.fr /var/www/save/aecale-preprod_2.edgco.fr
+``
+
+
+Copier un dossier projet
+
+```bash
+cp -r aecale-preprod.edgco.fr save/aecale-save/aecale-preprod_2.edgco.fr
+```
+
+
+lier node à nodejs
+``bash
+sudo ln -s /home/ubuntu/.nvm/versions/node/v14.18.1/bin/node /usr/bin/nodejs
+``
+
+ln =
+Cela se remplace lnpar un lien symbolique vers un shell (ou tout autre exécutable) qui doit être exécuté en tant que root, utile dans le cas où une sudorègle autorise uniquement l'exécution lnpar chemin. Attention, ceci est une action destructrice.
+
+
+### Installer Adminer dans un projet sur un serveur
+
+- Aller sur [Adminer](https://www.adminer.org/), 
+- Click sur le bouton Download 
+- Puis télécharger le fichier nommée [Adminer 4.8.1 for MySQL](https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1-mysql.php)(ou le télécharger ici directement)
+- Renommer le fichier adminer-4.8.1-mysql.php en adminer.php
+- Se connecter au serveur du projet en question
+- Puis executer le commande ci-dessous (sinon on peut mettre le fichier adminer.php dans projet-preprod.fr/app/public via FileZila)
+```ps
+scp -P 22 ~/Desktop/adminer.php name_id@141.95.278.81:/var/www/projet-preprod.fr/app/public
+```
+ `~/Desktop/adminer.php` représente l'endroit ou le fichier adminer.php a été télécharger dans ma machine
+
+`ubuntu@141.94.222.87` représente l'identifiant et l'ip sur serveur
+
+`/var/www/aecale-preprod.edgco.fr/app/public` représente l'endroit on veut installer le fichier adminer.php dans le projet sur serveur
+
+- Pour accéder a adminer on peut se rendre sur cette exemple d'url `https://projet-preprod.fr/adminer.php`
+
+### Voir des fichiers cacher (avec les droits) dans un serveur en plus des fichiers 
+
+```ps
+ls -lah
+```
+
+### vérifié que le service snapd est en cours d'exécution
+https://forum.snapcraft.io/t/error-cannot-communicate-with-server/298/4
+
+```ps
+systemctl status snapd.service
+
+et 
+
+journalctl -u snapd.service
+```
+
+Si snapd.service est inactif, pour résoudre l'erreur, exécutez les commandes suivantes
+```ps
+systemctl start snapd.service
+```
+
+, puis essayez d'installer le package avec snap, dans mon cas, c'était .
+```ps
+sudo snap install libreoffice
+```
+
+Version de snap
+```ps
+snap version
+```
+
+liste de snap
+```ps
+snap list
+```
+
+snap refresh
+```ps
+sudo snap refresh core
+```
+
+### Comment savoir si son linux est en 32-bits ou 64-bits
+
+**La commande uname**
+
+Utiliser la commande suivante :
+
+```ps
+uname -m
+```
+
+Le résultat de cette commande vous indiquera si votre système est en 32 ou 64 bits. Cela peut vous afficher plusieurs choses :
+
+- Si le résultat est i686 ou i386 alors votre système d’exploitation est en 32-bits.
+
+- Si le résultat est x86_64 alors votre système d’exploitation est en 64-bits.
+
+**La commande arch**
+
+Vous pouvez aussi utilisez la commande arch :
+
+```ps
+arch
+```
+
+Cette commande donnera exactement le même résultat que la commande uname
+
+### Passer en root
+
+```ps
+sudo -s
+```
+
+### Obtenir adresse IP
+
+[site](https://blog.shevarezo.fr/post/2019/01/08/comment-obtenir-adresse-ip-linux-ligne-de-commande)
+
+```ps
+ip route get 1.2.3.4 | awk '{print $7}'
+```
+
+### Désinstaller la symfony-cli (linux)
+
+Voir les droits
+```ps
+ls -al /usr/local/bin/symfony
+```
+si c'est là
+
+supprimer
+
+```ps
+rm -rf /usr/local/bin/symfony
+```
+
+```ps
+sudo ln -s ~/usr/bin/symfony /usr/local/bin/symfony 
+
+sudo mv /usr/bin/symfony /usr/local/bin/symfony # bouger symfony.exe de /usr/bin/symfony à /usr/local/bin/symfony
+
+sudo cp -r -u /usr/local/bin/symfony /usr/bin/symfony # copier symfony.exe de /usr/local/bin/symfony à /usr/bin/symfony
+```
+
+### Voir info sur l'OS
+```ps
+cat /etc/os-release 
+```

@@ -1,3 +1,6 @@
+## Sauvegarder toutes une os sur un disque externe :  
+
+https://wolfgang-ziegler.com/blog/migrate-linux-to-larger-ssd
 
 ## Copier une clé privée ou public ssh dans nodepad
 
@@ -41,3 +44,36 @@ exemple :
 site : https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units-fr
 
     > sudo systemctl restart php7.4-fpm
+
+### Voir des fichier cacher dans un serveur
+
+```ps
+ls -lah
+```
+
+### Voir les droit dans un serveur
+
+```ps
+ls -l
+```
+
+### Changer le propriétaire du dossier sur un serveur
+
+```ps
+sudo chown -R [USER NAME]:[USER NAME] /var/www
+```
+
+Exemple :
+```ps
+sudo chown -R www-data:www-data /var/www
+```
+
+### Mettre un user dans un groupe
+
+- **usermod**  : La commande
+- **-g** : l'option groupe
+- **www-data** : c'est le nom du groupe que l'on veut ajouter un user
+- **user007** : c'est l'utisateur qui va intégre le groupe `www-data`
+```ps
+sudo usermod -g www-data user007
+```

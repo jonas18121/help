@@ -72,6 +72,13 @@ Ou la commande ci-dessous depuis la racine du projet
 
     > sudo chmod 777 -R app
 
+ou 
+```ps
+chown -R www-data:www-data your_folder
+
+chmod -R 777 your_folder
+```
+
 ### Modif couleur projets
 
 - _custom.css > $themes > day-mode 
@@ -110,3 +117,139 @@ $user = $this->manager->getRepository(User::class)->findOneBy(['email' => $value
 
 ```
 
+### Accéder aux logs dans nginx avec docker
+
+Dans le terminal, se mettre à la racine du projet puis :
+
+```bash
+cd .data/logs/nginx
+```
+
+### Si le fichier SQL est trop lourd pour MYSQL
+
+```bash
+SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes  
+```
+
+- ajout de : `command: --max_allowed_packet=32505856      # Set max_allowed_packet to 256M (or any other value)`   Dans le conteneur Mysql dans docker-compose
+- suppression du conteneur Mysql via docker `docker rm <ID_container>`
+- excécution de `docker-compose up -d`
+
+
+### Monolog
+
+Si projet sous docker path : projet/logs sinon projet/var/log
+
+- [https://www.strangebuzz.com/](https://www.strangebuzz.com/fr/blog/envoyer-des-logs-applicatifs-symfony-vers-slack-avec-monolog)
+- [Logging](https://symfony.com/doc/current/logging.html)
+```yml
+monolog:
+    channels: ['payment']
+    handlers:
+
+        main:
+            type:           rotating_file
+            max_files:      7
+            path:           '%kernel.logs_dir%/%kernel.environment%.all.log'
+            level:          info # Less logs
+
+        # Custom handlers for project
+
+
+        payment:
+            type:           rotating_file
+            max_files:      7
+            path:           '%kernel.logs_dir%/%kernel.environment%.payment.log'
+            level:          debug
+            channels:       payment
+
+        # End custom handlers for project
+ 
+        main_error:
+            type:           fingers_crossed
+            action_level:   error
+            handler:        grouped_error
+            excluded_http_codes: [401,403,404]
+
+        grouped_error:
+            type:    group
+            members: [streamed_error, deduplicated]
+
+        streamed_error:
+            type:           rotating_file
+            max_files:      7
+            path:           '%kernel.logs_dir%/%kernel.environment%.error.log'
+            level:          error
+
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ["!event", "!doctrine", "!console"]
+
+
+        # SLACK
+
+        # Payment
+        slack_payment:
+            type:       slack
+            token:       '%env(SLACK_TOKEN)%'
+            channel:     '#project-payment'
+            bot_name:    '%env(SLACK_BOT_NAME)%'
+            icon_emoji:  ':school:'
+            level:      debug
+            include_extra: true
+            use_short_attachment: true
+            formatter: monolog.formatter.extra
+            channels: payment
+
+```
+
+### pour Résourdre make quality dans Repository
+
+Mettre de cette manière la variable `$order` puis faire make quality
+```php
+
+public function getLastOrder(): Order
+{
+    $order = $this->createQueryBuilder('o')
+        ->orderBy('o.id', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getSingleResult();
+
+    if ($order instanceof Order) {
+        return $order;
+    }
+
+    throw new \Exception('$order must be an instance of Order.');
+}
+```
+
+### Bdd avec gitlab
+
+Pour envoyer la bdd sur gitlab il faut faire
+```sh
+bin/console app:seed:system:backup:database:gitlab
+```
+Et ça va ici en exemple https://gitlab.com/project/project/backups/-/tree/master/dev
+
+Pour récupéré depuis la dev 
+```sh
+bin/console app:seed:system:backup:database:gitlab:load -s dev
+```
+
+### git config
+
+```sh
+git config --global core.fileMode false
+
+git config --global core.editor nano
+
+git config --global push.default simple
+
+git config --global branch.autosetuprebase always
+
+git config --global pull.rebase true
+
+git config --global fetch.prune true
+```

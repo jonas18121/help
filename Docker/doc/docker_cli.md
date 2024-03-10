@@ -7,12 +7,6 @@
     > docker-compose rm <nom_du_service_dans_docker-compose.yml>
 
 
-
-
-
-
-
-
 ## Voir la liste des container/images/service
 
 ### Voir la liste des images 
@@ -73,6 +67,7 @@
 
 
 
+# La commande docker
 
 
 ## Executer une nouvelle cli dans le container
@@ -86,9 +81,6 @@ https://docs.docker.com/engine/reference/commandline/exec/
 ### Entrer dans la cli de git bash du projet
 
     > docker exec -it <nom_du_container_du_projet> bash
-
-
-# La commande docker
 
 ### Télécharger une image
 
@@ -124,6 +116,18 @@ https://docs.docker.com/engine/reference/commandline/exec/
 
     > docker rmi <id_de_image> --force
 
+### Supprimer toutes les images Docker
+
+#### Comment ça fonctionne
+
+docker images -q listera tous les ID d'image. 
+
+Nous transmettons ces identifiants à docker rmi(qui signifie supprimer des images) et nous supprimons donc toutes les images.
+
+```ps
+docker rmi $(docker images -q)
+```
+
 ### Créer une image à partir d'un Dockerfile
 
     > docker image build 
@@ -153,6 +157,31 @@ https://docs.docker.com/engine/reference/commandline/exec/
 ### Utilisez -q pour transmettre les ID à la commande docker rm, afin de Supprimer tous les conteneurs quittés
 
     > docker rm $(docker ps -a -f status=exited -q)
+
+### Arrêter tous les conteneurs Docker
+
+#### Comment ça fonctionne
+
+La commande docker ps listera tous les conteneurs en cours d' exécution . 
+
+L' indicateur -q ne répertoriera que les ID de ces conteneurs. 
+
+Une fois que nous avons la liste de tous les identifiants de conteneurs, nous pouvons simplement exécuter la docker killcommande, en transmettant tous ces identifiants, et ils seront tous arrêtés !
+
+```ps
+docker kill $(docker ps -q)
+```
+
+### Supprimer tous les conteneurs Docker
+
+#### Comment ça fonctionne
+Nous savons déjà que docker ps -q répertoriera tous les ID de conteneur en cours d'exécution.
+
+Le drapeau -a, renverra tous les conteneurs, pas seulement ceux en cours d'exécution. Par conséquent, cette commande supprimera tous les conteneurs (y compris les conteneurs en cours d'exécution et arrêtés).
+
+```ps
+docker rm $(docker ps -a -q)
+```
 
 ### Créer un container à partir d'une image (le contaire sera inactif tant qu'on l'aura pas ativer)
 
@@ -215,11 +244,6 @@ Are you sure you want to continue? [y/N]
 
 
 
-
-
-
-
-
 ## Les volumes
 
 ### voir les volumes 
@@ -229,6 +253,29 @@ Are you sure you want to continue? [y/N]
 ### Supprimer un volume
 
     > docker volume rm <nom_volume>
+
+
+## Se mettre en utilisateur root dans un container docker
+
+1) Commencez par identifier le nom ou l'ID de votre conteneur Docker en utilisant la commande ci-dessous :
+
+```ps
+docker ps
+```
+
+2) Une fois que vous avez identifié le conteneur dans lequel vous souhaitez devenir l'utilisateur root, vous pouvez exécuter la commande suivante pour accéder à un shell interactif à l'intérieur de ce conteneur en tant qu'utilisateur root :
+
+
+```ps
+docker exec -u 0 -it <nom_ou_ID_du_conteneur> /bin/bash
+
+# ou
+
+docker exec -u 0 -it <nom_ou_ID_du_conteneur> bash
+```
+
+
+
 
 
 # Seulment pour Linux
@@ -260,3 +307,18 @@ Are you sure you want to continue? [y/N]
 ### Activer le service Docker
 
     > systemctl enable docker
+
+### Ne plus utiliser sudo lorsqu'on utilise docker
+```bash
+sudo chmod 666 /var/run/docker.sock
+```
+
+### Si le fichier SQL est trop lourd pour MYSQL
+
+```bash
+SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes  
+```
+
+- ajout de : `command: --max_allowed_packet=32505856      # Set max_allowed_packet to 256M (or any other value)`  Dans le conteneur Mysql dans docker-compose
+- suppression du conteneur Mysql via docker `docker rm <ID_container>`
+- excécution de `docker-compose up -d`

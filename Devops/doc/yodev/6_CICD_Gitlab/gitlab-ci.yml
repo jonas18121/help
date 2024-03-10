@@ -1,0 +1,79 @@
+image: php:8.1
+
+cache:
+  paths:
+    - vendor/
+
+before_script:
+    - apt-get update && apt-get install -y git libzip-dev
+    - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
+    - curl -sS https://get.symfony.com/cli/installer | bash && mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+    - docker-php-ext-install zip
+    - composer install
+
+stages:
+    - security
+    - qa
+    - tests
+    - deploy
+
+check_vulnerabilities:
+    stage: security
+    script:
+        - symfony check:security
+    allow_failure: false
+
+php_cs_fixer:
+    stage: qa
+    script:
+        - composer require friendsofphp/php-cs-fixer
+        - ./vendor/bin/php-cs-fixer fix --dry-run
+    allow_failure: false
+
+php_stan:
+    stage: qa
+    script:
+        - composer require phpstan/phpstan
+        - composer require phpstan/extension-installer
+        - composer require phpstan/phpstan-symfony
+        - ./vendor/bin/phpstan analyse --memory-limit 1G
+    allow_failure: false
+
+lint:
+    stage: qa
+    script:
+        - ./bin/console lint:yaml config --parse-tags
+        - ./bin/console lint:twig templates --env=prod
+        - ./bin/console lint:container --no-debug
+        - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+    allow_failure: false
+
+php_unit:
+    stage: tests
+    script:
+        - ./bin/phpunit --log-junit report.xml
+    artifacts:
+        when: always
+        reports:
+            junit: report.xml
+    allow_failure: false
+    
+production:
+    stage: deploy
+    only:
+        - production
+    script:
+        - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+        - eval $(ssh-agent -s)
+        - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+        - mkdir -p ~/.ssh
+        - chmod 700 ~/.ssh
+        - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
+        - |
+          ssh $SSH_HOST  << EOF
+          cd /var/www
+          git pull
+          composer install
+          symfony console d:m:m -n
+          APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
+          EOF

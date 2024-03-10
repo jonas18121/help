@@ -26,6 +26,12 @@ exemple :
 ```bash
     > mysql -u utilisateur -p [base_de_données]
 ```
+
+###  Se connecter à phpmyadmin en local depuis un terminal sur un projet symfony qui est sous docker
+
+```bash
+docker exec -it contenaire_mysql mysql -u user_bdd -p
+```
 ## Déconnexion à Mysql
 
 ```sql
@@ -358,17 +364,32 @@ Exemple:
 ```sql
     mysql> DROP DATABASE [database];
 ```
-
 ## Créer un alias pour renommer temporairement une colonne:
 
 ```sql
     mysql> SELECT [colonne] AS [col] FROM [table];
 ```
 
-## Exporter un dump de base de données:
+## Exporter un dump de base de données un terminale connecter à un serveur distant :
 
 ```sql
     > mysqldump -u [username] -p [database] > backup.sql
+```
+
+## Exporter un dump de base de données avec la date depuis un terminale connecter à un serveur distant :
+
+```sql
+    > mysqldump -u [username] -p [database] > backup-$(date +%Y-%m-%d).sql
+```
+
+## Exporter un dump de base de données avec la date depuis son terminal en local :
+```sql
+    > mysqldump -u [username] -h [hostname] -p [database] > /home/[user]/Téléchargements/backup-$(date +%Y-%m-%d).sql
+```
+
+Exemple : 
+```sql
+    > mysqldump -u nameOfUser -h 777.77.777.77 -p nameOfBdd > /home/jonas/Téléchargements/backup_prod-$(date +%Y-%m-%d).sql
 ```
 
 ## Importer un dump de base de données:
@@ -450,6 +471,16 @@ Exemple:
 
 ```sql
     mysql> SELECT [colonne], ROUND(AVG([colonne]), 2) FROM [table] GROUP BY [catégorie];
+```
+
+## Changer l'interclassement (collation) d'une table dans une base de données MySQL
+
+```sql
+    mysql> ALTER TABLE nom_de_la_table CONVERT TO CHARACTER SET nom_du_nouveau_charset COLLATE nom_du_nouvel_interclassement;
+
+
+    -- exemple
+    mysql> ALTER TABLE app_exam_audit CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 
