@@ -307,3 +307,47 @@ xquery ('.xqy', '.xquery')
 xslt ('.xsl', '.xslt')
 
 yaml ('.yaml', '.yml')
+
+Output
+
+
+### Extensions Markdown prises en charge par Open Publishing
+
+Le Learn Authoring Pack contient des outils qui prennent en charge des fonctionnalités uniques à notre système de publication. Les alertes sont une extension Markdown permettant de créer des blockquotes qui s'affichent avec des couleurs et des icônes soulignant l'importance du contenu. Les types d'alertes suivants sont pris en charge :
+
+```ps
+> [!NOTE]
+> Information the user should notice even if skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]
+> Essential information required for user success.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+
+> [!WARNING]
+> Dangerous certain consequences of an action.
+```
+
+Bloc-notes
+> [!NOTE]
+> Information the user should notice even if skimming.
+
+Bloc de pourboires
+> [!TIP]
+> Optional information to help a user be more successful.
+
+Bloc important
+> [!IMPORTANT]
+> Essential information required for user success.
+
+Blocage de précaution
+> [!CAUTION]
+> Negative potential consequences of an action.
+
+Bloc d'avertissement
+> [!WARNING]
+> Dangerous certain consequences of an action.
