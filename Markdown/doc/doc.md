@@ -767,7 +767,8 @@ Un tableau Markdown avec des balises de liste HTML. Ces tâches ne sauvegardent 
 **{- Texte rouge en gras -}**
 ```
 
-{+ Texte vert +}
+{+Texte vert+}
+
 {- Texte rouge -}
 
 {+ Texte vert avec `bacstique` +}
