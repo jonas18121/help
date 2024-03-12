@@ -757,3 +757,13 @@ Un tableau Markdown avec des balises de liste HTML. Ces tâches ne sauvegardent 
 | cell 1   | cell 2   |
 | cell 3   | <ul><li> - [ ] Task one </li><li> - [ ] Task two </li></ul> |
 
+### Texte surligner en rouge ou vert
+
+```
+{+ Texte vert +}
+{- Texte rouge -}
+
+{+ Texte vert avec `bacstique` +}
+**{- Texte rouge en gras -}**
+```
+
