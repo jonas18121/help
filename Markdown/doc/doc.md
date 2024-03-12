@@ -41,14 +41,14 @@ graph TD;
 ```
 ### Parcours d'un workflow
 
-    ```mermaid
+    ```mermaid {theme: 'dark', scale: 0.8}
     %%{
         init: {
            'theme': 'base',
            'themeVariables': {
-           'primaryColor': '#BB2528',
+           'primaryColor': '#135590',
                'primaryTextColor': '#fff',
-               'primaryBorderColor': '#7C0000',
+               'primaryBorderColor': '#2c1f1f',
                'lineColor': '#F8B229',
                'secondaryColor': '#006100',
                'tertiaryColor': '#fff'
