@@ -42,13 +42,13 @@ graph TD;
         end
 
         subgraph "Acquisitions VEFA/BEFA"
-        A1 -- VEFA/BEFA -.-> M2("Mise au point du projet")
-        M2 -- VEFA -.-> P1
+        A1 -- VEFA/BEFA --> M2("Mise au point du projet")
+        M2 -- VEFA --> P1
         M2 -- BEFA --> P2("Projet de bail")
         P2 --> M3("Modif de projet de bail")
         M3 --> B1("Bail signé")
         P2 -.-> B1
-        A3 -- VEFA -.-> R1("Réalisation")
+        A3 -- VEFA --> R1("Réalisation")
         end
     ```
 
@@ -423,3 +423,40 @@ Strong emphasis, or bold, with double **asterisks** or __underscores__.
 Combined emphasis with **asterisks and _underscores_**.
 
 Strikethrough with double tildes. ~~Scratch this.~~
+
+
+### Rubrique
+
+Créez des titres de 1 à 6 en utilisant #.
+
+```
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+```
+
+# H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+
+Alternativement, pour H1 et H2, utilisez un style souligné :
+
+```
+Alt-H1
+======
+
+Alt-H2
+------
+```
+
+Alt-H1
+======
+
+Alt-H2
+------
