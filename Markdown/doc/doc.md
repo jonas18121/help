@@ -2,6 +2,8 @@
 
 Site [ici](https://docs.framasoft.org/fr/grav/markdown.html)
 
+[markdown pour gitlab](https://docs.gitlab.com/ee/user/markdown.html)
+
 ### Des graphiques avec mermaid.js
 
 [mermaid.js](https://mermaid.js.org/intro/)
@@ -24,6 +26,53 @@ graph TD;
     A-->C;
     B-->D;
     C-->D;
+```
+### Parcours d'un workflow
+
+    ```mermaid
+    graph TB
+        subgraph "Acquisitions simples"
+        O1("Opportunité d'aquisition") --> A1("Appel à proposition")
+        O1  -.-> A2("Analyse du bâtiment")
+        A1 --> A2
+        A2 --> P1("Promesse de vente")
+        P1 --> M1("Modif de promesse de vente")
+        M1 --> A3("Acte de vente en main")
+        P1 -.-> A3
+        end
+
+        subgraph "Acquisitions VEFA/BEFA"
+        A1 -- VEFA/BEFA -.-> M2("Mise au point du projet")
+        M2 -- VEFA -.-> P1
+        M2 -- BEFA --> P2("Projet de bail")
+        P2 --> M3("Modif de projet de bail")
+        M3 --> B1("Bail signé")
+        P2 -.-> B1
+        A3 -- VEFA -.-> R1("Réalisation")
+        end
+    ```
+
+```mermaid
+graph TB
+    subgraph "Acquisitions simples"
+    O1("Opportunité d'aquisition") --> A1("Appel à proposition")
+    O1  -.-> A2("Analyse du bâtiment")
+    A1 --> A2
+    A2 --> P1("Promesse de vente")
+    P1 --> M1("Modif de promesse de vente")
+    M1 --> A3("Acte de vente en main")
+    P1 -.-> A3
+    end
+
+    subgraph "Acquisitions VEFA/BEFA"
+    A1 -- VEFA/BEFA -.-> M2("Mise au point du projet")
+    M2 -- VEFA -.-> P1
+    M2 -- BEFA --> P2("Projet de bail")
+    P2 --> M3("Modif de projet de bail")
+    M3 --> B1("Bail signé")
+    P2 -.-> B1
+    A3 -- VEFA -.-> R1("Réalisation")
+    end
 ```
 
 ### Mettre en surbrillance les commandes bash/shell dans le démarquage
@@ -351,3 +400,26 @@ Blocage de précaution
 Bloc d'avertissement
 > [!WARNING]
 > Dangerous certain consequences of an action.
+
+### Accent
+
+Vous pouvez mettre en valeur le texte de plusieurs manières. Utilisez l'italique, le gras, le barré ou combinez ces styles d'accentuation ensemble.
+
+```
+Emphasis, or italics, with *asterisks* or _underscores_.
+
+Strong emphasis, or bold, with double **asterisks** or __underscores__.
+
+Combined emphasis with **asterisks and _underscores_**.
+
+Strikethrough with double tildes. ~~Scratch this.~~
+```
+
+
+Emphasis, or italics, with *asterisks* or _underscores_.
+
+Strong emphasis, or bold, with double **asterisks** or __underscores__.
+
+Combined emphasis with **asterisks and _underscores_**.
+
+Strikethrough with double tildes. ~~Scratch this.~~
