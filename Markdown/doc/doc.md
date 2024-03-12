@@ -65,13 +65,13 @@ graph TB
     end
 
     subgraph "Acquisitions VEFA/BEFA"
-    A1 -- VEFA/BEFA -.-> M2("Mise au point du projet")
-    M2 -- VEFA -.-> P1
+    A1 -- VEFA/BEFA --> M2("Mise au point du projet")
+    M2 -- VEFA --> P1
     M2 -- BEFA --> P2("Projet de bail")
     P2 --> M3("Modif de projet de bail")
     M3 --> B1("Bail signé")
     P2 -.-> B1
-    A3 -- VEFA -.-> R1("Réalisation")
+    A3 -- VEFA --> R1("Réalisation")
     end
 ```
 
@@ -460,3 +460,72 @@ Alt-H1
 
 Alt-H2
 ------
+
+### La règle horizontale
+
+Créez une règle horizontale en utilisant au moins trois traits d'union, astérisques ou traits de soulignement :
+```
+---
+
+***
+
+___
+```
+
+---
+
+***
+
+___
+
+
+### Modifier les dimensions de l'image ou de la vidéo
+
+```
+![alt text](img/markdown_logo.png "Title Text"){width=100 height=100px}
+
+![alt text](img/markdown_logo.png "Title Text"){width=75%}
+```
+
+### HTML en ligne
+
+```
+<dl>
+  <dt>Definition list</dt>
+  <dd>Is something people use sometimes.</dd>
+
+  <dt>Markdown in HTML</dt>
+  <dd>Does *not* work **very** well. HTML <em>tags</em> do <b>work</b>, in most cases.</dd>
+</dl>
+```
+
+<dl>
+  <dt>Definition list</dt>
+  <dd>Is something people use sometimes.</dd>
+
+  <dt>Markdown in HTML</dt>
+  <dd>Does *not* work **very** well. HTML <em>tags</em> do <b>work</b>, in most cases.</dd>
+</dl>
+
+### Section pliable
+
+Le contenu peut être réduit à l'aide de HTML <details> et <summary> de balises. Par exemple, réduisez un long fichier journal pour qu’il occupe moins d’espace à l’écran.
+```
+<details>
+<summary>Click to expand</summary>
+
+These details <em>remain</em> <strong>hidden</strong> until expanded.
+
+<pre><code>PASTE LOGS HERE</code></pre>
+
+</details>
+```
+
+<details>
+<summary>Click to expand</summary>
+
+These details <em>remain</em> <strong>hidden</strong> until expanded.
+
+<pre><code>PASTE LOGS HERE</code></pre>
+
+</details>
