@@ -632,6 +632,11 @@ Vous pouvez utiliser le formatage HTML pour ajuster le rendu des tableaux. Par e
 | Item2 | This item has:<br>- Multiple items<br>- That we want listed separately |
 ```
 
+| Name | Details |
+| ---  | ---     |
+| Item1 | This text is on one line |
+| Item2 | This item has:<br>- Multiple items<br>- That we want listed separately |
+
 #### Listes de tâches dans les tableaux
 
 Un tableau Markdown avec des balises de liste HTML. Ces tâches ne sauvegardent pas leur état lorsqu'elles sont sélectionnées. Les tableaux formatés de cette façon ne s'affichent pas correctement sur docs.gitlab.com.
