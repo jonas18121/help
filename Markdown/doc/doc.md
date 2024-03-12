@@ -529,3 +529,122 @@ These details <em>remain</em> <strong>hidden</strong> until expanded.
 <pre><code>PASTE LOGS HERE</code></pre>
 
 </details>
+
+
+
+Le Markdown à l’intérieur de ces balises est également pris en charge.
+
+N'oubliez pas de laisser une ligne vide avant et après toute section Markdown, comme le montre l'exemple :
+
+```
+    <details>
+    <summary>
+
+    Click to _expand._
+
+    </summary>
+
+    These details _remain_ **hidden** until expanded.
+
+    ```
+    PASTE LOGS HERE
+    ```
+    </details>
+```
+
+<details>
+<summary>
+
+Click to _expand._
+
+</summary>
+
+These details _remain_ **hidden** until expanded.
+
+```
+PASTE LOGS HERE
+```
+
+</details>
+
+### Exposants / Indices
+
+Pour les exposants et les indices, utilisez la syntaxe HTML standard :
+
+```
+The formula for water is H<sub>2</sub>O
+while the equation for the theory of relativity is E = mc<sup>2</sup>.
+```
+
+The formula for water is H<sub>2</sub>O
+while the equation for the theory of relativity is E = mc<sup>2</sup>.
+
+### Balise HTML du clavier
+
+L' `<kbd>`élément est utilisé pour identifier le texte qui représente la saisie au clavier de l'utilisateur. Le texte entouré de `<kbd>`balises est généralement affiché dans la police monospace par défaut du navigateur.
+
+```
+Press <kbd>Enter</kbd> to go to the next page.
+```
+
+Press <kbd>Enter</kbd> to go to the next page.
+
+### Les Tables
+
+```
+| header 1 | header 2 | header 3 |
+| ---      | ---      | ---      |
+| cell 1   | cell 2   | cell 3   |
+| cell 4 | cell 5 is longer | cell 6 is much longer than the others, but that's ok. It eventually wraps the text when the cell is too large for the display size. |
+| cell 7   |          | cell 9   |
+```
+
+| header 1 | header 2 | header 3 |
+| ---      | ---      | ---      |
+| cell 1   | cell 2   | cell 3   |
+| cell 4 | cell 5 is longer | cell 6 is much longer than the others, but that's ok. It eventually wraps the text when the cell is too large for the display size. |
+| cell 7   |          | cell 9   |
+
+#### Alignement
+
+De plus, vous pouvez choisir l'alignement du texte dans les colonnes en ajoutant des deux-points ( :) sur les côtés des lignes « tirets » de la deuxième ligne. Cela affecte chaque cellule de la colonne :
+
+```
+| Left Aligned | Centered | Right Aligned |
+| :---         | :---:    | ---:          |
+| Cell 1       | Cell 2   | Cell 3        |
+| Cell 4       | Cell 5   | Cell 6        |
+```
+
+| Left Aligned | Centered | Right Aligned |
+| :---         | :---:    | ---:          |
+| Cell 1       | Cell 2   | Cell 3        |
+| Cell 4       | Cell 5   | Cell 6        |
+
+#### Cellules avec plusieurs lignes
+
+Vous pouvez utiliser le formatage HTML pour ajuster le rendu des tableaux. Par exemple, vous pouvez utiliser <br>des balises pour forcer une cellule à comporter plusieurs lignes :
+
+```
+| Name | Details |
+| ---  | ---     |
+| Item1 | This text is on one line |
+| Item2 | This item has:<br>- Multiple items<br>- That we want listed separately |
+```
+
+#### Listes de tâches dans les tableaux
+
+Un tableau Markdown avec des balises de liste HTML. Ces tâches ne sauvegardent pas leur état lorsqu'elles sont sélectionnées. Les tableaux formatés de cette façon ne s'affichent pas correctement sur docs.gitlab.com.
+
+
+```
+| header 1 | header 2 |
+| ---      | ---      |
+| cell 1   | cell 2   |
+| cell 3   | <ul><li> - [ ] Task one </li><li> - [ ] Task two </li></ul> |
+```
+
+| header 1 | header 2 |
+| ---      | ---      |
+| cell 1   | cell 2   |
+| cell 3   | <ul><li> - [ ] Task one </li><li> - [ ] Task two </li></ul> |
