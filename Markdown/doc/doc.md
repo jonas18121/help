@@ -52,7 +52,7 @@ graph TD;
         end
     ```
 
-```mermaid
+```mermaid {theme: 'neutral', scale: 0.8}
 graph TB
     subgraph "Acquisitions simples"
     O1("Opportunité d'aquisition") --> A1("Appel à proposition")
