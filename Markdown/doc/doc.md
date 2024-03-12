@@ -8,6 +8,18 @@ Site [ici](https://docs.framasoft.org/fr/grav/markdown.html)
 
 [mermaid.js](https://mermaid.js.org/intro/)
 
+Available Themes
+default - This is the default theme for all diagrams.
+
+neutral - This theme is great for black and white documents that will be printed.
+
+dark - This theme goes well with dark-colored elements or dark-mode.
+
+forest - This theme contains shades of green.
+
+base - This is the only theme that can be modified. Use this theme as the base for customizations.
+
+
 Exemple :
 
         ```mermaid
@@ -30,6 +42,20 @@ graph TD;
 ### Parcours d'un workflow
 
     ```mermaid
+    %%{
+        init: {
+           'theme': 'base',
+           'themeVariables': {
+           'primaryColor': '#BB2528',
+               'primaryTextColor': '#fff',
+               'primaryBorderColor': '#7C0000',
+               'lineColor': '#F8B229',
+               'secondaryColor': '#006100',
+               'tertiaryColor': '#fff'
+           }
+        }
+    }%%
+
     graph TB
         subgraph "Acquisitions simples"
         O1("Opportunité d'aquisition") --> A1("Appel à proposition")
@@ -52,7 +78,7 @@ graph TD;
         end
     ```
 
-```mermaid {theme: 'neutral', scale: 0.8}
+```mermaid {theme: 'dark', scale: 0.8}
 %%{
   init: {
     'theme': 'base',
