@@ -401,6 +401,32 @@ Bloc d'avertissement
 > [!WARNING]
 > Dangerous certain consequences of an action.
 
+
+Bloc-notes
+> [!NOTE]
+>
+> Information the user should notice even if skimming.
+
+Bloc de pourboires
+> [!TIP]
+>
+> Optional information to help a user be more successful.
+
+Bloc important
+> [!IMPORTANT]
+>
+> Essential information required for user success.
+
+Blocage de précaution
+> [!CAUTION]
+>
+> Negative potential consequences of an action.
+
+Bloc d'avertissement
+> [!WARNING]
+>
+> Dangerous certain consequences of an action.
+
 ### Accent
 
 Vous pouvez mettre en valeur le texte de plusieurs manières. Utilisez l'italique, le gras, le barré ou combinez ces styles d'accentuation ensemble.
@@ -509,7 +535,7 @@ ___
 
 ### Section pliable
 
-Le contenu peut être réduit à l'aide de HTML <details> et <summary> de balises. Par exemple, réduisez un long fichier journal pour qu’il occupe moins d’espace à l’écran.
+Le contenu peut être réduit à l'aide de HTML `<details>` et `<summary>` de balises. Par exemple, réduisez un long fichier journal pour qu’il occupe moins d’espace à l’écran.
 ```
 <details>
 <summary>Click to expand</summary>
@@ -654,22 +680,3 @@ Un tableau Markdown avec des balises de liste HTML. Ces tâches ne sauvegardent 
 | cell 1   | cell 2   |
 | cell 3   | <ul><li> - [ ] Task one </li><li> - [ ] Task two </li></ul> |
 
-
-### Les liens peuvent ainsi être mis sous forme de boutons à l’aide des classes CSS de Bootstrap :
-```
-[Default](#){.btn .btn-default}
-[Primary](#){.btn .btn-primary}
-[Info](#){.btn .btn-info}
-[Success](#){.btn .btn-success}
-[Warning](#){.btn .btn-warning}
-[Danger](#){.btn .btn-danger}
-[Link](#){.btn .btn-link}
-```
-
-[Default](#){.btn .btn-default}
-[Primary](#){.btn .btn-primary}
-[Info](#){.btn .btn-info}
-[Success](#){.btn .btn-success}
-[Warning](#){.btn .btn-warning}
-[Danger](#){.btn .btn-danger}
-[Link](#){.btn .btn-link}
