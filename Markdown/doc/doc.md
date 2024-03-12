@@ -653,3 +653,23 @@ Un tableau Markdown avec des balises de liste HTML. Ces tâches ne sauvegardent 
 | ---      | ---      |
 | cell 1   | cell 2   |
 | cell 3   | <ul><li> - [ ] Task one </li><li> - [ ] Task two </li></ul> |
+
+
+### Les liens peuvent ainsi être mis sous forme de boutons à l’aide des classes CSS de Bootstrap :
+```
+[Default](#){.btn .btn-default}
+[Primary](#){.btn .btn-primary}
+[Info](#){.btn .btn-info}
+[Success](#){.btn .btn-success}
+[Warning](#){.btn .btn-warning}
+[Danger](#){.btn .btn-danger}
+[Link](#){.btn .btn-link}
+```
+
+[Default](#){.btn .btn-default}
+[Primary](#){.btn .btn-primary}
+[Info](#){.btn .btn-info}
+[Success](#){.btn .btn-success}
+[Warning](#){.btn .btn-warning}
+[Danger](#){.btn .btn-danger}
+[Link](#){.btn .btn-link}
