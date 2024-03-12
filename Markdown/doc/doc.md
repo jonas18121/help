@@ -85,7 +85,7 @@ graph TD;
     'themeVariables': {
       'primaryColor': '#135590',
       'primaryTextColor': '#fff',
-      'primaryBorderColor': '#7C0000',
+      'primaryBorderColor': '#2c1f1f',
       'lineColor': '#F8B229',
       'secondaryColor': '#006100',
       'tertiaryColor': '#fff'
