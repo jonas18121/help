@@ -83,7 +83,7 @@ graph TD;
   init: {
     'theme': 'base',
     'themeVariables': {
-      'primaryColor': '#BB2528',
+      'primaryColor': '#135590',
       'primaryTextColor': '#fff',
       'primaryBorderColor': '#7C0000',
       'lineColor': '#F8B229',
