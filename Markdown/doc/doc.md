@@ -757,20 +757,23 @@ Un tableau Markdown avec des balises de liste HTML. Ces tâches ne sauvegardent 
 | cell 1   | cell 2   |
 | cell 3   | <ul><li> - [ ] Task one </li><li> - [ ] Task two </li></ul> |
 
-### Texte surligner en rouge ou vert
+### Texte surligner en rouge ou vert uniquement dans gitlab
 
 ```
-{+ Texte vert +}
-{- Texte rouge -}
+{+ Texte surligner en vert +}
 
-{+ Texte vert avec `bacstique` +}
-**{- Texte rouge en gras -}**
+{- Texte surligner en rouge -}
+
+{+ Texte surligner en vert avec `bacstique` +}
+
+**{- Texte surligner en rouge en gras -}**
 ```
 
-{+Texte vert+}
+{+ Texte surligner en vert +}
 
-{- Texte rouge -}
+{- Texte surligner en rouge -}
 
-{+ Texte vert avec `bacstique` +}
-**{- Texte rouge en gras -}**
+{+ Texte surligner en vert avec `bacstique` +}
+
+**{- Texte surligner en rouge en gras -}**
 
