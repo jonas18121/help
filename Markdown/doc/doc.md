@@ -401,32 +401,6 @@ Bloc d'avertissement
 > [!WARNING]
 > Dangerous certain consequences of an action.
 
-
-Bloc-notes
-> [!NOTE]
->
-> Information the user should notice even if skimming.
-
-Bloc de pourboires
-> [!TIP]
->
-> Optional information to help a user be more successful.
-
-Bloc important
-> [!IMPORTANT]
->
-> Essential information required for user success.
-
-Blocage de précaution
-> [!CAUTION]
->
-> Negative potential consequences of an action.
-
-Bloc d'avertissement
-> [!WARNING]
->
-> Dangerous certain consequences of an action.
-
 ### Accent
 
 Vous pouvez mettre en valeur le texte de plusieurs manières. Utilisez l'italique, le gras, le barré ou combinez ces styles d'accentuation ensemble.
