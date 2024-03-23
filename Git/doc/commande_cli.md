@@ -306,7 +306,7 @@ git diff
 git archive --format=tar master
 ```
 
-## Annuler / supprimer des commit
+## Annuler / supprimer des commits
 
 ### Supprimer / annuler un commit précis
 
@@ -351,6 +351,52 @@ git reset XXXXT.php
 ```bash
 git reset HEAD XXXXT.php 
 ```
+
+---
+
+### Pour revenir à un ancien commit avec Git en ligne de commande (Supprimer, Annuler)
+
+Pour revenir à un ancien commit avec Git en ligne de commande lorsque le dernier commit contient des données erronées, vous pouvez utiliser la commande git reset. Voici les étapes pour revenir à un ancien commit :
+
+1. **Identifier le commit à revenir :** Utilisez la commande `git log` pour afficher l'historique des commits et repérez le commit auquel vous souhaitez revenir. Notez son identifiant (SHA-1) ou son nom de référence.
+
+```bash
+git log
+```
+
+2. **Effectuer un reset :** Utilisez la commande `git reset --hard <commit>` où `<commit>` est l'identifiant du commit auquel vous souhaitez revenir. Par exemple :
+
+```bash
+git reset --hard abc123
+```
+
+Assurez-vous de remplacer "abc123" par l'identifiant réel du commit auquel vous voulez revenir.
+
+- **--hard :** Cela signifie que le reset sera effectué de manière "dure", ce qui signifie que tous les changements après le commit spécifié seront supprimés de l'index et de l'arborescence de travail.
+
+3. **Optionnel : Remonter la branche (si nécessaire) :** Si vous avez déjà poussé les commits indésirables vers un dépôt distant, vous devrez peut-être forcer la mise à jour de votre référence de branche avec la version réinitialisée. Pour cela, utilisez :
+
+```bash
+git push origin +<votre_branche>
+```
+
+Cependant, soyez prudent avec cette commande car elle force la mise à jour du dépôt distant et peut entraîner une perte de données pour les autres collaborateurs.
+
+près avoir effectué ces étapes, votre référence de branche devrait pointer vers l'ancien commit spécifié, annulant ainsi les commits ultérieurs avec les données erronées. Assurez-vous de sauvegarder les modifications locales importantes avant d'effectuer le reset, car cela peut entraîner la perte de données non sauvegardées.
+
+> [!IMPORTANT]
+> Le signe plus (`+`) dans la commande `git push origin +<votre_branche>` indique à Git de forcer la mise à jour de la branche distante avec la branche locale, même si cela implique une perte de commits sur la branche distante. <br><br>
+> Normalement, lorsqu'une branche est poussée vers un dépôt distant, Git vérifie si les commits de la branche distante sont en avance sur ceux de la branche locale. Si tel est le cas, Git refuse de pousser la branche locale vers le dépôt distant pour éviter d'écraser les commits existants sur la branche distante. Cependant, en utilisant le signe plus (`+`), vous forcez Git à mettre à jour la branche distante avec la branche locale, même si cela entraîne la perte de commits sur la branche distante.<br><br>
+> Cela peut être utile dans certaines situations, par exemple, lorsque vous avez besoin de réécrire l'historique des commits d'une branche pour corriger des erreurs ou pour synchroniser votre dépôt local avec le dépôt distant après un reset.<br><br>
+> Cependant, l'utilisation du signe plus dans `git push` est une opération puissante et peut entraîner la perte de données si elle est utilisée de manière incorrecte. Il est important de l'utiliser avec prudence  et de s'assurer que vous comprenez les implications de cette action, en particulier si d'autres collaborateurs travaillent sur la même branche.
+
+
+
+
+
+
+
+
 
 ## Fusionne 2 branch comme git merge 
 
