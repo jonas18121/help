@@ -385,12 +385,10 @@ Cependant, soyez prudent avec cette commande car elle force la mise à jour du d
 près avoir effectué ces étapes, votre référence de branche devrait pointer vers l'ancien commit spécifié, annulant ainsi les commits ultérieurs avec les données erronées. Assurez-vous de sauvegarder les modifications locales importantes avant d'effectuer le reset, car cela peut entraîner la perte de données non sauvegardées.
 
 > [!IMPORTANT]
-> Le signe plus (+) dans la commande git push origin +<votre_branche> indique à Git de forcer la mise à jour de la branche distante avec la branche locale, même si cela implique une perte de commits sur la branche distante.
+> Le signe plus (+) dans la commande git push origin +<votre_branche> indique à Git de forcer la mise à jour de la branche distante avec la branche locale, même si cela implique une perte de commits sur la branche distante. <br>
 > Normalement, lorsqu'une branche est poussée vers un dépôt distant, Git vérifie si les commits de la branche distante sont en avance sur ceux de la branche locale. Si tel est le cas, Git refuse de pousser la branche locale vers le dépôt distant pour éviter d'écraser les commits existants sur la branche distante. Cependant, en utilisant le signe plus (+), vous forcez Git à mettre à jour la branche distante avec la branche locale, même si cela entraîne la perte de commits sur la branche distante.
-
-Cela peut être utile dans certaines situations, par exemple, lorsque vous avez besoin de réécrire l'historique des commits d'une branche pour corriger des erreurs ou pour synchroniser votre dépôt local avec le dépôt distant après un reset.
-
-Cependant, l'utilisation du signe plus dans git push est une opération puissante et peut entraîner la perte de données si elle est utilisée de manière incorrecte. Il est important de l'utiliser avec prudence et de s'assurer que vous comprenez les implications de cette action, en particulier si d'autres collaborateurs travaillent sur la même branche.
+> Cela peut être utile dans certaines situations, par exemple, lorsque vous avez besoin de réécrire l'historique des commits d'une branche pour corriger des erreurs ou pour synchroniser votre dépôt local avec le dépôt distant après un reset.
+> Cependant, l'utilisation du signe plus dans git push est une opération puissante et peut entraîner la perte de données si elle est utilisée de manière incorrecte. Il est important de l'utiliser avec prudence et de s'assurer que vous comprenez les implications de cette action, en particulier si d'autres collaborateurs travaillent sur la même branche.
 
 
 
