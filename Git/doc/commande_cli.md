@@ -352,6 +352,7 @@ git reset XXXXT.php
 git reset HEAD XXXXT.php 
 ```
 
+### Pour revenir à un ancien commit avec Git en ligne de commande (Supprimer, Annuler)
 
 Pour revenir à un ancien commit avec Git en ligne de commande lorsque le dernier commit contient des données erronées, vous pouvez utiliser la commande git reset. Voici les étapes pour revenir à un ancien commit :
 
