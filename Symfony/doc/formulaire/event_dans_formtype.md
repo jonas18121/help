@@ -147,8 +147,6 @@ class RecipeType extends AbstractType
             ->addEventListener(FormEvents::PRE_SUBMIT, $autoSlug)
             ->addEventListener(FormEvents::POST_SUBMIT, $attachTimestamps)
         ;
-
-        
     }
 
     public function configureOptions(OptionsResolver $resolver): void
