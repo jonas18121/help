@@ -29,6 +29,8 @@ public function delete(
 ```twig
 {# index.html.twig #}
 
+{% extends 'base.html.twig' %}
+
 {% block title %}Toutes les Recettes{% endblock %}
 
 {% block body %}
@@ -49,19 +51,20 @@ public function delete(
                     <a href="{{ url('app_recipe_show', {id: recipe.id, slug: recipe.slug}) }}">{{ recipe.title }}</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="{{ path('app_recipe_edit', {id: recipe.id}) }}">Modifier</a>
-                    
-                    <form action="{{ path('app_recipe_delete', {id: recipe.id}) }}" method="post">
-                        <input type="hidden" name="_method" value="DELETE"> {# Simuler une requête de type delete #}
-                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                    </form>
+                    <div class="d-flex gap-1">
+                        <a class="btn btn-primary btn-sm" href="{{ path('app_recipe_edit', {id: recipe.id}) }}">Modifier</a>
+                        
+                        <form action="{{ path('app_recipe_delete', {id: recipe.id}) }}" method="post">
+                            <input type="hidden" name="_method" value="DELETE"> {# Simuler une requête de type delete #}
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 {% endblock %}
-
 ```
 
 ### Dans framework.yaml

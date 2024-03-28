@@ -1,4 +1,4 @@
-# Formtype avec contrainte dans des groupe et event
+# Formtype avec contrainte dans des groupes et event
 
 ```php
 
