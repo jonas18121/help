@@ -1,391 +1,116 @@
+# Astuces
 
+## Contrainte Sequentially pour valider des contraintes les une après les autres
 
-## Utiliser un theme de formulaire bootstrap
+- [Sequentially](https://symfony.com/doc/current/reference/constraints/Sequentially.html)
 
-Dans `app/config/packages/twig.yaml` ajoutez : `form_themes: ['bootstrap_5_layout.html.twig'] `
+Cette contrainte permet d'appliquer un ensemble de règles qui doivent être validées étape par étape, permettant d'interrompre la validation une fois la première violation levée.
 
-```yaml
-twig:
-    file_name_pattern: '*.twig'
-    form_themes: ['bootstrap_5_layout.html.twig'] # Themes pour formater des formulaires, si on ne fait pas de themes personaliser
+Comme alternative dans les situations Sequentiallyqui ne peuvent pas être résolues, vous pouvez envisager d'utiliser [GroupSequence](https://symfony.com/doc/current/validation/sequence_provider.html) qui permet plus de contrôle.
+
+Cela permet d'afficher les contraintes les une après les autres
+
+Exemple :
+
+**Sans Sequentially :** 
+- Si l'utilisateur écrit dans le champs slug : `l1-`
+- Cela retournera 2 erreurs car le valeur qui contient moins de 10 caractère et il y a pas d'autres caractères après le tiret
+- Les 2 erreurs seront afficher en même temps dans le fromulaire 
+
+```php
+# RecipeType.php
+
+$builder
+    ->add('slug', TextType::class, [
+        'required' => false,
+        'constraints' => [
+            new Length(min: 10),
+            new Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Ce slug n'est pas valide")
+        ]
+    ])
+;
 ```
 
-Exemple du fichier `bootstrap_5_layout.html.twig` qui ce trouve ici : `projet/app/vendor/symfony/twig-bridge/Resources/views/Form/bootstrap_5_horizontal_layout.html.twig`
+On peut mettre la contrainte directement dans l'entité
 
-```twig
-{% use "bootstrap_base_layout.html.twig" %}
+```php
+# RecipeType.php
 
-{# Widgets #}
+namespace App\Entity;
 
-{% block money_widget -%}
-    {%- set prepend = not (money_pattern starts with '{{') -%}
-    {%- set append = not (money_pattern ends with '}}') -%}
-    {%- if prepend or append -%}
-        <div class="input-group {{ group_class|default('') }}">
-            {%- if prepend -%}
-                <span class="input-group-text">{{ money_pattern|form_encode_currency }}</span>
-            {%- endif -%}
-            {{- block('form_widget_simple') -}}
-            {%- if append -%}
-                <span class="input-group-text">{{ money_pattern|form_encode_currency }}</span>
-            {%- endif -%}
-        </div>
-    {%- else -%}
-        {{- block('form_widget_simple') -}}
-    {%- endif -%}
-{%- endblock money_widget %}
+use App\Repository\RecipeRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 
-{% block date_widget -%}
-    {%- if widget == 'single_text' -%}
-        {{- block('form_widget_simple') -}}
-    {%- else -%}
-        {% if not valid %}
-            {% set attr = attr|merge({class: (attr.class|default('') ~ ' is-invalid')|trim}) -%}
-            {% set valid = true %}
-        {% endif %}
-        {%- if datetime is not defined or not datetime -%}
-            <div {{ block('widget_container_attributes') -}}>
-        {%- endif %}
-        {%- if label is not same as(false) -%}
-            <div class="visually-hidden">
-                {{- form_label(form.year) -}}
-                {{- form_label(form.month) -}}
-                {{- form_label(form.day) -}}
-            </div>
-        {%- endif -%}
-        <div class="input-group">
-            {{- date_pattern|replace({
-                '{{ year }}': form_widget(form.year),
-                '{{ month }}': form_widget(form.month),
-                '{{ day }}': form_widget(form.day),
-            })|raw -}}
-        </div>
-        {%- if datetime is not defined or not datetime -%}
-            </div>
-        {%- endif -%}
-    {%- endif -%}
-{%- endblock date_widget %}
+#[ORM\Entity(repositoryClass: RecipeRepository::class)]
+class Recipe
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-{% block time_widget -%}
-    {%- if widget == 'single_text' -%}
-        {{- block('form_widget_simple') -}}
-    {%- else -%}
-        {% if not valid %}
-            {% set attr = attr|merge({class: (attr.class|default('') ~ ' is-invalid')|trim}) -%}
-            {% set valid = true %}
-        {% endif %}
-        {%- if datetime is not defined or false == datetime -%}
-            <div {{ block('widget_container_attributes') -}}>
-        {%- endif -%}
-        {%- if label is not same as(false) -%}
-            <div class="visually-hidden">
-                {{- form_label(form.hour) -}}
-                {%- if with_minutes -%}{{ form_label(form.minute) }}{%- endif -%}
-                {%- if with_seconds -%}{{ form_label(form.second) }}{%- endif -%}
-            </div>
-        {%- endif -%}
-        {% if with_minutes or with_seconds %}
-            <div class="input-group">
-        {% endif %}
-        {{- form_widget(form.hour) -}}
-        {%- if with_minutes -%}
-            <span class="input-group-text">:</span>
-            {{- form_widget(form.minute) -}}
-        {%- endif -%}
-        {%- if with_seconds -%}
-            <span class="input-group-text">:</span>
-            {{- form_widget(form.second) -}}
-        {%- endif -%}
-        {% if with_minutes or with_seconds %}
-            </div>
-        {% endif %}
-        {%- if datetime is not defined or false == datetime -%}
-            </div>
-        {%- endif -%}
-    {%- endif -%}
-{%- endblock time_widget %}
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 5)]
+    private ?string $title = null;
 
-{% block datetime_widget -%}
-    {%- if widget == 'single_text' -%}
-        {{- block('form_widget_simple') -}}
-    {%- else -%}
-        {% if not valid %}
-            {% set attr = attr|merge({class: (attr.class|default('') ~ ' is-invalid')|trim}) -%}
-            {% set valid = true %}
-        {% endif %}
-        <div {{ block('widget_container_attributes') }}>
-            {{- form_widget(form.date, { datetime: true } ) -}}
-            {{- form_errors(form.date) -}}
-            {{- form_widget(form.time, { datetime: true } ) -}}
-            {{- form_errors(form.time) -}}
-        </div>
-    {%- endif -%}
-{%- endblock datetime_widget %}
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 5)]
+    #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Ce slug n'est pas valide")]
+    private ?string $slug = null;
+}
+```
 
-{% block dateinterval_widget -%}
-    {%- if widget == 'single_text' -%}
-        {{- block('form_widget_simple') -}}
-    {%- else -%}
-        {% if not valid %}
-            {% set attr = attr|merge({class: (attr.class|default('') ~ ' is-invalid')|trim}) -%}
-            {% set valid = true %}
-        {% endif %}
-        <div {{ block('widget_container_attributes') }}>
-            {%- if with_years -%}
-                <div class="col-auto mb-3">
-                    {{ form_label(form.years) }}
-                    {{ form_widget(form.years) }}
-                </div>
-            {%- endif -%}
-            {%- if with_months -%}
-                <div class="col-auto mb-3">
-                    {{ form_label(form.months) }}
-                    {{ form_widget(form.months) }}
-                </div>
-            {%- endif -%}
-            {%- if with_weeks -%}
-                <div class="col-auto mb-3">
-                    {{ form_label(form.weeks) }}
-                    {{ form_widget(form.weeks) }}
-                </div>
-            {%- endif -%}
-            {%- if with_days -%}
-                <div class="col-auto mb-3">
-                    {{ form_label(form.days) }}
-                    {{ form_widget(form.days) }}
-                </div>
-            {%- endif -%}
-            {%- if with_hours -%}
-                <div class="col-auto mb-3">
-                    {{ form_label(form.hours) }}
-                    {{ form_widget(form.hours) }}
-                </div>
-            {%- endif -%}
-            {%- if with_minutes -%}
-                <div class="col-auto mb-3">
-                    {{ form_label(form.minutes) }}
-                    {{ form_widget(form.minutes) }}
-                </div>
-            {%- endif -%}
-            {%- if with_seconds -%}
-                <div class="col-auto mb-3">
-                    {{ form_label(form.seconds) }}
-                    {{ form_widget(form.seconds) }}
-                </div>
-            {%- endif -%}
-            {%- if with_invert %}{{ form_widget(form.invert) }}{% endif -%}
-        </div>
-    {%- endif -%}
-{%- endblock dateinterval_widget %}
 
-{% block percent_widget -%}
-    {%- if symbol -%}
-        <div class="input-group">
-            {{- block('form_widget_simple') -}}
-            <span class="input-group-text">{{ symbol|default('%') }}</span>
-        </div>
-    {%- else -%}
-        {{- block('form_widget_simple') -}}
-    {%- endif -%}
-{%- endblock percent_widget %}
+**Avec Sequentially :** 
+- Si l'utilisateur écrit dans le champs slug : `l1-`
+- Cela retournera 2 erreurs car le valeur qui contient moins de 10 caractère et il y a pas d'autres caractères après le tiret
+- `Sequentially` va afficher une seule erreur dans l'ordre, en premier celui de `Length`, puis si c'est corriger `Sequentially` va afficher l'erreur de `Regex`
 
-{% block form_widget_simple -%}
-    {%- if type is not defined or type != 'hidden' %}
-        {%- set widget_class = ' form-control' %}
-        {%- if type|default('') == 'color' -%}
-            {%- set widget_class = widget_class ~ ' form-control-color' -%}
-        {%- elseif type|default('') == 'range' -%}
-            {%- set widget_class = ' form-range' -%}
-        {%- endif -%}
-        {%- set attr = attr|merge({class: (attr.class|default('') ~ widget_class)|trim}) -%}
-    {% endif -%}
-    {%- if type is defined and type in ['range', 'color'] %}
-        {# Attribute "required" is not supported #}
-        {% set required = false %}
-    {% endif -%}
-    {{- parent() -}}
-{%- endblock form_widget_simple %}
+```php
+# RecipeType.php
 
-{%- block widget_attributes -%}
-    {%- if not valid %}
-        {% set attr = attr|merge({class: (attr.class|default('') ~ ' is-invalid')|trim}) %}
-    {% endif -%}
-    {{ parent() }}
-{%- endblock widget_attributes -%}
+$builder
+    ->add('slug', TextType::class, [
+        'required' => false,
+        'constraints' => new Sequentially ([
+            new Length(min: 10),
+            new Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Ce slug n'est pas valide")
+        ])
+    ])
+;
+```
 
-{%- block button_widget -%}
-    {%- set attr = attr|merge({class: (attr.class|default('btn-secondary') ~ ' btn')|trim}) -%}
-    {{- parent() -}}
-{%- endblock button_widget %}
+On peut mettre la contrainte directement dans l'entité
 
-{%- block submit_widget -%}
-    {%- set attr = attr|merge({class: (attr.class|default('btn-primary'))|trim}) -%}
-    {{- parent() -}}
-{%- endblock submit_widget %}
+```php
+# Recipe.php
 
-{%- block checkbox_widget -%}
-    {%- set attr_class = attr_class|default(attr.class|default('')) -%}
-    {%- set row_class = '' -%}
-    {%- if 'btn-check' not in attr_class -%}
-        {%- set attr_class = attr_class ~ ' form-check-input' -%}
-        {%- set row_class = 'form-check' -%}
-    {%- endif -%}
-    {%- set attr = attr|merge({class: attr_class|trim}) -%}
-    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
-    {%- if 'checkbox-inline' in parent_label_class %}
-        {%- set row_class = row_class ~ ' form-check-inline' -%}
-    {% endif -%}
-    {%- if 'checkbox-switch' in parent_label_class %}
-        {%- set row_class = row_class ~ ' form-switch' -%}
-    {% endif -%}
-    {%- if row_class is not empty -%}
-        <div class="{{ row_class }}">
-    {%- endif -%}
-    {{- form_label(form, null, { widget: parent() }) -}}
-    {%- if row_class is not empty -%}
-        </div>
-    {%- endif -%}
-{%- endblock checkbox_widget %}
+namespace App\Entity;
 
-{%- block radio_widget -%}
-    {%- set attr_class = attr_class|default(attr.class|default('')) -%}
-    {%- set row_class = '' -%}
-    {%- if 'btn-check' not in attr_class -%}
-        {%- set attr_class = attr_class ~ ' form-check-input' -%}
-        {%- set row_class = 'form-check' -%}
-    {%- endif -%}
-    {%- set attr = attr|merge({class: attr_class|trim}) -%}
-    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
-    {%- if 'radio-inline' in parent_label_class -%}
-        {%- set row_class = row_class ~ ' form-check-inline' -%}
-    {%- endif -%}
-    {%- if row_class is not empty -%}
-        <div class="{{ row_class }}">
-    {%- endif -%}
-    {{- form_label(form, null, { widget: parent() }) -}}
-    {%- if row_class is not empty -%}
-        </div>
-    {%- endif -%}
-{%- endblock radio_widget %}
+use App\Repository\RecipeRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 
-{%- block choice_widget_collapsed -%}
-    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-select')|trim}) -%}
-    {{- parent() -}}
-{%- endblock choice_widget_collapsed -%}
+#[ORM\Entity(repositoryClass: RecipeRepository::class)]
+class Recipe
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-{%- block choice_widget_expanded -%}
-    <div {{ block('widget_container_attributes') }}>
-        {%- for child in form %}
-            {{- form_widget(child, {
-                parent_label_class: label_attr.class|default(''),
-                translation_domain: choice_translation_domain,
-                valid: valid,
-            }) -}}
-        {% endfor -%}
-    </div>
-{%- endblock choice_widget_expanded %}
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 5)]
+    private ?string $title = null;
 
-{# Labels #}
-
-{%- block form_label -%}
-    {% if label is not same as(false) -%}
-        {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
-        {%- if compound is defined and compound -%}
-            {%- set element = 'legend' -%}
-            {%- if 'col-form-label' not in parent_label_class -%}
-                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' col-form-label' )|trim}) -%}
-            {%- endif -%}
-        {%- else -%}
-            {%- set row_class = row_class|default(row_attr.class|default('')) -%}
-            {%- set label_attr = label_attr|merge({for: id}) -%}
-            {%- if 'col-form-label' not in parent_label_class -%}
-                {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ('input-group' in row_class ? ' input-group-text' : ' form-label') )|trim}) -%}
-            {%- endif -%}
-        {%- endif -%}
-    {%- endif -%}
-    {{- parent() -}}
-{%- endblock form_label %}
-
-{%- block checkbox_radio_label -%}
-    {#- Do not display the label if widget is not defined in order to prevent double label rendering -#}
-    {%- if widget is defined -%}
-        {%- set label_attr_class = label_attr_class|default(label_attr.class|default('')) -%}
-        {%- if 'btn' not in label_attr_class -%}
-            {%- set label_attr_class = label_attr_class ~ ' form-check-label' -%}
-        {%- endif -%}
-        {%- set label_attr = label_attr|merge({class: label_attr_class|trim}) -%}
-        {%- if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
-        {%- endif -%}
-        {%- if required -%}
-            {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) -%}
-        {%- endif -%}
-        {%- if parent_label_class is defined -%}
-            {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|replace({'checkbox-inline': '', 'radio-inline': ''})|trim}) -%}
-        {%- endif -%}
-
-        {{ widget|raw }}
-        <label{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
-            {%- if label is not same as(false) -%}
-                {{- block('form_label_content') -}}
-            {%- endif -%}
-        </label>
-    {%- endif -%}
-{%- endblock checkbox_radio_label %}
-
-{# Rows #}
-
-{%- block form_row -%}
-    {%- if compound is defined and compound -%}
-        {%- set element = 'fieldset' -%}
-    {%- endif -%}
-    {%- set widget_attr = {} -%}
-    {%- if help is not empty -%}
-        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
-    {%- endif -%}
-    {%- set row_class = row_class|default(row_attr.class|default('mb-3')|trim) -%}
-    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: row_class})} %}{{ block('attributes') }}{% endwith %}>
-        {%- if 'form-floating' in row_class -%}
-            {{- form_widget(form, widget_attr) -}}
-            {{- form_label(form) -}}
-        {%- else -%}
-            {{- form_label(form) -}}
-            {{- form_widget(form, widget_attr) -}}
-        {%- endif -%}
-        {{- form_help(form) -}}
-        {{- form_errors(form) -}}
-    </{{ element|default('div') }}>
-{%- endblock form_row %}
-
-{%- block button_row -%}
-    <div{% with {attr: row_attr|merge({class: row_attr.class|default('mb-3')|trim})} %}{{ block('attributes') }}{% endwith %}>
-        {{- form_widget(form) -}}
-    </div>
-{%- endblock button_row %}
-
-{# Errors #}
-
-{%- block form_errors -%}
-    {%- if errors|length > 0 -%}
-        {%- for error in errors -%}
-            <div class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %} d-block">{{ error.message }}</div>
-        {%- endfor -%}
-    {%- endif %}
-{%- endblock form_errors %}
-
-{# Help #}
-
-{%- block form_help -%}
-    {% set row_class = row_attr.class|default('') %}
-    {% set help_class = ' form-text' %}
-    {% if 'input-group' in row_class %}
-        {#- Hack to properly display help with input group -#}
-        {% set help_class = ' input-group-text' %}
-    {% endif %}
-    {%- if help is not empty -%}
-        {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ help_class ~ ' mb-0')|trim}) -%}
-    {%- endif -%}
-    {{- parent() -}}
-{%- endblock form_help %}
-
+    #[ORM\Column(length: 255)]
+    #[Assert\Sequentially([
+        new Assert\Length(min: 5),
+        new Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Ce slug n'est pas valide")
+    ])]
+    private ?string $slug = null;
+}
 ```

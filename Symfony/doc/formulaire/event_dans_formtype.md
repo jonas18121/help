@@ -1,5 +1,7 @@
 # Comprendre les events dans le FormType
 
+- [Validation Constraints Reference](https://symfony.com/doc/current/reference/constraints.html)
+
 ### Dans le FormType pour créer des slugs automatiquement
 
 Ici on va créer le slug à partir du titre de la recette après que l'utilisateur appuie sur le bouton submit
