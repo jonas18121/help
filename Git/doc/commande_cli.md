@@ -391,12 +391,42 @@ près avoir effectué ces étapes, votre référence de branche devrait pointer 
 > Cependant, l'utilisation du signe plus dans `git push` est une opération puissante et peut entraîner la perte de données si elle est utilisée de manière incorrecte. Il est important de l'utiliser avec prudence  et de s'assurer que vous comprenez les implications de cette action, en particulier si d'autres collaborateurs travaillent sur la même branche.
 
 
+### Vue exhaustive de toutes les branches à la fois locales et distantes dans notre dépôt Git
 
+La commande `git branch -a` affiche la liste de toutes les branches disponibles à la fois localement et sur le serveur distant (d'où le suffixe "-a" pour "all"). 
 
+```php
+git branch -a
 
+# Exemple de retour :
 
+ develop
+* form
+  master
+  orm
+  remotes/origin/develop
+  remotes/origin/form
+  remotes/origin/master
+  remotes/origin/orm
+```
 
+Voici ce que cette commande fait en détail :
 
+- **Liste des branches locales:** La commande affiche d'abord toutes les branches que vous avez créées localement sur votre machine. Ces branches sont celles que vous avez créées pour travailler sur des fonctionnalités spécifiques, des correctifs de bugs, ou d'autres tâches dans votre projet.
+
+- **Liste des branches distantes:** Ensuite, la commande affiche toutes les branches disponibles sur le serveur distant. Ces branches sont généralement partagées entre plusieurs développeurs travaillant sur le même projet. Vous pouvez les télécharger localement avec git fetch ou git pull.
+
+- **Identification des branches suivies:** Les branches distantes sont généralement précédées d'origine/ (ou d'un autre nom de dépôt distant) pour indiquer leur provenance. Par exemple, si vous avez un dépôt distant nommé "origin", vous verrez les branches distantes sous la forme "origin/nom_de_la_branche".
+
+### Synchroniser votre dépôt local avec le dépôt distant en récupérant les nouvelles modifications et supprimer les références locales qui ne sont plus pertinentes sur le dépôt distant
+
+1. **Mise à jour des références distantes :** Tout d'abord, elle met à jour votre dépôt local avec les nouvelles références et les commits qui ont été ajoutés au dépôt distant depuis la dernière fois que vous avez récupéré `(fetch)`.
+
+2. **Nettoyage des références locales obsolètes :** Ensuite, l'option `--prune` (ou `-p` en version courte) supprime les références locales qui ne sont plus valides sur le dépôt distant. Cela signifie qu'elle supprime les références locales aux branches qui ont été supprimées sur le serveur distant depuis la dernière mise à jour.
+
+```php
+git fetch --prune
+```
 
 ## Fusionne 2 branch comme git merge 
 
