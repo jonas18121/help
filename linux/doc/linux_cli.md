@@ -185,9 +185,11 @@ Cela se remplace lnpar un lien symbolique vers un shell (ou tout autre exécutab
 - Renommer le fichier adminer-4.8.1-mysql.php en adminer.php
 - Se connecter au serveur du projet en question
 - Puis executer le commande ci-dessous (sinon on peut mettre le fichier adminer.php dans projet-preprod.fr/app/public via FileZila)
+
 ```ps
 scp -P 22 ~/Desktop/adminer.php name_id@141.95.278.81:/var/www/projet-preprod.fr/app/public
 ```
+
  `~/Desktop/adminer.php` représente l'endroit ou le fichier adminer.php a été télécharger dans ma machine
 
 `ubuntu@141.94.222.87` représente l'identifiant et l'ip sur serveur
@@ -304,3 +306,27 @@ sudo cp -r -u /usr/local/bin/symfony /usr/bin/symfony # copier symfony.exe de /u
 ```ps
 cat /etc/os-release 
 ```
+
+### Utiliser la commande scp (Secure Copy Protocol) pour télécharger des fichiers depuis un serveur distant vers votre PC via une connexion SSH :
+```bash
+scp -P 22 name_user_of_server@ip_server:/chemin/du/fichier/local /chemin/de/destination/sur/votre/ordinateur
+```
+
+Explications :
+
+- `name_user_of_server` est votre nom d'utilisateur sur le serveur distant.
+
+- `ip_server` est l'adresse IP ou le nom de domaine du serveur distant.
+
+- `/chemin/du/fichier/local` est le chemin du fichier sur le serveur distant que vous souhaitez télécharger.
+
+- `/chemin/de/destination/sur/votre/ordinateur` est le chemin de destination sur votre PC où vous souhaitez enregistrer le fichier téléchargé.
+
+Exemple :
+```bash
+scp john@example.com:/home/john/documents/document.txt /chemin/local/sur/votre/ordinateur
+```
+
+Cette commande téléchargera le fichier `document.txt` du répertoire `/home/john/documents/` sur le serveur distant `example.com` dans le répertoire local `/chemin/local/sur/votre/ordinateur`.
+
+Assurez-vous d'avoir les autorisations nécessaires pour accéder au fichier sur le serveur distant et que votre connexion SSH est configurée correctement.
