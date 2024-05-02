@@ -25,11 +25,6 @@ SELECT usename FROM pg_user;
 \q
 ```
 
-### Sortir du prompt de postgres :
-```bash
-\q
-```
-
 ### Créer une BDD
 ```bash
 CREATE DATABASE test_jonas;
