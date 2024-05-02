@@ -67,7 +67,7 @@ select * from pg_catalog.pg_tables where schemaname='public';
 
 \d
 
-# Appuyer sur la touche pour voir plus de table lorsque c'est écrit --- more ---
+# Appuyer sur la touche espace pour voir plus de table lorsque c'est écrit --- more ---
 
 # Appuyer sur la touche q pour quitter
 q
