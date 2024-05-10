@@ -274,9 +274,24 @@ docker exec -u 0 -it <nom_ou_ID_du_conteneur> /bin/bash
 docker exec -u 0 -it <nom_ou_ID_du_conteneur> bash
 ```
 
+## Afficher les logs d'un conteneur Docker 
 
 
+Pour afficher les logs d'un conteneur Docker nommé "name_container", vous pouvez utiliser la commande suivante :
 
+```bash
+docker logs name_container
+```
+
+Remplacez "name_container" par le nom du conteneur Docker dont vous souhaitez consulter les logs. Cette commande affichera les logs du conteneur, ce qui peut vous fournir des informations sur ce qui s'est passé à l'intérieur du conteneur, y compris les erreurs rencontrées.
+
+### Si vous souhaitez également voir les logs en temps réel (comme un suivi de journal), vous pouvez utiliser l'option -f :
+
+```bash
+docker logs -f name_container
+```
+
+Cela affichera les logs en temps réel et les mettra à jour lorsque de nouveaux logs seront générés dans le conteneur. C'est particulièrement utile pour le débogage en temps réel lors du développement ou de la résolution de problèmes dans un environnement de production.
 
 # Seulment pour Linux
 
