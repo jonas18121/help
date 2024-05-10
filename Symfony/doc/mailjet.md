@@ -132,3 +132,22 @@ class RegisterController extends AbstractController
     }
 }
 ```
+
+### Configuration du fichier .env du projet Symfony, si pas de dns
+
+```bash
+# ... variables
+
+###> symfony/mailer ###
+MAILER_DSN=null://null
+###< symfony/mailer ###
+```
+
+
+### Configuration du fichier config/packages/mailer.yaml du projet Symfony, si pas de dns
+
+```yaml
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+```
