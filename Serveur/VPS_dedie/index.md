@@ -38,3 +38,8 @@ Ce Seveur dédié qui a été divisé en 4 parties pourra avoir jusqu'à 4 clien
 [Serveur VPS Hostinger pas cher](https://www.hostinger.fr/vps)
 
 [hostmyservers.fr](https://www.hostmyservers.fr/vps-ssd)
+
+
+## Nom de domaine gratuit
+
+[Freenom](https://www.freenom.com/fr/index.html?lang=fr)
