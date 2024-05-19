@@ -133,7 +133,7 @@ class RegisterController extends AbstractController
 }
 ```
 
-### Configuration du fichier .env du projet Symfony, si pas de dns
+### Configuration du fichier .env du projet Symfony, si pas de dns (Surement à supprimer cette etape)
 
 ```bash
 # ... variables
