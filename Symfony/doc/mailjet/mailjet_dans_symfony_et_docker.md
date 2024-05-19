@@ -1,4 +1,4 @@
-# Mailjet
+# Mailjet dans un projet symfony et qui tourne sous docker
 
 Mailjet est une autre solution que Swifmailer pour envoyer des email avec Symfony.
 Il permet a une équipe marketing qui ne connaissent rien au code de configurer et customiser un email, sans faire du code. 
