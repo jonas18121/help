@@ -33,7 +33,8 @@ when@local:
             #storage_factory_id: session.storage.factory.php_bridge
             #storage_id: session.storage.php_bridge
             handler_id: session.handler.native_file
-            save_path: '/var/lib/php/session'
+            save_path: '/app/%env(USER_IM)%/log/session'
+            # save_path: '/var/lib/php/session'
 
         #esi: true
         #fragments: true
@@ -46,8 +47,8 @@ when@local:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
-            # save_path: '/app/%env(USER_IM)%/log/session'
-            save_path: '/var/lib/php/session'
+            save_path: '/app/%env(USER_IM)%/log/session'
+            # save_path: '/var/lib/php/session'
 
 # Environnement dev
 when@dev:
