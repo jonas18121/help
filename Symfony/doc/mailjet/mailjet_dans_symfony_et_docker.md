@@ -117,7 +117,7 @@ MAILER_DSN=smtp://maildev:1025
 ###< symfony/mailer ###
 ```
 
-### Configuration du fichier config/packages/mailer.yaml du projet Symfony, si pas de dns
+### Configuration du fichier config/packages/mailer.yaml du projet Symfony
 
 ```yaml
 framework:
