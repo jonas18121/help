@@ -259,7 +259,7 @@ Are you sure you want to continue? [y/N]
 
 ### Supprimer un volume, après avoir fait un docker system prune -a --volumes
 
-- Après avoir fait un docker system prune -a --volumes, le volume du projet peut ne pas être supprimer. faire les commande 
+- Après avoir fait un docker system prune -a --volumes, le volume du projet peut ne pas être supprimer. faire les commandes suivante : 
 
 ```bash
 # Arrêter le conteneur MySQL
@@ -298,11 +298,11 @@ docker ps
 
 
 ```ps
-docker exec -u 0 -it <nom_ou_ID_du_conteneur> /bin/bash
+docker exec -u 0 -it nom_ou_ID_du_conteneur /bin/bash
 
 # ou
 
-docker exec -u 0 -it <nom_ou_ID_du_conteneur> bash
+docker exec -u 0 -it nom_ou_ID_du_conteneur bash
 ```
 
 ## Afficher les logs d'un conteneur Docker 
