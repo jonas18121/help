@@ -32,6 +32,12 @@ exemple :
 ```bash
 docker exec -it contenaire_mysql mysql -u user_bdd -p
 ```
+###  Se connecter à phpmyadmin en local depuis un terminal sur un projet symfony qui est sous docker avec un utilisateur root
+
+```bash
+docker exec -it contenaire_mysql mysql -u root -p
+```
+
 ## Déconnexion à Mysql
 
 ```sql
