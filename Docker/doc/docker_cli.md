@@ -65,7 +65,10 @@
 
     > docker-compose up --build
 
-
+### Voir les logs d'un service.
+```bash
+docker-compose logs name_services
+```
 
 # La commande docker
 
@@ -253,6 +256,34 @@ Are you sure you want to continue? [y/N]
 ### Supprimer un volume
 
     > docker volume rm <nom_volume>
+
+### Supprimer un volume, après avoir fait un docker system prune -a --volumes
+
+- Après avoir fait un docker system prune -a --volumes, le volume du projet peut ne pas être supprimer. faire les commande 
+
+```bash
+# Arrêter le conteneur MySQL
+docker stop mysql-container
+
+# Supprimer le conteneur MySQL
+docker rm mysql-container
+
+# ou 
+docker systeme prune -a --volumes
+
+# ------------- ENSUITE --------------
+
+# Lister les volumes Docker
+docker volume ls
+
+# Supposons que le volume s'appelle mysql-data, supprimer le volume
+docker volume rm mysql-data
+
+# ------------- ENSUITE --------------
+
+# Recréer un conteneur MySQL vierge
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
+```
 
 
 ## Se mettre en utilisateur root dans un container docker
