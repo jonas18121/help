@@ -69,24 +69,22 @@ class PascalCase {
 ```
 
 ---
-### TODO a finir
-
 
 ### PHPDoc
 
-From PHP 7.0 onwards, it is possible to define in and out parameter types without the need to use PHPDoc. For this reason, the use of PHPDoc when no further information is added is considered redundant and to be avoided.
+À partir de PHP 7.0, il est possible de définir des types de paramètres sans avoir à utiliser PHPDoc. Pour cette raison, l’utilisation de PHPDoc lorsqu’aucune information supplémentaire n’est ajoutée est considérée comme redondante et à éviter.
 
-When further information _can_ be added using PHPDoc, _all_ information should then be added because a small duplication is preferable to having two partial sources of data which then need to be combined by the reader. These are the main situations when PHPDoc use is required.
+Lorsque des informations complémentaires _can_ sont ajoutées à l’aide de PHPDoc, les informations _all_ doivent alors être ajoutées car une petite duplication est préférable à deux sources partielles de données qui doivent ensuite être combinées par le lecteur. Ce sont les principales situations où l’utilisation de PHPDoc est requise.
 
-#### Documenting exceptions
+#### Documentation des exceptions
 
-If within a function an exception is thrown (both directly with `throw`, or inside another function which is called), it is _mandatory_ to add a `@throws` annotation in the PHPDoc block. The only exception to this rule is when having to work with objects like `DateTimeImmutable` which technically can throw an exception during construction, but only when the given string is invalid and often we can be reasonable sure that this will not be the case. In all other scenarios, exceptions must be documented.
+Si dans une fonction une exception est levée (à la fois directement avec 'throw', ou à l’intérieur d’une autre fonction qui est appelée), il est obligatoire d’ajouter une annotation '@throws' dans le bloc PHPDoc. La seule exception à cette règle est lorsqu’il faut travailler avec des objets comme « DateTimeImmutable » qui techniquement peut lancer une exception pendant la construction, mais seulement lorsque la chaîne donnée est invalide et souvent nous pouvons être raisonnablement sûrs que ce ne sera pas le cas. Dans tous les autres scénarios, les exceptions doivent être documentées.
 
-#### Documenting arrays
+#### Documentation des tableaux
 
-In order for static analysis tools to work best with a codebase, all arrays should be documented. PHP arrays can actually represent multiple things, so it's important to always try to convey their real meaning.
+Pour que les outils d’analyse statique fonctionnent mieux avec une base de code, tous les tableaux doivent être documentés. Les tableaux PHP peuvent réellement représenter plusieurs choses, il est donc important de toujours essayer de transmettre leur signification réelle.
 
-This is an example of how common structures should be documented. Further documentation can be found on the [Psalm website](https://psalm.dev/docs/annotating_code/type_syntax/array_types/).
+Voici un exemple de la façon dont les structures communes devraient être documentées. Vous trouverez de la documentation supplémentaire sur le [site Web Psalm](https://psalm.dev/docs/annotating_code/type_syntax/array_types/).
 
 ```php
 /** @var list<int> */
@@ -123,17 +121,17 @@ $array = [
 ];
 ```
 
-Important: even though there is a way of documenting heterogeneous arrays, it is recommended to avoid using them and instead prefer the creation of ad-hoc value objects.
+Important : même s’il existe un moyen de documenter les tableaux hétérogènes, il est recommandé d’éviter de les utiliser et de préférer la création d’objets de valeur ad-hoc.
 
 ### Misc
 
-#### Importing classes and other elements
+#### Importer des classes et d’autres éléments
 
-For the sake of consistency (and a slight performance benefit), all elements that can be `use`d should be `use`d. This means that all classes (including those in the global namespace), all functions and all constants should be added to the `use` list at the beginning of a file. This can be easily done automatically using PHP-CS-Fixer, and avoids cluttering the code with backslashes for no real reason. All uses in the rest of the code must then refer to the imported symbol, without any namespace reference added to it.
+Par souci d’uniformité (et d’un léger avantage en matière de rendement), tous les éléments qui peuvent être utilisés devraient l’être. Cela signifie que toutes les classes (y compris celles de l’espace de noms global), toutes les fonctions et toutes les constantes doivent être ajoutées à la liste d’utilisation au début d’un fichier. Cela peut être facilement fait automatiquement en utilisant PHP-CS-Fixer, et évite d’encombrer le code avec des barres obliques inversées sans raison réelle. Toutes les utilisations dans le reste du code doivent alors faire référence au symbole importé, sans aucune référence d’espace de noms ajoutée.
 
-#### Fluent interfaces
+#### Interfaces fluides
 
-The rule of thumb with fluent interfaces is to have one _action_ per line. It's considered bad practice to use fluent interfaces within control structures and function calls.
+La règle de base avec des interfaces fluides est d’avoir une action par ligne. Il est considéré comme une mauvaise pratique d’utiliser des interfaces fluides dans les structures de contrôle et les appels de fonction.
 
 ```php
 // Yes
@@ -150,9 +148,9 @@ $this
 $this->service->getStartDate()->format('Y-m-d');
 ```
 
-Accessing a property with `$this->property` does not count as an _action_, so as it's shown in the first example, having `$this->service->getStartDate()` in one line is valid.
+L’accès à une propriété avec $this->property ne compte pas comme une action, de sorte que comme le montre le premier exemple, avoir $this->service->getStartDate()” dans une ligne est valide.
 
-Exception: when function parameters must be broken up in separate lines, it may be helpful to not have an action in the first line in order to better align the following calls:
+Exception : lorsque les paramètres de fonction doivent être divisés en lignes séparées, il peut être utile de ne pas avoir d’action sur la première ligne afin de mieux aligner les appels suivants :
 
 ```php
 $builder
@@ -164,26 +162,26 @@ $builder
     ]);
 ```
 
-When breaking up a fluent interface in multiple lines, the basic unit of indentation (4 spaces) must be used. Indentation that changes according to the length of the name of a variable is considered brittle and should be avoided.
+Lors de la séparation d’une interface fluide en plusieurs lignes, l’unité de base de l’indentation (4 espaces) doit être utilisée. L’indentation qui change en fonction de la longueur du nom d’une variable est considérée comme fragile et doit être évitée.
 
 ```php
-// Yes: renaming any variable will not affect other lines
+// Yes: Renommer une variable n’affectera pas les autres lignes
 $queryBuilder = $entityManager->createQueryBuilder()
     ->from(MyEntity::class, 'e');
 
-// No: renaming the entity manager or query builder variable
-// will cause all following lines to change indentation
+// No: renommer la variable du gestionnaire d’entités ou du générateur de requêtes
+// fera changer l’indentation de toutes les lignes suivantes
 $queryBuilder = $entityManager->createQueryBuilder()
                               ->from(MyEntity::class, 'e');
 ```
 
-#### Constant visibility
+#### Visibilité constante
 
-Just like class properties, constants must have their visibility modifier declared. Also just like properties, private is always preferrable to public.
+Tout comme les propriétés de classe, les constantes doivent avoir leur modificateur de visibilité déclaré. Tout comme les propriétés, le privé est toujours préférable au public.
 
-#### Multiline ternary conditions
+#### Conditions ternaire divisé en plusieurs lignes 
 
-Whenever a ternary operator requires to be broken up into multiple lines, the recommended way of doing this is the following:
+Lorsqu’un opérateur ternaire doit être divisé en plusieurs lignes, la méthode recommandée est la suivante :
 
 ```php
 $value = $condition
@@ -191,15 +189,15 @@ $value = $condition
     : 'value if false';
 ```
 
-This way every result is clearly visible depending on which symbol the line starts with, with `?` at the beginning of the `true` path, and `:` at the beginning of the `false` path.
+De cette façon, chaque résultat est clairement visible selon le symbole avec lequel la ligne commence, avec ?, au début du chemin “ vrai ” et “ :” au début du chemin “ faux ”.
 
-## Best practices
+## Bonnes pratiques
 
-### Generic
+### Générique
 
-#### Accessing a property from within a class
+#### Accéder à une propriété depuis une classe
 
-A property should be accessed directly, and using a getter for this should be considered an anti-pattern:
+Une propriété doit être accessible directement, et l’utilisation d’un getter pour cela doit être considérée comme un anti-pattern :
 
 ```php
 // No
@@ -209,9 +207,9 @@ $this->getAuthor()->getName();
 $this->author->getName();
 ```
 
-#### Variable assignment within control structures
+#### Affectation de variables dans les structures de contrôle
 
-Except for a few specific cases, assignign values to a variable within a control structure (such as `if`, `while`, etc) should be considered a bad practice.
+À l’exception de quelques cas particuliers, l’attribution de valeurs à une variable dans une structure de contrôle (p. ex., « si », « pendant », etc.) devrait être considérée comme une mauvaise pratique.
 
 ```php
 // Yes:
@@ -222,19 +220,19 @@ if ($author) {
 if ($author = $blogPost->getAuthor()) {
 ```
 
-#### Domain and application exceptions
+#### Exceptions de domaine et d’application
 
-Whenever a public method must throw an exception, this must be either a domain or application-level exception and never a PHP built-in one. Domain exceptions should extend an application-specific `DomainException` and not from others like `RuntimeException` or `InvalidArgumentException`, because a domain exception's goal should be to communicate a message specific to the domain, and categorizing it using a specific PHP built-in exception does not have any further advantage.
+Chaque fois qu’une méthode publique doit lancer une exception, il doit s’agir d’une exception au niveau du domaine ou de l’application et jamais d’une exception intégrée à PHP. Les exceptions de domaine devraient étendre une « DomainException » propre à une application et non pas à d’autres comme « RuntimeException » ou « InvalidArgumentException », car l’objectif d’une exception de domaine devrait être de communiquer un message propre au domaine. et le catégoriser en utilisant une exception PHP intégrée spécifique n’a aucun avantage supplémentaire.
 
-Not all exceptions are domain exceptions: according to the separations in 3 levels (domain, application, infrastructure) of a "ports and adapters" architecture (also known as "hexagonal" architecture), some exceptions can be raised from contexts that are not domain-related. For this reason there should be a base `ApplicationException` that serves the same purpose of `DomainException`, but it's used within application boundaries.
+Toutes les exceptions ne sont pas des exceptions de domaine : selon les séparations en 3 niveaux (domaine, application, infrastructure) d’une architecture "ports et adaptateurs" (également appelée architecture "hexagonale"), certaines exceptions peuvent être soulevées à partir de contextes qui ne sont pas liés au domaine. Pour cette raison, il devrait y avoir une base « ApplicationException » qui sert le même objectif que « DomainException », mais elle est utilisée dans les limites de l’application.
 
-The infrastructure layer does not have a base exception because infrastructure components are integrated using domain or application ports (interfaces), and these interfaces must define themselves which exception can be thrown, therefore making these exceptions part of the domain layer.
+La couche d’infrastructure n’a pas d’exception de base car les composants d’infrastructure sont intégrés à l’aide de ports de domaine ou d’application (interfaces), et ces interfaces doivent définir elles-mêmes quelle exception peut être levée, C’est pourquoi ces exceptions font partie de la couche de domaine.
 
-[This article](https://medium.com/@davide.borsatto/not-just-for-exceptional-circumstances-7692f2775a5a) discusses further the use of exceptions.
+[Cet article](https://medium.com/@davide.borsatto/not-just-for-exceptional-circumstances-7692f2775a5a) traite davantage de l’utilisation des exceptions.
 
-#### Named constructors for exceptions
+#### Constructeurs nommés pour les exceptions
 
-While not mandatory, it is strongly recommended to use named constructors for creating exceptions:
+Bien qu’il ne soit pas obligatoire, il est fortement recommandé d’utiliser des constructeurs nommés pour créer des exceptions :
 
 ```php
 class BlogPostException extends DomainException
@@ -246,28 +244,28 @@ class BlogPostException extends DomainException
 }
 ```
 
-This type of use makes exception messages more consistent, and has the side effect of making error messages easily accessible in unit test contexts, so it's possible to test that a function has thrown *exactly* the expected exception.
+Ce type d’utilisation rend les messages d’exception plus cohérents et a pour effet secondaire de rendre les messages d’erreur facilement accessibles dans des contextes de test unitaires, il est donc possible de tester qu’une fonction a lancé *exactement* l’exception attendue.
 
-#### Use of DateTimeImmutable
+#### Utilisation de DateTimeImmutable
 
-Wherever possibile, it is preferable to use `DateTimeImmutable` in place of `DateTime`. This is especially true for in and our parameters of functions, as the immutability guarantees that the value will not be changed by the function itself.
+Dans la mesure du possible, il est préférable d’utiliser `DateTimeImmutable` au lieu de `DateTime`. Ceci est particulièrement vrai pour `in` et nos paramètres de fonctions, car l’immutabilité garantit que la valeur ne sera pas modifiée par la fonction elle-même.
 
-#### Difference between Value Object and Data Transfer Object
+#### Différence entre l’objet de valeur et l’objet de transfert de données
 
-Within the context of a Symfony application it is useful to agree on these definitions:
+Dans le cadre d’une application Symfony, il est utile de s’accorder sur ces définitions :
 
-- A _value object_ is an immutable object that once it is built, is in a valid state. These objects require all mandatory parameters to be passed using the constructor, and provide no nullable parameters unless the nullability is explicitely defined by domain rules.
-  If more ways to create a value object are found, these ways can be expressed using different named constructors. It's considered good practice not to mix usage of regular constructor and named constructors: should the second ones be used, it is recommended to define the actual constructor as private.
-  Value objects can define getters to access properties, but no setters should be available. They can have methods that provide some sort of computed data using the internal state.
-  As they are simple containers of data, they shoud not have access to objects that can be classified as services. The only parameters that can be passed to the constructors are those need to determine the internal state of the value object, but they can't be used to provide data computation functionality.
-  According to DDD guidelines, a value object represents a standalone domain concept. Two value objects are considered the _same_ (regardless of PHP identity) if all of their properties have the same value. This is unlike entities, which are supposed to have some sort of identifier that determines the identity.
-- A _data transfer object_ is an object that can be created in an invalid state, and provides ways (methods or public properties) to change its internal state. It can be used as an object where data can be "accumulated" from different sources, and maybe as an object that is used as an intermediate state between forms and entities, as Symfony forms require that all object properties be nullable.
+- Un objet _value object_ est un objet immuable qui, une fois construit, est dans un état valide. Ces objets nécessitent que tous les paramètres obligatoires soient passés à l’aide du constructeur, et ne fournissent aucun paramètre nul à moins que la nullité ne soit explicitement définie par des règles de domaine.
+  Si d’autres moyens de créer un objet de valeur sont trouvés, ces moyens peuvent être exprimés en utilisant différents constructeurs nommés. Il est considéré comme une bonne pratique de ne pas mélanger l’utilisation de constructeurs réguliers et de constructeurs nommés : si le second est utilisé, il est recommandé de définir le constructeur réel comme privé.
+  Les objets de valeur peuvent définir des getters pour accéder aux propriétés, mais aucun setter ne doit être disponible. Ils peuvent avoir des méthodes qui fournissent une sorte de données calculées en utilisant l’état interne.
+  Comme il s’agit de simples conteneurs de données, ils ne doivent pas avoir accès à des objets pouvant être classés comme des services. Les seuls paramètres qui peuvent être transmis aux constructeurs sont ceux qui doivent déterminer l’état interne de l’objet de valeur, mais ils ne peuvent pas être utilisés pour fournir la fonctionnalité de calcul des données.
+  Selon les directives DDD, un objet de valeur représente un concept de domaine autonome. Deux objets de valeur sont considérés comme _same_ (indépendamment de l’identité PHP) si toutes leurs propriétés ont la même valeur. C’est différent des entités, qui sont censées avoir une sorte d’identifiant qui détermine l’identité.
+- Un objet de transfert de données est un objet qui peut être créé dans un état non valide et qui fournit des moyens (méthodes ou propriétés publiques) de modifier son état interne. Il peut être utilisé comme un objet où les données peuvent être "accumulées" à partir de différentes sources, et peut-être comme un objet qui est utilisé comme un état intermédiaire entre les formes et les entités, car les formes Symfony exigent que toutes les propriétés de l’objet soient nullables.
 
-Because of their immutability, value objects are usually preferable to data transfer objects. The suffix _VO_ is to be avoided, as the object should represent a domain concept, whereas the suffix _DTO_ can be used as they represent technical implementations.
+En raison de leur immuabilité, les objets de valeur sont généralement préférables aux objets de transfert de données. Le suffixe _VO_ doit être évité, car l’objet doit représenter un concept de domaine, tandis que le suffixe _DTO_ peut être utilisé car il représente des implémentations techniques.
 
-#### Always prefer structured, immutable data to unstructured arrays
+#### Préférez toujours les données structurées et immuables aux tableaux non structurés
 
-The use of arrays to transfer data from two different objects if strongly discouraged, except for when they are simple ordered lists of elements (so their type can be defined as `list<Type>`). The reason for this is that can represent heterogeneous and hard to document values, even when using proper type annotations. For example, a type `array<string, MyClass>` says that keys are strings, but it does not convey what these strings are and therefore it needs further documentation. Using these structures within a class is not a problem as the context is completely available in the same place, but they are to be avoided for communication between different classes as encapsulation is broken due to the receiver having to know implementation details in order to use the value. For these reasons, uses like these are considered bad practices:
+L’utilisation de tableaux pour transférer des données à partir de deux objets différents est fortement déconseillée, sauf lorsqu’il s’agit de simples listes ordonnées d’éléments (leur type peut donc être défini comme `list<Type>`). La raison en est que cela peut représenter des valeurs hétérogènes et difficiles à documenter, même en utilisant des annotations de type appropriées. Par exemple, un type `array<string, MyClass>` indique que les clés sont des chaînes, mais il ne transmet pas ce que ces chaînes sont et donc il a besoin de plus de documentation. L’utilisation de ces structures au sein d’une classe n’est pas un problème car le contexte est complètement disponible au même endroit, mais ils doivent être évités pour la communication entre les différentes classes car l’encapsulation est cassée car le récepteur doit connaître les détails d’implémentation afin d’utiliser la valeur. Pour ces raisons, de telles utilisations sont considérées comme :
 
 ```php
 class MyService
@@ -289,15 +287,15 @@ class MyService
 }
 ```
 
-Situations like this warrant the creation of specific objects, preferably immutable, which have the side effect of using less memory as PHP can better optimize their usage.
+Des situations comme celle-ci justifient la création d’objets spécifiques, de préférence immuables, qui ont l’effet secondaire d’utiliser moins de mémoire car PHP peut mieux optimiser leur utilisation.
 
-#### Avoid using abstract classes as type declarations
+#### Évitez d’utiliser des classes abstraites comme déclarations de type
 
-An abstract class does not represent a promise, but rather a partial implementation. For this reason, it is semantically incorrect to use it as type declaration, as a type declaration defines the promise of a behavior (which should be defined by an interface) or a very specific implementation (which uses an actual class). Using an abstract class is a wrong way of categorizing objects that share some behavior, and for this reason interfaces should be used instead.
+Une classe abstraite ne représente pas une promesse, mais plutôt une mise en œuvre partielle. Pour cette raison, il est sémantiquement incorrect de l’utiliser comme déclaration de type, car une déclaration de type définit la promesse d’un comportement (qui doit être défini par une interface) ou une implémentation très spécifique (qui utilise une classe réelle). Utiliser une classe abstraite est une mauvaise façon de catégoriser les objets qui partagent un certain comportement, et pour cette raison, les interfaces doivent être utilisées à la place.
 
 #### FQCN usage
 
-The form `MyClass::class` should be used whenever possible instead of having to manually type the FQCN of a class. This use enables proper code analysis and removed the inconvenience of having to refer to classes using strings, which are inherently brittle and would be difficult to refactor. This syntas should also be used in entity annotations to refer to other classes (like related entities).
+Le formulaire `MyClass::class` doit être utilisé chaque fois que possible au lieu d’avoir à taper manuellement le FQCN d’une classe. Cette utilisation permet une analyse correcte du code et élimine l’inconvénient de devoir se référer à des classes utilisant des chaînes, qui sont intrinsèquement fragiles et seraient difficiles à refactoriser. Ce syntas doit également être utilisé dans les annotations d’entités pour faire référence à d’autres classes (comme les entités liées).
 
 ```php
 // Yes
@@ -315,11 +313,11 @@ public function getClassName(): string
 }
 ```
 
-#### Object to string conversion
+#### Conversion d’objet en chaîne
 
-While PHP natively offers the magic method `__toString()`, which is called automagically whenever an object is converted to a string, this approach relies on implicit behavior which [can be tricky to debug](https://github.com/ShittySoft/symfony-live-berlin-2018-doctrine-tutorial/pull/3) and hard to analyze (there is no easy way to find where some code is casting an object to string).
+Bien que PHP propose nativement la méthode magique `__toString()`, qui est appelée automatiquement chaque fois qu’un objet est converti en chaîne, cette approche repose sur un comportement implicite qui [peut être difficile à déboguer](https://github.com/ShittySoft/symfony-live-berlin-2018-doctrine-tutorial/pull/3) et difficile à analyser (il n’y a pas de moyen facile de trouver où du code lance un objet sur une chaîne).
 
-For this reason, relying on the `__toString()` method is considered a bad practice, and an explicit `toString()` method should be used instead. For scenarios where the `__toString()` method is required by some specific use, both methods must be implemented and `__toString()` must forward to the real implementation.
+Pour cette raison, le recours à la méthode `__toString()` est considéré comme une mauvaise pratique, et une méthode explicite `toString()` devrait être utilisée à la place. Pour les scénarios où la méthode `__toString()` est requise par une utilisation spécifique, les deux méthodes doivent être mises en œuvre et `__toString()` doit être transmise à la mise en œuvre réelle.
 
 ```php
 public function __toString(): string
@@ -335,15 +333,15 @@ public function toString(): string
 
 ### Symfony
 
-# Validation using POST_SUBMIT events in forms
+# Validation à l’aide des événements POST_SUBMIT dans les formulaires
 
-Form validations happen during the `POST_SUBMIT` even, using priority `0`. If an event listener is defined for this even, it must be remembered that according to the priority, the form may or may not have been validated.
+Les validations de formulaire ont lieu pendant le `POST_SUBMIT` même, en utilisant la priorité `0`. Si un écouteur d’événement est défini pour cela même, il faut se rappeler que selon la priorité, le formulaire peut ou non avoir été validé.
 
-# Forcing rendering of collection form fields in Twig
+# Forcer le rendu des champs de formulaire de collecte dans Twig
 
-If in a Twig template a collection form field is rendered using a `for` loop, it must be taken into account that if the collection is empty, Twig will not handle the state properly and will not consider that field to have been rendered. For this reason, it will be wrongly rendered whenever `form_rest` is called.
+Si, dans un modèle Twig, un champ de formulaire de collecte est rendu à l’aide d’une boucle `for`, il faut tenir compte du fait que si la collection est vide, Twig ne traitera pas correctement l’état et ne considérera pas que ce champ a été rendu. Pour cette raison, il sera rendu à tort chaque fois que `form_rest` est appelé. 
 
-To avoid this, a manual call to `setRendered` should be placed as safeguard:
+Pour éviter cela, un appel manuel à `setRendered` doit être placé comme mesure de protection :
 
 ```twig
 {% for field in form.fields %}
@@ -353,43 +351,45 @@ To avoid this, a manual call to `setRendered` should be placed as safeguard:
 {% endfor %}
 ```
 
-#### Service injection and service locators
+#### Injection de service et localisateurs de service
 
-Service retrieval using `$container->get($serviceId)` should be considered deprecated and must be avoided, with proper dependency injection using the constructor to be used instead. For the same reason, accessing repositories using `EntityManagerInterface::getRepository($entityName)` is also considered deprecated.
+La récupération de service utilisant `$container->get($serviceId)` doit être considérée comme obsolète et doit être évitée, avec une injection de dépendance appropriée utilisant le constructeur à la place. Pour la même raison, l’accès aux dépôts à l’aide de `EntityManagerInterface::getRepository($entityName)` est également considéré comme obsolète.
 
-#### Event dispatchers and subscribers
+#### Répartiteurs d’événements et abonnés
 
-Every event subscriber should subscribe to a single event. The method that handles the event should be called `handle`.
+Chaque abonné à un événement devrait s’abonner à un seul événement. La méthode qui gère l’événement devrait s’appeler `handle`.
 
-#### In EntityType forms, prefer choices option over queryBuilder
+#### Dans les formulaires EntityType, préférez l’option de choix à queryBuilder
 
-Creating a form that extends `EntityType`, choices can be set using two options: `choices`, which accepts a parameter of type `list<MyEntity>`, or `queryBuilder`, which accepts either a query builder or a callback that must return the query builder.
+Pour créer un formulaire qui étend `EntityType`, les choix peuvent être définis à l’aide de deux options : `choices`, qui accepte un paramètre de type `list<MyEntity>` ou `queryBuilder`, qui accepte soit un générateur de requête, soit un rappel qui doit renvoyer le générateur de requête.
 
-Things being equal, `choices` should be the preferred option, as the form type can correctly declare its dependency towards the repository, and the repository itself can be configured to return entities and not query builder objects, a behavior which violate the repository pattern.
+Les choses étant égales, `choices` devraient être l’option préférée, car le type de formulaire peut correctement déclarer sa dépendance envers le référentiel, et le référentiel lui-même peut être configuré pour renvoyer des entités et non des objets du générateur de requêtes, un comportement qui viole le modèle du référentiel.
 
-#### In EntityType forms, configure choice_label as callback
+#### Dans EntityType forms, configurer choice_label comme callback
 
-Using the option `choice_label` it is possible to define how Symfony will convert an object into a string (using `__toString()` as fallback). When a custom method must be used, there are two approaches:
+En utilisant l’option `choice_label` il est possible de définir comment Symfony convertira un objet en chaîne (en utilisant `__toString()` comme solution de repli). Lorsqu’une méthode personnalisée doit être utilisée, il y a deux approches :
 
 ```php
+// Solution 1
 'choice_label' => 'customMethod',
-//
+
+// Solution 2
 'choice_label' => function (MyEntity $entity): string {
     return $entity->customMethod();
 },
 ```
 
-The second option, despite longer, is preferable as the method will no longer be called "magically" by Symfony, with the code will be easier to analyze and the uses of the `customMethod` easier to track within the project.
+La deuxième option, bien que plus longue, est préférable car la méthode ne sera plus appelée "magiquement" par Symfony, avec le code sera plus facile à analyser et les utilisations de la `customMethod` plus facile à suivre dans le projet.
 
 #### Collections
 
-Handling with collections must be seen as an implementation details within the entities, and ideally they should not be exposed by the public API. This has several advantages:
-- There is no doubt in what type will be returned (which will always be `list<MyEntity>`)
-- Type hinting can be used without having to resort to the double annotation `Collection|list<MyEntity>`
-- A collection can not be updated from outside the entity
-- Manually handling `setX` methods, we avoid possibile bugs due to lazy loading or overwriting of whole collections
+Le traitement des collections doit être considéré comme un détail d’implémentation au sein des entités, et idéalement, il ne doit pas être exposé par l’API publique. Cela présente plusieurs avantages :
+- Il n’y a aucun doute quant au type qui sera retourné (qui sera toujours `list<MyEntity>`)
+- L’indication de type peut être utilisée sans avoir à utiliser la double annotation `Collection|list<MyEntity>`
+- Une collection ne peut pas être mise à jour depuis l’extérieur de l’entité
+- Gestion manuelle des méthodes `setX` nous évitons les bog
 
-This is a complete example of a correct way of defining methods that work on a collection:
+Voici un exemple complet d’une façon correcte de définir les méthodes qui fonctionnent sur une collection :
 
 ```php
 use Doctrine\Common\Collections\ArrayCollection;
@@ -445,16 +445,19 @@ class Author
     }
 }
 ```
+
+Dans la définition de la propriété, l’interface `Collection` doit être utilisée à la place de l’implémentation `ArrayCollection`, qui est utilisée pour initialiser la valeur. La raison en est que pendant l’exécution, Doctrine écrasera la propriété en utilisant une implémentation différente de `Collection`, qui permet le chargement différé et d’autres fonctionnalités.
+
 In the property definition, the interface `Collection` should be used instead of the `ArrayCollection` implementation, which is used to initialize the value. The reason for this is that during execution, Doctrine will overwrite the property using a different `Collection` implementation, which enables lazy loading and other features.
 
-#### Repository definitions
+#### Définitions du référentiel
 
-If Doctrine repositories need to extend a base service (which should not be the case), they must be defined by extending `Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository`, so there is no need to manually configure the repository and it can be used with autowiring.
+Si les référentiels de doctrine doivent étendre un service de base (ce qui ne devrait pas être le cas), ils doivent être définis en étendant `Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository`, de sorte qu’il n’est pas nécessaire de configurer manuellement le référentiel et qu’il peut être utilisé avec le câblage automatique.
 
-#### Repository return values
+#### Valeurs de retour du référentiel
 
-The repository pattern defines that only entities or simple computation results (like an int for a count operation, or a boolean) should be returned. Returning a query builder object is an infrastructural leak, whereas converting entities into value objects implies that the repository is aware of implementation details of the specific use.
+Le modèle de référentiel définit que seules les entités ou les résultats de calcul simples (comme un int pour une opération de comptage ou un booléen) doivent être retournés. Retourner un objet query builder est une fuite infrastructurelle, alors que la conversion d’entités en objets de valeur implique que le référentiel est conscient des détails d’implémentation de l’utilisation spécifique.
 
-#### Magic "find" methods in repositories
+#### Méthodes magiques de "trouver" dans les dépôts
 
-Doctrine provides magic methods in its base repository services, which can be used as shortcut. The use of these methods, however, should be seen as bad practice, and the definition of custom and explicit methods should be preferable.
+Doctrine fournit des méthodes magiques dans ses services de référentiel de base, qui peuvent être utilisés comme raccourci. L’utilisation de ces méthodes devrait cependant être considérée comme une mauvaise pratique, et la définition de méthodes personnalisées et explicites devrait être préférable.
