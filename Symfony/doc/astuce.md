@@ -956,3 +956,52 @@ class RecipeController extends AbstractController
     }
 }
 ```
+
+### by_reference
+
+- [by_reference](https://symfony.com/doc/current/reference/forms/types/form.html#by-reference)
+
+Dans la plupart des cas, si vous disposez d'un champ `author`, vous vous attendez `setAuthor()` à être appelé sur l'objet sous-jacent.<br> 
+Dans certains cas, `setAuthor()` il peut toutefois ne pas être appelé. La définition `by_reference` sur false garantit que le passeur est appelé dans tous les cas.
+
+Pour expliquer cela davantage, voici un exemple simple :
+
+```php
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+// ...
+
+$builder = $this->createFormBuilder($article);
+$builder
+    ->add('title', TextType::class)
+    ->add(
+        $builder->create('author', FormType::class, ['by_reference' => ?])
+            ->add('name', TextType::class)
+            ->add('email', EmailType::class)
+    )
+```
+
+Si `by_reference` est sur `true`, ce qui suit se produit en coulisses lorsque vous appelez submit()(ou `handleRequest()`) sur le formulaire :
+
+```php
+$article->setTitle('...');
+$article->getAuthor()->setName('...');
+$article->getAuthor()->setEmail('...');
+```
+
+Notez que ce `setAuthor()` n'est pas appelé. L'auteur est modifié par référence.
+
+Si vous définissez `by_referencesur` sur false, la soumission ressemble à ceci :
+
+```php
+$article->setTitle('...');
+$author = clone $article->getAuthor();
+$author->setName('...');
+$author->setEmail('...');
+$article->setAuthor($author);
+```
+
+Donc, tout ce que `by_reference=false` fait réellement, c'est qu'il clone l'objet, ce qui oblige le framework à appeler le setter sur l'objet parent.
+
+De même, si vous utilisez le champ `CollectionType` où vos données de collection sous-jacentes sont un objet (comme avec Doctrine's ArrayCollection), alors `by_reference` doit être défini sur false si vous avez besoin que l'additionneur et le dissolvant (par exemple `addAuthor()` et `removeAuthor()`) soient appelés.
