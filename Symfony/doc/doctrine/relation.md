@@ -1,6 +1,6 @@
 # Travail avec les associations (Working with Associations)
 
-- [](https://www.doctrine-project.org/projects/doctrine-orm/en/3.2/reference/working-with-associations.html#:~:text=Associations%20between%20entities%20are%20represented,when%20calling%20EntityManager%23flush()%20.)
+- [Working with Associations](https://www.doctrine-project.org/projects/doctrine-orm/en/3.2/reference/working-with-associations.html#:~:text=Associations%20between%20entities%20are%20represented,when%20calling%20EntityManager%23flush()%20.)
 
 Voici un exemple, mais aller voir sur le lien ci-dessus
 
