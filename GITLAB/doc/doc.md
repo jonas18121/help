@@ -2,9 +2,9 @@
 
 ## Liste d'emoji GitLab
 
-- Pour GitHub : [yodamad/gitlab-emoji](https://github.com/yodamad/gitlab-emoji)
+- [yodamad/gitlab-emoji](https://github.com/yodamad/gitlab-emoji)
 
-- Pour GitLab : [emoji-cheat-sheet](https://www.webfx.com/tools/emoji-cheat-sheet/)
+- [emoji-cheat-sheet](https://www.webfx.com/tools/emoji-cheat-sheet/)
 
 ## Créer un runner 
 
