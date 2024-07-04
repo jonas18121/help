@@ -232,6 +232,77 @@ git log --oneline XXXX.php
 git commit --amend 
 ```
 
+## Afficher un historique de toutes les modifications (mises à jour) effectuées sur les branches et les références de votre dépôt
+
+- **git reflog** montre une liste de toutes les actions affectant le HEAD de votre dépôt.
+
+- Chaque entrée inclut le hash du commit, le nom de la référence (par exemple, HEAD, nom de la branche) et un message décrivant l'action.
+
+```bash
+git reflog
+
+# Exemple de retour
+
+a1b2c3d (HEAD -> main) HEAD@{0}: commit: Ajout de la fonctionnalité X
+b4c5d6e HEAD@{1}: reset: déplacement vers HEAD^
+d7e8f9g HEAD@{2}: checkout: déplacement de feature-branch vers main
+f1a2b3c HEAD@{3}: commit: Correction du bug Y
+```
+
+2. **Récupération d'un commit perdu** 
+```bash
+git reset --hard a1b2c3d
+
+# ou si vous souhaitez créer une nouvelle branche à partir d'une entrée spécifique du reflog :
+
+git checkout -b branche-recuperation HEAD@{3}
+```
+
+3. **Effacement du reflog**
+- Pour effacer le reflog (à utiliser avec précaution, car cela supprimera toutes les entrées du reflog) :
+
+```bash
+git reflog expire --expire=now --all
+git gc --prune=now
+```
+Cette combinaison expirera toutes les entrées et nettoiera le dépôt.
+
+4. **Afficher le reflog avec la date des commits**
+
+- Pour afficher le reflog avec la date des commits, vous pouvez utiliser l'option --date=iso avec la commande git reflog. Cette option affiche la date et l'heure des actions dans un format ISO 8601, ce qui est lisible et standardisé.
+
+```bash
+git reflog --date=iso
+
+# Exemple de retour
+a1b2c3d (HEAD -> main) HEAD@{0}: 2024-07-04 14:20:30 +0200 commit: Ajout de la fonctionnalité X
+b4c5d6e HEAD@{1}: 2024-07-04 13:15:45 +0200 reset: déplacement vers HEAD^
+d7e8f9g HEAD@{2}: 2024-07-04 12:30:22 +0200 checkout: déplacement de feature-branch vers main
+f1a2b3c HEAD@{3}: 2024-07-03 16:45:00 +0200 commit: Correction du bug Y
+```
+
+4.1. **Autres formats de date :**
+
+Git permet également d'utiliser d'autres formats de date. Voici quelques exemples supplémentaires :
+
+4.1.1 **Relative**
+
+```bash
+git reflog --date=relative
+```
+
+4.1.2 **Local**
+
+```bash
+git reflog --date=local
+```
+
+4.1.3 **Default**
+
+```bash
+git reflog --date=default
+```
+
 ## Récupérer une branche supprimer avec git branch -D
 
 Si vous avez utilisé la commande "git branch -D" pour supprimer une branche dans Git, il est possible de récupérer cette branche si vous avez effectué la suppression de manière récente.
@@ -268,7 +339,7 @@ git branch branch_name commit_hash
 ```
 **Exemple**
 ```ps
-git git branch fix/todo 64715b9b
+git branch fix/todo 64715b9b
 ```
 
 Remplacez "branch_name" par le nom de la branche que vous souhaitez recréer et "commit_hash" par l'identifiant du commit que vous avez trouvé à l'étape précédente.
@@ -439,6 +510,36 @@ git rebase nom_de_la_branch
 ```bash
 git config --global --add safe.directory <path_of_directory>
 ```
+
+## Cloner un projet GitLab/GitHub avec une version spécifique (tag), vous pouvez suivre ces étapes :
+
+1. Cloner le projet 
+```ps
+git clone https://gitlab.com/nom-utilisateur/nom-projet.git
+```
+
+2. Accédez au répertoire du projet cloné 
+```ps
+cd nom-projet
+```
+
+3. Lister les tags disponibles 
+```ps
+cd nom-projet
+```
+
+4. Basculer vers un tag spécifique
+```ps
+git checkout tags/nom-du-tag
+
+# Exemple
+git checkout tags/1.0.5
+
+# ou
+git checkout tags/v1.0.5
+```
+
+**En suivant ces étapes, vous clonnerez le projet GitLab et basculerez vers la version spécifiée par le tag.**
 
 ## Quand on a plusieurs clés SSH et qu'on veut que soit automatiquement choisie la bonne :
 
