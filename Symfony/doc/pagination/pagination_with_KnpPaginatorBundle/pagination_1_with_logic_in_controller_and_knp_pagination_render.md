@@ -12,6 +12,12 @@ composer require knplabs/knp-paginator-bundle
 
 - Avec les information de base qui est dans la doc du bundle, comme ci-dessous
 
+- On peut changer de template ici :
+        - **pagination:** [Additional pagination templates](https://github.com/KnpLabs/KnpPaginatorBundle#additional-pagination-templates)
+        - **sortable:** [Additional sortable templates](https://github.com/KnpLabs/KnpPaginatorBundle?tab=readme-ov-file#additional-sortable-templates)
+        - **filtration:** [Additional filtration templates](https://github.com/KnpLabs/KnpPaginatorBundle?tab=readme-ov-file#additional-filtration-templates)
+        - Si on a changer de template, il faut faire `php bin/console cache:clear`
+
 ```yaml
 # config/packages/knp_paginator.yaml 
 
