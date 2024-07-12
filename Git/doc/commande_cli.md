@@ -146,6 +146,20 @@ git pull -vf origin <nom_branch> --allow-unrelated-histories
 git merge nom_branch
 ```
 
+## Changer de branche en utilisant git switch
+
+**Un moyen rapide de changer de branche sur Git est d’utiliser la commande « git switch » et de spécifier le nom de la branche vers laquelle vous souhaitez basculer.**
+
+### Si la branche de destination n'existe pas, vous devez spécifier l' option « -c » (pour « create branch »), 
+```bash
+git switch -c non_existing_branch
+```
+
+### sinon vous obtiendrez un message d'erreur lors du passage à cette branche.
+```bash
+git switch existing_branch
+```
+
 ## Aide à enregistrer les changements qui ne doivent pas être commit immédiatement. C’est un commit temporaire
 
 ```bash
@@ -160,10 +174,10 @@ git stash
 git stash
 ```
 
-2. **Créer la nouvelle branche db/migration :** Utilisez `git checkout -b new_branch` pour créer une nouvelle branche à partir de develop.
+2. **Créer la nouvelle branche db/migration :** Utilisez `git switch -c new_branch` pour créer une nouvelle branche à partir de develop.
 
 ```bash
-git checkout -b new_branch
+git switch -c new_branch
 ```
 
 3. **Appliquer les modifications stachées à la nouvelle branche :** Utilisez `git stash pop` pour appliquer les modifications que vous avez mises de côté à votre nouvelle branche.
