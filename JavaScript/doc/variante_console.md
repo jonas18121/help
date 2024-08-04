@@ -202,7 +202,7 @@ console.timelineEnd('Timeline label');
 console.timeStamp('Time stamp label');
 ```
 
-2. `console.memory` : Une propriété (plutôt qu'une méthode) qui contient des informations sur l'utilisation de la mémoire (disponible uniquement dans certains environnements comme Chrome).
+27. `console.memory` : Une propriété (plutôt qu'une méthode) qui contient des informations sur l'utilisation de la mémoire (disponible uniquement dans certains environnements comme Chrome).
 
 ```js
 console.log(console.memory);
