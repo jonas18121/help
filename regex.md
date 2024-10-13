@@ -221,6 +221,26 @@ L'expression régulière /^(?!.*-^)(?!.*-$)[\p{L}\s-]+$/ est conçue pour valide
 
 En résumé, cette expression régulière permet de valider des chaînes de caractères qui peuvent contenir des lettres, des espaces et des tirets, tout en garantissant qu'ils ne commencent ni ne se terminent par ou un tiret. Elle garantit que la chaîne commence et se termine par des lettres, sans tiret au début ou à la fin.
 
+## Identifier des nombres, y compris des nombres entiers et décimaux, avec ou sans séparateurs d'espace, virgule ou point
+
+```php
+'/\d+(?:[\s\x{202F}]\d{3})*(?:[.,]\d{1,2})?/u'
+
+Exemple :
+
+preg_match('/\d+(?:[\s\x{202F}]\d{3})*(?:[.,]\d{1,2})?/u', $string);
+```
+
+- **u** : Cet indicateur demande à PHP d'interpréter la chaîne comme étant en UTF-8, ce qui permet de gérer les caractères Unicode correctement, y compris les espaces insécables (comme **\x{202F}**).
+
+### Cas acceptés par cette version :
+
+- **"12 000.00" : ✔** Fonctionne (avec espace insécable pour les milliers).
+- **"12 000.00" : ✔** Fonctionne (avec espace régulier pour les milliers).
+- **"12000.00" : ✔** Fonctionne (sans espace).
+- **"12 000" : ✔** Fonctionne (sans partie décimale).
+- **"12 000,50" : ✔** Fonctionne (avec une virgule pour le séparateur décimal).
+
 ## Les classes de caractères abrégées ou prédéfinies
 
 

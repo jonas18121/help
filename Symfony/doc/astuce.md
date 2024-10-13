@@ -1005,3 +1005,17 @@ $article->setAuthor($author);
 Donc, tout ce que `by_reference=false` fait réellement, c'est qu'il clone l'objet, ce qui oblige le framework à appeler le setter sur l'objet parent.
 
 De même, si vous utilisez le champ `CollectionType` où vos données de collection sous-jacentes sont un objet (comme avec Doctrine's ArrayCollection), alors `by_reference` doit être défini sur false si vous avez besoin que l'additionneur et le dissolvant (par exemple `addAuthor()` et `removeAuthor()`) soient appelés.
+
+### Ordre de chargement des fichiers .env dans Symfony
+
+1. `.env` — Variables par défaut pour tous les environnements.
+
+2. `.env.local` — Surcharge les variables globales avec des valeurs locales spécifiques à votre machine.
+
+3. `.env.dev` — Surcharge pour l'environnement de développement.
+
+4. `.env.dev.local` — Surcharge supplémentaire pour l'environnement de développement spécifique à votre machine locale.
+
+5. `.env.docker` — Surcharge pour l'exécution sous Docker.
+
+6. `.env.docker.local` — Surcharge supplémentaire pour Docker spécifique à votre machine locale.

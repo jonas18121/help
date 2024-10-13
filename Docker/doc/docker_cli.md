@@ -324,6 +324,44 @@ docker logs -f name_container
 
 Cela affichera les logs en temps réel et les mettra à jour lorsque de nouveaux logs seront générés dans le conteneur. C'est particulièrement utile pour le débogage en temps réel lors du développement ou de la résolution de problèmes dans un environnement de production.
 
+## Arrêter puis Nettoyer/Supprimer/Cleaner tous les containers/images/volumes
+
+```bash
+docker stop $(docker ps -q)
+docker rm $(docker ps -a -q)
+docker rmi $(docker images -q)
+docker volume rm $(docker volume ls -q)
+
+# Puis, pour être sûr
+docker system prune -a --volumes
+```
+
+1. Arrête **tous les conteneurs en cours d'exécution.** Cela met fin à l'exécution de toutes les applications ou services actuellement lancés dans Docker.
+
+```bash
+docker stop $(docker ps -q)
+```
+
+2. Supprime **tous les conteneurs**, qu'ils soient actifs ou arrêtés. Cela permet de nettoyer tous les conteneurs, y compris ceux qui ne fonctionnent plus.
+
+```bash
+docker rm $(docker ps -a -q)
+```
+
+3. Supprime **toutes les images Docker** stockées sur la machine. Les images sont les bases sur lesquelles les conteneurs sont construits, donc cette commande supprime tout ce qui peut être utilisé pour créer de nouveaux conteneurs.
+
+```bash
+docker rmi $(docker images -q)
+```
+
+4. Supprime **tous les volumes Docker**, qui sont utilisés pour stocker les données persistantes des conteneurs. Cela signifie que toutes les données sauvegardées à l'extérieur des conteneurs seront effacées.
+
+```bash
+docker volume rm $(docker volume ls -q)
+```
+
+**Résumé :** Ces commandes arrêtent et suppriment **tous les conteneurs, toutes les images et tous les volumes Docker**, laissant votre environnement Docker vide.
+
 # Seulment pour Linux
 
 ### supprimer un dossier
