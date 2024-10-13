@@ -331,6 +331,9 @@ docker stop $(docker ps -q)
 docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
 docker volume rm $(docker volume ls -q)
+
+# Puis, pour être sûr
+docker system prune -a --volumes
 ```
 
 1. Arrête **tous les conteneurs en cours d'exécution.** Cela met fin à l'exécution de toutes les applications ou services actuellement lancés dans Docker.
