@@ -24,7 +24,7 @@ En d'autres termes, votre script tente de réinitialiser la DataTable après le 
 
 Voici les étapes pour corriger ce problème dans votre projet Symfony utilisant Webpack Encore :
 
-1. Vérifier si la DataTable est déjà initialisée
+### 1. Vérifier si la DataTable est déjà initialisée
 
 Avant d'initialiser DataTable, vérifiez si elle est déjà initialisée sur l'élément HTML.<br>
 Vous pouvez utiliser la méthode `$.fn.DataTable.isDataTable` pour éviter cette erreur.
@@ -41,7 +41,7 @@ $(document).ready(function() {
 });
 ```
 
-2. Détruire la DataTable avant de la réinitialiser
+### 2. Détruire la DataTable avant de la réinitialiser
 
 Si vous devez réinitialiser DataTable après une mise à jour (comme un rechargement AJAX), vous pouvez détruire l'instance existante avant d'en créer une nouvelle. <br>
 La méthode `destroy` de DataTables permet de nettoyer les instances précédentes.
@@ -62,7 +62,7 @@ $(document).ready(function() {
 });
 ```
 
-3. Recharger la table après une recherche
+### 3. Recharger la table après une recherche
 
 Si le tableau est mis à jour dynamiquement (par exemple avec un appel AJAX après un clic sur le bouton "Rechercher"), assurez-vous de réinitialiser DataTable uniquement après que le contenu HTML de la table ait été mis à jour.
 
@@ -99,7 +99,7 @@ $('#searchButton').on('click', function(event) {
 });
 ```
 
-4. Références circulaires Webpack Encore et DataTables
+### 4. Références circulaires Webpack Encore et DataTables
 
 Avec Webpack Encore, assurez-vous que les dépendances JavaScript nécessaires pour DataTables sont bien incluses dans votre projet. <br>
 Les modules doivent être importés correctement, par exemple :
