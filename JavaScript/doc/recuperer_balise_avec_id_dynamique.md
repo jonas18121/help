@@ -79,3 +79,46 @@ $(document).on('click', `a[id^="${prefix}"]`, function (event) {
     // Ajoutez ici votre logique à exécuter lors du clic
 });
 ```
+
+# Récupérer une balise `<select>` avec un id dynamique ayant un préfix spécifique et un suffix spécifique en jQuery
+
+Pour gérer un ID dynamique avec un préfixe constant, vous pouvez utiliser un sélecteur d'attribut `(^=` ou `*=)` en jQuery pour sélectionner les éléments dont l'ID commence par une certaine valeur ou contient une certaine chaîne.
+
+```js
+// Sélecteur pour toutes les balises <select> dont l'ID commence par "id_prefix_"
+$("select[id^='id_prefix_'][id$='_id_suffix']").on("change", function () {
+    productFunction.selectValeurs(this.id, $(this).val());
+});
+```
+
+#### 1) Sélecteur `id^='...'` :
+
+- Sélectionne les éléments dont l'ID commence par la chaîne spécifiée, ici : `id_prefix_`.
+
+#### 2) Sélecteur `id$='...'` :
+
+- Sélectionne les éléments dont l'ID se termine par la chaîne spécifiée, ici : `_id_suffix`.
+
+#### 3) Combinaison `[id^='...'][id$='...']` :
+
+- Cette combinaison permet de cibler uniquement les éléments ayant des ID qui commencent et se terminent par les chaînes spécifiées, en ignorant la partie dynamique.
+
+#### 4) Gestion de l'événement `.on('change')` :
+
+- Réagit chaque fois qu'une valeur est changée dans un `<select>` correspondant au sélecteur.
+
+```html
+<select id="id_prefix_0_id_suffix">
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+</select>
+
+<select id="id_prefix_42_id_suffix">
+    <option value="A">Option A</option>
+    <option value="B">Option B</option>
+</select>
+```
+
+### Avantages
+- Le code fonctionne quel que soit le numéro dynamique dans l'ID (ex. : `_0_`, `_42_`, etc.).
+- Maintient un ciblage précis des éléments grâce à la combinaison `^=` et `$=`.
