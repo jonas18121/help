@@ -1,4 +1,4 @@
-# Différence entre $(document).on("change", ".my_class") et $(".my_class").on("change")
+# Différence entre `$(document).on("change", ".my_class")` et `$(".my_class").on("change")`
 
 La principale différence entre `$(document).on("change", ".my_class")` et `$(".my_class").on("change")` réside dans leur comportement avec les éléments dynamiques et leur portée d'application :
 
