@@ -1,4 +1,4 @@
-# Faire un theme sombre avec buton switch dans un projet
+# Faire un theme sombre avec bouton switch dans un projet
 
 ### Javascript
 
