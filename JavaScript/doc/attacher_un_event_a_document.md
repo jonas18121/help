@@ -35,3 +35,118 @@ $("body").append('<input id="my_id" class="my_class" type="text">');
 ```
 
 Dans cet exemple, le premier gestionnaire d'événements fonctionnera pour le nouvel élément ajouté, tandis que le second ne le détectera pas
+
+# Différence entre `window` et `document`
+
+En JavaScript, window et document sont deux objets globaux qui jouent des rôles différents lorsqu'on attache un événement. Voici les principales différences :
+
+## `window` : Gère les événements liés à la fenêtre du navigateur
+
+L'objet `window` représente la fenêtre du navigateur et est utilisé pour écouter des événements globaux tels que :
+
+#### ✅ Exemples d'événements sur window :
+
+- `load` → Quand la page et tous ses éléments (images, styles, etc.) sont chargés
+- `resize` → Quand la taille de la fenêtre change
+- `scroll` → Quand l'utilisateur fait défiler la page
+- `beforeunload` → Juste avant que l'utilisateur quitte la page
+
+```js
+window.addEventListener('load', function() {
+    console.log("La page est complètement chargée !");
+});
+
+window.addEventListener('resize', function() {
+    console.log("La fenêtre a été redimensionnée !");
+});
+```
+
+#### 📌 Quand utiliser window ?
+
+Lorsque tu veux réagir à des événements qui affectent toute la fenêtre du navigateur.
+
+## `document` : Gère les événements sur le contenu de la page (DOM)
+
+L'objet document représente le contenu HTML chargé dans la fenêtre et est utilisé pour écouter des événements liés aux éléments de la page.
+
+#### ✅ Exemples d'événements sur document :
+
+- `DOMContentLoaded` → Quand le HTML est chargé, mais pas forcément les images et styles
+- `click` → Quand un utilisateur clique n'importe où sur la page
+- `keydown` → Quand une touche est enfoncée
+
+```js
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Le DOM est prêt !");
+});
+
+document.addEventListener('click', function(event) {
+    console.log("Un élément a été cliqué :", event.target);
+})
+```
+
+#### 📌 Quand utiliser document ?
+
+- Lorsque tu veux interagir avec le contenu de la page (DOM), comme capturer des événements sur les boutons, formulaires, etc.
+- Lorsque tu utilises la délégation d'événements, par exemple :
+
+```js
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("btn")) {
+        console.log("Bouton cliqué !");
+    }
+});
+```
+
+**➜ Ici, document capture les clics sur tous les éléments .btn, même ceux ajoutés dynamiquement après le chargement.**
+
+### DOMContentLoaded peut être utilisé pour Window ?
+
+Oui, DOMContentLoaded peut être utilisé avec `window`, mais il est généralement attaché à document.
+
+### ✅ Utilisation correcte avec document (recommandé)
+
+```js
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Le DOM est complètement chargé !");
+});
+```
+
+#### 📌 Pourquoi ?
+
+`document` est l'objet qui représente le contenu HTML, donc c'est lui qui déclenche `DOMContentLoaded` une fois le DOM chargé.
+Cette méthode est plus directe et plus claire.
+
+### ❌ Utilisation avec window (possible mais pas standard)
+
+```js
+window.addEventListener("DOMContentLoaded", function() {
+    console.log("Le DOM est chargé !");
+});
+```
+
+#### 📌 Pourquoi ça fonctionne quand même ?
+
+- `window` propage l'événement `DOMContentLoaded`, donc tu peux techniquement l'écouter sur `window`.
+- Mais ce n'est pas recommandé, car l'événement appartient à `document`.
+
+### ⚠️ Ne pas confondre avec load sur window
+
+Si tu veux attendre que tout (y compris les images, les styles CSS, les iframes) soit chargé, utilise plutôt `window.load` :
+
+```js
+window.addEventListener("load", function() {
+    console.log("La page et ses ressources sont complètement chargées !");
+});
+```
+
+**➡ À utiliser si tu veux attendre que tout (y compris les images) soit prêt.**
+
+#### 📌 Différence clé :
+
+- `DOMContentLoaded` : Se déclenche dès que le HTML est chargé et analysé (les images et styles peuvent encore être en chargement).
+- `load sur window` : Se déclenche quand tout le contenu (images, styles, iframes) est complètement chargé.
+
+### Conclusion :
+- ✅ Utilise `document.addEventListener("DOMContentLoaded", ...)` pour exécuter du JS dès que le DOM est prêt.
+- ✅ Utilise `window.addEventListener("load", ...)` si tu veux attendre que tout soit chargé.
