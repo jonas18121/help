@@ -330,3 +330,24 @@ scp john@example.com:/home/john/documents/document.txt /chemin/local/sur/votre/o
 Cette commande téléchargera le fichier `document.txt` du répertoire `/home/john/documents/` sur le serveur distant `example.com` dans le répertoire local `/chemin/local/sur/votre/ordinateur`.
 
 Assurez-vous d'avoir les autorisations nécessaires pour accéder au fichier sur le serveur distant et que votre connexion SSH est configurée correctement.
+
+## Transformer un dossier en .tgz
+
+### Pour compresser un dossier en un fichier .tgz (archive tar.gz) sous Linux, tu peux utiliser la commande suivante :
+
+```bash
+tar -czvf nom_archive.tgz nom_dossier/
+```
+
+Voici ce que chaque option signifie :
+
+- **c :** crée une nouvelle archive.
+- **z :** compresse avec gzip.
+- **v :** affiche les fichiers qui sont ajoutés à l'archive (option "verbose").
+- **f :** spécifie le nom de l'archive à créer (ici nom_archive.tgz).
+
+```bash
+tar -czvf mon_dossier.tgz mon_dossier/
+```
+
+Cela créera un fichier mon_dossier.tgz contenant le dossier mon_dossier et son contenu.
