@@ -146,7 +146,7 @@ projet
                 |
                 -- bootstrap.css
                 |
-                -- variable.css
+                -- variables.css
     |
     -- src
     |
