@@ -114,6 +114,32 @@ projet
                             |
                             -- mobile.css
             |
+            -- components
+                |
+                -- searchbar
+                    |
+                    -- index.css
+                    |
+                    -- screens
+                        |
+                        -- Desktop.css
+                        |
+                        -- tablet.css
+                        |
+                        -- mobile.css
+                |
+                -- navbar
+                    |
+                    -- index.css
+                    |
+                    -- screens
+                        |
+                        -- Desktop.css
+                        |
+                        -- tablet.css
+                        |
+                        -- mobile.css
+            |
             -- general
                 |
                 -- general.css
