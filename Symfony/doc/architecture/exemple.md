@@ -57,7 +57,7 @@ projet
                 -- validForm.js
         |
         -- css
-           |
+            |
             -- frontend
                 |
                 -- pages
