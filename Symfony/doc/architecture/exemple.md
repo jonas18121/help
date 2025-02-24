@@ -57,7 +57,7 @@ projet
                 -- validForm.js
         |
         -- css
-           |
+            |
             -- frontend
                 |
                 -- pages
@@ -145,6 +145,8 @@ projet
                 -- general.css
                 |
                 -- bootstrap.css
+                |
+                -- variables.css
     |
     -- src
     |
