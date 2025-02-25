@@ -164,6 +164,8 @@ projet
                     |
                     -- update.html.twig
                     |
+                    -- detail.html.twig
+                    |
                     -- components
                         |
                         -- form.html.twig
@@ -175,6 +177,8 @@ projet
                     -- create.html.twig
                     |
                     -- update.html.twig
+                    |
+                    -- detail.html.twig
                     |
                     -- components
                         |
@@ -196,6 +200,8 @@ projet
                     |
                     -- update.html.twig
                     |
+                    -- detail.html.twig
+                    |
                     -- components
                         |
                         -- form.html.twig
@@ -207,6 +213,8 @@ projet
                     -- create.html.twig
                     |
                     -- update.html.twig
+                    |
+                    -- detail.html.twig
                     |
                     -- components
                         |
