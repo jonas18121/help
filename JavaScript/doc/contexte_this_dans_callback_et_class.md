@@ -1,5 +1,6 @@
-# Le Contexte de this dans les Callbacks JavaScript
+# Le Contexte de this dans les Callbacks et dans les classes en JavaScript
 
+## Le Contexte de this dans les Callbacks JavaScript
 Lorsque vous utilisez des fonctions dans des objets ou comme callbacks, le contexte de this peut ne pas pointer vers l'instance de la classe. 
 
 Cela peut causer des erreurs comme :
@@ -220,7 +221,8 @@ class ExportHandler {
 
 Avec ces approches, vous vous assurez que this reste lié à l'instance de ExportHandler dans tous les cas.
 
-## Cas Pratique dans une classe JS
+
+## Le Contexte de this dans les classes en JavaScript
 
 ### Ici, le console log retourne undefined (console.log(this.formCheckFunction);)
 
