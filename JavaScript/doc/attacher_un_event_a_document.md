@@ -36,6 +36,67 @@ $("body").append('<input id="my_id" class="my_class" type="text">');
 
 Dans cet exemple, le premier gestionnaire d'événements fonctionnera pour le nouvel élément ajouté, tandis que le second ne le détectera pas
 
+### Autre exemple avec traduction en JQuery et Javascript vanilla
+
+#### Ecoute les clics sur les éléments .closestRemove (ou leur icône .bi-dash), empêche le comportement par défaut, puis supprime le parent .collectionContainer le plus proche.
+
+**En JQuery**
+```js
+$(document).on('click', '.closestRemove, .closestRemove i.bi-dash', function(event) {
+    event.preventDefault(); // Empêche le comportement par défaut du lien (si c'est un lien)
+    
+    // Trouve le parent le plus proche avec la classe .collectionContainer et le supprime
+    $(this).closest('.collectionContainer').remove();
+});
+```
+
+**EN Javascript vanilla**
+```js
+document.addEventListener('click', function(event) {
+    // Si on clique sur l'élément a.closestRemove ou sur l'icône i.bi-dash à l'intérieur de a.closestRemove, on supprime l'input
+    if (
+        event.target.classList.contains('closestRemove')
+        || event.target.matches('.closestRemove i.bi-dash')
+    ) {
+        event.preventDefault(); // Empêche le comportement par défaut du lien (si c'est un lien)
+        
+        // Trouve le parent le plus proche avec la classe .collectionContainer et supprime-le
+        event.target.closest('.collectionContainer').remove();
+    }
+});
+```
+
+**HTML**
+
+- On fait comme si les div.collectionContainer avec leurs contenu apparaissent, dynamiquement lorsqu'on 
+clique sur un autre bouton pour les affichés les uns après les autres
+- Si on clique sur l'icon ou sur la zone que prend la balise `<a>` du Conteneur 1, il devra être supprimer
+, pareil pour les autres si on clique sur eux
+
+```html
+<!-- Conteneur 1 -->
+<div class="collectionContainer">
+    <input type="text" value="Champ 1">
+    <a href="#" class="closestRemove">
+        <i class="bi bi-dash"></i> Supprimer
+    </a>
+</div>
+
+<!-- Conteneur 2 -->
+<div class="collectionContainer">
+    <input type="text" value="Champ 2">
+    <a href="#" class="closestRemove">
+        <i class="bi bi-dash"></i> Supprimer
+    </a>
+</div>
+
+<!-- Conteneur 3 -->
+<div class="collectionContainer">
+    <input type="text" value="Champ 3">
+    <button class="closestRemove">Supprimer</button>
+</div>
+```
+
 # Différence entre `window` et `document`
 
 En JavaScript, window et document sont deux objets globaux qui jouent des rôles différents lorsqu'on attache un événement. Voici les principales différences :
@@ -150,3 +211,5 @@ window.addEventListener("load", function() {
 ### Conclusion :
 - ✅ Utilise `document.addEventListener("DOMContentLoaded", ...)` pour exécuter du JS dès que le DOM est prêt.
 - ✅ Utilise `window.addEventListener("load", ...)` si tu veux attendre que tout soit chargé.
+
+
