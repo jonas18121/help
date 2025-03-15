@@ -42,3 +42,53 @@ Source : [laconsole.dev](https://laconsole.dev/blog/cases-camel-pascal-snake-keb
 <p>Notez toutefois que chaque système, entreprise, technologie ou langage peut dicter ses propres conventions de nommage pour les définitions de variables, fonctions, classes, nommer ses fichiers, etc.</p>
 <p>Par exemple, en JavaScript, une constante peut être déclarée en <code>camelCase</code>, de la même manière que l’<code>UPPERCASE</code> est par habitude utilisée pour les fichiers bien particulier <code>📄 README.md</code>.</p>
 <p>Veillez donc à prendre connaissance des particularités de l’environnement dans lequel vous développez.</p> </div> 
+
+--- 
+
+### Norme de nommage
+
+- [Normes de codage Symfony](https://symfony.com/doc/current/contributing/code/standards.html)
+- [Conventions Symfony](https://symfony.com/doc/current/contributing/code/conventions.html)
+
+- **Noms de Variables**
+	- En anglais : Evite de mettre des accents dans des moments de déconcentration
+	- Camel case
+	- Exemple : $storageSpace au lieu de $p_espace_de_stockage ou $PES
+
+- **Noms de Constantes**
+	- En anglais 
+	- Screaming snake case
+        - Exemple : const PRODUCT et PRODUCT_LIST
+
+- **Noms de Méthodes**
+	- En anglais
+	- Camel case
+	- Exemple : getProduct() au lieu de getProduit() 
+
+- **Noms de Classes**
+	- En anglais
+	- Pascal case
+	- Exemple : HomePageController au lieu de AccueilController 
+
+- **Noms de Fichiers de code PHP**
+	- En anglais
+	- Pascal case
+	- Exemple : ProductController.php 
+
+- **Noms de Fichiers de code JS et CSS**
+	- En anglais
+	- Camel case
+	- Exemple : productFunction.js
+
+- **Noms de Fichiers de code Twig et yaml**
+	- En anglais
+	- snake case
+	- Exemple : form_product.html.twig
+
+- **Noms de Fichiers à télécharger (PDF, PNG, TXT, ect...)**
+	- En anglais ou Français au choix
+	- Snake case
+	- Exemple : declaration_de_perte.pdf au lieu de "declaration de perte.pdf"
+
+- **Commentaire**
+	- En anglais ou Français au choix
