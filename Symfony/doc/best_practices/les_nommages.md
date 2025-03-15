@@ -50,45 +50,45 @@ Source : [laconsole.dev](https://laconsole.dev/blog/cases-camel-pascal-snake-keb
 - [Normes de codage Symfony](https://symfony.com/doc/current/contributing/code/standards.html)
 - [Conventions Symfony](https://symfony.com/doc/current/contributing/code/conventions.html)
 
-- Noms de Variables
+- **Noms de Variables**
 	- En anglais : Evite de mettre des accents dans des moments de déconcentration
 	- Camel case
 	- Exemple : $storageSpace au lieu de $p_espace_de_stockage ou $PES
 
-- Noms de Constantes
+- **Noms de Constantes**
 	- En anglais 
 	- Screaming snake case
         - Exemple : const PRODUCT et PRODUCT_LIST
 
-- Noms de Méthodes
+- **Noms de Méthodes**
 	- En anglais
 	- Camel case
 	- Exemple : getProduct() au lieu de getProduit() 
 
-- Noms de Classes
+- **Noms de Classes**
 	- En anglais
 	- Pascal case
 	- Exemple : HomePageController au lieu de AccueilController 
 
-- Noms de Fichiers de code PHP
+- **Noms de Fichiers de code PHP**
 	- En anglais
 	- Pascal case
 	- Exemple : ProductController.php 
 
-- Noms de Fichiers de code JS et CSS
+- **Noms de Fichiers de code JS et CSS**
 	- En anglais
 	- Camel case
 	- Exemple : productFunction.js
 
-- Noms de Fichiers de code Twig et yaml
+- **Noms de Fichiers de code Twig et yaml**
 	- En anglais
 	- snake case
 	- Exemple : form_product.html.twig
 
-- Noms de Fichiers à télécharger (PDF, PNG, TXT, ect...)
+- **Noms de Fichiers à télécharger (PDF, PNG, TXT, ect...)**
 	- En anglais ou Français au choix
 	- Snake case
 	- Exemple : declaration_de_perte.pdf au lieu de "declaration de perte.pdf"
 
-- Commentaire
+- **Commentaire**
 	- En anglais ou Français au choix

@@ -1,11 +1,10 @@
-# Archithecture du code JS :
-
+# Archithecture du code JS 
 
 ### Fichiers d'execution
 
-Dans ce fichier
-- On va executer les méthodes des fichiers de définition
-- Toutes les méthodes ou codes qui sont appeler dans le navigateur seron dans ce fichier
+Dans ce fichier :
+- On va executer les méthodes des **fichiers de définition**
+- Toutes les méthodes ou codes qui sont appeler dans le navigateur seront dans ce fichier
 - Les algorithmes/méthodes seront dans des blocks `$(function () {` ou `document.addEventListener('DOMContentLoaded', function() {` 
     - Avec un commentaire au dessus pour expliquer ce que l'algorithmes/méthodes fait
     - Cela permet d'avoir une meilleure lisibilité
@@ -61,8 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
 ### Fichiers de définition, classe JS
 
 Dans ce fichier :
-- On va définir des méthodes, mais ces méthodes seront appeler dans les fichiers d'execution
-- Une methode définit ici ou qui vient d'une autre classe/fichier peut être appeler ici mais il sera dans une méthode définit ici mais pas appeler ici.
+- On va définir des méthodes, mais ces méthodes seront appeler dans les **fichiers d'execution**
+- Une methode définit ici ou qui vient d'une autre classe/fichier peut être appeler ici mais il sera appeler dans une méthode définit ici mais pas appeler ici.
 
 ```js
 // productClass.js
