@@ -467,3 +467,107 @@ Source :
 - [Améliorations des performances de Symfony : astuces et techniques](https://stackify.com/symfony-performance-improvements-tips-and-techniques/)
 - [Optimisation des requêtes Doctrine pour des performances Symfony améliorées - Guides LoadForge](https://loadforge.com/guides/optimizing-doctrine-queries-for-symfony-performance)
 - [Optimisation des performances des applications Symfony](https://clouddevs.com/symfony/optimizing-performance/)
+
+
+# Le propriétaire veux afficher la liste avec plus de 20 informations sur d'une liste de minimum 500 produits
+
+## Analyse de la demande
+
+La volonté d'afficher plus de 20 informations pour chaque produit dans une liste de minimum 500 produits soulève de sérieuses préoccupations puis pose plusieurs problèmes techniques et UX qui risquent d’impacter les performances et l’expérience utilisateur :
+
+### 🚨 Les risques principaux
+
+#### 1. Problème de performances (Backend & Requêtes SQL)
+
+- Charger **500 produits × 20 colonnes** en une seule requête = **10 000 cellules de données** envoyées d’un coup.
+
+- Cela peut **surcharger la base de données** et allonger le temps de réponse du serveur.
+    - **Surcharge d'informations extrême** : Avec plus de 10 000 points de données à afficher simultanément (20+ informations x 500+ produits), l'interface utilisateur risque d'être extrêmement surchargée et difficile à utiliser.
+
+- Risque de **consommation excessive de mémoire** côté serveur et navigateur.
+    - **Problèmes de performance critiques** : Le chargement et le rendu d'une telle quantité de données vont très probablement entraîner des temps de chargement excessifs et des problèmes de performance, même avec une optimisation poussée.
+
+### ✅ Solutions :
+
+- **Pagination côté serveur** avec **limite de 50 produits par page maximum.**
+
+- **Ne charger que les colonnes visibles à l’écran** via AJAX et DataTables Server-Side Processing.
+
+### 2. Problème de performances (Frontend & JavaScript)
+
+- DataTables devra gérer **beaucoup trop d’éléments DOM**, ce qui ralentit le navigateur.
+
+- Risque de **re-rendu (reflow) excessif**, surtout avec des interactions comme le tri et la recherche.
+
+- **Risques techniques accrus** : La gestion d'un tel volume de données en front-end augmente les risques de bugs, de crashs du navigateur, et de problèmes de compatibilité entre différents appareils et navigateurs.
+
+### ✅ Solutions :
+
+- Activer deferRender: true dans DataTables pour ne pas charger tous les éléments en mémoire dès le départ.
+
+- Utiliser un **Virtual Scrolling** si possible, pour ne rendre que les lignes visibles.
+
+- Optimiser les performances en AJAX pour charger uniquement les **colonnes demandées**.
+
+3. **Expérience utilisateur fortement dégradée** : Les utilisateurs auront du mal à naviguer, comparer et trouver les informations pertinentes dans une telle masse de données.
+
+### 3. Expérience Utilisateur Dégradée (Trop d’infos sur un écran)
+
+- **Lisibilité réduite :** Un tableau avec 20 colonnes devient illisible sur un écran classique.
+
+- **Difficulté de navigation :** L’utilisateur devra scroller horizontalement, ce qui est frustrant.
+
+- **Information inutilement répétée :** Certaines données sont plus pertinentes en page détail qu’en liste.
+
+### ✅ Solutions UX :
+
+- Afficher **uniquement les 5 à 7 informations principales** dans la liste.
+
+- Ajouter un **bouton "Voir plus"** pour afficher les autres détails sous forme de popup ou d’accordéon.
+
+- Offrir des **filtres avancés** pour éviter de surcharger la liste.
+
+
+
+## Recommandations
+
+En tant que développeur, il est crucial d'adopter une approche proactive :
+
+1. **Exprimer clairement les préoccupations** : Communiquer de manière factuelle et professionnelle les risques techniques et les impacts négatifs sur l'expérience utilisateur.
+2. **Proposer des alternatives** :
+    - Implémenter un système de filtrage et de tri avancé pour permettre aux utilisateurs de trouver rapidement les informations pertinentes.
+    - Utiliser une approche de "progressive disclosure" où seules les informations clés sont affichées initialement, avec la possibilité d'afficher plus de détails sur demande.
+    - Concevoir une vue en tableau avec des colonnes personnalisables par l'utilisateur.
+3. **Démonstration concrète** : Créer un prototype ou une maquette montrant les problèmes potentiels et les avantages des solutions alternatives.
+4. **Éducation du propriétaire** : Expliquer les principes de base de l'expérience utilisateur et l'importance de la hiérarchisation de l'information.
+5. **Compromis** : Si le propriétaire insiste, proposer un compromis comme l'affichage complet des informations uniquement pour un sous-ensemble de produits sélectionnés par l'utilisateur.
+
+Puis :
+
+🔹 **Option 1 (Meilleure solution) : Limiter la liste aux informations essentielles** et proposer un affichage détaillé en cliquant sur un produit.
+🔹 **Option 2 (Si le propriétaire insiste) : Utiliser Server-Side Processing, lazy loading, pagination et un design adapté** pour ne pas bloquer l’affichage.
+🔹 **Option 3 (Dernier recours, mais peu recommandé) :** Afficher toutes les données, mais cela causera des ralentissements et une mauvaise expérience utilisateur.
+
+
+## Conclusion
+
+Le rôle du développeur ici est d'être un conseiller technique et un gardien de la qualité du produit. Il est essentiel de trouver un équilibre entre la satisfaction des demandes du propriétaire et la création d'une application performante et conviviale. Si le propriétaire persiste malgré les avertissements, il serait judicieux de documenter ces discussions et décisions pour se protéger professionnellement.
+
+**Afficher plus de 20 informations sur 500 produits d’un coup est une mauvaise idée** en termes de performances et d’ergonomie. Il est **préférable d’optimiser l’affichage** et de convaincre le propriétaire avec des démonstrations de performances. 🚀
+
+Source : 
+
+Pagination et Chargement Progressif
+- [Scrolling vs Pagination](https://lagrandeourse.design/blog/ux-research/scrolling-vs-pagination/)
+
+Indexation des Bases de Données : 
+- [5 problèmes et correctifs de performances de base de données les plus courants](https://www.loadview-testing.com/fr/blog/5-problemes-et-correctifs-de-performances-de-base-de-donnees-les-plus-courants)
+
+Optimisation du Frontend :
+- [Gérer l’affichage de tableaux de données volumineux en React : cas pratique et conseils de notre développeur](https://www.netdevices.fr/gerer-laffichage-de-tableaux-de-donnees-volumineux-en-react-cas-pratique-et-conseils-de-notre-developpeur-dany)
+- [Développeur UX/UI](https://www.ib-formation.fr/fiches-metiers/metiers-du-developpement/developpeur-ux-ui)
+- [Optimisation des performances : un site plus rapide, une expérience optimale](https://digitalevolution.fr/ux-ui-webdesign/optimisation-performances/)
+- [Développeur Web : description, rôle, compétences : Les missions et responsabilités d’un développeur web](https://webtech.fr/blog/developpeur-web-description-role-competences-salaire/)
+- [Comment optimiser les performances de l’interface utilisateur pour les réseaux lents ?](https://www.linkedin.com/advice/0/how-can-you-optimize-ui-performance-slow-networks-moote?lang=fr&lang=fr&originalSubdomain=fr)
+- [9 bonnes pratiques UX/UI pour améliorer votre site web](https://audreytips.com/bonnes-pratiques-ux-ui/)
+- [10 bonnes pratiques UX pour créer un site web performant](https://www.gda.fr/blog/10-bonnes-pratiques-ux-pour-creer-un-site-web-performant)
