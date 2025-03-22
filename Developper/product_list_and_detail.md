@@ -99,7 +99,7 @@ En résumé, la **liste de produits** est utile pour parcourir et comparer rapid
 
 - Considérer l'utilisation de filtres et de tris avancés pour aider les utilisateurs à naviguer dans la liste de produits
 
-- Utiliser des techniques de design comme le "progressive disclosure" pour révéler plus d'informations sur demande. 
+- Utiliser des techniques de design comme le **"progressive disclosure"** pour révéler plus d'informations sur demande. 
     - [Progressive Disclosure : Simplifier l’interface pour mieux guider l’utilisateur](https://lagrandeourse.design/blog/actualites/progressive-disclosure-simplifier-linterface-pour-mieux-guider-lutilisateur/)
     - [Wiki Progressive Disclosure ](https://en.wikipedia.org/wiki/Progressive_disclosure)
     - [Divulgation progressive](https://www.interaction-design.org/literature/book/the-glossary-of-human-computer-interaction/progressive-disclosure?srsltid=AfmBOorImbSESUkJ668yWXQo3EVmnkiPxOBE6gxl5hnoQkZOaryuCdOy)
@@ -139,7 +139,9 @@ Il faut analyser plusieurs facteurs pouvant impacter les performances. Voici les
 **Solutions :**
 
 ✅ **Ajouter des index sur les colonnes souvent filtrées** (ex: ID, catégorie, prix).
+
 ✅ **Optimiser les requêtes SQL** (éviter `SELECT *`, privilégier les colonnes utiles).
+
 ✅ **Utiliser un cache type Redis** pour éviter des accès trop fréquents à la BDD.
 
 ### 3. Trop de Calculs ou de Transformations côté Frontend
@@ -151,7 +153,9 @@ Il faut analyser plusieurs facteurs pouvant impacter les performances. Voici les
 **Solutions :**
 
 ✅ **Effectuer les calculs côté serveur plutôt que côté client** (ex: formatage de prix, tri).
+
 ✅ **Utiliser le Virtual Scrolling** (afficher uniquement les lignes visibles, pas tout le tableau en mémoire).
+
 ✅ **Éviter les re-renders inutiles** en optimisant React/Vue/Angular (ex: utiliser useMemo, useCallback).
 
 ### 4. Interface Trop Lourde (Trop de DOM & CSS)
@@ -164,7 +168,9 @@ Il faut analyser plusieurs facteurs pouvant impacter les performances. Voici les
 **Solutions :**
 
 ✅ **Réduire le nombre d'éléments DOM rendus en même temps.*
+
 ✅ **Charger les images en lazy loading.**
+
 ✅ **Optimiser le CSS et limiter les recalculs de layout** (ex: éviter `position: absolute` excessif).
 
 ### 5. Problème de Réseau ou d’API Trop Lentes
@@ -176,7 +182,9 @@ Il faut analyser plusieurs facteurs pouvant impacter les performances. Voici les
 **Solutions :**
 
 ✅ **Monitorer les temps de réponse de l’API avec des outils comme Postman, New Relic ou Datadog.**
+
 ✅ **Optimiser la compression des données** (ex: utiliser Gzip ou Brotli).
+
 ✅ **Utiliser HTTP/2 ou GraphQL pour réduire le nombre de requêtes.**
 
 ### Résumé des Solutions Clés à Tester
@@ -226,6 +234,7 @@ L'application utilise Symfony côté backend et DataTables en JavaScript côté 
 🔹 Active le mode **"server-side processing"** de DataTables pour charger les données progressivement.
 
 ✅ **Exemple d’implémentation dans Symfony avec une requête paginée :**
+
 Dans ton **contrôleur Symfony** (ex: `ProductController.php`), utilise **Doctrine Paginator** pour ne récupérer que les lignes demandées.
 
 ```php
@@ -345,6 +354,7 @@ $('#productTable').DataTable({
 - Si l’API envoie **trop d’informations** par ligne, cela alourdit la réponse.
 
 **Solutions :**
+
 ✅ **Mettre en cache les résultats des requêtes fréquentes avec Symfony Cache** Dans `services.yaml` :
 
 ```yaml
