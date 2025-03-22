@@ -77,7 +77,9 @@ Le rôle du développeur va au-delà de la simple exécution technique. Il inclu
 ## Conclusion : Le développeur ne doit pas être un simple exécutant
 
 ✅ **OUI**, le développeur **doit prévenir les risques et convaincre** le propriétaire si une demande va à l’encontre de la performance ou de l’expérience utilisateur.
+
 ✅ **OUI**, il peut proposer **des solutions alternatives** plus efficaces.
+
 ❌ **NON**, il ne peut pas **imposer** son choix, mais il doit s’assurer que la meilleure solution possible est appliquée.
 
 💡 **Un bon développeur, c’est quelqu’un qui exécute intelligemment, tout en anticipant et en proposant des solutions adaptées !** 🚀
