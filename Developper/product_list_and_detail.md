@@ -545,7 +545,9 @@ En tant que développeur, il est crucial d'adopter une approche proactive :
 Puis :
 
 🔹 **Option 1 (Meilleure solution) : Limiter la liste aux informations essentielles** et proposer un affichage détaillé en cliquant sur un produit.
+
 🔹 **Option 2 (Si le propriétaire insiste) : Utiliser Server-Side Processing, lazy loading, pagination et un design adapté** pour ne pas bloquer l’affichage.
+
 🔹 **Option 3 (Dernier recours, mais peu recommandé) :** Afficher toutes les données, mais cela causera des ralentissements et une mauvaise expérience utilisateur.
 
 
