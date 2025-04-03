@@ -198,17 +198,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
 Dans page-register-check.js
 
-- On importe `FormCheckFunction`, puis on l'instance
-- Puis on appel `checkEmailWhileWriteIntoInput(formCheckFunction);` et `checkEmailAfterSubmit(formCheckFunction);`
+- On importe `FormCheckClass`, puis on l'instance
+- Puis on appel `checkEmailWhileWriteIntoInput(FormCheckClass);` et `checkEmailAfterSubmit(FormCheckClass);`
 
-- Dans `checkEmailWhileWriteIntoInput(formCheckFunction);` (vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input)
+- Dans `checkEmailWhileWriteIntoInput(FormCheckClass);` (vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input)
     - `$(document).on('input', async function (event) {`
         - `$(document)` : Cela sélectionne l'élément racine du DOM, le document HTML. L'événement "input" sera surveillé sur tout le document.
         - `on()` : de jQuery pour attacher un gestionnaire d'événement à l'événement "input" sur le document. Cela signifie que chaque fois qu'un élément du DOM reçoit un événement "input", ce gestionnaire d'événement sera déclenché. L'événement "input" se produit généralement lorsque l'utilisateur entre des données dans un champ de formulaire ou modifie le contenu d'un élément éditable
         - `async function (event)` : Le code est défini comme asynchrone, ce qui signifie que la fonction gère de manière asynchrone les actions qui peuvent nécessiter du temps, comme des opérations réseau, des requêtes AJAX, etc.
-    - `await formCheckFunction.isEmailExist(` : methode qui contient de l'AJAX dedans, `await` permet d'attendre que la requête AJAX retourne une réponse.
+    - `await FormCheckClass.isEmailExist(` : methode qui contient de l'AJAX dedans, `await` permet d'attendre que la requête AJAX retourne une réponse.
 
-- Dans `checkEmailAfterSubmit(formCheckFunction);` (vérifier si l'email dans le champ est valide après le submit du formulaire)
+- Dans `checkEmailAfterSubmit(FormCheckClass);` (vérifier si l'email dans le champ est valide après le submit du formulaire)
     - `$(document).on('submit', '#user-registration-form', async function (event) {`
         - `$(document)` : Cela sélectionne l'élément racine du DOM, le document HTML. L'événement "input" sera surveillé sur tout le document.
         - `on('submit', '#user-registration-form', async function (event) {` : Il s'agit de la méthode .on() de jQuery, qui est utilisée pour attacher un gestionnaire d'événement à un ou plusieurs éléments du DOM. Dans cet exemple, l'événement est "submit", ce qui signifie que le gestionnaire sera déclenché lorsque le formulaire est soumis.
@@ -226,28 +226,28 @@ Dans page-register-check.js
 ```js
 // page-register-check.js
 
-import { FormCheckFunction } from '../../form/form-check-function';
+import { FormCheckClass } from '../../form/formCheckClass';
 
 const colorRed = '#dc3545';
 const colorGreen = '#28a745';
 const colorOrange = '#D07B21';
 
 $(function () {
-    const formCheckFunction = new FormCheckFunction();
-    checkEmailWhileWriteIntoInput(formCheckFunction);
-    checkEmailAfterSubmit(formCheckFunction);
+    const formCheckClass = new FormCheckClass();
+    checkEmailWhileWriteIntoInput(formCheckClass);
+    checkEmailAfterSubmit(formCheckClass);
 });
 
 /**
  *  vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void}
  */
-function checkEmailWhileWriteIntoInput(formCheckFunction) {
+function checkEmailWhileWriteIntoInput(formCheckClass) {
     $(document).on('input', async function (event) {
-        await formCheckFunction.isEmailExist(
+        await formCheckClass.isEmailExist(
             '#registration_email', 
             '/registration/email/', 
             'Cette adresse email est déjà utilisé.', 
@@ -260,11 +260,11 @@ function checkEmailWhileWriteIntoInput(formCheckFunction) {
 /**
  * vérifier si l'email dans le champ est valide après le submit du formulaire
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void}
  */
-function checkEmailAfterSubmit(formCheckFunction) {
+function checkEmailAfterSubmit(formCheckClass) {
     $(document).on('submit', '#user-registration-form', async function (event) {
         event.preventDefault();
 
@@ -275,7 +275,7 @@ function checkEmailAfterSubmit(formCheckFunction) {
 
 		let data = [];
         await data.push(
-            await formCheckFunction.isEmailExist(
+            await formCheckClass.isEmailExist(
                 '#registration_email', 
                 '/registration/email/', 
                 'Cette email est déjà utilisé.', 
@@ -284,7 +284,7 @@ function checkEmailAfterSubmit(formCheckFunction) {
             ) 
         );
 
-		await formCheckFunction.checkOnSubmitAsync(formCheckFunction.isValidField(data), event, formRegister);
+		await formCheckClass.checkOnSubmitAsync(formCheckClass.isValidField(data), event, formRegister);
 	});
 }
 ```
@@ -296,7 +296,7 @@ Dans form-check-function.js
 ```js
 // form-check-function.js
 
-export class FormCheckFunction {
+export class FormCheckClass {
 
     constructor() {
         
