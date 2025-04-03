@@ -1,4 +1,4 @@
-import { FormCheckFunction } from '../../form/form-check-function';
+import { FormCheckClass } from '../../form/formCheckClass';
 
 const colorRed = '#dc3545';
 const colorGreen = '#28a745';
@@ -8,14 +8,14 @@ $(async function () {
 
     // $("form  #register_submit").prop('disabled', true);
 
-    const formCheckFunction = new FormCheckFunction();
+    const formCheckClass = new FormCheckClass();
 
-    await checkEmailWhileWriteIntoInput2(formCheckFunction);
+    await checkEmailWhileWriteIntoInput2(formCheckClass);
 
     // $("form input").on("input change focusout", async function(event) {
 
-    //     formCheckFunction.checkBeforeSubmit(
-    //         formCheckFunction.isValidField(await isCheckField(formCheckFunction)), 
+    //     formCheckClass.checkBeforeSubmit(
+    //         formCheckClass.isValidField(await isCheckField(formCheckClass)), 
     //         event, 
     //         "#register_submit", 
     //         true
@@ -23,9 +23,9 @@ $(async function () {
     // });
 
     // async function updateFieldResults(inputElement) {
-    //     const results = await isCheckField(formCheckFunction);
-    //     formCheckFunction.checkBeforeSubmit(
-    //         formCheckFunction.isValidField(results), 
+    //     const results = await isCheckField(formCheckClass);
+    //     formCheckClass.checkBeforeSubmit(
+    //         formCheckClass.isValidField(results), 
     //         inputElement, 
     //         "#register_submit", 
     //         true
@@ -47,14 +47,14 @@ $(async function () {
  * Mettre toute les fonctions de check ici pour renvoyer une seul réponse
  * 
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * @return {array} resolve : réponse des méthodes check 
  */
-async function isCheckField2(formCheckFunction) {
+async function isCheckField2(formCheckClass) {
 
     // // Email
-    checkEmailWhileWriteIntoInput(formCheckFunction, handleResult);
-    checkEmailAfterSubmit(formCheckFunction, handleResult);
+    checkEmailWhileWriteIntoInput(formCheckClass, handleResult);
+    checkEmailAfterSubmit(formCheckClass, handleResult);
 }
 
 /**
@@ -65,10 +65,10 @@ async function isCheckField2(formCheckFunction) {
  * Mettre toute les fonctions de check ici pour renvoyer une seul réponse
  * 
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * @return {array} resolve : réponse des méthodes check 
  */
-async function isCheckField(formCheckFunction) {
+async function isCheckField(formCheckClass) {
     return await new Promise(async (resolve, reject) => {
         let results = [];
         const count = 6;
@@ -90,24 +90,24 @@ async function isCheckField(formCheckFunction) {
         // }
         
         // // LastName
-        // checkLastName(formCheckFunction, handleResult);
+        // checkLastName(formCheckClass, handleResult);
         
         // // FirstName
-        // checkFirstName(formCheckFunction, handleResult);
+        // checkFirstName(formCheckClass, handleResult);
 
         // // Password
-        // checkIfSamePasswordWhileWriteIntoInput(formCheckFunction, handleResult);
-        // checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckFunction, handleResult);
+        // checkIfSamePasswordWhileWriteIntoInput(formCheckClass, handleResult);
+        // checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckClass, handleResult);
 
         // // Email
-        // checkEmailWhileWriteIntoInput(formCheckFunction, handleResult);
-        // checkEmailAfterSubmit(formCheckFunction, handleResult);
+        // checkEmailWhileWriteIntoInput(formCheckClass, handleResult);
+        // checkEmailAfterSubmit(formCheckClass, handleResult);
 
         // FirstName
         // Fonction pour appeler checkFirstName avec une promesse
         async function checkFirstNameAsync() {
             return new Promise((resolve, reject) => {
-                checkFirstName(formCheckFunction, resolve);
+                checkFirstName(formCheckClass, resolve);
             });
         }
     
@@ -115,7 +115,7 @@ async function isCheckField(formCheckFunction) {
         // Fonction pour appeler checkLastName avec une promesse
         async function checkLastNameAsync() {
             return new Promise((resolve, reject) => {
-                checkLastName(formCheckFunction, resolve);
+                checkLastName(formCheckClass, resolve);
             });
         }
 
@@ -123,14 +123,14 @@ async function isCheckField(formCheckFunction) {
         // Fonction pour appeler checkIfSamePasswordWhileWriteIntoInput avec une promesse
         async function checkIfSamePasswordWhileWriteIntoInputAsync() {
             return new Promise((resolve, reject) => {
-                checkIfSamePasswordWhileWriteIntoInput(formCheckFunction, resolve);
+                checkIfSamePasswordWhileWriteIntoInput(formCheckClass, resolve);
             });
         }
 
         // Fonction pour appeler checkIfSameComfirmPasswordWhileWriteIntoInput avec une promesse
         async function checkIfSameComfirmPasswordWhileWriteIntoInputAsync() {
             return new Promise((resolve, reject) => {
-                checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckFunction, resolve);
+                checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckClass, resolve);
             });
         }
 
@@ -138,14 +138,14 @@ async function isCheckField(formCheckFunction) {
         // Fonction pour appeler checkEmailWhileWriteIntoInput avec une promesse
         async function checkEmailWhileWriteIntoInputAsync() {
             return new Promise((resolve, reject) => {
-                checkEmailWhileWriteIntoInput(formCheckFunction, resolve);
+                checkEmailWhileWriteIntoInput(formCheckClass, resolve);
             });
         }
 
         // Fonction pour appeler checkEmailAfterSubmit avec une promesse
         async function checkEmailAfterSubmitAsync() {
             return new Promise((resolve, reject) => {
-                checkEmailAfterSubmit(formCheckFunction, resolve);
+                checkEmailAfterSubmit(formCheckClass, resolve);
             });
         }
 
@@ -196,12 +196,12 @@ async function isCheckField(formCheckFunction) {
 /**
  * check le prenom seulment
  * 
- * @param {*} formCheckFunction 
+ * @param {*} formCheckClass 
  * @returns 
  */
-async function isCheckFirstName(formCheckFunction) {
+async function isCheckFirstName(formCheckClass) {
     return await new Promise((resolve, reject) => {
-        checkFirstName(formCheckFunction, resolve);
+        checkFirstName(formCheckClass, resolve);
     });
 }
 
@@ -213,15 +213,15 @@ async function isCheckFirstName(formCheckFunction) {
  * Donc si les autres méthodes sont true mais que cette méthode est false
  * alors, checkBeforeSubmit désactivera le button submit
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void|boolean}
  */
-function checkFirstName(formCheckFunction, callback) {
+function checkFirstName(formCheckClass, callback) {
     $(document).on('input change focusout', '#registration_firstName', function (event) {
         let data = [];
         data.push(
-            formCheckFunction.validInputLength(
+            formCheckClass.validInputLength(
                 this,
                 "#error_firstName",
                 'Ce champ ne doit pas être vide',
@@ -231,8 +231,8 @@ function checkFirstName(formCheckFunction, callback) {
             )
         );
     
-        const isValid = formCheckFunction.isValidField(data);
-        //   console.log(formCheckFunction.checkBeforeSubmit(isValid, event, "#register_submit"));
+        const isValid = formCheckClass.isValidField(data);
+        //   console.log(formCheckClass.checkBeforeSubmit(isValid, event, "#register_submit"));
     
         if (isValid) {
             console.log('checkFirstName true'); // Appel du callback avec true en cas de succès
@@ -252,17 +252,17 @@ function checkFirstName(formCheckFunction, callback) {
  * Donc si les autres méthodes sont true mais que cette méthode est false
  * alors, checkBeforeSubmit désactivera le button submit
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void|boolean}
  */
-function checkFirstName2(formCheckFunction) {
+function checkFirstName2(formCheckClass) {
 
     return new Promise(function(resolve, reject) {
         $(document).on('input change', '#registration_firstName', function (event) {
             let data = [];
             data.push(
-                formCheckFunction.validInputLength(
+                formCheckClass.validInputLength(
                     this,
                     "#error_firstName",
                     'Ce champ ne doit pas être vide',
@@ -272,9 +272,9 @@ function checkFirstName2(formCheckFunction) {
                 )
             );
 
-            console.log(formCheckFunction.checkBeforeSubmit(formCheckFunction.isValidField(data), event, "#register_submit"));
+            console.log(formCheckClass.checkBeforeSubmit(formCheckClass.isValidField(data), event, "#register_submit"));
 
-            const isValid = formCheckFunction.checkBeforeSubmit(formCheckFunction.isValidField(data), event, "#register_submit");
+            const isValid = formCheckClass.checkBeforeSubmit(formCheckClass.isValidField(data), event, "#register_submit");
 
             if (isValid) {
                 resolve(true); // Renvoie true en cas de succès
@@ -293,15 +293,15 @@ function checkFirstName2(formCheckFunction) {
  * Donc si les autres méthodes sont true mais que cette méthode est false
  * alors, checkBeforeSubmit désactivera le button submit
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void|boolean}
  */
-function checkLastName(formCheckFunction, callback) {
+function checkLastName(formCheckClass, callback) {
     $(document).on('input change focusout', '#registration_lastName', function (event) {
         let data = [];
         data.push(
-            formCheckFunction.validInputLength(
+            formCheckClass.validInputLength(
                 this,
                 "#error_lastName",
                 'Ce champ ne doit pas être vide',
@@ -311,8 +311,8 @@ function checkLastName(formCheckFunction, callback) {
             )
         );
 
-        // return formCheckFunction.checkBeforeSubmit(formCheckFunction.isValidField(data), event, "#register_submit");
-        const isValid = formCheckFunction.isValidField(data);
+        // return formCheckClass.checkBeforeSubmit(formCheckClass.isValidField(data), event, "#register_submit");
+        const isValid = formCheckClass.isValidField(data);
     
         if (isValid) {
             console.log('checkLastName true')
@@ -333,16 +333,16 @@ function checkLastName(formCheckFunction, callback) {
  * Donc si les autres méthodes sont true mais que cette méthode est false
  * alors, checkBeforeSubmit désactivera le button submit
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void|boolean}
  */
-function checkIfSamePasswordWhileWriteIntoInput(formCheckFunction, callback) {
+function checkIfSamePasswordWhileWriteIntoInput(formCheckClass, callback) {
 
     $(document).on('input change focusout', '#registration_password', function (event) {
         let data = [];
         data.push(
-            formCheckFunction.samePassword(
+            formCheckClass.samePassword(
                 this,
                 "#registration_confirm_password",
                 "#error_confirm_password",
@@ -361,9 +361,9 @@ function checkIfSamePasswordWhileWriteIntoInput(formCheckFunction, callback) {
             )
         );
 
-        // return formCheckFunction.checkBeforeSubmit(formCheckFunction.isValidField(data), event, "#register_submit");
+        // return formCheckClass.checkBeforeSubmit(formCheckClass.isValidField(data), event, "#register_submit");
         
-        const isValid = formCheckFunction.isValidField(data);
+        const isValid = formCheckClass.isValidField(data);
     
         if (isValid) {
             console.log('checkIfSamePasswordWhileWriteIntoInput true')
@@ -384,16 +384,16 @@ function checkIfSamePasswordWhileWriteIntoInput(formCheckFunction, callback) {
  * Donc si les autres méthodes sont true mais que cette méthode est false
  * alors, checkBeforeSubmit désactivera le button submit
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void|boolean}
  */
-function checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckFunction, callback) {
+function checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckClass, callback) {
 
     $(document).on('change', '#registration_confirm_password', function (event) {
         let data = [];
         data.push(
-            formCheckFunction.sameComfirmPassword(
+            formCheckClass.sameComfirmPassword(
                 this,
                 "#registration_password",
                 "#error_confirm_password",
@@ -412,9 +412,9 @@ function checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckFunction, callba
             )
         );
 
-        // return formCheckFunction.checkBeforeSubmit(formCheckFunction.isValidField(data), event, "#register_submit");
+        // return formCheckClass.checkBeforeSubmit(formCheckClass.isValidField(data), event, "#register_submit");
     
-        const isValid = formCheckFunction.isValidField(data);
+        const isValid = formCheckClass.isValidField(data);
     
         if (isValid) {
             console.log('checkIfSameComfirmPasswordWhileWriteIntoInput true')
@@ -434,16 +434,16 @@ function checkIfSameComfirmPasswordWhileWriteIntoInput(formCheckFunction, callba
  * Donc si les autres méthodes sont true mais que cette méthode est false
  * alors, checkBeforeSubmit désactivera le button submit
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * @param {array} data
  * 
  * @returns {void|boolean}
  */
-function checkEmailWhileWriteIntoInput(formCheckFunction, callback) {
+function checkEmailWhileWriteIntoInput(formCheckClass, callback) {
     $(document).on('input change focusout', async function (event) {
         let data = [];
         data.push(
-            await formCheckFunction.isEmailExist(
+            await formCheckClass.isEmailExist(
                 '#registration_email', 
                 '/registration/email/', 
                 '#error_email',
@@ -453,9 +453,9 @@ function checkEmailWhileWriteIntoInput(formCheckFunction, callback) {
             )
         );
 
-        // return await formCheckFunction.checkBeforeSubmitAsync(formCheckFunction.isValidField(data), event, "#register_submit");
+        // return await formCheckClass.checkBeforeSubmitAsync(formCheckClass.isValidField(data), event, "#register_submit");
 	
-        const isValid = formCheckFunction.isValidField(data);
+        const isValid = formCheckClass.isValidField(data);
     
         if (isValid) {
             console.log('checkEmailWhileWriteIntoInput true')
@@ -475,16 +475,16 @@ function checkEmailWhileWriteIntoInput(formCheckFunction, callback) {
  * Donc si les autres méthodes sont true mais que cette méthode est false
  * alors, checkBeforeSubmit désactivera le button submit
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * @param {array} data
  * 
  * @returns {void|boolean}
  */
-function checkEmailWhileWriteIntoInput2(formCheckFunction) {
+function checkEmailWhileWriteIntoInput2(formCheckClass) {
     $(document).on('input change focusout', async function (event) {
         let data = [];
         data.push(
-            await formCheckFunction.isEmailExist(
+            await formCheckClass.isEmailExist(
                 '#registration_email', 
                 '/registration/email/', 
                 '#error_email',
@@ -494,9 +494,9 @@ function checkEmailWhileWriteIntoInput2(formCheckFunction) {
             )
         );
 
-        return formCheckFunction.checkBeforeSubmitAsync(formCheckFunction.isValidField(data), event, "#register_submit");
+        return formCheckClass.checkBeforeSubmitAsync(formCheckClass.isValidField(data), event, "#register_submit");
 	
-        // const isValid = formCheckFunction.isValidField(data);
+        // const isValid = formCheckClass.isValidField(data);
     
         // if (isValid) {
         //     console.log('checkEmailWhileWriteIntoInput true')
@@ -511,11 +511,11 @@ function checkEmailWhileWriteIntoInput2(formCheckFunction) {
 /**
  * vérifier si l'email dans le champ est valide après le submit du formulaire
  * 
- * @param {FormCheckFunction} formCheckFunction 
+ * @param {FormCheckClass} formCheckClass 
  * 
  * @returns {void|boolean}
  */
-function checkEmailAfterSubmit(formCheckFunction, callback) {
+function checkEmailAfterSubmit(formCheckClass, callback) {
     $(document).on('submit', '#user-registration-form', async function (event) {
         event.preventDefault();
 
@@ -526,7 +526,7 @@ function checkEmailAfterSubmit(formCheckFunction, callback) {
 
 		let data = [];
         await data.push(
-            await formCheckFunction.isEmailExist(
+            await formCheckClass.isEmailExist(
                 '#registration_email', 
                 '/registration/email/', 
                 '#error_email',
@@ -536,9 +536,9 @@ function checkEmailAfterSubmit(formCheckFunction, callback) {
             ) 
         );
 
-		// return await formCheckFunction.checkAfterSubmitAsync(formCheckFunction.isValidField(data), event, formRegister, true);
+		// return await formCheckClass.checkAfterSubmitAsync(formCheckClass.isValidField(data), event, formRegister, true);
 	
-        const isValid = formCheckFunction.isValidField(data);
+        const isValid = formCheckClass.isValidField(data);
     
         if (isValid) {
             callback(true); // Appel du callback avec true en cas de succès

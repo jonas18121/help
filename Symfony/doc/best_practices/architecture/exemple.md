@@ -16,15 +16,15 @@ projet
                         |
                         -- category.js
                         |
-                        -- categoryFunction.js
+                        -- categoryClass.js
                     |
                     -- product
                         |
                         -- product.js
                         |
-                        -- productFunction.js
+                        -- productClass.js
             |
-            -- admin (Si les pages admin sont différentes du frontend)
+            -- backend (Si les pages admin sont différentes du frontend)
                 |
                 -- pages
                     |
@@ -32,17 +32,17 @@ projet
                         |
                         -- category.js
                         |
-                        -- categoryFunction.js
+                        -- categoryClass.js
                     |
                     -- product
                         |
                         -- product.js
                         |
-                        -- productFunction.js
+                        -- productClass.js
             |
             -- components
                 |
-                -- validFormFunction.js
+                -- validFormClass.js
             |
             -- plugins
             |
@@ -86,7 +86,7 @@ projet
                             |
                             -- mobile.css
             |
-            -- admin (Si les pages admin sont différentes du frontend)
+            -- backend (Si les pages admin sont différentes du frontend)
                 |
                 -- pages
                     |
@@ -188,7 +188,7 @@ projet
                 |
                 -- form.html.twig
         |
-        -- admin (Si les pages admin sont différentes du frontend)
+        -- backend (Si les pages admin sont différentes du frontend)
             |
             -- pages
                 |

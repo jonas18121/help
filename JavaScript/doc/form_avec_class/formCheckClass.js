@@ -1,6 +1,6 @@
 ////// Generic Function ////// 
 
-export class FormCheckFunction {
+export class FormCheckClass {
 
     constructor() {
         
@@ -51,13 +51,9 @@ export class FormCheckFunction {
      * @param {string} messageSuccessEqual : success message Equal, the field is empty
      * @param {string} messageErrorGeneral : error message general, the field is empty
      * @param {string} messageErrorSmall : error message Small, the field is empty
-     * @param {string} temporaryColorSuccessGeneral : temporary color Success General
      * @param {string} permanentColorSuccessGeneral : permanent color Success General
-     * @param {string} temporaryColorSuccessEqual : temporary color Success Equal
      * @param {string} permanentColorSuccessEqual : permanent color Success Equal
-     * @param {string} temporaryColorErrorGeneral : temporary color Error General
      * @param {string} permanentColorErrorGeneral : permanent color Error General
-     * @param {string} temporaryColorErrorSmall : temporary color Error Small
      * @param {string} permanentColorErrorSmall : permanent color Error Small
      * 
      * @returns {boolean}
@@ -70,13 +66,9 @@ export class FormCheckFunction {
         messageSuccessEqual,
         messageErrorGeneral,
         messageErrorSmall,
-        temporaryColorSuccessGeneral,
         permanentColorSuccessGeneral,
-        temporaryColorSuccessEqual,
         permanentColorSuccessEqual,
-        temporaryColorErrorGeneral,
         permanentColorErrorGeneral,
-        temporaryColorErrorSmall,
         permanentColorErrorSmall
     ) {
         const compare = $(compareComfirmPasswordId).val(); // La chaîne de comparaison
@@ -146,13 +138,9 @@ export class FormCheckFunction {
      * @param {string} messageSuccessEqual : success message Equal, the field is empty
      * @param {string} messageErrorGeneral : error message general, the field is empty
      * @param {string} messageErrorSmall : error message Small, the field is empty
-     * @param {string} temporaryColorSuccessGeneral : temporary color Success General
      * @param {string} permanentColorSuccessGeneral : permanent color Success General
-     * @param {string} temporaryColorSuccessEqual : temporary color Success Equal
      * @param {string} permanentColorSuccessEqual : permanent color Success Equal
-     * @param {string} temporaryColorErrorGeneral : temporary color Error General
      * @param {string} permanentColorErrorGeneral : permanent color Error General
-     * @param {string} temporaryColorErrorSmall : temporary color Error Small
      * @param {string} permanentColorErrorSmall : permanent color Error Small
      * 
      * @returns {boolean}
@@ -165,13 +153,9 @@ export class FormCheckFunction {
         messageSuccessEqual,
         messageErrorGeneral,
         messageErrorSmall,
-        temporaryColorSuccessGeneral,
         permanentColorSuccessGeneral,
-        temporaryColorSuccessEqual,
         permanentColorSuccessEqual,
-        temporaryColorErrorGeneral,
         permanentColorErrorGeneral,
-        temporaryColorErrorSmall,
         permanentColorErrorSmall
     ) {
         const compare = $(passwordId).val(); // La chaîne de comparaison
@@ -247,6 +231,7 @@ export class FormCheckFunction {
     async isEmailExist(input, partUrl, messageError, temporaryColor, permanentColor) {
         try {
             const isValid = await this.findEmailExist(input, partUrl, messageError, temporaryColor, permanentColor);
+            console.log(isValid);
             return isValid;
         } catch (error) {
             alert('Une erreur s\'est produite : ' + error);
@@ -537,13 +522,12 @@ export class FormCheckFunction {
      */
     checkAfterSubmit(isValid, event){
         if (isValid === false) {
-            event.preventDefault(); // stop submit
-            $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+            this.stopEventAndBackToTop(event);
         }
     }
 
     /**
-     * check if isValid is correct on submit on async
+     * check if isValid is correct on submit on async whit submit
      * 
      * @param {boolean} isValid
      * @param {event} event
@@ -553,10 +537,24 @@ export class FormCheckFunction {
      */
     async checkAfterSubmitAsync(isValid, event, form){
         if (isValid === false) {
-            event.preventDefault(); // stop submit
-            $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
+            this.stopEventAndBackToTop(event);
         } else {
             form.submit();
+        }
+    }
+
+       /**
+     * check if isValid is correct on submit on async  whitout submit
+     * 
+     * @param {boolean} isValid
+     * @param {event} event
+     * @param {Object} form
+     * 
+     * @returns {void}
+     */
+       async checkAfterSubmitAsyncWhitoutSubmit(isValid, event){
+        if (isValid === false) {
+            this.stopEventAndBackToTop(event);
         }
     }
 
@@ -618,6 +616,18 @@ export class FormCheckFunction {
 
             return true;
         }
+    }
+
+    /**
+     * 
+     * @param {Event} event 
+     * 
+     * @returns {void}
+     */
+    stopEventAndBackToTop (event)
+    {
+        event.preventDefault(); // stop submit
+        $('html,body').animate({scrollTop: 0}, 'slow'); // back to top
     }
 
     /**
