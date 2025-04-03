@@ -199,14 +199,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 Dans page-register-check.js
 
 - On importe `FormCheckClass`, puis on l'instance
-- Puis on appel `checkEmailWhileWriteIntoInput(FormCheckClass);` et `checkEmailAfterSubmit(FormCheckClass);`
+- Puis on appel `checkEmailWhileWriteIntoInput(formCheckClass);` et `checkEmailAfterSubmit(formCheckClass);`
 
-- Dans `checkEmailWhileWriteIntoInput(FormCheckClass);` (vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input)
+- Dans `checkEmailWhileWriteIntoInput(ormCheckClass);` (vérifier si l'email dans le champ est valide pendant que l'user écrit dans l'input)
     - `$(document).on('input', async function (event) {`
         - `$(document)` : Cela sélectionne l'élément racine du DOM, le document HTML. L'événement "input" sera surveillé sur tout le document.
         - `on()` : de jQuery pour attacher un gestionnaire d'événement à l'événement "input" sur le document. Cela signifie que chaque fois qu'un élément du DOM reçoit un événement "input", ce gestionnaire d'événement sera déclenché. L'événement "input" se produit généralement lorsque l'utilisateur entre des données dans un champ de formulaire ou modifie le contenu d'un élément éditable
         - `async function (event)` : Le code est défini comme asynchrone, ce qui signifie que la fonction gère de manière asynchrone les actions qui peuvent nécessiter du temps, comme des opérations réseau, des requêtes AJAX, etc.
-    - `await FormCheckClass.isEmailExist(` : methode qui contient de l'AJAX dedans, `await` permet d'attendre que la requête AJAX retourne une réponse.
+    - `await formCheckClass.isEmailExist(` : methode qui contient de l'AJAX dedans, `await` permet d'attendre que la requête AJAX retourne une réponse.
 
 - Dans `checkEmailAfterSubmit(FormCheckClass);` (vérifier si l'email dans le champ est valide après le submit du formulaire)
     - `$(document).on('submit', '#user-registration-form', async function (event) {`
