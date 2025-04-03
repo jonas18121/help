@@ -208,7 +208,7 @@ Dans page-register-check.js
         - `async function (event)` : Le code est défini comme asynchrone, ce qui signifie que la fonction gère de manière asynchrone les actions qui peuvent nécessiter du temps, comme des opérations réseau, des requêtes AJAX, etc.
     - `await formCheckClass.isEmailExist(` : methode qui contient de l'AJAX dedans, `await` permet d'attendre que la requête AJAX retourne une réponse.
 
-- Dans `checkEmailAfterSubmit(FormCheckClass);` (vérifier si l'email dans le champ est valide après le submit du formulaire)
+- Dans `checkEmailAfterSubmit(formCheckClass);` (vérifier si l'email dans le champ est valide après le submit du formulaire)
     - `$(document).on('submit', '#user-registration-form', async function (event) {`
         - `$(document)` : Cela sélectionne l'élément racine du DOM, le document HTML. L'événement "input" sera surveillé sur tout le document.
         - `on('submit', '#user-registration-form', async function (event) {` : Il s'agit de la méthode .on() de jQuery, qui est utilisée pour attacher un gestionnaire d'événement à un ou plusieurs éléments du DOM. Dans cet exemple, l'événement est "submit", ce qui signifie que le gestionnaire sera déclenché lorsque le formulaire est soumis.
