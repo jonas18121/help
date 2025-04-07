@@ -542,7 +542,7 @@ class Foo {
 }
 ```
 
-###
+### Accéder aux paramètres définis dans le fichier parameters.yaml
 
 Dans un gestionnaire (manager) Symfony, vous pouvez accéder aux paramètres définis dans le fichier parameters.yaml en utilisant le service `parameter_bag` fourni par Symfony. 
 
@@ -992,7 +992,7 @@ $article->getAuthor()->setEmail('...');
 
 Notez que ce `setAuthor()` n'est pas appelé. L'auteur est modifié par référence.
 
-Si vous définissez `by_referencesur` sur false, la soumission ressemble à ceci :
+Si vous définissez `by_reference` sur false, la soumission ressemble à ceci :
 
 ```php
 $article->setTitle('...');
