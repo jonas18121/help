@@ -53,7 +53,7 @@ On crée le fichier suivant dans l'application (en respectant la structure d'ove
     - On ne garde pas `src\Resources\views` et on passe directement au repertoire `partials`
 
 ```bash
-projet\template\bundles\my-bundle\partials\flashes.html.twig 
+projet\template\bundles\MyBundle\partials\flashes.html.twig 
 ```
 
 ### 3. Copier et modifier le contenu
