@@ -138,6 +138,26 @@ class UserService
 }
 ```
 
+### Pourquoi séparer Service & Manager ?
+
+- **Service** : traite une **intention métier complète** (ex : "Créer un utilisateur").
+
+- **Manager** : contient la **logique technique répétitive** liée à une entité (ex : hasher le mot de passe, envoyer un mail de bienvenue, enregistrer un user).
+
+👉 **Le service orchestre, le manager exécute.**
+
+### Architecture typique
+
+```txt
+UserController
+    ↓
+UserService (service métier)
+    ↓
+UserManager (logique sur User : création, mise à jour, etc.)
+    ↓
+UserRepository (accès DB)
+```
+
 En résumé, les managers et les services ont des responsabilités distinctes dans un projet Symfony : les managers gèrent les opérations sur les entités et la persistance des données, tandis que les services implémentent la logique métier et orchestrent les différentes actions nécessaires au bon fonctionnement de l'application.
 
 
