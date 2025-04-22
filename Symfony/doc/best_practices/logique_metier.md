@@ -141,7 +141,7 @@ Voici quelques **types de logique métier** qu’on ne veut **jamais voir dans u
 - Conditions d’accès spécifiques (ex : seul un auteur peut modifier son article)
 
 ### CHECKLIST : CONTROLLER vs SERVICE
-checklist claire et directe que tu pourras utiliser (ou partager avec ton équipe) pour savoir quoi garder dans un controller et quoi déléguer à un service (ou handler/manager/etc.) 👇
+checklist claire et directe à utiliser pour savoir quoi garder dans un controller et quoi déléguer à un service (ou handler/manager/etc.) 👇
 
 | Élément à coder                               | Controller    | Service / Handler | Notes                                                             |
 | --------------------------------------------- | ------------- | ----------------- | ----------------------------------------------------------------- |
