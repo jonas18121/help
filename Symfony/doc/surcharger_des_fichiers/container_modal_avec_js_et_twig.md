@@ -1,4 +1,4 @@
-# Conteneur de modal avec Javascript et twig dans symfony
+# Conteneur de modal avec CSS, Javascript et twig dans symfony
 
 **Général**
 
