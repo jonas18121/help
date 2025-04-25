@@ -874,11 +874,43 @@ Sinon, le code à l'intérieur du bloc else sera exécuté.
 </div>
 ```
 
-#### Déconnecter automatiquement un utilisateur depuis un contrôleur Symfony sans avoir à appeler explicitement la route de déconnexion (logout) dans une redirection
+### Déconnecter automatiquement un utilisateur depuis un contrôleur Symfony sans avoir à appeler explicitement la route de déconnexion (logout) dans une redirection
 
 Pour déconnecter automatiquement un utilisateur depuis un contrôleur Symfony sans avoir à appeler explicitement la route de déconnexion (logout) dans une redirection, vous pouvez utiliser le service security.helper pour invalider la session de l'utilisateur actuellement authentifié.
 
 Voici comment vous pouvez le faire dans votre contrôleur :
+
+#### Alternative à partir de à Symfony 6.3
+
+- Utilisez le service Security pour déconnecter l'utilisateur de manière programmatique avant de supprimer son compte par exemple
+- `logout(false)` déconnecte l'utilisateur sans rediriger
+- Après la déconnexion, vous pouvez procéder à la suppression du compte utilisateur en toute sécurité.
+
+```php
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class AccountController
+{
+    #[Route('/delete-account', name: 'delete_account')]
+    public function deleteAccount(Security $security, RequestStack $requestStack): Response
+    {
+        // Déconnexion de l'utilisateur
+        $security->logout(false);
+
+        // Suppression du compte utilisateur
+        $user = $security->getUser();
+        // ... logique de suppression du compte ...
+
+        // Redirection après suppression
+        return $this->redirectToRoute('homepage');
+    }
+}
+```
+
+#### Alternative pour les versions antérieures à Symfony 6.3
 
 ```php
 // controller 
@@ -900,6 +932,28 @@ public function logoutUser(TokenStorageInterface $tokenStorage)
     }
 
     // ...
+}
+
+## OU
+
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+
+public function deleteAccount(TokenStorageInterface $tokenStorage, RequestStack $requestStack): Response
+{
+    // Invalidation du token de sécurité
+    $tokenStorage->setToken(null);
+
+    // Invalidation de la session
+    $request = $requestStack->getCurrentRequest();
+    $session = $request->getSession();
+    $session->invalidate();
+
+    // Suppression du compte utilisateur
+    // ... logique de suppression du compte ...
+
+    // Redirection après suppression
+    return $this->redirectToRoute('homepage');
 }
 ```
 
@@ -933,6 +987,15 @@ Si c'est le cas, nous invalidons la session de l'utilisateur en réinitialisant 
 
 Veuillez noter que cette approche ne déclenchera pas automatiquement les événements associés à la déconnexion dans Symfony (par exemple, l'exécution des écouteurs d'événements de déconnexion). <br>
 Si vous avez besoin de déclencher ces événements personnalisés, il serait préférable de rediriger vers la route de déconnexion `(logout)` spécifiée dans votre configuration de sécurité.
+
+#### Bonnes pratiques supplémentaires
+
+- **Protection CSRF** : Assurez-vous que la suppression du compte est protégée contre les attaques CSRF en utilisant des tokens CSRF dans vos formulaires.​
+GitHub
+
+- **Confirmation utilisateur** : Demandez une confirmation explicite de l'utilisateur avant de procéder à la suppression de son compte.​
+
+- **Gestion des erreurs** : Implémentez une gestion des erreurs robuste pour gérer les cas où la suppression échoue ou où l'utilisateur n'est pas authentifié.
 
 ### ParameterBag depuis request
 
