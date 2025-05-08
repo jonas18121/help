@@ -693,16 +693,16 @@ let payeString = "Payer | 152.25 €";
 // 3 manières de faire ci-dessous
 
 // 1) regex /[0-9]+/
-let paye1 = parseInt(payeString.match(/\d[\d\s]*([,.])\d{2}/));
-console.log(paye1); // Retourne 152
+let paye1 = parseInt(payeString.match(/[0-9\s]*([,.])[0-9]{2}/));
+console.log(paye1); // Retourne 152.25
 
 // 2) regex /\d+/
-let paye2 = parseInt(payeString.match(/\d[\d\s]*([,.])\d{2}/));
-console.log(paye2); // Retourne 152
+let paye2 = parseInt(payeString.match(/[\d\s]*([,.])\d{2}/));
+console.log(paye2); // Retourne 152.25
 
 // 3) split 
 let paye3 = payeString.split(' ');
-console.log(parseInt(paye3[2])); // Retourne 152
+console.log(parseInt(paye3[2])); // Retourne 152.25
 
 ```
 
