@@ -3,9 +3,15 @@
 Dans le fichier `user_update.html.twig`
 
 - Le select **situation** dépend de ce qu'on choisit dans le select **gender**
+- Balise script avec type `module` pour accepter que des fichiers JS puisse être importer dans dans fichiers JS
 
 ```twig
 {# user_update.html.twig #}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="/js/frontend/user/user.js"></script>
+{% endblock %}
 
 {# autres codes ... #}
 
