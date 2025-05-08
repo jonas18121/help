@@ -30,6 +30,8 @@ Avant d'initialiser DataTable, vérifiez si elle est déjà initialisée sur l'�
 Vous pouvez utiliser la méthode `$.fn.DataTable.isDataTable` pour éviter cette erreur.
 
 ```js
+"use strict";
+
 $(document).ready(function() {
     var tableId = '#datatable';
     
@@ -47,6 +49,8 @@ Si vous devez réinitialiser DataTable après une mise à jour (comme un recharg
 La méthode `destroy` de DataTables permet de nettoyer les instances précédentes.
 
 ```js
+"use strict";
+
 $(document).ready(function() {
     var tableId = '#datatable';
     
@@ -105,6 +109,8 @@ Avec Webpack Encore, assurez-vous que les dépendances JavaScript nécessaires p
 Les modules doivent être importés correctement, par exemple :
 
 ```js
+"use strict";
+
 // Importer jQuery
 import $ from 'jquery';
 

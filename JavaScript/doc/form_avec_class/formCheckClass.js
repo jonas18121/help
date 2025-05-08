@@ -1,3 +1,5 @@
+"use strict";
+
 ////// Generic Function ////// 
 
 export class FormCheckClass {

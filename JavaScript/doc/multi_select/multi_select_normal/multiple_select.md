@@ -27,6 +27,8 @@
 
 ## JQuery
 ```js
+"use strict";
+
 jQuery(function() {
   jQuery('.multiSelect').each(function(e) {
     var self = jQuery(this);

@@ -65,6 +65,8 @@ public function toolsGetOptionCategory(
 ```js
 // multi-select-function.js
 
+"use strict";
+
 export class MultiSelectFunction {
 
     /**
