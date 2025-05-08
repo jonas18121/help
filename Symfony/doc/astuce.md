@@ -897,12 +897,12 @@ class AccountController
     #[Route('/delete-account', name: 'delete_account')]
     public function deleteAccount(Security $security, RequestStack $requestStack): Response
     {
-        // Déconnexion de l'utilisateur
-        $security->logout(false);
-
         // Suppression du compte utilisateur
         $user = $security->getUser();
         // ... logique de suppression du compte ...
+
+        // Déconnexion de l'utilisateur
+        $security->logout(false);
 
         // Redirection après suppression
         return $this->redirectToRoute('homepage');

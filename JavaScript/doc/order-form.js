@@ -1,3 +1,5 @@
+"use strict";
+
 import toastr from '../../../../../../public/assets/shared_all/plugins/toastr/toastr.min.js';
 import '../../translations.js'
 import  '../../../../../../lib/bundle/public/assets/backend/js/translations.js';

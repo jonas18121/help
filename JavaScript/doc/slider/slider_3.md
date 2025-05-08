@@ -146,6 +146,8 @@
 ```js
 //  app.js
 
+"use strict";
+
 $(function () {
     const imgSlider = $(".img_slider");
     let step = 0;

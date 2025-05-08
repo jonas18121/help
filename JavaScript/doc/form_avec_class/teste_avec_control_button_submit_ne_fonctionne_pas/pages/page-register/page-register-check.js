@@ -1,3 +1,5 @@
+"use strict";
+
 import { FormCheckClass } from '../../form/formCheckClass';
 
 const colorRed = '#dc3545';

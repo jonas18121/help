@@ -12,6 +12,9 @@ Dans ce fichier :
 #### EN JQuery 
 ```js
 // product.js
+
+"use strict";
+
 import { ProductClass } from './productClass';
 
 // Affiche la liste des produits disponible
@@ -36,6 +39,9 @@ $(function () {
 #### EN JavaScript 
 ```js
 // product.js
+
+"use strict";
+
 import { ProductClass } from './productClass';
 
 // Affiche la liste des produits disponible
@@ -65,6 +71,9 @@ Dans ce fichier :
 
 ```js
 // productClass.js
+
+"use strict";
+
 export class ProductClass {
 
     constructor() {

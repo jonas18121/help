@@ -1,3 +1,5 @@
+"use strict";
+
 import '../../translations.js'
 import  '../../../../../../lib/bundle/public/assets/backend/js/translations.js';
 import Translator from '../../../../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js';

@@ -226,6 +226,8 @@ Dans page-register-check.js
 ```js
 // page-register-check.js
 
+"use strict";
+
 import { FormCheckClass } from '../../form/formCheckClass';
 
 const colorRed = '#dc3545';
@@ -295,6 +297,8 @@ Dans form-check-function.js
 
 ```js
 // form-check-function.js
+
+"use strict";
 
 export class FormCheckClass {
 
