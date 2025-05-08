@@ -16,6 +16,8 @@ Dans `App.js`
 - Puis on supprime l'addEventListener
 ```JS
 // App.js
+
+"use strict";
   
 // création d'un écouteur d'évènement pour agir lorsque qu'on redimensionne l'écran
 window.addEventListener('resize', actionResize);

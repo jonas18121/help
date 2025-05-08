@@ -1,5 +1,7 @@
 
 ```js
+"use strict";
+
 $(function() {
     // For form update
     manageMultiSelectForFormUpdate();

@@ -1,3 +1,5 @@
+"use strict";
+
 // Modify the small label for change price with TVA 
 $(function() {
     let inputPriceBase = $('#input_id_product_update_price');

@@ -10,6 +10,8 @@
 ```js
 // theme.js
 
+"use strict";
+
 import '../../css/component/theme.css';
 
 // Changer le theme du site
