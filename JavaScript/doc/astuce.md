@@ -705,3 +705,37 @@ let paye3 = payeString.split(' ');
 console.log(parseInt(paye3[2])); // Retourne 152
 
 ```
+
+## Importer des fichiers JS dans d'autres fichiers JS lorsqu'on utilise des balise script
+
+Dans `product_update.html.twig`
+
+- On utilise la balise **script** avec type `module` pour accepter que des fichiers JS puisse être importer dans dans fichiers JS
+
+```twig
+{# product_update.html.twig #}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="/js/product/product.js"></script>
+{% endblock %}
+```
+
+Dans `product.js`
+
+- On peut importer `productClass.js` dans `product.js` car la balise **script** est avec type `module` dans `product_update.html.twig`
+
+```js
+// product.js
+
+"use strict";
+
+import { ProductClass } from './productClass.js';
+
+const productClass = new ProductClass();
+
+// Affiche une liste de produit
+document.addEventListener('DOMContentLoaded', function () {
+    userClass.getProducts();
+});
+```
