@@ -166,11 +166,11 @@ projet
                         |
                         -- screens
                             |
-                            -- category_create_desktop.css
+                            -- backend_category_create_desktop.css
                             |
-                            -- category_create_tablet.css
+                            -- backend_category_create_tablet.css
                             |
-                            -- category_create_mobile.css
+                            -- backend_category_create_mobile.css
                     |
                     -- update
                         |
@@ -178,11 +178,11 @@ projet
                         |
                         -- screens
                             |
-                            -- category_update_desktop.css
+                            -- backend_category_update_desktop.css
                             |
-                            -- category_update_tablet.css
+                            -- backend_category_update_tablet.css
                             |
-                            -- category_update_mobile.css
+                            -- backend_category_update_mobile.css
                     |
                     -- detail
                         |
@@ -190,11 +190,11 @@ projet
                         |
                         -- screens
                             |
-                            -- category_detail_desktop.css
+                            -- backend_category_detail_desktop.css
                             |
-                            -- category_detail_tablet.css
+                            -- backend_category_detail_tablet.css
                             |
-                            -- category_detail_mobile.css
+                            -- backend_category_detail_mobile.css
                     |
                     -- list
                         |
@@ -202,11 +202,11 @@ projet
                         |
                         -- screens
                             |
-                            -- category_list_desktop.css
+                            -- backend_category_list_desktop.css
                             |
-                            -- category_list_tablet.css
+                            -- backend_category_list_tablet.css
                             |
-                            -- category_list_mobile.css
+                            -- backend_category_list_mobile.css
                 |
                 -- product
                     |
@@ -216,11 +216,11 @@ projet
                         |
                         -- screens
                             |
-                            -- product_create_desktop.css
+                            -- backend_product_create_desktop.css
                             |
-                            -- product_create_tablet.css
+                            -- backend_product_create_tablet.css
                             |
-                            -- product_create_mobile.css
+                            -- backend_product_create_mobile.css
                     |
                     -- update
                         |
@@ -228,11 +228,11 @@ projet
                         |
                         -- screens
                             |
-                            -- product_update_desktop.css
+                            -- backend_product_update_desktop.css
                             |
-                            -- product_update_tablet.css
+                            -- backend_product_update_tablet.css
                             |
-                            -- product_update_mobile.css
+                            -- backend_product_update_mobile.css
                     |
                     -- detail
                         |
@@ -240,11 +240,11 @@ projet
                         |
                         -- screens
                             |
-                            -- product_detail_desktop.css
+                            -- backend_product_detail_desktop.css
                             |
-                            -- product_detail_tablet.css
+                            -- backend_product_detail_tablet.css
                             |
-                            -- product_detail_mobile.css
+                            -- backend_product_detail_mobile.css
                     |
                     -- list
                         |
@@ -252,11 +252,11 @@ projet
                         |
                         -- screens
                             |
-                            -- product_list_desktop.css
+                            -- backend_product_list_desktop.css
                             |
-                            -- product_list_tablet.css
+                            -- backend_product_list_tablet.css
                             |
-                            -- product_list_mobile.css
+                            -- backend_product_list_mobile.css
             |
             -- components
                 |
