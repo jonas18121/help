@@ -10,35 +10,31 @@ projet
             |
             -- frontend
                 |
-                -- pages
+                -- category
                     |
-                    -- category
-                        |
-                        -- category.js
-                        |
-                        -- categoryClass.js
+                    -- category.js
                     |
-                    -- product
-                        |
-                        -- product.js
-                        |
-                        -- productClass.js
+                    -- categoryClass.js
+                |
+                -- product
+                    |
+                    -- product.js
+                    |
+                    -- productClass.js
             |
             -- backend (Si les pages admin sont différentes du frontend)
                 |
-                -- pages
+                -- category
                     |
-                    -- category
-                        |
-                        -- category.js
-                        |
-                        -- categoryClass.js
+                    -- category.js
                     |
-                    -- product
-                        |
-                        -- product.js
-                        |
-                        -- productClass.js
+                    -- categoryClass.js
+                |
+                -- product
+                    |
+                    -- product.js
+                    |
+                    -- productClass.js
             |
             -- components
                 |
@@ -60,59 +56,207 @@ projet
             |
             -- frontend
                 |
-                -- pages
+                -- category
                     |
-                    -- category
+                    -- create
                         |
                         -- index.css
                         |
                         -- screens
                             |
-                            -- Desktop.css
+                            -- category_create_desktop.css
                             |
-                            -- tablet.css
+                            -- category_create_tablet.css
                             |
-                            -- mobile.css
+                            -- category_create_mobile.css
                     |
-                    -- product
+                    -- update
                         |
                         -- index.css
                         |
                         -- screens
                             |
-                            -- Desktop.css
+                            -- category_update_desktop.css
                             |
-                            -- tablet.css
+                            -- category_update_tablet.css
                             |
-                            -- mobile.css
+                            -- category_update_mobile.css
+                    |
+                    -- detail
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- category_detail_desktop.css
+                            |
+                            -- category_detail_tablet.css
+                            |
+                            -- category_detail_mobile.css
+                    |
+                    -- list
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- category_list_desktop.css
+                            |
+                            -- category_list_tablet.css
+                            |
+                            -- category_list_mobile.css
+                |
+                -- product
+                    |
+                    -- create
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_create_desktop.css
+                            |
+                            -- product_create_tablet.css
+                            |
+                            -- product_create_mobile.css
+                    |
+                    -- update
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_update_desktop.css
+                            |
+                            -- product_update_tablet.css
+                            |
+                            -- product_update_mobile.css
+                    |
+                    -- detail
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_detail_desktop.css
+                            |
+                            -- product_detail_tablet.css
+                            |
+                            -- product_detail_mobile.css
+                    |
+                    -- list
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_list_desktop.css
+                            |
+                            -- product_list_tablet.css
+                            |
+                            -- product_list_mobile.css
             |
             -- backend (Si les pages admin sont différentes du frontend)
                 |
-                -- pages
+                -- category
                     |
-                    -- category
+                    -- create
                         |
                         -- index.css
                         |
                         -- screens
                             |
-                            -- Desktop.css
+                            -- category_create_desktop.css
                             |
-                            -- tablet.css
+                            -- category_create_tablet.css
                             |
-                            -- mobile.css
+                            -- category_create_mobile.css
                     |
-                    -- product
+                    -- update
                         |
                         -- index.css
                         |
                         -- screens
                             |
-                            -- Desktop.css
+                            -- category_update_desktop.css
                             |
-                            -- tablet.css
+                            -- category_update_tablet.css
                             |
-                            -- mobile.css
+                            -- category_update_mobile.css
+                    |
+                    -- detail
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- category_detail_desktop.css
+                            |
+                            -- category_detail_tablet.css
+                            |
+                            -- category_detail_mobile.css
+                    |
+                    -- list
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- category_list_desktop.css
+                            |
+                            -- category_list_tablet.css
+                            |
+                            -- category_list_mobile.css
+                |
+                -- product
+                    |
+                    -- create
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_create_desktop.css
+                            |
+                            -- product_create_tablet.css
+                            |
+                            -- product_create_mobile.css
+                    |
+                    -- update
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_update_desktop.css
+                            |
+                            -- product_update_tablet.css
+                            |
+                            -- product_update_mobile.css
+                    |
+                    -- detail
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_detail_desktop.css
+                            |
+                            -- product_detail_tablet.css
+                            |
+                            -- product_detail_mobile.css
+                    |
+                    -- list
+                        |
+                        -- index.css
+                        |
+                        -- screens
+                            |
+                            -- product_list_desktop.css
+                            |
+                            -- product_list_tablet.css
+                            |
+                            -- product_list_mobile.css
             |
             -- components
                 |
@@ -122,11 +266,11 @@ projet
                     |
                     -- screens
                         |
-                        -- Desktop.css
+                        -- searchebar_desktop.css
                         |
-                        -- tablet.css
+                        -- searchebar_tablet.css
                         |
-                        -- mobile.css
+                        -- searchebar_mobile.css
                 |
                 -- navbar
                     |
@@ -134,11 +278,11 @@ projet
                     |
                     -- screens
                         |
-                        -- Desktop.css
+                        -- navbar_desktop.css
                         |
-                        -- tablet.css
+                        -- navbar_tablet.css
                         |
-                        -- mobile.css
+                        -- navbar_mobile.css
             |
             -- general
                 |
@@ -154,35 +298,33 @@ projet
         |
         -- frontend
             |
-            -- pages
+            -- category
                 |
-                -- category
-                    |
-                    -- list.html.twig
-                    |
-                    -- create.html.twig
-                    |
-                    -- update.html.twig
-                    |
-                    -- detail.html.twig
-                    |
-                    -- components
-                        |
-                        -- form.html.twig
+                -- category_list.html.twig
                 |
-                -- product
+                -- category_create.html.twig
+                |
+                -- category_update.html.twig
+                |
+                -- category_detail.html.twig
+                |
+                -- components
                     |
-                    -- list.html.twig
+                    -- form.html.twig
+            |
+            -- product
+                |
+                -- product_list.html.twig
+                |
+                -- product_create.html.twig
+                |
+                -- product_update.html.twig
+                |
+                -- product_detail.html.twig
+                |
+                -- components
                     |
-                    -- create.html.twig
-                    |
-                    -- update.html.twig
-                    |
-                    -- detail.html.twig
-                    |
-                    -- components
-                        |
-                        -- form.html.twig
+                    -- form.html.twig
             |
             -- components
                 |
@@ -190,35 +332,33 @@ projet
         |
         -- backend (Si les pages admin sont différentes du frontend)
             |
-            -- pages
+            -- category
                 |
-                -- category
-                    |
-                    -- list.html.twig
-                    |
-                    -- create.html.twig
-                    |
-                    -- update.html.twig
-                    |
-                    -- detail.html.twig
-                    |
-                    -- components
-                        |
-                        -- form.html.twig
+                -- backend_category_list.html.twig
                 |
-                -- product
+                -- backend_category_create.html.twig
+                |
+                -- backend_category_update.html.twig
+                |
+                -- backend_category_detail.html.twig
+                |
+                -- components
                     |
-                    -- list.html.twig
+                    -- form.html.twig
+            |
+            -- product
+                |
+                -- backend_product_list.html.twig
+                |
+                -- backend_product_create.html.twig
+                |
+                -- backend_product_update.html.twig
+                |
+                -- _backend_product_detail.html.twig
+                |
+                -- components
                     |
-                    -- create.html.twig
-                    |
-                    -- update.html.twig
-                    |
-                    -- detail.html.twig
-                    |
-                    -- components
-                        |
-                        -- form.html.twig
+                    -- form.html.twig
             |
             -- components
                 |
