@@ -1,5 +1,9 @@
 # Astuces en CSS
 
+### Exemple de page de détail produit
+
+https://tailwindflex.com/@dika99/product-details-page
+
 ### CSS Button
 
 - [Beautiful CSS buttons examples](https://getcssscan.com/css-buttons-examples)
