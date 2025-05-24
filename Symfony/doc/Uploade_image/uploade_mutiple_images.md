@@ -119,6 +119,7 @@ use App\Manager\ProductManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -174,7 +175,7 @@ final class ProductController extends AbstractController
                     $filenames[] = $newFilename;
                 } 
                 catch (FileException $e) {
-                    $this->addFlash('error', 'Erreur lors de l\'upload.');
+                    throw new Exception("Erreur lors de l'upload.");
                 }
             }
 
