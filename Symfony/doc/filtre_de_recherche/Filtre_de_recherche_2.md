@@ -13,12 +13,12 @@ class SearchData
 
     private string $query = '';
 
-    public function getQuery(): string
+    public function getQuery(): ?string
     {
         return $this->query;
     }
 
-    public function setQuery(string $query): self
+    public function setQuery(?string $query): self
     {
         $this->query = $query;
 
@@ -313,16 +313,14 @@ class ProductRepository extends ServiceEntityRepository
 
         
         if (!empty($searchData->getQuery())) {
-            $query = $query
-
-            // Si l'user a écrit le nom d'un produit depuis l'input, on l'affiche
-            ->orWhere('p.name LIKE :searchName')
-            ->setParameter('searchName', "%{$searchData->getQuery()}%") // La recherche est partielle donc, 
-            //si on ecrit "bon", on va afficher tous les produits qui contiennent "bon"
-
-            // Si l'user a écrit le prix d'un produit depuis l'input, on l'affiche
-            ->orWhere('p.price LIKE :searchPrice')
-            ->setParameter('searchPrice', "%{$searchData->getQuery()}%");
+            // Si l'utilisateur a écrit la valeur d'un de ces colonnes de la BDD depuis l'input, on l'affiche
+            $query 
+                ->andWhere('
+                    p.name LIKE :search
+                    OR p.price LIKE :search
+                ')
+                ->setParameter('search', "%{$search->getString()}%")
+            ;
         }
 
         /** @var array<int, product> */
