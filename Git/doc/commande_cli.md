@@ -437,6 +437,40 @@ git reset XXXXT.php
 git reset HEAD XXXXT.php 
 ```
 
+### Quelques Exemple
+
+Pour enlever le dernier commit d'une branche en développement web avec Git, on peux utiliser l'une des deux commandes suivantes selon ce qu'on veux faire exactement 
+
+#### 1. Enlever le dernier commit, mais garder les modifications dans son espace de travail
+
+(utilisé souvent quand on veux réécrire le commit, ou corriger quelque chose)
+
+Cela supprime le commit, mais conserve les fichiers modifiés (staged).
+
+Le chiffre 1 représente les nombres de commit qu'on veut supprimer, donc on peut le remplacer par 2, 3, 45, 100, selon ce qu'on a besoin
+```bash
+git reset --soft HEAD~1
+```
+
+#### 2. Enlever le dernier commit et annuler toutes les modifications
+
+(utile si on veux tout annuler, y compris les changements dans les fichiers)
+
+Cela supprime définitivement le commit ET les modifications.
+
+Le chiffre 1 représente les nombres de commit qu'on veut supprimer, donc on peut le remplacer par 2, 3, 45, 100, selon ce qu'on a besoin
+```bash
+git reset --hard HEAD~1
+```
+
+**Si on a déjà "poussé" ce commit sur un remote (origin, GitHub, GitLab…) et qu'on veut aussi l’enlever à distance**
+
+**Attention :** le --force peut impacter les autres personnes si on travaille en équipe. A utiliser avec précaution.
+
+```bash
+git push origin HEAD --force
+```
+
 ---
 
 ### Pour revenir à un ancien commit avec Git en ligne de commande (Supprimer, Annuler)
