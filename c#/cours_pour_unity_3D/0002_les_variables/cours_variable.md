@@ -2,7 +2,15 @@
 
 [Apprendre le C# - Épisode 1 : Les variables (Unity 3D)](https://youtu.be/RAZjcibFE1A?si=heBY9Z8meGlvIIS9)
 
-[Documentation Unity](https://docs.unity3d.com/Manual/index.html)
+- [Documentation Unity](https://docs.unity3d.com/Manual/index.html)
+- [Consulter les classes dans Unity](https://github.com/Unity-Technologies/UnityCsReference/tree/master)
+- [Code de la classe Degug](https://github.com/Unity-Technologies/UnityCsReference/tree/master/Runtime/Export/Debug)
+- [Code de la classe Ray](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Geometry/Ray.cs)
+- [Code de la classe Quaternion](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Quaternion.cs)
+- [Code de la classe Collision](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Modules/Physics/Managed/Collision.cs)
+- [Code de la classe Physics](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Modules/Physics/ScriptBindings/Physics.bindings.cs)
+- [Code de la classe Transform](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Transform/ScriptBindings/Transform.bindings.cs)
+- [Code de la classe Input](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Modules/InputLegacy/Input.bindings.cs)
 
 Syntaxe d'une variable :
 
