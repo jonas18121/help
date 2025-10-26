@@ -173,6 +173,15 @@ Règle simple :
 - Si tu connais à l’avance le nombre d’éléments -> Array
 - Si la quantité change en cours de jeu -> List
 
+Attention, Les différences de **performances brute** ne se font pas à la fabrication de l'objet mais lors de l'accès au données :
+
+- **Dans un array** on peut accéder à une donnée directement à partir de son index parce que l'adresse est directement connue, c'est une conséquence de la taille fixe -> complexité d'accès aux données : **O(1)**
+- **Dans une liste** la machine doit partir du début et passer tous les éléments en revue jusqu'à trouver celui demander, ce qui en moyenne nécessite un nombre d'opérations de l'ordre de la taille de la liste -> complexité d'accès **O(n)**
+
+Et les accès pour le coup ça se fait très souvent, puis, si par confort on décide de faire que de la liste pour pas se préoccuper de la taille des choses, mis bout à bout ça va demander un peu plus de ressources de calcul.
+
+Si le jeu est gourmand de base, il suffit que quelques % de différence pour faire la différence entre 60fps stable et un jeu pas stable.
+
 ## Parcourir une List
 
 Comme un tableau !
@@ -234,6 +243,17 @@ foreach (GameObject ennemi in ennemis)
 Avantage :
 
 Tu peux **filtrer**, **ajouter** ou **supprimer** facilement, contrairement à un tableau fixe.
+
+## Autres
+
+Autre grosses différences entre les **arrays** et les **listes**. 
+
+**Les listes sont unidimensionnelles** (c'est une simple liste) tandis que **l'array peut être multidimensionnelle** (penser à un tableau excel). 
+
+De fait, si c'est ce dont on a besoin (par exemple pour stocker la position exacte dans l'inventaire ex: cinquième case de la première ligne on y accédera directement  `var myItem = MyInventory[1,5]`) et c'est une des plus grosse différences entre les deux.
+
+C'est aussi pour ça qu'on dit que **l'array est plus optimisée** : 
+- on accède à n'importe quel élément directement, alors qu'on doit chercher les éléments d'une liste un par un pour trouver si ce qu'on veut si trouve.
 
 ## En résumé
 
