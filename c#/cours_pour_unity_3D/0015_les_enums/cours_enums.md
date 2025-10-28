@@ -1,6 +1,6 @@
 # Les Enums en C# (Unity 3D)
 
-[Apprendre le C# - Épisode 14 : Les Enums (Unity 3D)](https://youtu.be/ctebtsMGq9k?si=_w20YN4tZAJOLL5g)
+[Apprendre le C# - Épisode 14 : Les Enums (Unity 3D)](https://youtu.be/ndquRg3xI_4?si=n8fbcAfFfCM4faTX)
 
 - [Documentation Unity](https://docs.unity3d.com/Manual/index.html)
 - [Bibliothèque du Namespace System.Collections.Generic](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic?view=net-9.0)
@@ -8,199 +8,137 @@
 - [Github dotnet/runtime/src/libraries/System.Collections/src/System/Collections/Generic](https://github.com/dotnet/runtime/tree/main/src/libraries/System.Collections/src/System/Collections/Generic)
 - [Liste de touche du clavier via Keycode Unity](https://docs.unity3d.com/ScriptReference/KeyCode.html)
 
-- [Documentation officielle Vector2](https://docs.unity3d.com/ScriptReference/Vector2.html)
-- [GitHub / code source Vector2](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Vector2.cs)
-- [GitHub / code source Vector2int](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Vector2Int.cs)
-- [Documentation officielle Vector3](https://docs.unity3d.com/ScriptReference/Vector3-up.html)
-- [GitHub / code source Vector3](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Vector3.cs)
-- [GitHub / code source Vector3int](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Vector3Int.cs)
-- [Documentation officielle Vector4](https://docs.unity3d.com/ScriptReference/Vector4.html)
-- [GitHub / code source Vector4](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Runtime/Export/Math/Vector4.cs)
 
-## Qu’est-ce qu’un vecteur ?
+## Qu’est-ce qu’un enum ?
 
-En Unity, un **vecteur** est une **structure mathématique** qui représente :
-- une **position** dans l’espace
-- une **direction**
-- une **distance**
-- une **force**
+Un **enum** (ou énumération) est un **type de variable spécial** qui permet de **donner des noms à des valeurs entières.**
 
-Selon le nombre de dimensions, on a :
+Au lieu d’écrire des nombres magiques dans ton code, tu donnes un **nom clair et lisible** à chaque valeur.
 
-| Type      | Dimensions      | Exemple                                                |
-| --------- | --------------- | ------------------------------------------------------ |
-| `Vector2` | 2D (x, y)       | position d’un sprite sur un plan                       |
-| `Vector3` | 3D (x, y, z)    | position dans la scène 3D                              |
-| `Vector4` | 4D (x, y, z, w) | utilisé pour certaines opérations graphiques / shaders |
-
-
-## Les composantes x, y, z
-
-Un vecteur est composé de **composantes** :
+Exemple simple :
 
 ```csharp
-Vector3 position = new Vector3(1f, 2f, 3f);
-
-float posX = position.x; // 1
-float posY = position.y; // 2
-float posZ = position.z; // 3
-```
-
-- **x** : horizontal (gauche-droite)
-
-- **y** : vertical (haut-bas)
-
-- **z** : profondeur (avant-arrière)
-
-⚠️ En 2D, tu utilises souvent Vector2 : `x` et `y` seulement.
-
-## Opérations classiques sur vecteurs
-
-| Opération                      | Exemple                  | Résultat                                 |
-| ------------------------------ | ------------------------ | ---------------------------------------- |
-| Addition                       | `v1 + v2`                | Somme des composantes                    |
-| Soustraction                   | `v1 - v2`                | Différence des composantes               |
-| Multiplication par un scalaire | `v * 2`                  | Toutes les composantes multipliées par 2 |
-| Magnitude (longueur)           | `v.magnitude`            | √(x² + y² + z²)                          |
-| Normalisation                  | `v.normalized`           | Vecteur avec longueur 1, même direction  |
-| Distance                       | `Vector3.Distance(a, b)` | Distance entre deux points               |
-| Produit scalaire               | `Vector3.Dot(a, b)`      | mesure l’angle / projection              |
-| Produit vectoriel              | `Vector3.Cross(a, b)`    | vecteur perpendiculaire à a et b         |
-
-#### Exemple concret : déplacer un objet
-
-```csharp
-using UnityEngine;
-
-public class Deplacement : MonoBehaviour
+public enum Direction
 {
-    void Update()
-    {
-        // Déplace l'objet vers la droite
-        transform.position += new Vector3(1f, 0f, 0f) * Time.deltaTime * 5f;
-
-        // Déplace l'objet vers l'avant
-        transform.position += Vector3.forward * Time.deltaTime * 3f;
-    }
+    Haut,    // 0
+    Bas,     // 1
+    Gauche,  // 2
+    Droite   // 3
 }
 ```
 
-- `Vector3.forward` = `(0, 0, 1)` Déplace l'objet vers l'avant
-- `Vector3.right` = `(1, 0, 0)` Déplace l'objet vers la droite
-- `Vector3.up` = `(0, 1, 0)` Déplace l'objet vers le haut
-
-## Méthodes utiles de Vector3
-
-| Méthode                                             | Description                                   |
-| --------------------------------------------------- | --------------------------------------------- |
-| `Vector3.Lerp(a, b, t)`                             | interpolation linéaire entre `a` et `b`       |
-| `Vector3.MoveTowards(current, target, maxDistance)` | avance vers `target` d’une distance max       |
-| `Vector3.Distance(a, b)`                            | distance entre deux vecteurs                  |
-| `Vector3.Normalize(v)`                              | normalise le vecteur                          |
-| `Vector3.SqrMagnitude`                              | longueur au carré (plus rapide que magnitude) |
-| `Vector3.Angle(a, b)`                               | angle entre deux vecteurs en degrés           |
-| `Vector3.Cross(a, b)`                               | produit vectoriel (vecteur perpendiculaire)   |
-| `Vector3.Dot(a, b)`                                 | produit scalaire (mesure d’alignement)        |
-
-
-## Vecteurs et Unity
-
-- `transform.position` -> `Vector3`
-
-- `transform.forward` -> direction avant du GameObject (`Vector3`)
-
-- `transform.up` -> direction verticale
-
-- `transform.right` -> direction horizontale
-
-- Beaucoup de fonctions Unity utilisent `Vector3` pour positions, forces, raycasts, rotations.
-
-# x, y, z, w
-
-## Imagine un plan 2D (comme une feuille de papier)
-
-- **x** = horizontal (gauche ↔ droite)
-
-- **y** = vertical (haut ↕ bas)
-
-💡 Exemple : tu dessines un point sur ta feuille :
+- Ici Direction est un **type** (comme `int` ou `float`).
+- Les valeurs par défaut commencent à **0** et augmentent automatiquement.
+- On peut maintenant créer une variable de type `Direction` :
 
 ```csharp
-Vector2 point = new Vector2(3, 5);
-```
+Direction monDeplacement = Direction.Haut;
 
-- `point.x` = 3 → 3 cases à droite
-
-- `point.y` = 5 → 5 cases vers le haut
-
-Voilà ton point dans le plan 2D.
-
-## Maintenant imagine un espace 3D (comme une boîte / chambre)
-
-On ajoute une profondeur : z
-
-- **x** = gauche/droite
-- **y** = haut/bas
-- **z** = avant/arrière (profondeur)
-
-💡 Exemple : tu mets un cube dans la scène 3D :
-
-```csharp
-Vector3 cube = new Vector3(1, 2, 3);
-```
-
-
-- `cube.x = 1` -> 1 case à droite
-- `cube.y = 2` -> 2 cases vers le haut
-- `cube.z = 3` -> 3 cases vers l’avant (profondeur)
-
-Dans Unity : `(0,0,0)` est souvent le **centre du monde.**
-
-## Et le w dans Vector4 ?
-
-- `w` = un “4ème chiffre magique” utilisé pour certaines maths avancées (shader, transformation, homogène)
-
-- En général, pour la position d’un objet, tu utilises **Vector3**
-
-- Vector4 sert surtout **pour la lumière, les couleurs RGBA, ou la 3D math complexe**
-
-💡 Exemple :
-
-```csharp
-Vector4 couleur = new Vector4(1, 0.5f, 0, 1); // RGBA
-// x = rouge, y = vert, z = bleu, w = alpha (opacité)
-```
-
-## Petite métaphore
-
-Imagine que tu as une **boîte de cubes :**
-
-- **x** -> combien de cubes à gauche/droite
-
-- **y** -> combien de cubes en hauteur
-
-- **z** -> combien de cubes en profondeur (vers toi / loin)
-
-- **w** -> un cube secret que tu peux utiliser pour faire des effets spéciaux
-
-Tu peux **placer un objet dans cette boîte** en donnant ses coordonnées `(x, y, z)`.
-
-```csharp
-using UnityEngine;
-
-public class BabyCube : MonoBehaviour
+if (monDeplacement == Direction.Haut)
 {
+    Debug.Log("Je vais vers le haut !");
+}
+```
+
+## Pourquoi utiliser un enum ?
+
+- **Lisibilité :** ton code devient beaucoup plus clair.
+
+    Au lieu de if (direction == 0), tu écris if (direction == Direction.Haut)
+
+- **Sécurité :** tu ne peux pas mettre n’importe quelle valeur.
+
+    Si monDeplacement est de type Direction, tu ne peux pas lui mettre 42.
+
+- **Maintenance facile :** ajouter une nouvelle direction est simple.
+
+- **Refactorisation simplifiée :** si tu changes le nom de Haut en Up, toutes les références sont mises à jour.
+
+## Personnaliser les valeurs
+
+Tu peux donner des valeurs entières spécifiques :
+
+```csharp
+public enum Direction
+{
+    Haut = 10,
+    Bas = 20,
+    Gauche = 30,
+    Droite = 40
+}
+```
+
+- Maintenant `Direction.Haut` vaut `10` au lieu de `0`.
+- C’est utile si tu dois interfacer avec des données externes ou des fichiers.
+
+## Utilisation dans Unity
+
+Exemple : gestion d’ennemis
+
+```csharp
+public enum TypeEnnemi
+{
+    Gobelin,
+    Troll,
+    Dragon
+}
+
+public class Ennemi : MonoBehaviour
+{
+    public TypeEnnemi type;
+
     void Start()
     {
-        // Déplacer le cube à 3 cases à droite, 2 en haut, 5 vers l'avant
-        transform.position = new Vector3(3, 2, 5);
-
-        // Afficher chaque coordonnée
-        Debug.Log("x = " + transform.position.x);
-        Debug.Log("y = " + transform.position.y);
-        Debug.Log("z = " + transform.position.z);
+        if (type == TypeEnnemi.Dragon)
+        {
+            Debug.Log("Attention, un dragon !");
+        }
     }
 }
 ```
 
-Résultat : ton cube apparaît **dans l’espace 3D exactement où tu veux.**
+- Dans l’inspecteur Unity, tu verras un **menu déroulant** pour choisir le type d’ennemi.
+- Pratique pour **éviter les erreurs de frappe** ou les “magic numbers”.
+
+## Enum vs Constantes
+
+- **Constantes** (const int) : tu dois retenir la valeur exacte
+- **Enum** : tu utilises un **nom lisible**
+- En général, pour des **catégories ou états fixes**, préférez **enum**.
+
+```csharp
+// Constantes
+const int HAUT = 0;
+const int BAS = 1;
+
+// Enum
+enum Direction { Haut, Bas, Gauche, Droite }
+```
+
+Enum = plus sûr et plus clair.
+
+## Bonnes pratiques
+
+- Utilise enums pour **états, types ou catégories fixes.**
+
+- Ne pas utiliser pour **valeurs numériques qui changent ou sont continues** (ex : vitesse).
+
+- Tu peux **combiner avec switch** :
+
+```csharp
+switch(monDeplacement)
+{
+    case Direction.Haut:
+        Debug.Log("Haut !");
+        break;
+    case Direction.Bas:
+        Debug.Log("Bas !");
+        break;
+    case Direction.Gauche:
+        Debug.Log("Gauche !");
+        break;
+    case Direction.Droite:
+        Debug.Log("Droite !");
+        break;
+}
+```
