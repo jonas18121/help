@@ -419,6 +419,32 @@ Puis
 git rm --cached XXXX.php
 ```
 
+### Supprimer tout les dossiers et fichiers du cache 
+
+```bash
+git rm -r --cached .
+```
+
+### Supprimer le commit initial (le 1er commit)
+
+#### Vérifier le commit
+
+```bash
+git log
+```
+
+#### Supprimer tout les dossiers et fichiers du cache 
+
+```bash
+git rm -r --cached .
+```
+
+#### supprimer complètement le commit initial
+
+```bash
+git update-ref -d HEAD
+```
+
 ### Peut être utilisé pour supprimer des fichiers de l’index et du répertoire de travail
 
 ```bash
