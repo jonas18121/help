@@ -16,6 +16,8 @@ Voir [monolog-bundle](https://github.com/symfony/monolog-bundle)
 composer require symfony/monolog-bundle
 ```
 
+## Quelsques infomations à connaitre
+
 ### Niveaux de logs
 
 Comme beaucoup de systèmes de log, Monolog utilise plusieurs niveaux. Par ordre croissant, du moins alertant au plus critique des logs :
@@ -41,7 +43,9 @@ Il existe plusieurs types de handler avec chacun une fonctionnalité précise :
 - **swit_mailler :** Ce handle envoit par mail les logs (souvent passé par un handler de type buffer)
 - **console :** Ce handler permet de définir les niveaux d’affichage de log dans la console.
 
-### Configurer le fichier config/packages/monolog.yaml
+## En pratique
+
+### 1. Configurer le fichier config/packages/monolog.yaml
 
 - On rajoute le canal **exception** dans `monolog.channels`
 - On rajoute le handler **exceptions** avec sa configuration :
@@ -78,7 +82,7 @@ when@dev:
                 channels: ["exception"]
 ```
 
-### Configurer le fichier config/service.yaml
+### 2. Configurer le fichier config/service.yaml
 
 - On crée un injecte le canal `exception` dans **ExceptionSubscriber**
 
@@ -106,11 +110,11 @@ services:
             $logger: '@monolog.logger.exception'
 ```
 
-### Première version ligth de ExceptionSubscriber
+### 3.a Première version ligth de ExceptionSubscriber
 
 - Ici, on récupère toutes les erreurs des types **ERROR**, **CRITICAL**, **ALERT** et **EMERGENCY** et on les renvoie dans un type **ERROR** dans le fichier `projet/var/log/exception/exceptions-date.log`
 
-- Voir - [Liste des codes HTTP](https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP)
+- Voir [Liste des codes HTTP](https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP)
 
 - Ici, toute les erreurs **4xx Erreur du client HTTP** seront retourner avec un code status exacte mais les erreurs **5xx Erreur du serveur / du serveur d'application** seront par défaut **500** uniquement
 
