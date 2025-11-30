@@ -367,11 +367,11 @@ class ExceptionSubscriber implements EventSubscriberInterface
             return ['critical', $this->criticalLogger, 'Server error'];
         }
 
-        $this->sendEmail('ERROR', $exception, $statusCode);
 
         // ============================
         // ⚠️ 4. ERROR (Par défault)
         // ============================
+        $this->sendEmail('ERROR', $exception, $statusCode);
         // Erreurs fonctionnelles ou utilisateur
         return ['error', $this->errorLogger, 'Client error'];
     }
