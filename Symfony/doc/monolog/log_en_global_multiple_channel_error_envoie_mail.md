@@ -78,7 +78,7 @@ Il existe plusieurs types de handler avec chacun une fonctionnalité précise :
 - **swit_mailler :** Ce handle envoit par mail les logs (souvent passé par un handler de type buffer)
 - **console :** Ce handler permet de définir les niveaux d’affichage de log dans la console.
 
-## En pratique sans envoie de mail
+## En pratique avec envoie de mail
 
 ### 1 Configurer le fichier config/packages/monolog.yaml
 
