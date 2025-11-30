@@ -346,6 +346,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
         if (
             $exception instanceof \PDOException ||
+            $exception instanceof QueryException ||
             str_contains($message, 'sql') ||
             str_contains($message, 'database') ||
             str_contains($message, 'token') ||
@@ -508,12 +509,37 @@ framework:
 
 ### 5 Tester les erreurs
 
-#### Error Critical : Provoquer un crash volontaire dans un contrôleur
+#### Error Critical : Provoquer un crash volontaire dans un contrôleur ou repository
 
 Dans n’importe quel contrôleur :
 
 ```php
 throw new \RuntimeException("Test erreur CRITICAL : crash volontaire !");
+```
+
+ou dans un repository :
+
+- Transformer une variable en chaine de caractère pour causer une **Syntax Error**
+    - $name transformer en '$name'
+
+```php
+public function findPaginationList(int $page, string $name, int $limit): ?SlidingPagination
+    {
+        /** @var array */
+        $data = $this->createQueryBuilder($name)
+            ->select('$name')
+            ->getQuery()
+            ->getResult();
+
+        /** @var SlidingPagination */
+        $pagination = $this->paginationInterface->paginate($data, $page, $limit);
+
+        if ($pagination instanceof SlidingPagination) {
+            return $pagination;
+        }
+
+        return null;
+    }
 ```
 
 Résultat attendu
