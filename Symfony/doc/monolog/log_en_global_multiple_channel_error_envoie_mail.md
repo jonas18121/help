@@ -369,7 +369,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
 
         // ============================
-        // ⚠️ 4. ERROR (Par défault)
+        // 4. ERROR (Par défault)
         // ============================
         $this->sendEmail('ERROR', $exception, $statusCode);
         // Erreurs fonctionnelles ou utilisateur
