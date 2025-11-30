@@ -472,7 +472,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
 }
 ```
 
-### 4 Les différentes autres configuration à faire
+### 4 Les différentes autres configuration à faire/vérifier
 
 #### Dans .env
 
@@ -497,6 +497,13 @@ LOCK_DSN=flock
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
+```
+
+#### Dans config/packages/lock.yaml
+
+```yaml
+framework:
+    lock: '%env(LOCK_DSN)%'
 ```
 
 ### 5 Tester les erreurs
