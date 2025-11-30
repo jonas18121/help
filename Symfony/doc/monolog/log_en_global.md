@@ -270,7 +270,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         }
 
         // ============================
-        // ⚠️ 4. ERROR (Par défault)
+        // 4. ERROR (Par défault)
         // ============================
         // Erreurs fonctionnelles ou utilisateur
         return 'error';
