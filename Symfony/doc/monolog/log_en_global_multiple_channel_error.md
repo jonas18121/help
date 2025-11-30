@@ -276,3 +276,89 @@ class ExceptionSubscriber implements EventSubscriberInterface
     }
 }
 ```
+
+### 4 Tester les erreurs
+
+#### Error Critical : Provoquer un crash volontaire dans un contrôleur
+
+Dans n’importe quel contrôleur :
+
+```php
+throw new \RuntimeException("Test erreur CRITICAL : crash volontaire !");
+```
+
+Résultat attendu
+
+- erreur 500
+- fichier exception/critical/critical.log doit recevoir une entrée
+- Le subscriber doit capturer l’erreur et loguer via $criticalLogger->critical()
+
+#### Error emergency : Provoquer un crash volontaire dans un contrôleur
+
+Dans n’importe quel contrôleur :
+
+- Mettre en commentaire tout le contenu du contrôleur
+
+ou
+
+- Ajouter le code ci-dessous dans le contrôleur
+
+```php
+$foo = null;
+$foo->bar();
+```
+
+Résultat attendu
+
+- Génère une erreur 500
+- Doit aller dans critical.log (ou emergency selon la logique)
+- Le subscriber doit capturer l’erreur et loguer via $criticalLogger->critical() ou $emergencyLogger->emergency()
+
+#### Error alert : Provoquer un crash volontaire dans un repository
+
+Dans n’importe quel repository de la page qu'on test :
+
+- Modifier le premier argument de setParameter, exmple ajouter un s a gameName
+
+```php
+    public function findPaginationList(int $page, string $name, int $limit, $gameName = null): ?SlidingPagination
+    {
+        /** @var array */
+        $data = $this->createQueryBuilder($name)
+            ->select($name)
+            ->orderBy($name . '.id', 'DESC')
+            ->andWhere($name . '.gameName = :gameName')
+            ->setParameter('gameNames', $gameName)
+            ->getQuery()
+            ->getResult();
+
+        /** @var SlidingPagination */
+        $pagination = $this->paginationInterface->paginate($data, $page, $limit);
+
+        if ($pagination instanceof SlidingPagination) {
+            return $pagination;
+        }
+
+        return null;
+    }
+}
+```
+
+Résultat attendu
+
+- Génère une erreur 500
+- Doit aller dans alert.log
+- Le subscriber doit capturer l’erreur et loguer via $alertLogger->alert() 
+
+#### Error error : Provoquer un crash volontaire via un mauvais chemin
+
+Dans n’importe la barre de recherche :
+
+- Mettre un chemin de page qui n'existe pas
+
+
+Résultat attendu
+
+- Génère une erreur 404
+- Doit aller dans error.log
+- Le subscriber doit capturer l’erreur et loguer via $errorLogger->error() 
