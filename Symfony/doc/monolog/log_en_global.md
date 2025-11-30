@@ -1,12 +1,16 @@
 # Gérer les logs d'erreurs de manière globale 
 
 - [Symfony : Configuration des logs Monolog de remipoignon.fr](https://www.remipoignon.fr/symfony-configuration-des-logs-monolog/)
+- [Logging](https://symfony.com/doc/7.0/logging.html)
+- [Comment configurer Monolog pour envoyer des e-mails en cas d'erreur](https://symfony.com/doc/7.0/logging/monolog_email.html)
 - [monolog-bundle](https://github.com/symfony/monolog-bundle)
 - [Throwable](https://www.php.net/manual/en/class.throwable.php)
 - [Log/Logger.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Log/Logger.php)
 - [ExceptionEvent](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Event/ExceptionEvent.php)
 - [Maîtriser les événements du noyau de Symfony : auditeurs vs abonnés de Medium.com](https://medium.com/@dams_crr/mastering-symfonys-kernel-events-listeners-vs-subscribers-54be05bbe8fa)
 - [Liste des codes HTTP](https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP)
+- [Symfony/Component/HttpKernel/Exception/HttpException.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpException.php)
+- [Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php)
 
 ### Installer Monolog
 
@@ -16,7 +20,7 @@ Voir [monolog-bundle](https://github.com/symfony/monolog-bundle)
 composer require symfony/monolog-bundle
 ```
 
-## Quelsques infomations à connaitre
+## Quelques infomations à connaitre
 
 ### Niveaux de logs
 
@@ -43,9 +47,9 @@ Il existe plusieurs types de handler avec chacun une fonctionnalité précise :
 - **swit_mailler :** Ce handle envoit par mail les logs (souvent passé par un handler de type buffer)
 - **console :** Ce handler permet de définir les niveaux d’affichage de log dans la console.
 
-## En pratique
+## En pratique sans envoie de mail
 
-### 1. Configurer le fichier config/packages/monolog.yaml
+### 1.a Configurer le fichier config/packages/monolog.yaml
 
 - On rajoute le canal **exception** dans `monolog.channels`
 - On rajoute le handler **exceptions** avec sa configuration :
@@ -54,6 +58,7 @@ Il existe plusieurs types de handler avec chacun une fonctionnalité précise :
     - **level**, est le niveau minimum à intercepter, ici c'est **ERROR**. Il prendra aussi **CRITICAL**, **ALERT** et **EMERGENCY**
     - **channels** est le canal dans lequel sera difuser ces erreurs
 
+- Ne pas oublier de mettre le handler dans les autres environnement, exemple **when@prod**
 
 ```yaml
 monolog:
@@ -73,6 +78,7 @@ when@dev:
                 type: console
                 process_psr_3_messages: false
                 channels: ["!event", "!doctrine", "!console"]
+
             # Intercepte toute les log de type error dans le canal exception    
             exceptions:
                 type: rotating_file 
@@ -80,6 +86,66 @@ when@dev:
                 path: "%kernel.logs_dir%/exception/exceptions.log"
                 level: error
                 channels: ["exception"]
+```
+
+### 1.b Configurer le fichier config/packages/monolog.yaml (en complément de la partie 3.b)
+
+- On rajoute le canal **exception** dans `monolog.channels`
+- On rajoute les handlers **error_logs**, **critical_logs**, **alert_logs** et **emergency_logs** avec leurs configuration.
+    - Chacuns de ces handlers ont leurs propres fichiers de log
+
+- Ne pas oublier de mettre les handlers dans les autres environnement, exemple **when@prod**
+
+```yaml
+monolog:
+    channels:
+        - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        - exception # Intercepte toute les log de type error dans le canal exception 
+
+when@dev:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                level: debug
+                channels: ["!event"]
+            console:
+                type: console
+                process_psr_3_messages: false
+                channels: ["!event", "!doctrine", "!console"]
+
+            # Intercepte les erreurs de type ERROR : erreurs "normales" (404, 403, 400...)
+            error_logs:
+                type: rotating_file
+                path: "%kernel.logs_dir%/exception/error/error.log"
+                level: error
+                max_files: 30
+                channels: ["exception"]
+
+            # Intercepte les erreurs de type CRITICAL : erreurs serveur 500+ (500, 502, 503...)
+            critical_logs:
+                type: rotating_file
+                path: "%kernel.logs_dir%/exception/critical/critical.log"
+                level: critical
+                max_files: 30
+                channels: ["exception"]
+
+            # Intercepte les erreurs de type ALERT : erreurs importantes (BDD, sécurité, API)
+            alert_logs:
+                type: rotating_file
+                path: "%kernel.logs_dir%/exception/alert/alert.log"
+                level: alert
+                max_files: 30
+                channels: ["exception"]
+
+            # Intercepte les erreurs de type EMERGENCY : crashs fatals (TypeError, ParseError, Error)
+            emergency_logs:
+                type: rotating_file
+                path: "%kernel.logs_dir%/exception/emergency/emergency.log"
+                level: emergency
+                max_files: 30
+                channels: ["exception"]   
 ```
 
 ### 2. Configurer le fichier config/service.yaml
@@ -159,6 +225,115 @@ class ExceptionSubscriber implements EventSubscriberInterface
             // Attention trace = beaucoup de texte, utile pour debug
             // 'trace' => $exceptionLogger->getTraceAsString(),
         ]);
+    }
+}
+```
+
+### 3.b Première version plus complexe de ExceptionSubscriber avec gestion des types d'erreurs (peut aussi être utiliser en complément de la partie 1.b)
+
+- La méthode `managerException` gère le type d'erreur qui doit être utiliser par **$this->logger**
+
+```php
+namespace App\EventSubscriber;
+
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+
+class ExceptionSubscriber implements EventSubscriberInterface
+{
+    public function __construct(
+        private LoggerInterface $logger
+    ){
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            // 'kernel.exception' => 'onKernelException',
+            ExceptionEvent::class => 'onKernelException',
+        ];
+    }
+
+    public function onKernelException(ExceptionEvent $event): void
+    {
+        $exceptionLogger = $event->getThrowable();
+
+        $statusCode = 500; // par défaut
+        // Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
+        if ($exceptionLogger instanceof HttpExceptionInterface) {
+            $statusCode = $exceptionLogger->getStatusCode();
+        }
+
+        // Gère le type d'erreur qui doit être utiliser par $this->logger
+        $level = $this->managerException($exceptionLogger, $statusCode);
+
+        // LOG avec le niveau d'erreur déterminé
+        $this->logger->$level('Exception interceptée', [
+            'status_code' => $statusCode,
+            'message' => $exceptionLogger->getMessage(),
+            'file' => $exceptionLogger->getFile(),
+            'line' => $exceptionLogger->getLine(),
+            // Attention trace = beaucoup de texte, utile pour debug
+            // 'trace' => $exceptionLogger->getTraceAsString(),
+        ]);
+    }
+
+    /**
+     * Gère le type d'erreur qui doit être utiliser par $this->logger
+     * Exemple : 
+     *     - $this->logger->error()
+     *     - $this->logger->critical()
+     *     - $this->logger->alert()
+     *     - $this->logger->emergency()
+     */
+    private function managerException(\Throwable $exception, int $statusCode): string
+    {
+        $message = strtolower($exception->getMessage());
+
+        // ============================
+        // 1. EMERGENCY (Crash fatal)
+        // ============================
+        // Crash PHP fatals / erreurs irréversibles
+        if (
+            $exception instanceof \Error ||
+            $exception instanceof \TypeError ||
+            $exception instanceof \ParseError ||
+            $exception instanceof \ErrorException
+        ) {
+            return 'emergency';
+        }
+
+        // ============================
+        // 2. ALERT (BD, sécurité, API)
+        // ============================
+        if (
+            $exception instanceof \PDOException ||
+            str_contains($message, 'sql') ||
+            str_contains($message, 'database') ||
+            str_contains($message, 'token') ||
+            str_contains($message, 'jwt') ||
+            str_contains($message, 'auth') ||
+            str_contains($message, 'api') ||
+            str_contains($message, 'timeout') ||
+            str_contains($message, 'unavailable')
+        ) {
+            return 'alert';
+        }
+
+        // ============================
+        // 3. CRITICAL (Erreurs serveur 500+)
+        // ============================
+        if ($statusCode >= 500) {
+            return 'critical';
+        }
+
+        // ============================
+        // ⚠️ 4. ERROR (Par défault)
+        // ============================
+        // Erreurs fonctionnelles ou utilisateur
+        return 'error';
     }
 }
 ```
