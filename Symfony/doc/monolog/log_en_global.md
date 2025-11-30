@@ -3,6 +3,9 @@
 - [Symfony : Configuration des logs Monolog de remipoignon.fr](https://www.remipoignon.fr/symfony-configuration-des-logs-monolog/)
 - [Logging](https://symfony.com/doc/7.0/logging.html)
 - [Comment configurer Monolog pour envoyer des e-mails en cas d'erreur](https://symfony.com/doc/7.0/logging/monolog_email.html)
+- [Envoi d'e-mails avec Mailer](https://symfony.com/doc/current/mailer.html)
+- [Github Mailjet](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Bridge/Mailjet/README.md)
+- [Github Symfony Component Mailjet Bridge](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Bridge/Mailjet/README.md)
 - [monolog-bundle](https://github.com/symfony/monolog-bundle)
 - [Throwable](https://www.php.net/manual/en/class.throwable.php)
 - [Log/Logger.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Log/Logger.php)
@@ -54,7 +57,7 @@ Il existe plusieurs types de handler avec chacun une fonctionnalité précise :
 - On rajoute le canal **exception** dans `monolog.channels`
 - On rajoute le handler **exceptions** avec sa configuration :
     - **type** rotation de fichier sous 30 jours grace à **max_files** qui conserve Jusqu'à 30 fichiers, 1 fichier par jour
-    - **path** chemin qui indique ou stocker les fichiers, ici ce sera dans `projet/var/log/exception`, le nom du fichier sera exceptions + la date le **type** rotation de fichier. Exemple :`exceptions-2025-12-25.log`
+    - **path** chemin qui indique ou stocker les fichiers, ici ce sera dans `projet/var/log/exception`, le nom du fichier sera exceptions + la date à cause du **type** rotation de fichier. Exemple :`exceptions-2025-12-25.log`
     - **level**, est le niveau minimum à intercepter, ici c'est **ERROR**. Il prendra aussi **CRITICAL**, **ALERT** et **EMERGENCY**
     - **channels** est le canal dans lequel sera difuser ces erreurs
 

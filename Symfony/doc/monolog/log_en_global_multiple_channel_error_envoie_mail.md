@@ -1,11 +1,12 @@
-# Gérer les logs d'erreurs de manière globale 
+# Gérer les logs d'erreurs de manière globale avec envoie de mail
 
 - [Symfony : Configuration des logs Monolog de remipoignon.fr](https://www.remipoignon.fr/symfony-configuration-des-logs-monolog/)
 - [Logging](https://symfony.com/doc/7.0/logging.html)
 - [Comment configurer Monolog pour envoyer des e-mails en cas d'erreur](https://symfony.com/doc/7.0/logging/monolog_email.html)
 - [Envoi d'e-mails avec Mailer](https://symfony.com/doc/current/mailer.html)
 - [Github Symfony Component Mailjet Bridge](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mailer/Bridge/Mailjet/README.md)
-- [Github Mailjet](https://github.com/maildev/maildev)
+- [Github Mailjet Bridge](https://github.com/maildev/maildev)
+- [Github mailjet-apiv3-php](https://github.com/mailjet/mailjet-apiv3-php)
 - [monolog-bundle](https://github.com/symfony/monolog-bundle)
 - [Throwable](https://www.php.net/manual/en/class.throwable.php)
 - [Log/Logger.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Log/Logger.php)
@@ -14,6 +15,9 @@
 - [Liste des codes HTTP](https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP)
 - [Symfony/Component/HttpKernel/Exception/HttpException.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpException.php)
 - [Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php)
+- [Composant Symfony Lock](https://symfony.com/doc/current/components/lock.html)
+
+## Installation
 
 ### Installer Monolog
 
@@ -21,6 +25,30 @@ Voir [monolog-bundle](https://github.com/symfony/monolog-bundle)
 
 ```bash
 composer require symfony/monolog-bundle
+```
+
+### Installer Mailer
+
+Voir [Envoi d'e-mails avec Mailer](https://symfony.com/doc/current/mailer.html)
+
+```bash
+composer require symfony/mailer
+```
+
+### Installer Mailjet ou un autre transporteur tiers pour l'envoie de mail
+
+Voir [Github mailjet-apiv3-php](https://github.com/mailjet/mailjet-apiv3-php)
+
+```bash
+composer require mailjet/mailjet-apiv3-php
+```
+
+### Installer Lock
+
+Voir [Composant Symfony Lock](https://symfony.com/doc/current/components/lock.html)
+
+```bash
+composer require symfony/lock
 ```
 
 ## Quelques infomations à connaitre
@@ -86,13 +114,6 @@ when@dev:
                 type: console
                 process_psr_3_messages: false
                 channels: ["!event", "!doctrine", "!console"]
-            # Intercepte toute les log de type error dans le canal exception    
-            # exceptions:
-            #     type: rotating_file 
-            #     max_files: 30 # Conserve Jusqu'à 30 fichiers = 30 jours
-            #     path: "%kernel.logs_dir%/exception/exceptions.log"
-            #     level: error
-            #     channels: ["exception"]
             
             # Intercepte les erreurs de type ERROR : erreurs "normales" (404, 403, 400...)
             error_logs:
@@ -134,7 +155,7 @@ when@dev:
 
 ### 2. Configurer le fichier config/service.yaml
 
-- On injecte les 4 canaux dans **ExceptionSubscriber**
+- On injecte les 4 canaux dans **ExceptionSubscriber** ainsi que mailer, cache et lock
 
 ```yaml
 services:
@@ -161,30 +182,48 @@ services:
             $criticalLogger: '@monolog.logger.exception.critical'
             $alertLogger: '@monolog.logger.exception.alert'
             $emergencyLogger: '@monolog.logger.exception.emergency'
+            $mailer: '@mailer'
+            $dedupeCache: '@cache.app'
+            $lockFactory: '@lock.factory' 
             
         tags:
         - { name: kernel.event_subscriber }
 ```
 
-### 3 Première version plus complexe de ExceptionSubscriber avec gestion des types d'erreurs
+### 3 Version complexe de ExceptionSubscriber avec gestion des types d'erreurs et envoie de mail
 
 - La méthode `managerException` gère le type d'erreur qui doit être utiliser par **$logger** et le type de logger à utiliser
+- Dans la méthode `managerException` on envoie un mail pour l'erreur qui à été trouver avec `sendEmail`
+- La méthode `managerDuplicate` gère les doublons des erreurs
+- La méthode `managerStatusCode` gère le code status HTTP
 
 ```php
+
 namespace App\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Lock\Lock;
+use Symfony\Component\Mime\Email;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\CacheItem;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
+    private const DEDUPLICATE_MINUTES = 30;
+
     public function __construct(
         private LoggerInterface $errorLogger,
         private LoggerInterface $criticalLogger,
         private LoggerInterface $alertLogger,
-        private LoggerInterface $emergencyLogger
+        private LoggerInterface $emergencyLogger,
+        private MailerInterface $mailer,
+        private CacheItemPoolInterface $dedupeCache,
+        private LockFactory $lockFactory
     ){
     }
 
@@ -198,13 +237,28 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
+        /** @var \Throwable $exceptionLogger */
         $exceptionLogger = $event->getThrowable();
 
-        $statusCode = 500; // par défaut
-        // Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
-        if ($exceptionLogger instanceof HttpExceptionInterface) {
-            $statusCode = $exceptionLogger->getStatusCode();
+        // ============================
+        // === GERE LES STATUS DE CODES 
+        // ============================
+
+        /** @var int $statusCode */
+        $statusCode = $this->managerStatusCode($exceptionLogger);
+
+        // ============================
+        // === GERE LES DEDUPLICATIONS 
+        // ============================
+
+        // Retourne true si la clé existe déjà (doublon).
+        if ($this->managerDuplicate($exceptionLogger)) {
+            return; // pas d’e-mail, pas de double log
         }
+
+        // ============================
+        // === GERE LES EXCEPTIONS 
+        // ============================
 
         // Gère le type d'erreur qui doit être utiliser par $logger et le type de logger à utiliser
         [$level, $logger, $text] = $this->managerException($exceptionLogger, $statusCode);
@@ -221,6 +275,44 @@ class ExceptionSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * Gère les doublons des erreurs
+     */
+    private function managerDuplicate(\Throwable $exceptionLogger): bool
+    {
+        // Identifiant unique pour la déduplication
+        /** @var string $idDeduplicate */
+        $idDeduplicate = hash('sha256', $exceptionLogger::class . '|' . $exceptionLogger->getMessage());
+
+        // Retourne true si la clé existe déjà (doublon).
+        if ($this->isDuplicate($idDeduplicate)) {
+            return true; // pas d’e-mail, pas de double log
+        }
+
+        // Enregistre cette erreur pendant le nombre de minutes qu'on veut
+        $this->registerError($idDeduplicate);
+
+        // Si pas de doublon retourne false
+        return false;
+    }
+
+    /**
+     * Gère le code status HTTP
+     */
+    private function managerStatusCode(\Throwable $exceptionLogger): int
+    {
+        /** @var int $statusCode */
+        $statusCode = 500; // par défaut
+
+        // Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
+        if ($exceptionLogger instanceof HttpExceptionInterface) {
+            /** @var int $statusCode */
+            $statusCode = $exceptionLogger->getStatusCode();
+        }
+
+        return $statusCode;
+    }
+
+    /**
      * Gère le type d'erreur qui doit être utiliser par $logger
      * Et gére quel type de logger à utiliser
      * 
@@ -232,6 +324,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private function managerException(\Throwable $exception, int $statusCode): array
     {
+        /** @var string $message */
         $message = strtolower($exception->getMessage());
 
         // ============================
@@ -244,6 +337,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             $exception instanceof \ParseError ||
             $exception instanceof \ErrorException
         ) {
+            $this->sendEmail('EMERGENCY', $exception, $statusCode);
             return ['emergency', $this->emergencyLogger, 'Fatal error'];
         }
 
@@ -261,6 +355,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             str_contains($message, 'timeout') ||
             str_contains($message, 'unavailable')
         ) {
+            $this->sendEmail('ALERT', $exception, $statusCode);
             return ['alert', $this->alertLogger, 'Database error'];
         }
 
@@ -268,19 +363,143 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // 3. CRITICAL (Erreurs serveur 500+)
         // ============================
         if ($statusCode >= 500) {
+            $this->sendEmail('CRITICAL', $exception, $statusCode);
             return ['critical', $this->criticalLogger, 'Server error'];
         }
 
+        $this->sendEmail('ERROR', $exception, $statusCode);
+
         // ============================
-        // 4. ERROR (Par défault)
+        // ⚠️ 4. ERROR (Par défault)
         // ============================
         // Erreurs fonctionnelles ou utilisateur
         return ['error', $this->errorLogger, 'Client error'];
     }
+
+    /**
+     * Envoie un email
+     */
+    private function sendEmail(string $type, \Throwable $exception, int $statusCode): void
+    {
+        /** @var Email $email */
+        $email = (new Email())
+            ->from('serveur@monsite.com')
+            ->to('admin@gmail.com')
+            ->subject("[{$type}] Nouvelle erreur détectée ({$statusCode})")
+            ->html("
+                <h2>Erreur détectée de type : {$type}</h2>
+                <p><strong>Message :</strong> {$exception->getMessage()}</p>
+                <p><strong>Status code :</strong> {$statusCode}</p>
+                <p><strong>Fichier :</strong> {$exception->getFile()}</p>
+                <p><strong>Ligne :</strong> {$exception->getLine()}</p>
+                <pre><strong>Trace :</strong><br>{$exception->getTraceAsString()}</pre>
+            ");
+
+        $this->mailer->send($email);
+    }
+   
+    /**
+     * Retourne true si la clé existe déjà (doublon).
+     * Cette méthode ne crée PAS la clé.
+     */
+    private function isDuplicate(string $id): bool
+    {
+        /** @var string $key */
+        $key = 'dedupe_' . $id;
+
+        // Lock pour éviter les races conditions si plusieurs requête en même temps
+        /** @var Lock $lock */
+        $lock = $this->lockFactory->createLock($key, ttl: 5);
+
+        // On attend le lock : QUAND IL EST ACQUIS, on peut lire proprement
+        $lock->acquire(true);
+
+        if (!$lock->acquire()) {
+            // Si quelqu’un d’autre est en train d'écrire → considérer comme doublon
+            return true;
+        }
+
+        try {
+            // retourne un objet CacheItemInterface même si la clé n’existe pas (dans ce cas isHit() sera false)
+            /** @var CacheItem $item */
+            $item = $this->dedupeCache->getItem($key);
+
+            // envoie true si la valeur existe dans le cache et n’a pas expiré
+            return $item->isHit();
+        }
+        finally {
+            // Libères le verrou, les autres processus peuvent accéder à la ressource.
+            $lock->release();
+        }
+    }
+
+    /**
+     * Enregistre la clé dans le cache (atomique si Redis)
+     */
+    private function registerError(string $id): void
+    {
+        /** @var string $key */
+        $key = 'dedupe_' . $id;
+
+        // Crée un verrou portant un nom unique
+        /** @var Lock $lock */
+        $lock = $this->lockFactory->createLock($key, ttl: 5);
+
+        // Tente d’obtenir le verrou, si quelqu’un l’a déjà, on retourne FALSE
+        $lock->acquire(true);
+
+        try {
+            // On récupère l’élément de cache (objet) pour cette clé — soit une nouvelle instance si la clé n’existe pas, soit l’item existant.
+            /** @var CacheItem $item */
+            $item = $this->dedupeCache->getItem($key);
+    
+            // On stocke une valeur dans l’item. // la valeur n’a pas d’importance
+            $item->set(true);
+    
+            // Demande que l’item expire automatiquement après le nombre de temps définit dans DEDUPLICATE_MINUTES . 
+            // C’est la durée pendant laquelle la clé empêchera l’envoi d’un nouvel e-mail.
+            $item->expiresAfter(self::DEDUPLICATE_MINUTES * 60);
+    
+            // On sauvegarde l’item dans le pool de cache. 
+            // Après save() la clé existe et isHit() renverra true jusqu’à l’expiration
+            $this->dedupeCache->save($item);
+        }
+        finally {
+            // Libères le verrou, les autres processus peuvent accéder à la ressource.
+            $lock->release();
+        }
+    }
 }
 ```
 
-### 4 Tester les erreurs
+### 4 Les différentes autres configuration à faire
+
+#### Dans .env
+
+- `LOCK_DSN=flock` pour le composant Symfony Lock
+- `MAILER_DSN` pour cette variable, on utilise le transporteur tiers **Mailjet**
+
+```bash
+###> symfony/mailer ###
+# MAILER_DSN=null://null
+MAILER_DSN=smtp://maildev:1025
+###< symfony/mailer ###
+###> symfony/lock ###
+# Choose one of the stores below
+# postgresql+advisory://db_user:db_password@localhost/db_name
+LOCK_DSN=flock
+###< symfony/lock ###
+```
+
+#### Dans config/packages/mailer.yaml 
+
+```yaml
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+```
+
+### 5 Tester les erreurs
 
 #### Error Critical : Provoquer un crash volontaire dans un contrôleur
 
@@ -344,7 +563,6 @@ Dans n’importe quel repository de la page qu'on test :
 
         return null;
     }
-}
 ```
 
 Résultat attendu
