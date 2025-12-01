@@ -1,4 +1,4 @@
-# Gérer les logs d'erreurs de manière globale avec envoie de mail
+# Gérer les logs d'erreurs de manière globale avec envoie de mail, Symfony 5.4
 
 - [Symfony : Configuration des logs Monolog de remipoignon.fr](https://www.remipoignon.fr/symfony-configuration-des-logs-monolog/)
 - [Logging](https://symfony.com/doc/7.0/logging.html)
@@ -239,7 +239,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     private const COOL_DOWN_IN_MINUTES = 30;
 
     # Calcule pour que COOL_DOWN_IN_MINUTES soit vraiment traduit en minitues
-    private const COOL_DOWN = COOL_DOWN_IN_MINUTES * 60;
+    private const COOL_DOWN = self::COOL_DOWN_IN_MINUTES * 60;
 
     /** @var LoggerInterface $errorLogger */
     private $errorLogger;
@@ -480,11 +480,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
         /** @var Lock $lock */
         $lock = $this->lockFactory->createLock($key, 5);
 
-        # On attend le lock : QUAND IL EST ACQUIS, on peut lire proprement
-        // $lock->acquire(true);
-
+        // Si $lock->acquire() retourne false, considérer comme doublon
         if (!$lock->acquire()) {
-            # Si quelqu’un d’autre est en train d'écrire → considérer comme doublon
+            // isDuplicate retournera true
             return true;
         }
 
