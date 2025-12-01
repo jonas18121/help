@@ -155,7 +155,7 @@ when@dev:
 
 ### 2. Configurer le fichier config/service.yaml
 
-- On injecte les 4 canaux dans **ExceptionSubscriber** ainsi que mailer, cache et lock
+- On injecte les 4 canaux dans **ExceptionSubscriber** ainsi que mailer, cache, lock et l'environnement
 
 ```yaml
 services:
@@ -185,6 +185,7 @@ services:
             $mailer: '@mailer'
             $dedupeCache: '@cache.app'
             $lockFactory: '@lock.factory' 
+            $environment: '%kernel.environment%'
             
         tags:
         - { name: kernel.event_subscriber }
@@ -223,7 +224,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
         private LoggerInterface $emergencyLogger,
         private MailerInterface $mailer,
         private CacheItemPoolInterface $dedupeCache,
-        private LockFactory $lockFactory
+        private LockFactory $lockFactory,
+        private string $environment
     ){
     }
 
@@ -380,15 +382,22 @@ class ExceptionSubscriber implements EventSubscriberInterface
     /**
      * Envoie un email
      */
-    private function sendEmail(string $type, \Throwable $exception, int $statusCode): void
+    private function sendEmail(string $type, \Throwable $exception, int $statusCode, bool $allowsAllEnv = false): void
     {
+        // Pas d'envoi en dev ou test sauf si on autorise avec $allowsAllEnv sur true
+        if ('prod' !== $this->environment && true !== $allowsAllEnv) {
+            return;
+        }
+
         /** @var Email $email */
         $email = (new Email())
             ->from('serveur@monsite.com')
             ->to('admin@gmail.com')
-            ->subject("[{$type}] Nouvelle erreur détectée ({$statusCode})")
+            ->subject("[{$type}] Nouvelle erreur détectée ({$statusCode})  - Application mon_application - {$this->environment}")
             ->html("
                 <h2>Erreur détectée de type : {$type}</h2>
+                <p><strong>Application :</strong> mon_application</p>
+                <p><strong>Environnement :</strong> {$this->environment}</p>
                 <p><strong>Message :</strong> {$exception->getMessage()}</p>
                 <p><strong>Status code :</strong> {$statusCode}</p>
                 <p><strong>Fichier :</strong> {$exception->getFile()}</p>
