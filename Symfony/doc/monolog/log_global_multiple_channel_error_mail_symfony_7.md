@@ -16,6 +16,8 @@
 - [Symfony/Component/HttpKernel/Exception/HttpException.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpException.php)
 - [Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php)
 - [Composant Symfony Lock](https://symfony.com/doc/current/components/lock.html)
+- [Symfony Cache Pools and Supported Adapters](https://symfony.com/doc/current/components/cache/cache_pools.html)
+- [Symfony Cache](https://symfony.com/doc/current/cache.html)
 
 ## Installation
 
@@ -191,7 +193,7 @@ services:
         - { name: kernel.event_subscriber }
 ```
 
-### 3 Version complexe de ExceptionSubscriber avec gestion des types d'erreurs et envoie de mail
+### 3. Version complexe de ExceptionSubscriber avec gestion des types d'erreurs et envoie de mail
 
 - La méthode `managerException` gère le type d'erreur qui doit être utiliser par **$logger** et le type de logger à utiliser
 - Dans la méthode `managerException` on envoie un mail pour l'erreur qui à été trouver avec `sendEmail`
@@ -215,7 +217,11 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
-    private const DEDUPLICATE_MINUTES = 30;
+    # Définit le nombre de minutes souhaiter pour attendre avant d'envoyer un mail et un log pour une même erreur
+    private const COOL_DOWN_IN_MINUTES = 30;
+
+    # Calcule pour que COOL_DOWN_IN_MINUTES soit vraiment traduit en minitues
+    private const COOL_DOWN = COOL_DOWN_IN_MINUTES * 60;
 
     public function __construct(
         private LoggerInterface $errorLogger,
@@ -253,25 +259,25 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // === GERE LES DEDUPLICATIONS 
         // ============================
 
-        // Retourne true si la clé existe déjà (doublon).
+        # Retourne true si la clé existe déjà (doublon).
         if ($this->managerDuplicate($exceptionLogger)) {
-            return; // pas d’e-mail, pas de double log
+            return; # pas d’e-mail, pas de double log
         }
 
         // ============================
         // === GERE LES EXCEPTIONS 
         // ============================
 
-        // Gère le type d'erreur qui doit être utiliser par $logger et le type de logger à utiliser
+        # Gère le type d'erreur qui doit être utiliser par $logger et le type de logger à utiliser
         [$level, $logger, $text] = $this->managerException($exceptionLogger, $statusCode);
 
-        // LOG avec le niveau d'erreur déterminé
+        # LOG avec le niveau d'erreur déterminé
         $logger->$level($text, [
             'status_code' => $statusCode,
             'message' => $exceptionLogger->getMessage(),
             'file' => $exceptionLogger->getFile(),
             'line' => $exceptionLogger->getLine(),
-            // Attention trace = beaucoup de texte, utile pour debug
+            # Attention trace = beaucoup de texte, utile pour debug
             // 'trace' => $exceptionLogger->getTraceAsString(),
         ]);
     }
@@ -281,19 +287,19 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private function managerDuplicate(\Throwable $exceptionLogger): bool
     {
-        // Identifiant unique pour la déduplication
+        # Identifiant unique pour la déduplication
         /** @var string $idDeduplicate */
         $idDeduplicate = hash('sha256', $exceptionLogger::class . '|' . $exceptionLogger->getMessage());
 
-        // Retourne true si la clé existe déjà (doublon).
+        # Retourne true si la clé existe déjà (doublon).
         if ($this->isDuplicate($idDeduplicate)) {
-            return true; // pas d’e-mail, pas de double log
+            return true; # pas d’e-mail, pas de double log
         }
 
-        // Enregistre cette erreur pendant le nombre de minutes qu'on veut
+        # Enregistre cette erreur pendant le nombre de minutes qu'on veut
         $this->registerError($idDeduplicate);
 
-        // Si pas de doublon retourne false
+        # Si pas de doublon retourne false
         return false;
     }
 
@@ -303,9 +309,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
     private function managerStatusCode(\Throwable $exceptionLogger): int
     {
         /** @var int $statusCode */
-        $statusCode = 500; // par défaut
+        $statusCode = 500; # par défaut
 
-        // Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
+        # Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
         if ($exceptionLogger instanceof HttpExceptionInterface) {
             /** @var int $statusCode */
             $statusCode = $exceptionLogger->getStatusCode();
@@ -326,20 +332,25 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private function managerException(\Throwable $exception, int $statusCode): array
     {
+        # Utiliser true pour envoyer des mails dans d'autres environnement que la prod
+        # true est a utiliser temporairement
+        /** @var bool $allowsAllEnv */
+        $allowsAllEnv = false;
+
         /** @var string $message */
         $message = strtolower($exception->getMessage());
 
         // ============================
         // 1. EMERGENCY (Crash fatal)
         // ============================
-        // Crash PHP fatals / erreurs irréversibles
+        # Crash PHP fatals / erreurs irréversibles
         if (
             $exception instanceof \Error ||
             $exception instanceof \TypeError ||
             $exception instanceof \ParseError ||
             $exception instanceof \ErrorException
         ) {
-            $this->sendEmail('EMERGENCY', $exception, $statusCode);
+            $this->sendEmail('EMERGENCY', $exception, $statusCode, $allowsAllEnv);
             return ['emergency', $this->emergencyLogger, 'Fatal error'];
         }
 
@@ -358,7 +369,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             str_contains($message, 'timeout') ||
             str_contains($message, 'unavailable')
         ) {
-            $this->sendEmail('ALERT', $exception, $statusCode);
+            $this->sendEmail('ALERT', $exception, $statusCode, $allowsAllEnv);
             return ['alert', $this->alertLogger, 'Database error'];
         }
 
@@ -366,7 +377,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // 3. CRITICAL (Erreurs serveur 500+)
         // ============================
         if ($statusCode >= 500) {
-            $this->sendEmail('CRITICAL', $exception, $statusCode);
+            $this->sendEmail('CRITICAL', $exception, $statusCode, $allowsAllEnv);
             return ['critical', $this->criticalLogger, 'Server error'];
         }
 
@@ -374,8 +385,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
         // 4. ERROR (Par défault)
         // ============================
-        $this->sendEmail('ERROR', $exception, $statusCode);
-        // Erreurs fonctionnelles ou utilisateur
+        $this->sendEmail('ERROR', $exception, $statusCode, $allowsAllEnv);
+        # Erreurs fonctionnelles ou utilisateur
         return ['error', $this->errorLogger, 'Client error'];
     }
 
@@ -384,7 +395,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private function sendEmail(string $type, \Throwable $exception, int $statusCode, bool $allowsAllEnv = false): void
     {
-        // Pas d'envoi en dev ou test sauf si on autorise avec $allowsAllEnv sur true
+        # Pas d'envoi en dev ou test sauf si on autorise avec $allowsAllEnv sur true
         if ('prod' !== $this->environment && true !== $allowsAllEnv) {
             return;
         }
@@ -398,8 +409,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
                 <h2>Erreur détectée de type : {$type}</h2>
                 <p><strong>Application :</strong> mon_application</p>
                 <p><strong>Environnement :</strong> {$this->environment}</p>
-                <p><strong>Message :</strong> {$exception->getMessage()}</p>
                 <p><strong>Status code :</strong> {$statusCode}</p>
+                <p><strong>Message :</strong> {$exception->getMessage()}</p>
                 <p><strong>Fichier :</strong> {$exception->getFile()}</p>
                 <p><strong>Ligne :</strong> {$exception->getLine()}</p>
                 <pre><strong>Trace :</strong><br>{$exception->getTraceAsString()}</pre>
@@ -417,28 +428,28 @@ class ExceptionSubscriber implements EventSubscriberInterface
         /** @var string $key */
         $key = 'dedupe_' . $id;
 
-        // Lock pour éviter les races conditions si plusieurs requête en même temps
+        # Lock pour éviter les races conditions si plusieurs requête en même temps
         /** @var Lock $lock */
         $lock = $this->lockFactory->createLock($key, ttl: 5);
 
-        // On attend le lock : QUAND IL EST ACQUIS, on peut lire proprement
-        $lock->acquire(true);
+        # On attend le lock : QUAND IL EST ACQUIS, on peut lire proprement
+        // $lock->acquire(true);
 
         if (!$lock->acquire()) {
-            // Si quelqu’un d’autre est en train d'écrire → considérer comme doublon
+            # Si quelqu’un d’autre est en train d'écrire → considérer comme doublon
             return true;
         }
 
         try {
-            // retourne un objet CacheItemInterface même si la clé n’existe pas (dans ce cas isHit() sera false)
+            # Retourne un objet CacheItemInterface même si la clé n’existe pas (dans ce cas isHit() sera false)
             /** @var CacheItem $item */
             $item = $this->dedupeCache->getItem($key);
 
-            // envoie true si la valeur existe dans le cache et n’a pas expiré
+            # Envoie true si la valeur existe dans le cache et n’a pas expiré
             return $item->isHit();
         }
         finally {
-            // Libères le verrou, les autres processus peuvent accéder à la ressource.
+            # Libères le verrou, les autres processus peuvent accéder à la ressource.
             $lock->release();
         }
     }
@@ -451,38 +462,38 @@ class ExceptionSubscriber implements EventSubscriberInterface
         /** @var string $key */
         $key = 'dedupe_' . $id;
 
-        // Crée un verrou portant un nom unique
+        # Crée un verrou portant un nom unique
         /** @var Lock $lock */
         $lock = $this->lockFactory->createLock($key, ttl: 5);
 
-        // Tente d’obtenir le verrou, si quelqu’un l’a déjà, on retourne FALSE
+        # Tente d’obtenir le verrou, si quelqu’un l’a déjà, on retourne FALSE
         $lock->acquire(true);
 
         try {
-            // On récupère l’élément de cache (objet) pour cette clé — soit une nouvelle instance si la clé n’existe pas, soit l’item existant.
+            # On récupère l’élément de cache (objet) pour cette clé — soit une nouvelle instance si la clé n’existe pas, soit l’item existant.
             /** @var CacheItem $item */
             $item = $this->dedupeCache->getItem($key);
     
-            // On stocke une valeur dans l’item. // la valeur n’a pas d’importance
+            # On stocke une valeur dans l’item. La valeur n’a pas d’importance
             $item->set(true);
     
-            // Demande que l’item expire automatiquement après le nombre de temps définit dans DEDUPLICATE_MINUTES . 
-            // C’est la durée pendant laquelle la clé empêchera l’envoi d’un nouvel e-mail.
-            $item->expiresAfter(self::DEDUPLICATE_MINUTES * 60);
+            # Demande que l’item expire automatiquement après le nombre de temps définit dans COOL_DOWN. 
+            # C’est la durée pendant laquelle la clé empêchera l’envoi d’un nouvel e-mail.
+            $item->expiresAfter(self::COOL_DOWN);
     
-            // On sauvegarde l’item dans le pool de cache. 
-            // Après save() la clé existe et isHit() renverra true jusqu’à l’expiration
+            # On sauvegarde l’item dans le pool de cache. 
+            # Après save() la clé existe et isHit() renverra true jusqu’à l’expiration
             $this->dedupeCache->save($item);
         }
         finally {
-            // Libères le verrou, les autres processus peuvent accéder à la ressource.
+            # Libères le verrou, les autres processus peuvent accéder à la ressource.
             $lock->release();
         }
     }
 }
 ```
 
-### 4 Les différentes autres configuration à faire/vérifier
+### 4. Les différentes autres configuration à faire/vérifier
 
 #### Dans .env
 
@@ -516,7 +527,7 @@ framework:
     lock: '%env(LOCK_DSN)%'
 ```
 
-### 5 Tester les erreurs
+### 5. Tester les erreurs
 
 #### Error Critical : Provoquer un crash volontaire dans un contrôleur ou repository
 
@@ -524,6 +535,15 @@ Dans n’importe quel contrôleur :
 
 ```php
 throw new \RuntimeException("Test erreur CRITICAL : crash volontaire !");
+
+# ou
+
+// HttpExceptions explicites
+throw new \Symfony\Component\HttpKernel\Exception\HttpException(500, "Test erreur CRITICAL : erreur 500 !");
+# ou
+throw new \Symfony\Component\HttpKernel\Exception\HttpException(502, "Test erreur CRITICAL : Bad Gateway !");
+# ou
+throw new \Symfony\Component\HttpKernel\Exception\HttpException(503, "Test erreur CRITICAL : Service Unavailable !");
 ```
 
 ou dans un repository :
@@ -570,6 +590,12 @@ ou
 ```php
 $foo = null;
 $foo->bar();
+
+# ou
+
+throw new \Error("Test erreur EMERGENCY : crash fatal !");
+# ou
+throw new \ErrorException("Test erreur EMERGENCY : ErrorException !");
 ```
 
 Résultat attendu
@@ -607,17 +633,44 @@ Dans n’importe quel repository de la page qu'on test :
     }
 ```
 
+Ou dans n’importe quel contrôleur :
+
+```php
+// Via PDOException
+throw new \PDOException("Test erreur ALERT : problème base de données !");
+
+// Via mots-clés (sql, database, token, jwt, auth, api, timeout, unavailable)
+throw new \RuntimeException("Test erreur ALERT : database connection failed !");
+throw new \RuntimeException("Test erreur ALERT : sql syntax error !");
+throw new \RuntimeException("Test erreur ALERT : invalid token detected !");
+throw new \RuntimeException("Test erreur ALERT : jwt expired !");
+throw new \RuntimeException("Test erreur ALERT : auth failed !");
+throw new \RuntimeException("Test erreur ALERT : api unreachable !");
+throw new \RuntimeException("Test erreur ALERT : connection timeout !");
+throw new \RuntimeException("Test erreur ALERT : service unavailable !");
+```
+
 Résultat attendu
 
 - Génère une erreur 500
 - Doit aller dans alert.log
 - Le subscriber doit capturer l’erreur et loguer via $alertLogger->alert() 
 
+
 #### Error error : Provoquer un crash volontaire via un mauvais chemin
 
 Dans n’importe la barre de recherche :
 
 - Mettre un chemin de page qui n'existe pas
+
+Ou dans n’importe quel contrôleur :
+
+```php
+throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException("Test erreur ERROR : page introuvable !");          // 404
+throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException("Test erreur ERROR : accès refusé !");       // 403
+throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException("Test erreur ERROR : requête invalide !");     // 400
+throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('Bearer', "Test erreur ERROR : non authentifié !"); // 401
+```
 
 
 Résultat attendu
