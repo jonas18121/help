@@ -1,4 +1,4 @@
-# Gérer les logs d'erreurs de manière globale avec envoie de mail, Symfony 7
+# Gérer les logs d'erreurs de manière globale avec envoie de mail et purge de cache. Symfony 5.4 et 7 PHP 8+
 
 - [Symfony : Configuration des logs Monolog de remipoignon.fr](https://www.remipoignon.fr/symfony-configuration-des-logs-monolog/)
 - [Logging](https://symfony.com/doc/7.0/logging.html)
@@ -200,7 +200,25 @@ services:
             $cacheDir: '%kernel.cache_dir%/pools/app' # répertoire réel des clés
 ```
 
-### 3. Version complexe de ExceptionSubscriber avec gestion des types d'erreurs et envoie de mail
+### 3. Si on est sur Symfony 5.4 mettre la config du pools dans config/cache.yaml
+
+- Déclaration d'un "pools" obligatoire en Symfony 5.4 pour forcer la création de `var/cache/<env>/pools/app`
+
+```yaml
+framework:
+    cache:
+        app: cache.adapter.filesystem
+        system: cache.adapter.system
+
+        # Déclaration d'un "pools" obligatoire en Symfony 5.4 pour forcer la création de
+        # "var/cache/<env>/pools/app" car la mise en cache persistante ne fonctionne pas
+        # avec ".../pools/system"
+        pools:
+            exception.dedupe.cache:
+                adapter: cache.adapter.filesystem
+```
+
+### 4. Version complexe de ExceptionSubscriber avec gestion des types d'erreurs et envoie de mail
 
 - La méthode `managerException` gère le type d'erreur qui doit être utiliser par **$logger** et le type de logger à utiliser
 - Dans la méthode `managerException` on envoie un mail pour l'erreur qui à été trouver avec `sendEmail`
@@ -500,7 +518,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     }
 }
 ```
-### 4. Créer un fichier App\Service\CacheService pour la suppression des clés de log expirer dans le cache
+### 5. Créer un fichier App\Service\CacheService pour la suppression des clés de log expirer dans le cache
 
 - `pruneExpired()` Pour la suppression des clés de log expirer dans le cache
 - `pruneEmptyDirectories()` Pour la suppression des répertoires vide des clés de log supprimer dans le cache
@@ -701,7 +719,7 @@ class CacheService implements CacheInterface, CacheItemPoolInterface
 }
 ```
 
-### 5. Les différentes autres configuration à faire/vérifier
+### 6. Les différentes autres configuration à faire/vérifier
 
 #### Dans .env
 
@@ -735,7 +753,7 @@ framework:
     lock: '%env(LOCK_DSN)%'
 ```
 
-### 6. Tester les erreurs
+### 7. Tester les erreurs
 
 #### Error Critical : Provoquer un crash volontaire dans un contrôleur ou repository
 

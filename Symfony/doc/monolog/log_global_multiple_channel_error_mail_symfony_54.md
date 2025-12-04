@@ -1,4 +1,4 @@
-# Gérer les logs d'erreurs de manière globale avec envoie de mail, Symfony 5.4
+# Gérer les logs d'erreurs de manière globale avec envoie de mail, Symfony 5.4 PHP 7+
 
 - [Symfony : Configuration des logs Monolog de remipoignon.fr](https://www.remipoignon.fr/symfony-configuration-des-logs-monolog/)
 - [Logging](https://symfony.com/doc/7.0/logging.html)
