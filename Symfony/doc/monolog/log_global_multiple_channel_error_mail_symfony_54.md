@@ -82,7 +82,7 @@ Il existe plusieurs types de handler avec chacun une fonctionnalité précise :
 
 ## En pratique avec envoie de mail
 
-### 1 Configurer le fichier config/packages/monolog.yaml
+### 1. Configurer le fichier config/packages/monolog.yaml
 
 - On rajoute plusieurs canal **exception.error**, **exception.critical**, **exception.alert** et **exception.emergency** dans `monolog.channels`
 - On rajoute les handlers **error_logs**, **critical_logs**, **alert_logs** et **emergency_logs**  avec leurs configuration :
@@ -220,6 +220,8 @@ framework:
 
 ```php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
@@ -229,6 +231,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -474,7 +477,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     private function isDuplicate(string $id): bool
     {
         /** @var string $key */
-        $key = 'dedupe_' . $id;
+        $key = 'cool_down_' . $id;
 
         # Lock pour éviter les races conditions si plusieurs requête en même temps
         /** @var Lock $lock */
@@ -506,7 +509,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     private function registerError(string $id): void
     {
         /** @var string $key */
-        $key = 'dedupe_' . $id;
+        $key = 'cool_down_' . $id;
 
         # Crée un verrou portant un nom unique
         /** @var Lock $lock */
