@@ -22,7 +22,7 @@ Et ensuite seulement, on peut en déduire :
 Mais les autres jours fériés français sont fixes, donc devons les ajouter nous-mêmes.
 
 ```php
-function calculateEasterDate(int $year, $timeZone): int
+function calculateEasterDate(int $year, string $timeZone): int
 {
     // Algorithme Meeus/Jones/Butcher
     $goldenNumber = $year % 19;
