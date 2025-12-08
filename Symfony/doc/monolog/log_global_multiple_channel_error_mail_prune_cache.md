@@ -698,6 +698,13 @@ class CacheService implements CacheInterface, CacheItemPoolInterface
                 break;
             }
 
+            # Evite symlink
+            # Vérifie si le chemin de $root est le début de chemin de $real, sinon stop
+            $real = realpath($dir);
+            if ($real === false || strpos($real, $root) !== 0) {
+                break;
+            }
+
             # Vérifie si le dossier est vide
             if (count(scandir($dir)) === 2) { # "." et ".."
                 rmdir($dir);
