@@ -55,31 +55,67 @@ Dans un projet PHP/Symfony, les classes de type "manager" et les classes de type
 
 ### Exemple de Code
 
+### UserManager
+
+- se concentrent sur la gestion de entité et la communication avec la base de données.
+
 ```php
 // src/Manager/UserManager.php
 namespace App\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UserManager
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
+    private UserPasswordHasherInterface $userPasswordHasher;
+    protected EntityManagerInterface $em;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $em
+    )
     {
         $this->entityManager = $entityManager;
+        $this->userPasswordHasher = $userPasswordHasher;
+        $this->em = $em;
     }
 
-    public function createUser(User $user)
+    public function createUser(User $user): User
     {
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $user->setPassword(
+            $this->userPasswordHasher->hashPassword(
+                $user,
+                $form->get('plainPassword')->getData()
+            ))
+            ->setCreatedAt(new \DateTime())
+            ->isActive(true)
+        ;
+
+        return $this->save($user);
+    }
+
+    public function save(User $user): User
+    {
+        $em = $this->em();
+        $em->persist($user);
+        $em->flush();
+
+        return $user;
     }
 
     // Autres méthodes de gestion des utilisateurs...
 }
 ```
+
+### EmailService
+
+- Gére les envoies de mail
+
 
 ```php
 // src/Service/EmailService.php
@@ -90,14 +126,14 @@ use Swift_Message;
 
 class EmailService
 {
-    private $mailer;
+    private Swift_Mailer $mailer;
 
     public function __construct(Swift_Mailer $mailer)
     {
         $this->mailer = $mailer;
     }
 
-    public function sendWelcomeEmail(User $user)
+    public function sendWelcomeEmail(User $user): void
     {
         $message = (new Swift_Message('Welcome!'))
             ->setFrom('send@example.com')
@@ -110,6 +146,10 @@ class EmailService
     // Autres méthodes liées aux emails...
 }
 ```
+
+### UserService
+
+- se concentrent sur la logique métier et les fonctionnalités de l'application.
 
 ```php
 // src/Service/UserService.php
@@ -128,13 +168,77 @@ class UserService
         $this->emailService = $emailService;
     }
 
-    public function registerUser(User $user)
+    public function registerUser(User $user): User
     {
-        $this->userManager->createUser($user);
-        $this->emailService.sendWelcomeEmail($user);
+        if(null !== $this->getUser()) {
+            throw \Exception("Erreur");
+        }
+
+        $user = $this->userManager->createUser($user);
+        $this->emailService->sendWelcomeEmail($user);
+
+        return $user;
     }
 
     // Autres méthodes de gestion des utilisateurs...
+}
+```
+
+### RegistrationController
+
+- utilise UserService
+
+```php
+namespace App\Controller;
+
+use App\Entity\User;
+use App\Form\RegistrationFormType;
+use App\Security\AppAuthenticator;
+use App\Security\EmailVerifier;
+use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+
+class RegistrationController extends AbstractController
+{
+    private EmailVerifier $emailVerifier;
+
+    public function __construct(
+        EmailVerifier $emailVerifier,
+        UserService $userService
+    )
+    {
+        $this->emailVerifier = $emailVerifier;
+        $this->userService = $userService;
+    }
+
+    #[Route('/register', name: 'app_register')]
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $user = $this->userService->registerUser($user);
+
+            return $security->login($user, AppAuthenticator::class, 'main');
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form,
+        ]);
+    }
 }
 ```
 
