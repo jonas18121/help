@@ -195,7 +195,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         return [
             // 'kernel.exception' => 'onKernelException',
-            ExceptionEvent::class => 'onKernelException',
+            // ExceptionEvent::class => 'onKernelException',
+            KernelEvents::EXCEPTION => 'onKernelException',
         ];
     }
 
