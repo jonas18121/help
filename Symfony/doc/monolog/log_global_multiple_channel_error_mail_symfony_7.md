@@ -212,7 +212,10 @@ use Symfony\Component\Mime\Email;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\Lock\LockFactory;
+use Doctrine\ORM\Query\QueryException;
+// use Doctrine\DBAL\Exception as QueryException;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -221,7 +224,7 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 class ExceptionSubscriber implements EventSubscriberInterface
 {
     # Définit le nombre de minutes souhaiter pour attendre avant d'envoyer un mail et un log pour une même erreur
-    private const COOL_DOWN_IN_MINUTES = 30;
+    private const COOL_DOWN_IN_MINUTES = 120;
 
     # Calcule pour que COOL_DOWN_IN_MINUTES soit vraiment traduit en minitues
     private const COOL_DOWN = self::COOL_DOWN_IN_MINUTES * 60;
@@ -252,6 +255,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
         /** @var \Throwable $exceptionLogger */
         $exceptionLogger = $event->getThrowable();
 
+        /** @var Request $request */
+        $request = $event->getRequest();
+
         // ============================
         // === GERE LES STATUS DE CODES 
         // ============================
@@ -273,7 +279,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
 
         # Gère le type d'erreur qui doit être utiliser par $logger et le type de logger à utiliser
-        [$level, $logger, $text] = $this->managerException($exceptionLogger, $statusCode);
+        [$level, $logger, $text] = $this->managerException($exceptionLogger, $statusCode, $request);
 
         # LOG avec le niveau d'erreur déterminé
         $logger->$level($text, [
@@ -293,7 +299,13 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         # Identifiant unique pour la déduplication
         /** @var string $idDeduplicate */
-        $idDeduplicate = hash('sha256', $exceptionLogger::class . '|' . $exceptionLogger->getMessage());
+        $idDeduplicate = hash(
+            'sha256', 
+            $exceptionLogger::class 
+            . '|' . $exceptionLogger->getMessage()
+            . '|' . $exceptionLogger->getFile()
+            . '|' . $exceptionLogger->getLine()
+        );
 
         # Retourne true si la clé existe déjà (doublon).
         if ($this->isDuplicate($idDeduplicate)) {
@@ -325,6 +337,28 @@ class ExceptionSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * Gère l'autorisation d'envoyer des mails pour d'autres environnement que la prod
+     * 
+     * Utiliser true pour envoyer des mails dans d'autres environnement que la prod
+     * true est a utiliser temporairement
+     */
+    private function managerAllowsEnv(): bool
+    {
+        /** @var bool $allowsAllEnv */
+        $allowsAllEnv = false;
+
+        # Depuis un fichier .env ou .env.local vérichier si FORCE_ERROR_MAIL est en true en minuscule
+        if(isset($_ENV['FORCE_ERROR_MAIL']) && !empty($_ENV['FORCE_ERROR_MAIL'])){
+            if(ctype_lower($_ENV['FORCE_ERROR_MAIL']) && true === (bool) $_ENV['FORCE_ERROR_MAIL']){
+                /** @var bool $allowsAllEnv */
+                $allowsAllEnv = true;
+            }
+        }
+
+        return $allowsAllEnv;
+    }
+
+    /**
      * Détermine le type d’exception et le logger associé.
      * 
      * Exemple : 
@@ -333,13 +367,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
      *     - $logger->alert()
      *     - $logger->emergency()
      */
-    private function managerException(\Throwable $exception, int $statusCode): array
+    private function managerException(\Throwable $exception, int $statusCode, ?Request $request): array
     {
-        # Utiliser true pour envoyer des mails dans d'autres environnement que la prod
-        # true est a utiliser temporairement
-        /** @var bool $allowsAllEnv */
-        $allowsAllEnv = false;
-
         /** @var string $message */
         $message = strtolower($exception->getMessage());
 
@@ -353,7 +382,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             $exception instanceof \ParseError ||
             $exception instanceof \ErrorException
         ) {
-            $this->sendEmail('EMERGENCY', $exception, $statusCode, $allowsAllEnv);
+            $this->sendEmail('EMERGENCY', $exception, $statusCode, $request);
             return ['emergency', $this->emergencyLogger, 'Fatal error'];
         }
 
@@ -372,7 +401,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             str_contains($message, 'timeout') ||
             str_contains($message, 'unavailable')
         ) {
-            $this->sendEmail('ALERT', $exception, $statusCode, $allowsAllEnv);
+            $this->sendEmail('ALERT', $exception, $statusCode, $request);
             return ['alert', $this->alertLogger, 'Database error'];
         }
 
@@ -380,7 +409,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // 3. CRITICAL (Erreurs serveur 500+)
         // ============================
         if ($statusCode >= 500) {
-            $this->sendEmail('CRITICAL', $exception, $statusCode, $allowsAllEnv);
+            $this->sendEmail('CRITICAL', $exception, $statusCode, $request);
             return ['critical', $this->criticalLogger, 'Server error'];
         }
 
@@ -388,7 +417,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
         // 4. ERROR (Par défault)
         // ============================
-        $this->sendEmail('ERROR', $exception, $statusCode, $allowsAllEnv);
+        $this->sendEmail('ERROR', $exception, $statusCode, $request);
         # Erreurs fonctionnelles ou utilisateur
         return ['error', $this->errorLogger, 'Client error'];
     }
@@ -396,30 +425,49 @@ class ExceptionSubscriber implements EventSubscriberInterface
     /**
      * Envoie un email
      */
-    private function sendEmail(string $type, \Throwable $exception, int $statusCode, bool $allowsAllEnv = false): void
+    private function sendEmail(
+        string $type, 
+        \Throwable $exception, 
+        int $statusCode, 
+        ?Request $request
+    ): void
     {
+        /** @var bool $allowsAllEnv */
+        $allowsAllEnv = $this->managerAllowsEnv();
+
         # Pas d'envoi en dev ou test sauf si on autorise avec $allowsAllEnv sur true
         if ('prod' !== $this->environment && true !== $allowsAllEnv) {
             return;
         }
 
+        $url = null !== $request
+            ? $request->getSchemeAndHttpHost() . $request->getPathInfo()
+            : 'N/A'
+        ;
+
         /** @var Email $email */
         $email = (new Email())
             ->from('serveur@monsite.com')
             ->to('admin@gmail.com')
-            ->subject("[{$type}] Nouvelle erreur détectée ({$statusCode})  - Application mon_application - {$this->environment}")
+            ->subject("[{$type}] Nouvelle erreur détectée ({$statusCode}) - Application mon_application - {$this->environment}")
             ->html("
                 <h2>Erreur détectée de type : {$type}</h2>
                 <p><strong>Application :</strong> mon_application</p>
                 <p><strong>Environnement :</strong> {$this->environment}</p>
                 <p><strong>Status code :</strong> {$statusCode}</p>
+                <p><strong>Url (sans info après '?') :</strong> {$url}</p>
                 <p><strong>Message :</strong> {$exception->getMessage()}</p>
                 <p><strong>Fichier :</strong> {$exception->getFile()}</p>
                 <p><strong>Ligne :</strong> {$exception->getLine()}</p>
                 <pre><strong>Trace :</strong><br>{$exception->getTraceAsString()}</pre>
-            ");
+            ")
+        ;
 
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+        } catch (\Throwable $error) {
+            # empêche de créer une boucle infinit d'erreur, si le mail ne fonctionne pas
+        }
     }
    
     /**
@@ -511,6 +559,14 @@ MAILER_DSN=smtp://maildev:1025
 # postgresql+advisory://db_user:db_password@localhost/db_name
 LOCK_DSN=flock
 ###< symfony/lock ###
+```
+
+#### Dans .env.local
+
+- Si, on veut tester les envoies de mail en env de dev, on peut utiliser `FORCE_ERROR_MAIL` sur `true`, sinon ne rien mettre
+
+```bash
+FORCE_ERROR_MAIL=true
 ```
 
 #### Dans config/packages/mailer.yaml 
