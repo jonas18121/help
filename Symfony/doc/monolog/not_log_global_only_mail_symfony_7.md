@@ -23,14 +23,6 @@
 
 ## Installation
 
-### Installer Monolog
-
-Voir [monolog-bundle](https://github.com/symfony/monolog-bundle)
-
-```bash
-composer require symfony/monolog-bundle
-```
-
 ### Installer Mailer
 
 Voir [Envoi d'e-mails avec Mailer](https://symfony.com/doc/current/mailer.html)
@@ -70,96 +62,11 @@ Comme beaucoup de systèmes de log, Monolog utilise plusieurs niveaux. Par ordre
 - **ALERT :** « Alerte rouge », tout le service ou sa base de données est indisponible. Cette action est généralement accompagnée d’alerte sms et / ou d’alerte monitoring sonore. (exemple : le site est inaccessible par votre outil de monitoring).
 - **EMERGENCY :** Le système est inutilisable, tout est complètement cassé et nécessite une grosse intervention pour tout remettre d’aplomb. Des données sont perdues / corrompues. Bref … Je vous laisse imaginer la catastrophe que ça peut être. Je vous souhaite de ne jamais voir apparaître ce genre de log ! (exemple : détection d’un hacking bien hard de votre site).
 
-### Différents types de handles
-
-Il existe plusieurs types de handler avec chacun une fonctionnalité précise :
-
-- **finders_crossed :** Ce handler stocke dans un buffer tout les logs qui passe. Lorsqu’un des logs dépasse le niveau minimum requis, il appelle un autre handler avec tous les logs contenus dans son buffer.
-- **stream :** Ce handler écrit le log qu’il reçoit dans un fichier si son niveau dépasse le niveau minimum requis.
-- **rotating_file :** Ce handler fait la même chose que stream mais fait une rotation des fichiers pour effacer les logs anciens.
-- **group :** Ce handler envoit le log reçu à plusieurs handles (exemple : pour écrire le log ET l’envoyer par mail)
-- **buffer :** Ce handler stocke dans un buffer tout les logs qu’il reçoit puis envoit le buffer à un handler à la fin de l’exécution de la requête.
-- **swit_mailler :** Ce handle envoit par mail les logs (souvent passé par un handler de type buffer)
-- **console :** Ce handler permet de définir les niveaux d’affichage de log dans la console.
-
 ## En pratique avec envoie de mail
 
-### 1. Configurer le fichier config/packages/monolog.yaml
+### 1. Configurer le fichier config/service.yaml
 
-- On rajoute plusieurs canal **exception.error**, **exception.critical**, **exception.alert** et **exception.emergency** dans `monolog.channels`
-- On rajoute les handlers **error_logs**, **critical_logs**, **alert_logs** et **emergency_logs**  avec leurs configuration :
-    - **type** rotation de fichier sous 30 jours grace à **max_files** qui conserve Jusqu'à 30 fichiers, 1 fichier par jour
-    - **path** chemin qui indique ou stocker les fichiers, ici ce sera dans 
-    `projet/var/log/exception/error/error.log` ou `projet/var/log/exception/critical/critical.log` ou `projet/var/log/exception/alert/alert.log` ou `projet/var/log/exception/emergency/emergency.log` le nom du fichier sera le nom + la date à cause du **type** rotation de fichier. Exemple :`exceptions-2025-12-25.log`
-    - **level**, est le niveau intercepter sera **ERROR**, **CRITICAL**, **ALERT** et **EMERGENCY**. un seul par canal
-    - **channels** est le canal dans lequel sera difuser ces erreurs
-    - **bubble: false** empêcher un handler de niveau inférieur d’attraper un message de niveau supérieur.
-
-- Ne pas oublier de mettre le handler dans les autres environnement, exemple **when@prod**
-
-```yaml
-monolog:
-    channels:
-        - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
-        - exception.error # sous-canaux (ex: exception.error, exception.critical, etc.) pour un tri propre
-        - exception.critical # sous-canaux (ex: exception.error, exception.critical, etc.) pour un tri propre
-        - exception.alert # sous-canaux (ex: exception.error, exception.critical, etc.) pour un tri propre
-        - exception.emergency # sous-canaux (ex: exception.error, exception.critical, etc.) pour un tri propre
-
-when@dev:
-    monolog:
-        handlers:
-            main:
-                type: stream
-                path: "%kernel.logs_dir%/%kernel.environment%.log"
-                level: debug
-                channels: ["!event"]
-            console:
-                type: console
-                process_psr_3_messages: false
-                channels: ["!event", "!doctrine", "!console"]
-            
-            # Intercepte les erreurs de type ERROR : erreurs "normales" (404, 403, 400...)
-            error_logs:
-                type: rotating_file
-                path: "%kernel.logs_dir%/exception/error/error.log"
-                level: error
-                max_files: 30
-                channels: ["exception.error"] # créer des sous-canaux (ex: exception.error, exception.critical, etc.) pour un tri propre
-                bubble: false # empêcher un handler de niveau inférieur d’attraper un message de niveau supérieur.
-
-            # Intercepte les erreurs de type CRITICAL : erreurs serveur 500+ (500, 502, 503...)
-            critical_logs:
-                type: rotating_file
-                path: "%kernel.logs_dir%/exception/critical/critical.log"
-                level: critical
-                max_files: 30
-                channels: ["exception.critical"]
-                bubble: false # empêcher un handler de niveau inférieur d’attraper un message de niveau supérieur.
-
-            # Intercepte les erreurs de type ALERT : erreurs importantes (BDD, sécurité, API)
-            alert_logs:
-                type: rotating_file
-                path: "%kernel.logs_dir%/exception/alert/alert.log"
-                level: alert
-                max_files: 30
-                channels: ["exception.alert"]
-                bubble: false # empêcher un handler de niveau inférieur d’attraper un message de niveau supérieur.
-
-            # Intercepte les erreurs de type EMERGENCY : crashs fatals (TypeError, ParseError, Error)
-            emergency_logs:
-                type: rotating_file
-                path: "%kernel.logs_dir%/exception/emergency/emergency.log"
-                level: emergency
-                max_files: 30
-                channels: ["exception.emergency"]  
-                bubble: false # empêcher un handler de niveau inférieur d’attraper un message de niveau supérieur.
-
-```
-
-### 2. Configurer le fichier config/service.yaml
-
-- On injecte les 4 canaux dans **ExceptionSubscriber** ainsi que mailer, cache, lock et l'environnement
+- On injecte dans **ExceptionSubscriber** le mailer, cache, lock et l'environnement
 
 ```yaml
 services:
@@ -182,10 +89,6 @@ services:
 
     App\EventSubscriber\ExceptionSubscriber:
         arguments:
-            $errorLogger: '@monolog.logger.exception.error'
-            $criticalLogger: '@monolog.logger.exception.critical'
-            $alertLogger: '@monolog.logger.exception.alert'
-            $emergencyLogger: '@monolog.logger.exception.emergency'
             $mailer: '@mailer'
             $dedupeCache: '@cache.app'
             $lockFactory: '@lock.factory' 
@@ -197,7 +100,7 @@ services:
 
 ### 3. Version complexe de ExceptionSubscriber avec gestion des types d'erreurs et envoie de mail
 
-- La méthode `managerException` gère le type d'erreur qui doit être utiliser par **$logger** et le type de logger à utiliser
+- La méthode `managerException` gère le type d'erreur et le type de log à utiliser
 - Dans la méthode `managerException` on envoie un mail pour l'erreur qui à été trouver avec `sendEmail`
 - La méthode `managerDuplicate` gère les doublons des erreurs
 - La méthode `managerStatusCode` gère le code status HTTP
