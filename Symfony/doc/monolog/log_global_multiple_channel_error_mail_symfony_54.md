@@ -18,6 +18,8 @@
 - [Composant Symfony Lock](https://symfony.com/doc/current/components/lock.html)
 - [Symfony Cache Pools and Supported Adapters](https://symfony.com/doc/current/components/cache/cache_pools.html)
 - [Symfony Cache](https://symfony.com/doc/current/cache.html)
+- [symfony/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php](https://github.com/symfony/symfony/blob/refs/heads/6.4/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php)
+- [core-bundle/tests/DependencyInjection/ContaoCoreExtensionTest.php](https://github.com/contao/core-bundle/blob/5.6/tests/DependencyInjection/ContaoCoreExtensionTest.php)
 
 ## Installation
 
@@ -152,7 +154,6 @@ when@dev:
                 max_files: 30
                 channels: ["exception.emergency"]  
                 bubble: false # empêcher un handler de niveau inférieur d’attraper un message de niveau supérieur.
-
 ```
 
 ### 2. Configurer le fichier config/service.yaml
@@ -217,6 +218,40 @@ framework:
 - Dans la méthode `managerException` on envoie un mail pour l'erreur qui à été trouver avec `sendEmail`
 - La méthode `managerDuplicate` gère les doublons des erreurs
 - La méthode `managerStatusCode` gère le code status HTTP
+
+- `KernelEvents::EXCEPTION => ['onKernelException', -100]` :
+    - à **-100**, on observes après tout le monde
+    - Les listeners **avec une priorité plus élevée** sont exécutés **avant**
+    - Les listeners **avec une priorité plus basse** sont exécutés **après**
+    - Valeurs typiques :
+        - `0` => normal
+        - `> 0` => très tôt
+        - `< 0` => très tard
+    - En pratique :
+        - priorité  `0`   => listeners applicatifs
+        - priorité `-64`  => bundles tiers
+        - priorité `-100` => ExceptionSubscriber
+        - priorité `-128` => Symfony ErrorListener (stop propagation)
+    - On laisse Symfony faire son travail d'abord
+        - déterminer le bon `HttpException`
+        - transformer certaines exceptions
+        - définir le status code réel
+        - éventuellement remplacer l’exception
+    - On évites les conflits avec les listeners internes
+        - `ErrorListener` 
+        - `ExceptionListener` 
+        - `DebugHandlersListener` 
+        - listeners de bundles (Security, Doctrine, etc.)
+    - Dans le fichier [symfony/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php](https://github.com/symfony/symfony/blob/refs/heads/6.4/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php) la méthode `getSubscribedEvents()` retourne les événements avec leurs priorités, dont **kernel.exception** avec `-128`
+    - Dans le fichier [core-bundle/tests/DependencyInjection/ContaoCoreExtensionTest.php](https://github.com/contao/core-bundle/blob/5.6/tests/DependencyInjection/ContaoCoreExtensionTest.php) il y a un test qui vérifie explicitement la priorité -128 dans l’événement kernel.exception pour `ErrorListener`, exemple : `$this->assertSame(-128, $events['kernel.exception'][1][1]);`
+    - La commande ci'dessous permet de lister tous les listeners enregistrés pour un événement
+```bash
+# Voir pour kernel.exception
+php bin/console debug:event-dispatcher kernel.exception
+
+# Voir tous
+php bin/console debug:event-dispatcher 
+```
 
 ```php
 
@@ -294,9 +329,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            // 'kernel.exception' => 'onKernelException',
-            // ExceptionEvent::class => 'onKernelException',
-            KernelEvents::EXCEPTION => 'onKernelException',
+            // 'kernel.exception' => ['onKernelException', -100],
+            // ExceptionEvent::class => ['onKernelException', -100],
+            KernelEvents::EXCEPTION => ['onKernelException', -100],
         ];
     }
 
@@ -331,15 +366,20 @@ class ExceptionSubscriber implements EventSubscriberInterface
         # Gestion de l’exception (type, logger, message)
         [$level, $logger, $text] = $this->managerException($exceptionLogger, $statusCode, $request);
 
-        # LOG avec le niveau d'erreur déterminé
-        $logger->$level($text, [
-            'status_code' => $statusCode,
-            'message' => $exceptionLogger->getMessage(),
-            'file' => $exceptionLogger->getFile(),
-            'line' => $exceptionLogger->getLine(),
-            # Attention trace = beaucoup de texte, utile pour debug
-            // 'trace' => $exceptionLogger->getTraceAsString(),
-        ]);
+        try {
+            # LOG avec le niveau d'erreur déterminé
+            $logger->$level($text, [
+                'status_code' => $statusCode,
+                'message' => $exceptionLogger->getMessage(),
+                'file' => $exceptionLogger->getFile(),
+                'line' => $exceptionLogger->getLine(),
+                # Attention trace = beaucoup de texte, utile pour debug
+                // 'trace' => $exceptionLogger->getTraceAsString(),
+            ]);
+        } catch (\Throwable $error) {
+            # dernier rempart : ne rien faire
+            # empêche de créer une boucle infinit d'erreur, si le logger ne fonctionne pas
+        }
     }
 
     /**
@@ -514,6 +554,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         try {
             $this->mailer->send($email);
         } catch (\Throwable $error) {
+            # dernier rempart : ne rien faire
             # empêche de créer une boucle infinit d'erreur, si le mail ne fonctionne pas
         }
     }
@@ -531,9 +572,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
         /** @var Lock $lock */
         $lock = $this->lockFactory->createLock($key, 5);
 
-        // Si $lock->acquire() retourne false, considérer comme doublon
+        # Si $lock->acquire() retourne false, considérer comme doublon
         if (!$lock->acquire()) {
-            // isDuplicate retournera true
+            # isDuplicate retournera true
             return true;
         }
 
@@ -657,22 +698,22 @@ ou dans un repository :
 
 ```php
 public function findPaginationList(int $page, string $name, int $limit): ?SlidingPagination
-    {
-        /** @var array */
-        $data = $this->createQueryBuilder($name)
-            ->select('$name')
-            ->getQuery()
-            ->getResult();
+{
+    /** @var array */
+    $data = $this->createQueryBuilder($name)
+        ->select('$name')
+        ->getQuery()
+        ->getResult();
 
-        /** @var SlidingPagination */
-        $pagination = $this->paginationInterface->paginate($data, $page, $limit);
+    /** @var SlidingPagination */
+    $pagination = $this->paginationInterface->paginate($data, $page, $limit);
 
-        if ($pagination instanceof SlidingPagination) {
-            return $pagination;
-        }
-
-        return null;
+    if ($pagination instanceof SlidingPagination) {
+        return $pagination;
     }
+
+    return null;
+}
 ```
 
 Résultat attendu
@@ -716,25 +757,25 @@ Dans n’importe quel repository de la page qu'on test :
 
 ```php
     public function findPaginationList(int $page, string $name, int $limit, $gameName = null): ?SlidingPagination
-    {
-        /** @var array */
-        $data = $this->createQueryBuilder($name)
-            ->select($name)
-            ->orderBy($name . '.id', 'DESC')
-            ->andWhere($name . '.gameName = :gameName')
-            ->setParameter('gameNames', $gameName)
-            ->getQuery()
-            ->getResult();
+{
+    /** @var array */
+    $data = $this->createQueryBuilder($name)
+        ->select($name)
+        ->orderBy($name . '.id', 'DESC')
+        ->andWhere($name . '.gameName = :gameName')
+        ->setParameter('gameNames', $gameName)
+        ->getQuery()
+        ->getResult();
 
-        /** @var SlidingPagination */
-        $pagination = $this->paginationInterface->paginate($data, $page, $limit);
+    /** @var SlidingPagination */
+    $pagination = $this->paginationInterface->paginate($data, $page, $limit);
 
-        if ($pagination instanceof SlidingPagination) {
-            return $pagination;
-        }
-
-        return null;
+    if ($pagination instanceof SlidingPagination) {
+        return $pagination;
     }
+
+    return null;
+}
 ```
 
 Ou dans n’importe quel contrôleur :

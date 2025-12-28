@@ -18,6 +18,8 @@
 - [Composant Symfony Lock](https://symfony.com/doc/current/components/lock.html)
 - [Symfony Cache Pools and Supported Adapters](https://symfony.com/doc/current/components/cache/cache_pools.html)
 - [Symfony Cache](https://symfony.com/doc/current/cache.html)
+- [symfony/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php](https://github.com/symfony/symfony/blob/refs/heads/6.4/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php)
+- [core-bundle/tests/DependencyInjection/ContaoCoreExtensionTest.php](https://github.com/contao/core-bundle/blob/5.6/tests/DependencyInjection/ContaoCoreExtensionTest.php)
 
 ## Installation
 
@@ -200,6 +202,40 @@ services:
 - La méthode `managerDuplicate` gère les doublons des erreurs
 - La méthode `managerStatusCode` gère le code status HTTP
 
+- `KernelEvents::EXCEPTION => ['onKernelException', -100]` :
+    - à **-100**, on observes après tout le monde
+    - Les listeners **avec une priorité plus élevée** sont exécutés **avant**
+    - Les listeners **avec une priorité plus basse** sont exécutés **après**
+    - Valeurs typiques :
+        - `0` => normal
+        - `> 0` => très tôt
+        - `< 0` => très tard
+    - En pratique :
+        - priorité  `0`   => listeners applicatifs
+        - priorité `-64`  => bundles tiers
+        - priorité `-100` => ExceptionSubscriber
+        - priorité `-128` => Symfony ErrorListener (stop propagation)
+    - On laisse Symfony faire son travail d'abord
+        - déterminer le bon `HttpException`
+        - transformer certaines exceptions
+        - définir le status code réel
+        - éventuellement remplacer l’exception
+    - On évites les conflits avec les listeners internes
+        - `ErrorListener` 
+        - `ExceptionListener` 
+        - `DebugHandlersListener` 
+        - listeners de bundles (Security, Doctrine, etc.)
+    - Dans le fichier [symfony/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php](https://github.com/symfony/symfony/blob/refs/heads/6.4/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php) la méthode `getSubscribedEvents()` retourne les événements avec leurs priorités, dont **kernel.exception** avec `-128`
+    - Dans le fichier [core-bundle/tests/DependencyInjection/ContaoCoreExtensionTest.php](https://github.com/contao/core-bundle/blob/5.6/tests/DependencyInjection/ContaoCoreExtensionTest.php) il y a un test qui vérifie explicitement la priorité -128 dans l’événement kernel.exception pour `ErrorListener`, exemple : `$this->assertSame(-128, $events['kernel.exception'][1][1]);`
+    - La commande ci'dessous permet de lister tous les listeners enregistrés pour un événement
+```bash
+# Voir pour kernel.exception
+php bin/console debug:event-dispatcher kernel.exception
+
+# Voir tous
+php bin/console debug:event-dispatcher 
+```
+
 ```php
 declare(strict_types=1);
 
@@ -251,9 +287,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            // 'kernel.exception' => 'onKernelException',
-            // ExceptionEvent::class => 'onKernelException',
-            KernelEvents::EXCEPTION => 'onKernelException',
+            // 'kernel.exception' => ['onKernelException', -100],
+            // ExceptionEvent::class => ['onKernelException', -100],
+            KernelEvents::EXCEPTION => ['onKernelException', -100],
         ];
     }
 
@@ -436,8 +472,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
         try {
             $this->mailer->getMailer()->send($email);
-        } catch (\Throwable $e) {
-            // silence
+        } catch (\Throwable $error) {
+            # dernier rempart : ne rien faire
+            # empêche de créer une boucle infinit d'erreur, si le mail ne fonctionne pas
         }
     }
 
@@ -544,22 +581,22 @@ ou dans un repository :
 
 ```php
 public function findPaginationList(int $page, string $name, int $limit): ?SlidingPagination
-    {
-        /** @var array */
-        $data = $this->createQueryBuilder($name)
-            ->select('$name')
-            ->getQuery()
-            ->getResult();
+{
+    /** @var array */
+    $data = $this->createQueryBuilder($name)
+        ->select('$name')
+        ->getQuery()
+        ->getResult();
 
-        /** @var SlidingPagination */
-        $pagination = $this->paginationInterface->paginate($data, $page, $limit);
+    /** @var SlidingPagination */
+    $pagination = $this->paginationInterface->paginate($data, $page, $limit);
 
-        if ($pagination instanceof SlidingPagination) {
-            return $pagination;
-        }
-
-        return null;
+    if ($pagination instanceof SlidingPagination) {
+        return $pagination;
     }
+
+    return null;
+}
 ```
 
 Résultat attendu
@@ -603,25 +640,25 @@ Dans n’importe quel repository de la page qu'on test :
 
 ```php
     public function findPaginationList(int $page, string $name, int $limit, $gameName = null): ?SlidingPagination
-    {
-        /** @var array */
-        $data = $this->createQueryBuilder($name)
-            ->select($name)
-            ->orderBy($name . '.id', 'DESC')
-            ->andWhere($name . '.gameName = :gameName')
-            ->setParameter('gameNames', $gameName)
-            ->getQuery()
-            ->getResult();
+{
+    /** @var array */
+    $data = $this->createQueryBuilder($name)
+        ->select($name)
+        ->orderBy($name . '.id', 'DESC')
+        ->andWhere($name . '.gameName = :gameName')
+        ->setParameter('gameNames', $gameName)
+        ->getQuery()
+        ->getResult();
 
-        /** @var SlidingPagination */
-        $pagination = $this->paginationInterface->paginate($data, $page, $limit);
+    /** @var SlidingPagination */
+    $pagination = $this->paginationInterface->paginate($data, $page, $limit);
 
-        if ($pagination instanceof SlidingPagination) {
-            return $pagination;
-        }
-
-        return null;
+    if ($pagination instanceof SlidingPagination) {
+        return $pagination;
     }
+
+    return null;
+}
 ```
 
 Ou dans n’importe quel contrôleur :
