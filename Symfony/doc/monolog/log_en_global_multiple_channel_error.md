@@ -14,6 +14,8 @@
 - [Liste des codes HTTP](https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP)
 - [Symfony/Component/HttpKernel/Exception/HttpException.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpException.php)
 - [Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php](https://github.com/symfony/symfony/blob/8.1/src/Symfony/Component/HttpKernel/Exception/HttpExceptionInterface.php)
+- [symfony/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php](https://github.com/symfony/symfony/blob/refs/heads/6.4/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php)
+- [core-bundle/tests/DependencyInjection/ContaoCoreExtensionTest.php](https://github.com/contao/core-bundle/blob/5.6/tests/DependencyInjection/ContaoCoreExtensionTest.php)
 
 ### Installer Monolog
 
@@ -170,10 +172,46 @@ services:
 
 - La méthode `managerException` gère le type d'erreur qui doit être utiliser par **$logger** et le type de logger à utiliser
 
+- `KernelEvents::EXCEPTION => ['onKernelException', -100]` :
+    - à **-100**, on observes après tout le monde
+    - Les listeners **avec une priorité plus élevée** sont exécutés **avant**
+    - Les listeners **avec une priorité plus basse** sont exécutés **après**
+    - Valeurs typiques :
+        - `0` => normal
+        - `> 0` => très tôt
+        - `< 0` => très tard
+    - En pratique :
+        - priorité  `0`   => listeners applicatifs
+        - priorité `-64`  => bundles tiers
+        - priorité `-100` => ExceptionSubscriber
+        - priorité `-128` => Symfony ErrorListener (stop propagation)
+    - On laisse Symfony faire son travail d'abord
+        - déterminer le bon `HttpException`
+        - transformer certaines exceptions
+        - définir le status code réel
+        - éventuellement remplacer l’exception
+    - On évites les conflits avec les listeners internes
+        - `ErrorListener` 
+        - `ExceptionListener` 
+        - `DebugHandlersListener` 
+        - listeners de bundles (Security, Doctrine, etc.)
+    - Dans le fichier [symfony/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php](https://github.com/symfony/symfony/blob/refs/heads/6.4/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php) la méthode `getSubscribedEvents()` retourne les événements avec leurs priorités, dont **kernel.exception** avec `-128`
+    - Dans le fichier [core-bundle/tests/DependencyInjection/ContaoCoreExtensionTest.php](https://github.com/contao/core-bundle/blob/5.6/tests/DependencyInjection/ContaoCoreExtensionTest.php) il y a un test qui vérifie explicitement la priorité -128 dans l’événement kernel.exception pour `ErrorListener`, exemple : `$this->assertSame(-128, $events['kernel.exception'][1][1]);`
+    - La commande ci'dessous permet de lister tous les listeners enregistrés pour un événement
+```bash
+# Voir pour kernel.exception
+php bin/console debug:event-dispatcher kernel.exception
+
+# Voir tous
+php bin/console debug:event-dispatcher 
+```
+
 ```php
 namespace App\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
+use Doctrine\ORM\Query\QueryException;
+// use Doctrine\DBAL\Exception as QueryException;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -191,9 +229,9 @@ class ExceptionSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            // 'kernel.exception' => 'onKernelException',
-            // ExceptionEvent::class => 'onKernelException',
-            KernelEvents::EXCEPTION => 'onKernelException',
+            // 'kernel.exception' => ['onKernelException', -100],
+            // ExceptionEvent::class => ['onKernelException', -100],
+            KernelEvents::EXCEPTION => ['onKernelException', -100],
         ];
     }
 
@@ -201,24 +239,29 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         $exceptionLogger = $event->getThrowable();
 
-        $statusCode = 500; // par défaut
-        // Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
+        $statusCode = 500; # par défaut
+        # Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
         if ($exceptionLogger instanceof HttpExceptionInterface) {
             $statusCode = $exceptionLogger->getStatusCode();
         }
 
-        // Gère le type d'erreur qui doit être utiliser par $logger et le type de logger à utiliser
+        # Gère le type d'erreur qui doit être utiliser par $logger et le type de logger à utiliser
         [$level, $logger, $text] = $this->managerException($exceptionLogger, $statusCode);
 
-        // LOG avec le niveau d'erreur déterminé
-        $logger->$level($text, [
-            'status_code' => $statusCode,
-            'message' => $exceptionLogger->getMessage(),
-            'file' => $exceptionLogger->getFile(),
-            'line' => $exceptionLogger->getLine(),
-            // Attention trace = beaucoup de texte, utile pour debug
-            // 'trace' => $exceptionLogger->getTraceAsString(),
-        ]);
+        try {
+            # LOG avec le niveau d'erreur déterminé
+            $logger->$level($text, [
+                'status_code' => $statusCode,
+                'message' => $exceptionLogger->getMessage(),
+                'file' => $exceptionLogger->getFile(),
+                'line' => $exceptionLogger->getLine(),
+                # Attention trace = beaucoup de texte, utile pour debug
+                // 'trace' => $exceptionLogger->getTraceAsString(),
+            ]);
+        } catch (\Throwable $error) {
+            # dernier rempart : ne rien faire
+            # empêche de créer une boucle infinit d'erreur, si le logger ne fonctionne pas
+        }
     }
 
     /**
@@ -238,7 +281,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
         // 1. EMERGENCY (Crash fatal)
         // ============================
-        // Crash PHP fatals / erreurs irréversibles
+        # Crash PHP fatals / erreurs irréversibles
         if (
             $exception instanceof \Error ||
             $exception instanceof \TypeError ||
@@ -253,6 +296,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
         if (
             $exception instanceof \PDOException ||
+            $exception instanceof QueryException ||
             str_contains($message, 'sql') ||
             str_contains($message, 'database') ||
             str_contains($message, 'token') ||
@@ -275,7 +319,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
         // 4. ERROR (Par défault)
         // ============================
-        // Erreurs fonctionnelles ou utilisateur
+        # Erreurs fonctionnelles ou utilisateur
         return ['error', $this->errorLogger, 'Client error'];
     }
 }
@@ -345,7 +389,6 @@ Dans n’importe quel repository de la page qu'on test :
 
         return null;
     }
-}
 ```
 
 Résultat attendu
