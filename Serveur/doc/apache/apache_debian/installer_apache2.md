@@ -7,7 +7,7 @@
 - [Mettre en place un serveur Web (20/28) : Apache](https://www.youtube.com/watch?v=arVwa7jvp5M&list=PLT53YLBLESro8Z3s9AIRRBYGdrlq18HbC&index=3) stoppé à 8min90s
 
 0. Commencez par mettre à jour le cache du gestionnaire de packages :
-```ps
+```bash
 sudo apt update
 
 ou
@@ -16,12 +16,12 @@ sudo apt-get update
 ```
 
 1. Installer Apache 2
-```ps
+```bash
 sudo apt-get install apache2
 ```
 
 2. Mettre à jour le cache du gestionnaire de packages :
-```ps
+```bash
 sudo apt update
 
 ou
@@ -45,7 +45,7 @@ Explication de l'image [serveur_debian.png](https://github.com/jonas18121/help/b
 ### Sécurité (2) Apache répond que a un port spécifique, par défaut c'est le port 80
 
 On peut voir/changer le port dans le fichier ports.conf 
-```ps      
+```bash      
 cat /etc/apache2/ports.conf
 ```
 
@@ -71,7 +71,7 @@ Listen 80
 - Listen 443 : Pour le https
 
 ### Sécurité (3) apache2.conf qui est un fichier de configuration pour apache
-```ps      
+```bash      
 cat /etc/apache2/apache2.conf
 ```
 
@@ -96,7 +96,7 @@ Pour accéder à la page par défault dans ce chemin : http://AdresseIP/index.ht
 
 On va dans le fichier 000-default.conf
 
-```ps
+```bash
 cat /etc/apache2/sites-enabled/000-default.conf
 ```
 
@@ -104,11 +104,11 @@ On voit `DocumentRoot /var/www/html` qui point déjà dans /var/www/html
 
 Dans `/etc/apache2/sites-enabled/` on retrouve les liens symboliques qui sont liens au fichier du même nom dans `/etc/apache2/sites-available/`
 
-```ps
+```bash
 ls /etc/apache2/sites-enabled/ -lah
 ```
 **Retourne**
-```ps
+```bash
 drwxr-xr-x 2 root root 4.0K Feb 12 23:08 .
 drwxr-xr-x 8 root root 4.0K Feb 19 14:39 ..
 lrwxrwxrwx 1 root root   35 Feb 12 22:39 000-default.conf -> ../sites-available/000-default.conf
@@ -169,27 +169,27 @@ Dans 000-default.conf
 ```
 
 ### accéder au fichier 000-default.conf 
-```ps
+```bash
 sudo nano /etc/apache2/sites-available/000-default.conf
 ```
 ### Faire les modifications puis Redémarrer le service apache
-```ps
+```bash
 sudo service apache2 restart
 # ou
 sudo service apache2 reload
 ```
 ### Voir les logs si problème
-```ps
+```bash
 cat /var/log/apache2/error.log
 ```
 ### Voir les logs si problème avec nombre de ligne
-```ps
+```bash
 tail -n 30 /var/log/apache2/error.log
 ```
 
 ### 1) On peut configurer apache.conf
 
-```ps
+```bash
 sudo nano /etc/apache2/apache2.conf
 ```
 
@@ -227,7 +227,7 @@ Ensemble, ces directives permettent à Apache d'afficher le contenu du répertoi
 Il faute enlever `Indexes` pour la prod.
 
 
-### Création d'un lien symbolique entre un projet placer quelque part et le dossier /var/www (voir la partie "Créer un autre virtualhost pour monsite.fr" ci-dessous)
+### Création d'un lien symbolique entre un projet placer quelque part et le dossier /var/www (voir la partie "Créer un autre virtualhost pour monsite.fr" ci-dessous) (voir "Le cas ou on utilise un autre port que le :80" ci-dessous)
 
 Exemple: 
 
@@ -235,8 +235,19 @@ On a un projet placer dans ce chemin `/home/dev/project` et on veut y accéder d
 
 - Dans `/etc/apache2/apache2.conf`, on a configuré apache2 qui pointe vers `/var/www/` de cette manière `<Directory /var/www/>`
 - Faire la commande suivante pour créé un lien symbolique qui va recopier le contenu du dossier `/home/dev/project` dans `/var/www/` en le nommant `monsite.fr` (`/var/www/monsite.fr`)
-```ps
+```bash
+# pour projet dans dossier /home/dev/
 ln -s /home/dev/project /var/www/monsite.fr
+
+# OU 
+# pour projet dans dossier /var/www/
+sudo ln -s /var/www/project /var/www/html/project
+
+# pratique
+ln -s [fichier_cible] [nom_du_lien]
+
+# [fichier_cible] - le chemin d’accès au fichier d’origine vers lequel on souhaite établir un lien.
+# [nom_du_lien] - le nom du lien symbolique qu'on veut créé.
 ```
 Cette commande Linux crée un lien symbolique entre le répertoire `/home/dev/project` et le répertoire `/var/www/monsite.fr`.
 
@@ -257,23 +268,56 @@ Par défaut il faudrait réserver un nom de domain qui pointe vers le serveur.
 Voici une astuce pour tester un nom de domain et accéder au site de cette manière http://monsite.fr au lieu de http://adresseIP/monsite.fr
 
 #### Aller dans le fichier hosts depuis un terminal qui point sur son ordi perso
-```ps
+```bash
 sudo nano /etc/hosts
 ```
 
 **Rajouter l'ip du serveur avec le nom de domain**
-```ps
+```bash
 127.0.0.1       localhost.localdomain localhost
 127.0.1.1       localhost
 224.112.545.12  monsite.fr
 ```
 
+### Le cas ou on utilise un autre port que le :80
+
+**Activer modules Apache nécessaires**
+
+```bash
+sudo a2enmod proxy proxy_http
+sudo systemctl restart apache2
+```
+
+**Configurer le VirtualHost port 80 comme reverse proxy**
+
+Fichier `/etc/apache2/sites-available/000-default.conf` :
+
+```bash
+<VirtualHost *:80>
+    ServerName 278.545.125.414
+
+    ProxyPreserveHost On
+    ProxyPass / http://127.0.0.1:9897/
+    ProxyPassReverse / http://127.0.0.1:9897/
+
+    ErrorLog ${APACHE_LOG_DIR}/reverse_proxy_error.log
+    CustomLog ${APACHE_LOG_DIR}/reverse_proxy_access.log combined
+</VirtualHost>
+```
+
+**Activer le site et recharger Apache**
+
+```bash
+sudo a2ensite 000-default.conf
+sudo systemctl reload apache2
+```
+
 ### Créer un autre virtualhost pour monsite.fr
-```ps
+```bash
 sudo nano /etc/apache2/sites-available/001-monsite.conf
 ```
 **Dedans, on configure à notre sauce, on a aussi enlevé Indexes avec le moins (-)**
-```ps
+```bash
 <VirtualHost *:80>
     ServerAdmin contact@jonas.fr
     ServerName monsite.fr
@@ -292,32 +336,32 @@ sudo nano /etc/apache2/sites-available/001-monsite.conf
 ```
 
 **On crée le dossier logs et le fichier error.log**
-```ps
+```bash
 mkdir /home/dev/logs
 
 touch /home/dev/logs/error.log
 ```
 **Voir les logs  en live**
-```ps
+```bash
 tail -f /home/dev/logs/error.log
 ```
 
 **Puis on crée un lien symbolique pour le fichier 001-monsite.conf**
-```ps
+```bash
 ln -s /home/dev/project /var/www/monsite.fr
 ```
 
 **Activer le lien symbolique**
-```ps
+```bash
 sudo a2ensite 001-monsite
 ```
 
 **Un lien symbolique pour le fichier 001-monsite.conf a été créer dans le dossier /etc/apache2/sites-enabled**
-```ps
+```bash
 ls /etc/apache2/sites-enabled -l
 ```
 **Retourne**
-```ps
+```bash
 total 0
 lrwxrwxrwx 1 root root 35 Feb 12 22:39 000-default.conf -> ../sites-available/000-default.conf
 lrwxrwxrwx 1 root root 35 Feb 25 15:44 001-monsite.conf -> ../sites-available/001-monsite.conf
@@ -325,7 +369,7 @@ lrwxrwxrwx 1 root root 35 Feb 25 15:44 001-monsite.conf -> ../sites-available/00
 
 **On peut aussi désactiver un lien symbolique pour un fichier**
 Exemple pour le fichier 000-default.conf
-```ps
+```bash
 sudo a2dissite 000-default
 ```
 
@@ -333,7 +377,7 @@ sudo a2dissite 000-default
 Exemple pour le fichier 000-default.conf
 - 1) Mettre en commentaire `DocumentRoot`, `ErrorLog` et `CustomLog`
 - 2) Ajouter `Redirect 301 /` qui pointe vers `monsite.fr` avec un vrai nom de domaine
-```ps
+```bash
 <VirtualHost *:80>
         ServerAdmin webmaster@localhost
         # DocumentRoot /var/www/html
@@ -347,11 +391,11 @@ Exemple pour le fichier 000-default.conf
 **Vider le cache aussi avec CTRL + Shit + R ou via le navigateur**
 
 #### Tester la configuration d'apache2 pour voir si il a bien été construit
-```ps
+```bash
 /usr/sbin/apache2ctl configtest
 ```
 **S'il y a une erreur**
-```ps
+```bash
 AH00526: Syntax error on line 8 of /etc/apache2/sites-enabled/001-monsite.conf:
 Either all Options must start with + or -, or no Option may.
 Action 'configtest' failed.
@@ -359,12 +403,12 @@ The Apache error log may have more information.
 ```
 
 **S'il n'y a pas d'erreur**
-```ps
+```bash
 Syntaxe OK
 ```
 
 #### Après modification redémarrer le service apache
-```ps
+```bash
 # Redémarrer le service apache
 sudo service apache2 restart
 # ou
@@ -378,18 +422,18 @@ tail -n 30 /var/log/apache2/error.log
 ```
 
 **Voir les logs  en live**
-```ps
+```bash
 tail -f /home/dev/logs/error.log
 ```
 
 ### Les mods
 #### Voir les mods activé
-```ps
+```bash
 ls -la /etc/apache2/mods-enabled/
 ```
 
 **Exemple de retour**
-```ps
+```bash
 drwxr-xr-x 2 root root 4096 Feb 18 23:15 .
 drwxr-xr-x 8 root root 4096 Feb 25 14:20 ..
 lrwxrwxrwx 1 root root   28 Feb 18 23:10 proxy.load -> ../mods-available/proxy.load
@@ -401,11 +445,11 @@ lrwxrwxrwx 1 root root   29 Feb 12 22:39 status.conf -> ../mods-available/status
 lrwxrwxrwx 1 root root   29 Feb 12 22:39 status.load -> ../mods-available/status.load
 ```
 #### Voir les mods disponible
-```ps
+```bash
 ls -la /etc/apache2/mods-available/
 ```
 **Exemple de retour**
-```ps
+```bash
 -rw-r--r-- 1 root root    97 Jun  9  2022 proxy_http2.load
 -rw-r--r-- 1 root root    89 Jun  9  2022 proxy_http.load
 -rw-r--r-- 1 root root    62 Jun  9  2022 proxy.load
@@ -424,7 +468,7 @@ ls -la /etc/apache2/mods-available/
 #### Activer un mod
 
 Exemple le module rewrite
-```ps
+```bash
 sudo a2enmod rewirte
 
 # Redémarrer le service apache
@@ -438,17 +482,17 @@ sudo service apache2 reload
 - [Comment désinstaller Apache2 sur Ubuntu](https://www.edureka.co/community/46181/how-to-uninstall-apache2-on-ubuntu)
 
 0. Commencez par mettre à jour le cache du gestionnaire de packages :
-```ps
+```bash
 sudo apt update
 ```
 
 1. Arrêtez d'abord le service apache2 s'il s'exécute avec :
-```ps
+```bash
 sudo service apache2 stop
 ```
 
 2. Maintenant, supprimez et nettoyez tous les packages apache2 avec :
-```ps
+```bash
 sudo apt-get purge apache2 apache2-utils apache2.2-bin apache2-common 
 
 # ou 
@@ -456,29 +500,29 @@ sudo apt-get purge apache2 apache2-utils apache2.2-bin apache2-common
 sudo apt-get purge apache2 apache2-utils apache2-bin apache2.2-common
 ```
 Puis
-```ps
+```bash
 sudo apt-get purge apache2*
 ```
 
 3. 1. Enfin, exécutez sudo apt-get autoremove au cas où un autre nettoyage serait nécessaire
-```ps
+```bash
 sudo apt-get autoremove 
 ```
 3. 2. Si cela ne fonctionne pas, vous avez peut-être installé l'une des dépendances manuellement. Vous pouvez cibler tous les packages apache2 depuis l'espace et bombarder le lot :
-```ps
+```bash
 sudo apt remove apache2.*
 ```
 4. Localiser les endroit ou sont placer les différents fichiers de apache2 (fichiers binaires, sources et de la page de manuel)
-```ps
+```bash
 whereis apache2
 ```
-```ps
+```bash
 # Retourne
 apache2: /usr/sbin/apache2 /usr/lib/apache2 /etc/apache2 /usr/share/apache2 /usr/share/man/man8/apache2.8.gz
 ```
 
 5. Supprimer chacun de ces dossiers/fichiers
-```ps
+```bash
 sudo rm -rf /usr/sbin/apache2
 
 sudo rm -rf /usr/lib/apache2
@@ -492,7 +536,7 @@ sudo rm -rf /usr/share/man/man8/apache2.8.gz
 
 6. Vous pouvez effectuer les deux tests suivants pour confirmer qu'apache a été supprimé :
 
-```ps
+```bash
 # Devrait renvoyer une ligne vide
 which apache2
 
@@ -501,6 +545,6 @@ sudo service apache2 start
 ```
 
 7. Mettre à jour le cache du gestionnaire de packages :
-```ps
+```bash
 sudo apt update
 ```
