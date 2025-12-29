@@ -34,6 +34,28 @@ Le forfait comprend également utilisties supplémentaires comme une arp, ifconf
     
     > sudo  chmod +x bin/console
 
+### Commande ‘cp’ : copier des fichiers et des répertoires
+
+- [Commande CP sous Linux](https://www.ionos.fr/digitalguide/serveur/configuration/commande-cp-de-linux/)
+
+- Options les plus courantes incluent :
+
+- `-r` : copie récursive des répertoires.
+- `-i` : demande confirmation avant d’écraser un fichier.
+- `-u` : copie seulement quand la source est plus récente que la destination ou lorsque la destination est manquante.
+
+```bash
+cp [options] [Original] [Destination]
+
+# Pratique
+
+## Copier un fichier dans un dossier
+cp text.txt /home/utilisateur/dossierdedestination/
+
+## Copier un fichier dans un dossier et le renommer
+cp text.txt /home/utilisateur/dossierdedestination/copie_texte.txt
+```
+
 ### Supprimer les fichiers temporaires des fichiers d'installation
 
 site doc Ubuntu : https://doc.ubuntu-fr.org/nettoyer_ubuntu

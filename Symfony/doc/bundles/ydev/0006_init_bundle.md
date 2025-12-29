@@ -67,7 +67,7 @@ echo "/vendor/
 
 ```yaml
 {
-    "name": "vendorcustome/recherche-entreprises-bundle",
+    "name": "Vendorcustom/recherche-entreprises-bundle",
     "description": "Bundle Symfony pour l'API Recherche d'entreprises du gouvernement français",
     "type": "symfony-bundle",
     "license": "MIT",
@@ -75,7 +75,7 @@ echo "/vendor/
     "authors": [
         {
             "name": "my name",
-            "email": "contact@vendorcustome.com"
+            "email": "contact@Vendorcustom.com"
         }
     ],
     "require": {
@@ -91,12 +91,12 @@ echo "/vendor/
     },
     "autoload": {
         "psr-4": {
-            "vendorcustome\\RechercheEntreprisesBundle\\": "src/"
+            "Vendorcustom\\RechercheEntreprisesBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "vendorcustome\\RechercheEntreprisesBundle\\Tests\\": "tests/"
+            "Vendorcustom\\RechercheEntreprisesBundle\\Tests\\": "tests/"
         }
     }
 }
@@ -105,7 +105,7 @@ echo "/vendor/
 **Points Importants** :
 
 - **"type"**: "symfony-bundle" : Crucial pour Symfony Flex
-- **Namespace** : vendorcustome\RechercheEntreprisesBundle
+- **Namespace** : Vendorcustom\RechercheEntreprisesBundle
 
 #### Explications : Le fichier composer.json
 
@@ -114,10 +114,10 @@ Le fichier `composer.json` est la carte d'identité de votre package PHP. Décom
 1. **Métadonnées de base**
 
 ```yaml
-"name": "vendorcustome/recherche-entreprises-bundle"
+"name": "Vendorcustom/recherche-entreprises-bundle"
 ```
 
-Format : `vendor/package`. Le vendor (ici vendorcustome) est généralement votre nom d'utilisateur GitHub ou d'entreprise.
+Format : `vendor/package`. Le vendor (ici Vendorcustom) est généralement votre nom d'utilisateur GitHub ou d'entreprise.
 
 ```yaml
 "type": "symfony-bundle"
@@ -148,7 +148,7 @@ Ce sont les packages **nécessaires** au fonctionnement de votre bundle.
 ```yaml
 "autoload": {
     "psr-4": {
-        "vendorcustome\\RechercheEntreprisesBundle\\": "src/"
+        "Vendorcustom\\RechercheEntreprisesBundle\\": "src/"
     }
 }
 ```
@@ -157,21 +157,21 @@ Ce sont les packages **nécessaires** au fonctionnement de votre bundle.
 
 Comment ça marche ?
 
-- Le namespace `vendorcustome\RechercheEntreprisesBundle` correspond au dossier `src/`
-- Une classe `vendorcustome\RechercheEntreprisesBundle\Client\EntrepriseSearchClient` sera cherchée dans `src/Client/EntrepriseSearchClient.php`
+- Le namespace `Vendorcustom\RechercheEntreprisesBundle` correspond au dossier `src/`
+- Une classe `Vendorcustom\RechercheEntreprisesBundle\Client\EntrepriseSearchClient` sera cherchée dans `src/Client/EntrepriseSearchClient.php`
 
 Convention de nommage :
 
 ```text
-Namespace : vendorcustome\RechercheEntreprisesBundle
+Namespace : Vendorcustom\RechercheEntreprisesBundle
             ↑ Vendor    ↑ Nom du Bundle (avec suffixe Bundle)
 
 Structure :
 src/
   Client/
-    EntrepriseSearchClient.php → vendorcustome\RechercheEntreprisesBundle\Client\EntrepriseSearchClient
+    EntrepriseSearchClient.php → Vendorcustom\RechercheEntreprisesBundle\Client\EntrepriseSearchClient
   Model/
-    Entreprise.php → vendorcustome\RechercheEntreprisesBundle\Model\Entreprise
+    Entreprise.php → Vendorcustom\RechercheEntreprisesBundle\Model\Entreprise
 ```
 
 4. **Keywords (mots-clés)**
