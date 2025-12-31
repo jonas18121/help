@@ -67,7 +67,7 @@ echo "/vendor/
 
 ```yaml
 {
-    "name": "Vendorcustom/recherche-entreprises-bundle",
+    "name": "vendorcustom/recherche-entreprises-bundle",
     "description": "Bundle Symfony pour l'API Recherche d'entreprises du gouvernement français",
     "type": "symfony-bundle",
     "license": "MIT",
