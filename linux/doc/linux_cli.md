@@ -125,35 +125,35 @@ Le compte root existe sous Ubuntu, mais il est désactivé (pas de mot de passe)
 
 La commande suivante permet quand même de se connecter quand même sur le compte root :
 
-``bash
+```bash
 sudo su -
-``
+```
 
 Mais on peut aller plus loin et donner un mot de passe au compte root avec la commande :
 
-``bash
+```bash
 sudo passwd
-``
+```
 
 Ensuite, la commande suivante devrait fonctionner directement :
-``bash
+```bash
 su -
-``
+```
 
 Cela ne suit évidemment pas les standards choisis par Canonical...
 
 
 
 Bouger un dossier projet
-``bash
-mv aecale-preprod_2.edgco.fr /var/www/save/aecale-preprod_2.edgco.fr
-``
+```bash
+mv projet-preprod_2.fr /var/www/save/projet-preprod_2.fr
+```
 
 
 Copier un dossier projet
 
 ```bash
-cp -r aecale-preprod.edgco.fr save/aecale-save/aecale-preprod_2.edgco.fr
+cp -r projet-preprod.fr save/projet-save/projet-preprod_2.fr
 ```
 
 
@@ -183,7 +183,7 @@ scp -P 22 ~/Desktop/adminer.php name_id@141.95.278.81:/var/www/projet-preprod.fr
 
 `ubuntu@141.94.222.87` représente l'identifiant et l'ip sur serveur
 
-`/var/www/aecale-preprod.edgco.fr/app/public` représente l'endroit on veut installer le fichier adminer.php dans le projet sur serveur
+`/var/www/projet-preprod.fr/app/public` représente l'endroit on veut installer le fichier adminer.php dans le projet sur serveur
 
 - Pour accéder a adminer on peut se rendre sur cette exemple d'url `https://projet-preprod.fr/adminer.php`
 
@@ -430,5 +430,34 @@ tar -xvzf mon_dossier.tar.gz -C mon_contenaire
 
 # Resultat
 mon_contenaire/mon_dossier/
+```
+### une fois dézippé, bouger les fichiers du dossier mon_dossier vers le dossier parent mon_contenaire
+```bash
+cd projet/mon_contenaire
+
+# Ne déplace pas les fichiers cachés
+mv mon_dossier/* ./
+
+# ou pour déplacer aussi les fichiers cachés
+mv mon_dossier/{*,.[!.]*} ./
+```
+
+# Résultat
+
+- `file1.php` et `folder1` du dossier `mon_dossier` sont directement enfant de `mon_contenaire`
+
+```txt
+# avant
+projet
+|_ mon_contenaire
+    |_ mon_dossier
+        |_ file1.php
+        |_ folder1
+
+# après
+|_ mon_contenaire
+    |_ mon_dossier
+    |_ file1.php
+    |_ folder1
 ```
 
