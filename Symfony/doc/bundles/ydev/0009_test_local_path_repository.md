@@ -328,3 +328,173 @@ projet_test
 |_ docker-compose.yaml
 .....
 ```
+
+## Remplacer l'Ancien Service
+
+Maintenant qu'on a le bundle, on peut supprimer notre ancien code et utiliser le bundle !
+
+1. Supprimer l'Ancien Code
+
+```bash
+rm -rf src/Model
+rm src/Service/EntrepriseSearchService.php
+rm src/Command/SearchEntrepriseCommand.php
+```
+
+2. Mettre à Jour le Contrôleur
+
+Modifiez src/Controller/EntrepriseController.php :
+
+Changements :
+
+- Injection de `EntrepriseSearchClientInterface` (du bundle)
+- Import depuis `Vendorcustom\RechercheEntreprisesBundle\Client\`
+- Le reste du code est **identique** !
+
+```php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Vendorcustom\RechercheEntreprisesBundle\Client\EntrepriseSearchClientInterface;
+
+class EntrepriseController extends AbstractController
+{
+    public function __construct(
+        private readonly EntrepriseSearchClientInterface $entrepriseClient
+    ) {
+    }
+
+    #[Route('/api/entreprises/search', name: 'entreprise_search', methods: ['GET'])]
+    public function search(Request $request): JsonResponse
+    {
+        $query = $request->query->get('q', '');
+        
+        if (empty($query)) {
+            return $this->json(['error' => 'Le paramètre "q" est requis'], 400);
+        }
+
+        try {
+            $result = $this->entrepriseClient->search($query, 1, 10);
+            
+            return $this->json([
+                'total' => $result->totalResults,
+                'page' => $result->page,
+                'results' => array_map(fn($e) => [
+                    'siren' => $e->siren,
+                    'nom' => $e->nomComplet,
+                    'adresse' => $e->siege?->adresse,
+                    'code_postal' => $e->siege?->codePostal,
+                    'actif' => $e->isActif(),
+                ], $result->results),
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    #[Route('/api/entreprises/{siren}', name: 'entreprise_detail', methods: ['GET'])]
+    public function detail(string $siren): JsonResponse
+    {
+        try {
+            $entreprise = $this->entrepriseClient->findBySiren($siren);
+
+            if (!$entreprise) {
+                return $this->json(['error' => 'Entreprise non trouvée'], 404);
+            }
+
+            return $this->json([
+                'siren' => $entreprise->siren,
+                'nom' => $entreprise->nomComplet,
+                'adresse' => $entreprise->siege?->adresse,
+                'code_postal' => $entreprise->siege?->codePostal,
+                'code_naf' => $entreprise->activitePrincipale,
+                'actif' => $entreprise->isActif(),
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->json(['error' => $e->getMessage()], 500);
+        }
+    }
+}
+```
+
+## Tester
+
+1. Vérifier la Commande
+
+```php
+php bin/console list recherche-entreprise
+```
+
+Résultat :
+
+```txt
+Available commands for the "recherche-entreprise" namespace:
+  recherche-entreprise:search  Recherche des entreprises françaises
+```
+
+✅ La commande du bundle est disponible !
+
+2. Tester la Commande
+
+```bash
+php bin/console recherche-entreprise:search carrefour
+
+# puis
+
+php bin/console recherche-entreprise:search 652014051 --siren
+```
+
+3. Tester le Contrôleur
+
+```bash
+curl "http://127.0.0.1:8971/api/entreprises/search?q=carrefour"
+
+curl "http://127.0.0.1:8971/api/entreprises/652014051"
+```
+
+## Vérifier les Services Enregistrés
+
+```bash
+php bin/console debug:container recherche
+
+# Résultat :
+
+Select one of the following services to display its information:
+  [0] Vendorcustom\RechercheEntreprisesBundle\Client\EntrepriseSearchClient
+  [1] Vendorcustom\RechercheEntreprisesBundle\Client\EntrepriseSearchClientInterface
+  [2] Vendorcustom_recherche_entreprises.client
+```
+
+## Supprimer le Path Repository (Avant Publication)
+
+Une fois que vous êtes satisfait, on **supprime** la section `repositories` de `composer.json` de votre app de test.
+
+```yaml
+{
+    "type": "project",
+    "license": "proprietary",
+    "repositories": [],  // ← Supprimer ou vider
+    "require": {
+        ...
+    }
+}
+```
+
+Puis :
+
+```bash
+composer remove vendorcustom/recherche-entreprises-bundle
+```
+
+Notre app utilise maintenant une version locale du bundle. Après publication, on va faire simplement :
+
+```bash
+composer require vendorcustom/recherche-entreprises-bundle
+```
+
+Et Composer téléchargera depuis Packagist !

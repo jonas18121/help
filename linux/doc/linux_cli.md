@@ -90,39 +90,6 @@ le logiciel "Représentation graphique du disque" permet de trouver les élémen
 
 > sudo apt-get install filezilla
 
-## Installer ZIP
-
-Site [malekal](https://www.malekal.com/utiliser-la-commande-zip-pour-compresser-des-fichiers-sur-linux/)
-
-### Installer zip sur Ubuntu et Debian
-
-    > sudo apt install zip
-
-### Compresser un fichier Zip
-
-Par exemple pour compresser les fichiers fichier1, fichier2, fichier3 dans l’archive zip nom_archive.zip :
-
-    > zip nom_archive.zip fichier1 fichier2 fichier3
-
-### Compresser un répertoire en récursif
-
-    > zip -r zip_repertoire.zip repertoire
-
-### Compresser un répertoire en récursif en excluant un ou des sous-répertoire(s)
-
-Lorsque l’on zip toute une arborescence, soit un répertoire en récurif, on peut vouloir exclure des sous-répertoire.
-Pour cela on utilise l’option -x avec la syntaxe suivante :
-
-    > zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/*
-
-Par exemple pour exclure le répertoire /tmp/superdossier :
-
-    > zip -r zip_repertoire.zip /tmp/ -x tmp/superdossier/*
-
-Bien entendu, il est aussi possible de spécifier plusieurs sous-répertoire à exclure comme ceci :
-
-    > zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/* repertoire/sous-repertoire2/* repertoire/sous-repertoire3/*
-
 ## Netoyer ubuntu
 
 ### Supprimer le cache des paquets périmés :
@@ -353,12 +320,61 @@ Cette commande téléchargera le fichier `document.txt` du répertoire `/home/jo
 
 Assurez-vous d'avoir les autorisations nécessaires pour accéder au fichier sur le serveur distant et que votre connexion SSH est configurée correctement.
 
-## Transformer un dossier en .tgz
+## Installer ZIP
 
-### Pour compresser un dossier en un fichier .tgz (archive tar.gz) sous Linux, tu peux utiliser la commande suivante :
+Site [malekal](https://www.malekal.com/utiliser-la-commande-zip-pour-compresser-des-fichiers-sur-linux/)
+
+### Installer zip sur Ubuntu et Debian
+
+```bash
+sudo apt install zip
+```
+    
+
+### Compresser un fichier Zip
+
+Par exemple pour compresser les fichiers fichier1, fichier2, fichier3 dans l’archive zip nom_archive.zip :
+
+```bash
+zip nom_archive.zip fichier1 fichier2 fichier3
+```
+
+### Compresser un répertoire en récursif
+
+```bash
+zip -r zip_repertoire.zip repertoire
+```
+
+### Compresser un répertoire en récursif en excluant un ou des sous-répertoire(s)
+
+Lorsque l’on zip toute une arborescence, soit un répertoire en récurif, on peut vouloir exclure des sous-répertoire.
+Pour cela on utilise l’option -x avec la syntaxe suivante :
+
+```bash
+zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/*
+```
+
+Par exemple pour exclure le répertoire /tmp/superdossier :
+
+```bash
+zip -r zip_repertoire.zip /tmp/ -x tmp/superdossier/*
+```
+
+Bien entendu, il est aussi possible de spécifier plusieurs sous-répertoire à exclure comme ceci :
+
+```bash
+zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/* repertoire/sous-repertoire2/* repertoire/sous-repertoire3/*
+```
+
+## Autre moyen de zipper, transformer un dossier en .tgz
+
+### Pour compresser un dossier en un fichier .tgz (archive tar.gz) sous Linux, on peut utiliser la commande suivante :
 
 ```bash
 tar -czvf nom_archive.tgz nom_dossier/
+
+# Ou
+tar -czvf nom_archive.tar.gz nom_dossier/
 ```
 
 Voici ce que chaque option signifie :
@@ -370,6 +386,49 @@ Voici ce que chaque option signifie :
 
 ```bash
 tar -czvf mon_dossier.tgz mon_dossier/
+
+# Ou
+tar -czvf mon_dossier.tar.gz mon_dossier/
 ```
 
 Cela créera un fichier mon_dossier.tgz contenant le dossier mon_dossier et son contenu.
+
+### Pour dézipper le fichier .tgz (archive tar.gz)
+
+- [askUbuntu : dézipper le fichier .tgz](https://askubuntu.com/questions/25347/what-command-do-i-need-to-unzip-extract-a-tar-gz-file)
+
+Tapez `man tar` pour plus d'informations
+
+```bash
+man tar 
+```
+
+#### Extraire les fichiers
+
+```bash
+tar -xvzf mon_dossier.tgz
+
+# Ou
+tar -xvzf mon_dossier.tar.gz
+
+# Resultat
+mon_dossier/
+```
+
+- **f :** Il indique à tar le nom et le chemin du fichier compressé .
+- **z :** indique à tar de décompresser l'archive en utilisant gzip
+- **x :** tar peut collecter des fichiers ou les extraire . xfait cette dernière opération.
+- **v :** fait beaucoup parler tar. La sortie détaillée affiche tous les fichiers extraits.
+
+Pour extraire les fichiers dans un **dossier personnalisé**  qui existe déjà, on ajoute l' option **-C** en indiquant le nom du dossier de notre choix :
+
+```bash
+tar -xvzf mon_dossier.gz -C mon_contenaire
+
+# Ou
+tar -xvzf mon_dossier.tar.gz -C mon_contenaire
+
+# Resultat
+mon_contenaire/mon_dossier/
+```
+
