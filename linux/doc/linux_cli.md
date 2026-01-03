@@ -34,6 +34,28 @@ Le forfait comprend également utilisties supplémentaires comme une arp, ifconf
     
     > sudo  chmod +x bin/console
 
+### Commande ‘cp’ : copier des fichiers et des répertoires
+
+- [Commande CP sous Linux](https://www.ionos.fr/digitalguide/serveur/configuration/commande-cp-de-linux/)
+
+- Options les plus courantes incluent :
+
+- `-r` : copie récursive des répertoires.
+- `-i` : demande confirmation avant d’écraser un fichier.
+- `-u` : copie seulement quand la source est plus récente que la destination ou lorsque la destination est manquante.
+
+```bash
+cp [options] [Original] [Destination]
+
+# Pratique
+
+## Copier un fichier dans un dossier
+cp text.txt /home/utilisateur/dossierdedestination/
+
+## Copier un fichier dans un dossier et le renommer
+cp text.txt /home/utilisateur/dossierdedestination/copie_texte.txt
+```
+
 ### Supprimer les fichiers temporaires des fichiers d'installation
 
 site doc Ubuntu : https://doc.ubuntu-fr.org/nettoyer_ubuntu
@@ -67,39 +89,6 @@ le logiciel "Représentation graphique du disque" permet de trouver les élémen
 ## Installer filezilla
 
 > sudo apt-get install filezilla
-
-## Installer ZIP
-
-Site [malekal](https://www.malekal.com/utiliser-la-commande-zip-pour-compresser-des-fichiers-sur-linux/)
-
-### Installer zip sur Ubuntu et Debian
-
-    > sudo apt install zip
-
-### Compresser un fichier Zip
-
-Par exemple pour compresser les fichiers fichier1, fichier2, fichier3 dans l’archive zip nom_archive.zip :
-
-    > zip nom_archive.zip fichier1 fichier2 fichier3
-
-### Compresser un répertoire en récursif
-
-    > zip -r zip_repertoire.zip repertoire
-
-### Compresser un répertoire en récursif en excluant un ou des sous-répertoire(s)
-
-Lorsque l’on zip toute une arborescence, soit un répertoire en récurif, on peut vouloir exclure des sous-répertoire.
-Pour cela on utilise l’option -x avec la syntaxe suivante :
-
-    > zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/*
-
-Par exemple pour exclure le répertoire /tmp/superdossier :
-
-    > zip -r zip_repertoire.zip /tmp/ -x tmp/superdossier/*
-
-Bien entendu, il est aussi possible de spécifier plusieurs sous-répertoire à exclure comme ceci :
-
-    > zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/* repertoire/sous-repertoire2/* repertoire/sous-repertoire3/*
 
 ## Netoyer ubuntu
 
@@ -136,35 +125,35 @@ Le compte root existe sous Ubuntu, mais il est désactivé (pas de mot de passe)
 
 La commande suivante permet quand même de se connecter quand même sur le compte root :
 
-``bash
+```bash
 sudo su -
-``
+```
 
 Mais on peut aller plus loin et donner un mot de passe au compte root avec la commande :
 
-``bash
+```bash
 sudo passwd
-``
+```
 
 Ensuite, la commande suivante devrait fonctionner directement :
-``bash
+```bash
 su -
-``
+```
 
 Cela ne suit évidemment pas les standards choisis par Canonical...
 
 
 
 Bouger un dossier projet
-``bash
-mv aecale-preprod_2.edgco.fr /var/www/save/aecale-preprod_2.edgco.fr
-``
+```bash
+mv projet-preprod_2.fr /var/www/save/projet-preprod_2.fr
+```
 
 
 Copier un dossier projet
 
 ```bash
-cp -r aecale-preprod.edgco.fr save/aecale-save/aecale-preprod_2.edgco.fr
+cp -r projet-preprod.fr save/projet-save/projet-preprod_2.fr
 ```
 
 
@@ -194,7 +183,7 @@ scp -P 22 ~/Desktop/adminer.php name_id@141.95.278.81:/var/www/projet-preprod.fr
 
 `ubuntu@141.94.222.87` représente l'identifiant et l'ip sur serveur
 
-`/var/www/aecale-preprod.edgco.fr/app/public` représente l'endroit on veut installer le fichier adminer.php dans le projet sur serveur
+`/var/www/projet-preprod.fr/app/public` représente l'endroit on veut installer le fichier adminer.php dans le projet sur serveur
 
 - Pour accéder a adminer on peut se rendre sur cette exemple d'url `https://projet-preprod.fr/adminer.php`
 
@@ -331,12 +320,61 @@ Cette commande téléchargera le fichier `document.txt` du répertoire `/home/jo
 
 Assurez-vous d'avoir les autorisations nécessaires pour accéder au fichier sur le serveur distant et que votre connexion SSH est configurée correctement.
 
-## Transformer un dossier en .tgz
+## Installer ZIP
 
-### Pour compresser un dossier en un fichier .tgz (archive tar.gz) sous Linux, tu peux utiliser la commande suivante :
+Site [malekal](https://www.malekal.com/utiliser-la-commande-zip-pour-compresser-des-fichiers-sur-linux/)
+
+### Installer zip sur Ubuntu et Debian
+
+```bash
+sudo apt install zip
+```
+    
+
+### Compresser un fichier Zip
+
+Par exemple pour compresser les fichiers fichier1, fichier2, fichier3 dans l’archive zip nom_archive.zip :
+
+```bash
+zip nom_archive.zip fichier1 fichier2 fichier3
+```
+
+### Compresser un répertoire en récursif
+
+```bash
+zip -r zip_repertoire.zip repertoire
+```
+
+### Compresser un répertoire en récursif en excluant un ou des sous-répertoire(s)
+
+Lorsque l’on zip toute une arborescence, soit un répertoire en récurif, on peut vouloir exclure des sous-répertoire.
+Pour cela on utilise l’option -x avec la syntaxe suivante :
+
+```bash
+zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/*
+```
+
+Par exemple pour exclure le répertoire /tmp/superdossier :
+
+```bash
+zip -r zip_repertoire.zip /tmp/ -x tmp/superdossier/*
+```
+
+Bien entendu, il est aussi possible de spécifier plusieurs sous-répertoire à exclure comme ceci :
+
+```bash
+zip -r zip_repertoire.zip repertoire -x repertoire/sous-repertoire/* repertoire/sous-repertoire2/* repertoire/sous-repertoire3/*
+```
+
+## Autre moyen de zipper, transformer un dossier en .tgz
+
+### Pour compresser un dossier en un fichier .tgz (archive tar.gz) sous Linux, on peut utiliser la commande suivante :
 
 ```bash
 tar -czvf nom_archive.tgz nom_dossier/
+
+# Ou
+tar -czvf nom_archive.tar.gz nom_dossier/
 ```
 
 Voici ce que chaque option signifie :
@@ -348,6 +386,78 @@ Voici ce que chaque option signifie :
 
 ```bash
 tar -czvf mon_dossier.tgz mon_dossier/
+
+# Ou
+tar -czvf mon_dossier.tar.gz mon_dossier/
 ```
 
 Cela créera un fichier mon_dossier.tgz contenant le dossier mon_dossier et son contenu.
+
+### Pour dézipper le fichier .tgz (archive tar.gz)
+
+- [askUbuntu : dézipper le fichier .tgz](https://askubuntu.com/questions/25347/what-command-do-i-need-to-unzip-extract-a-tar-gz-file)
+
+Tapez `man tar` pour plus d'informations
+
+```bash
+man tar 
+```
+
+#### Extraire les fichiers
+
+```bash
+tar -xvzf mon_dossier.tgz
+
+# Ou
+tar -xvzf mon_dossier.tar.gz
+
+# Resultat
+mon_dossier/
+```
+
+- **f :** Il indique à tar le nom et le chemin du fichier compressé .
+- **z :** indique à tar de décompresser l'archive en utilisant gzip
+- **x :** tar peut collecter des fichiers ou les extraire . xfait cette dernière opération.
+- **v :** fait beaucoup parler tar. La sortie détaillée affiche tous les fichiers extraits.
+
+Pour extraire les fichiers dans un **dossier personnalisé**  qui existe déjà, on ajoute l' option **-C** en indiquant le nom du dossier de notre choix :
+
+```bash
+tar -xvzf mon_dossier.gz -C mon_contenaire
+
+# Ou
+tar -xvzf mon_dossier.tar.gz -C mon_contenaire
+
+# Resultat
+mon_contenaire/mon_dossier/
+```
+### une fois dézippé, bouger les fichiers du dossier mon_dossier vers le dossier parent mon_contenaire
+```bash
+cd projet/mon_contenaire
+
+# Ne déplace pas les fichiers cachés
+mv mon_dossier/* ./
+
+# ou pour déplacer aussi les fichiers cachés
+mv mon_dossier/{*,.[!.]*} ./
+```
+
+# Résultat
+
+- `file1.php` et `folder1` du dossier `mon_dossier` sont directement enfant de `mon_contenaire`
+
+```txt
+# avant
+projet
+|_ mon_contenaire
+    |_ mon_dossier
+        |_ file1.php
+        |_ folder1
+
+# après
+|_ mon_contenaire
+    |_ mon_dossier
+    |_ file1.php
+    |_ folder1
+```
+

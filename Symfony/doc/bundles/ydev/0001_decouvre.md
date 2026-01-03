@@ -4,6 +4,9 @@
 - [Doc API exemple recherche textuelle](https://recherche-entreprises.api.gouv.fr/docs/#tag/Recherche-textuelle/paths/~1search/get)
 - [Doc API exemple recherche géographique](https://recherche-entreprises.api.gouv.fr/docs/#tag/Recherche-geographique/paths/~1near_point/get)
 
+- [How to Create Friendly Configuration for a Bundle](https://symfony.com/doc/current/bundles/configuration.html)
+- [GitHub symfony/recipes](https://github.com/symfony/recipes/tree/main)
+
 Test de L'api dans un terminal avec cURL
 
 ```bash
