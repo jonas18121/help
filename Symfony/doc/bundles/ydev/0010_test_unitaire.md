@@ -196,5 +196,14 @@ class EntrepriseSearchClientTest extends TestCase
 
 ```bash
 cd recherche-entreprises-bundle
-vendor/bin/phpunit
+
+vendor/bin/phpunit --testdox
+
+# Avec couverture
+
+## Générer une configuration
+vendor/bin/phpunit --generate-configuration
+
+## Générer le rapport de couverture en HTML
+XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html coverage
 ```

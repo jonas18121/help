@@ -498,3 +498,11 @@ composer require vendorcustom/recherche-entreprises-bundle
 ```
 
 Et Composer téléchargera depuis Packagist !
+
+Si besoin supprimer le `vendor` puis `composer install`
+
+```bash
+rm -fr vendor
+
+composer install
+```
