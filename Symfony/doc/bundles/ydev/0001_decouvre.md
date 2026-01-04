@@ -14,7 +14,7 @@ curl "https://recherche-entreprises.api.gouv.fr/search?q=carrefour&page=1&per_pa
 
 ## OU
 
-curl -X GET "https://recherche-entreprises.api.gouv.fr/search?q=carrefourpage=1&per_page=1" -H  "accept: application/json"
+curl -X GET "https://recherche-entreprises.api.gouv.fr/search?q=carrefour&page=1&per_page=1" -H  "accept: application/json"
 ```
 
 Cela retournera un contenu JSON qui n'est pas très lisible mais on peut installer un utilitaire nommé jq pour que le JSON soit plus lisible

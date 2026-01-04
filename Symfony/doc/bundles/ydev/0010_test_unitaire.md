@@ -97,7 +97,9 @@ namespace Vendorcustom\RechercheEntreprisesBundle\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Vendorcustom\RechercheEntreprisesBundle\VendorcustomRechercheEntreprisesBundle;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(VendorcustomRechercheEntreprisesBundle::class)]
 class VendorcustomRechercheEntreprisesBundleTest extends TestCase
 {
     public function testBundleCanBeInstantiated(): void
@@ -131,6 +133,7 @@ Symfony MockHttpClient permet de :
 
 ### Créez tests/Client/EntrepriseSearchClientTest.php :
 
+- Voir [Code Coverage PHPUnit](https://docs.phpunit.de/en/10.5/code-coverage.html)
 - Le service ne sait pas qu'il utilise un mock ! Il pense appeler la vraie API.
 - `$this->expectException(\InvalidArgumentException::class);` on attend que ce test lance une exception". Si l'exception n'est pas lancée, le test échoue.
 - Utilisation de `NullLogger`, Un logger qui ne fait rien. Pratique pour les tests où on ne veut pas de logs.
@@ -138,12 +141,21 @@ Symfony MockHttpClient permet de :
 ```php
 namespace Vendorcustom\RechercheEntreprisesBundle\Tests\Client;
 
-use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\HttpClient\MockHttpClient;
+use Vendorcustom\RechercheEntreprisesBundle\Model\Siege;
 use Symfony\Component\HttpClient\Response\MockResponse;
+use Vendorcustom\RechercheEntreprisesBundle\Model\Entreprise;
+use Vendorcustom\RechercheEntreprisesBundle\Model\SearchResult;
 use Vendorcustom\RechercheEntreprisesBundle\Client\EntrepriseSearchClient;
 
+#[CoversClass(EntrepriseSearchClient::class)]
+#[UsesClass(Entreprise::class)]
+#[UsesClass(SearchResult::class)]
+#[UsesClass(Siege::class)]
 class EntrepriseSearchClientTest extends TestCase
 {
     public function testSearchReturnsResults(): void

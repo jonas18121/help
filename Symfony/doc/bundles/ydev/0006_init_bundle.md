@@ -75,7 +75,7 @@ echo "/vendor/
     "authors": [
         {
             "name": "my name",
-            "email": "contact@Vendorcustom.com"
+            "email": "contact@vendorcustom.com"
         }
     ],
     "require": {
