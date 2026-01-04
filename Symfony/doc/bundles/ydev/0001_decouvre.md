@@ -7,6 +7,9 @@
 - [How to Create Friendly Configuration for a Bundle](https://symfony.com/doc/current/bundles/configuration.html)
 - [GitHub symfony/recipes](https://github.com/symfony/recipes/tree/main)
 
+- [PHP-FIG](https://www.php-fig.org/)
+- [Creational Design Patterns](https://refactoring.guru/design-patterns/creational-patterns)
+
 Test de L'api dans un terminal avec cURL
 
 ```bash
