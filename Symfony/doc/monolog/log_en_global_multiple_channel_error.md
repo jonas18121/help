@@ -216,6 +216,20 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
+/**
+ * Intercepte toutes les exceptions levées par l'application.
+ *
+ * Fonctionnement :
+ *
+ *  → Catégorise les erreurs par niveau de gravité (EMERGENCY, ALERT, CRITICAL, ERROR)
+ *
+ *  → Enregistre dans des fichiers de logs dédiés (var/log/exception/)
+ *
+ * @see config/packages/monolog.yaml pour la configuration des canaux de logs
+ * @see config/services.yaml pour l'injection des loggers et du cache
+ *
+ * @author jonas18121
+ */
 class ExceptionSubscriber implements EventSubscriberInterface
 {
     public function __construct(

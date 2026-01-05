@@ -257,12 +257,30 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
+/**
+ * Intercepte toutes les exceptions levées par l'application.
+ *
+ * Fonctionnement :
+ *
+ *  → Catégorise les erreurs par niveau de gravité (EMERGENCY, ALERT, CRITICAL, ERROR)
+ *
+ *  → Enregistre dans des fichiers de logs dédiés (var/log/exception/)
+ *
+ *  → Envoie un email de notification
+ *
+ *  → Déduplique les erreurs identiques pendant une durée configurable
+ *
+ * @see config/packages/monolog.yaml pour la configuration des canaux de logs
+ * @see config/services.yaml pour l'injection des loggers et du cache
+ *
+ * @author jonas18121
+ */
 class ExceptionSubscriber implements EventSubscriberInterface
 {
     # Définit le nombre de minutes souhaiter pour attendre avant d'envoyer un mail et un log pour une même erreur
     private const COOL_DOWN_IN_MINUTES = 120;
 
-    # Calcule pour que COOL_DOWN_IN_MINUTES soit vraiment traduit en minitues
+    # Convertit le cooldown en secondes pour correspondre au format attendu d'expiration du cache
     private const COOL_DOWN = self::COOL_DOWN_IN_MINUTES * 60;
 
     public function __construct(
@@ -378,17 +396,18 @@ class ExceptionSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Gère l'autorisation d'envoyer des mails pour d'autres environnement que la prod
-     * 
-     * Utiliser true pour envoyer des mails dans d'autres environnement que la prod
-     * true est a utiliser temporairement
+     * Contrôle l'envoi des logs et mails selon l'environnement :
+     *     → false : production uniquement
+     *     → true : tous les environnements (pour tests temporaires)
+     *
+     * FORCE_ERROR_MAIL=true dans .env.local
      */
     private function managerAllowsEnv(): bool
     {
         /** @var bool $allowsAllEnv */
         $allowsAllEnv = false;
 
-        # Depuis un fichier .env ou .env.local vérichier si FORCE_ERROR_MAIL est en true en minuscule
+        # Depuis un fichier .env ou .env.local vérifie si la valeur de FORCE_ERROR_MAIL est true et en minuscule
         if(isset($_ENV['FORCE_ERROR_MAIL']) && !empty($_ENV['FORCE_ERROR_MAIL'])){
             if(ctype_lower($_ENV['FORCE_ERROR_MAIL']) && true === (bool) $_ENV['FORCE_ERROR_MAIL']){
                 /** @var bool $allowsAllEnv */
