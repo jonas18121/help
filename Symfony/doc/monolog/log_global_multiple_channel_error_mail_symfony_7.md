@@ -404,18 +404,15 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private function managerAllowsEnv(): bool
     {
-        /** @var bool $allowsAllEnv */
-        $allowsAllEnv = false;
-
-        # Depuis un fichier .env ou .env.local vérifie si la valeur de FORCE_ERROR_MAIL est true et en minuscule
-        if(isset($_ENV['FORCE_ERROR_MAIL']) && !empty($_ENV['FORCE_ERROR_MAIL'])){
-            if(ctype_lower($_ENV['FORCE_ERROR_MAIL']) && true === (bool) $_ENV['FORCE_ERROR_MAIL']){
-                /** @var bool $allowsAllEnv */
-                $allowsAllEnv = true;
-            }
+        if (!isset($_ENV['FORCE_ERROR_MAIL'])) {
+            return false;
         }
-
-        return $allowsAllEnv;
+    
+        if ($_ENV['FORCE_ERROR_MAIL'] === 'true') {
+            return true;
+        }
+    
+        return false;
     }
 
     /**
