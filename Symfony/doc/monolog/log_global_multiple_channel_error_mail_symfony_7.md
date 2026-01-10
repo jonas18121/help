@@ -283,6 +283,11 @@ class ExceptionSubscriber implements EventSubscriberInterface
     # Convertit le cooldown en secondes pour correspondre au format attendu d'expiration du cache
     private const COOL_DOWN = self::COOL_DOWN_IN_MINUTES * 60;
 
+    private const STATUS_INTERNAL_SERVER = 500;
+    private const STATUS_UNAUTHORIZED = 401;
+    private const STATUS_FORBIDDEN = 403;
+    private const STATUS_NOT_FOUND = 404;
+
     public function __construct(
         private LoggerInterface $errorLogger,
         private LoggerInterface $criticalLogger,
@@ -351,7 +356,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         } catch (\Throwable $error) {
             # dernier rempart : empêche une boucle infinie si le logger échoue
             # Log de secours avec lastError()
-            $this->lastError($exception, $error, "Logger");
+            $this->lastError($exceptionLogger, $error, "Logger");
         }
     }
 
@@ -388,7 +393,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     private function managerStatusCode(\Throwable $exceptionLogger): int
     {
         /** @var int $statusCode */
-        $statusCode = 500; # par défaut
+        $statusCode = self::STATUS_INTERNAL_SERVER; # par défaut
 
         # Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
         if ($exceptionLogger instanceof HttpExceptionInterface) {
@@ -459,16 +464,21 @@ class ExceptionSubscriber implements EventSubscriberInterface
         // ============================
         // 3. CRITICAL (Erreurs serveur 500+)
         // ============================
-        if ($statusCode >= 500) {
+        if ($statusCode >= self::STATUS_INTERNAL_SERVER) {
             $this->sendEmail('CRITICAL', $exception, $statusCode, $request);
             return ['critical', $this->criticalLogger, 'Server error'];
         }
 
-
         // ============================
         // 4. ERROR (Par défault)
         // ============================
-        if ($statusCode !== 404) {
+        $ignoredStatusCodes = [
+            self::STATUS_UNAUTHORIZED, 
+            self::STATUS_FORBIDDEN, 
+            self::STATUS_NOT_FOUND
+        ];
+
+        if (!in_array($statusCode, $ignoredStatusCodes, true)) {
             $this->sendEmail('ERROR', $exception, $statusCode, $request);
         }
         # Erreurs fonctionnelles ou utilisateur
@@ -511,14 +521,16 @@ class ExceptionSubscriber implements EventSubscriberInterface
                  <p><strong>Application :</strong> %s</p>
                  <p><strong>Environnement :</strong> %s</p>
                  <p><strong>Message :</strong> %s</p>
+                 <p><strong>Status code :</strong> %s</p>
                  <p><strong>URL (sans info après le '?') :</strong> %s</p>
                  <p><strong>Fichier :</strong> %s</p>
                  <p><strong>Ligne :</strong> %d</p>
-                 <pre>%s</pre>",
+                 <pre><strong>Trace :</strong><br> %s</pre>",
                 $this->htmlSpecialCharsSafe($type),
                 $this->htmlSpecialCharsSafe(Constants::NAME_APPLICATION),
                 $this->htmlSpecialCharsSafe($this->environment),
                 $this->htmlSpecialCharsSafe($exception->getMessage()),
+                $statusCode,
                 $this->htmlSpecialCharsSafe($url),
                 $this->htmlSpecialCharsSafe($exception->getFile()),
                 $exception->getLine(),
@@ -610,9 +622,13 @@ class ExceptionSubscriber implements EventSubscriberInterface
      *
      * error_log() écrit là où PHP est configuré pour écrire les erreurs sans générer une nouvelle exception. 
      * 
-     * Exemple ubuntu : /var/log/apache2/error.log ou /var/log/php7.x-fpm.log ou /var/log/php/error.log 
+     * Exemple dans serveur ubuntu ou dans le contenaire docker : 
+     *     -> /var/log/apache2/error.log 
+     *     -> ou /var/log/apache2/app_error.log 
+     *     -> ou /var/log/php7.x-fpm.log 
+     *     -> ou /var/log/php/error.log 
      * 
-     * Exemple docker : docker logs <container_name>
+     * Exemple commande docker : docker logs <container_name>
      */
     private function lastError(
         \Throwable $exception,

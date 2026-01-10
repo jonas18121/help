@@ -185,6 +185,11 @@ class ExceptionSubscriber implements EventSubscriberInterface
     # Convertit le cooldown en secondes pour correspondre au format attendu d'expiration du cache
     private const COOL_DOWN = self::COOL_DOWN_IN_MINUTES * 60;
 
+    private const STATUS_INTERNAL_SERVER = 500;
+    private const STATUS_UNAUTHORIZED = 401;
+    private const STATUS_FORBIDDEN = 403;
+    private const STATUS_NOT_FOUND = 404;
+
     private MailerInterface $mailer;
 
     private CacheItemPoolInterface $dedupeCache;
@@ -255,7 +260,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     private function managerStatusCode(\Throwable $exceptionLogger): int
     {
         /** @var int $statusCode */
-        $statusCode = 500; # par défaut
+        $statusCode = self::STATUS_INTERNAL_SERVER; # par défaut
 
         # Si c’est une exception HTTP, on récupère le vrai code (404, 403, 401, etc.)
         if ($exceptionLogger instanceof HttpExceptionInterface) {
@@ -266,23 +271,24 @@ class ExceptionSubscriber implements EventSubscriberInterface
         return $statusCode;
     }
 
-    /**
-     * Contrôle l'envoi des logs et mails selon l'environnement :
-     *     → false : production uniquement
-     *     → true : tous les environnements (pour tests temporaires)
-     *
-     * FORCE_ERROR_MAIL=true dans .env.local
+    /** 
+     * Contrôle l'envoi des mails : 
+     *  → true : autoriser l'envoi de mail (production ou FORCE_ERROR_MAIL=true dans .env.local) 
+     * → false : refuser l'envoi de mail 
      */
-    private function managerAllowsEnv(): bool
+    private function isAllowedSendMail(): bool
     {
-        if (!isset($_ENV['FORCE_ERROR_MAIL'])) {
-            return false;
-        }
-    
-        if ($_ENV['FORCE_ERROR_MAIL'] === 'true') {
+        # En prod : toujours envoyer un mail
+        if ('prod' === $this->environment) {
             return true;
         }
-    
+
+        # En dev, test, autres... : envoyer un mail seulement si FORCE_ERROR_MAIL=true dans .env.local
+        if (isset($_ENV['FORCE_ERROR_MAIL']) && $_ENV['FORCE_ERROR_MAIL'] === 'true') {
+            return true;
+        }
+
+        # Pas d'envoie de mail
         return false;
     }
 
@@ -291,9 +297,10 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     private function managerException(\Throwable $exception, int $statusCode, ?Request $request): void
     {
-        /** @var string $message */
-        $message = strtolower($exception->getMessage());
-
+        // ============================
+        // 1. EMERGENCY (Crash fatal)
+        // ============================
+        # Crash PHP fatals / erreurs irréversibles
         if (
             $exception instanceof \Error ||
             $exception instanceof \TypeError ||
@@ -304,28 +311,37 @@ class ExceptionSubscriber implements EventSubscriberInterface
             return;
         }
 
+        // ============================
+        // 2. ALERT (BD)
+        // ============================
         if (
             $exception instanceof \PDOException ||
-            $exception instanceof QueryException ||
-            strpos($message, 'sql') !== false ||
-            strpos($message, 'database') !== false ||
-            strpos($message, 'token') !== false ||
-            strpos($message, 'jwt') !== false ||
-            strpos($message, 'auth') !== false ||
-            strpos($message, 'api') !== false ||
-            strpos($message, 'timeout') !== false ||
-            strpos($message, 'unavailable') !== false
+            $exception instanceof QueryException 
         ) {
             $this->sendEmail('ALERT', $exception, $statusCode, $request);
             return;
         }
 
-        if ($statusCode >= 500) {
+        // ============================
+        // 3. CRITICAL (Erreurs serveur 500+)
+        // ============================
+        if ($statusCode >= self::STATUS_INTERNAL_SERVER) {
             $this->sendEmail('CRITICAL', $exception, $statusCode, $request);
             return;
         }
 
-        $this->sendEmail('ERROR', $exception, $statusCode, $request);
+        // ============================
+        // 4. ERROR (Par défault)
+        // ============================
+        $ignoredStatusCodes = [
+            self::STATUS_UNAUTHORIZED, 
+            self::STATUS_FORBIDDEN, 
+            self::STATUS_NOT_FOUND
+        ];
+
+        if (!in_array($statusCode, $ignoredStatusCodes, true)) {
+            $this->sendEmail('ERROR', $exception, $statusCode, $request);
+        }
     }
 
     /**
@@ -360,10 +376,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
         ?Request $request
     ): void
     {
-        /** @var bool $allowsAllEnv */
-        $allowsAllEnv = $this->managerAllowsEnv();
-
-        if ('prod' !== $this->environment && true !== $allowsAllEnv) {
+        # Pas d'envoi de mail en dev ou test sauf si on autorise avec true
+        if (!$this->isAllowedSendMail()) {
             return;
         }
 
@@ -375,25 +389,41 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $email = (new Email())
             ->from('ne-pas-repondre@gmail.fr')
             ->to('my@gmail.fr')
-            ->subject("[{$type}] Nouvelle erreur détectée ({$statusCode})  - Application popo- {$this->environment}")
-            ->html("
-                <h2>Erreur détectée de type : {$type}</h2>
-                <p><strong>Application :</strong> popo</p>
-                <p><strong>Environnement :</strong> {$this->environment}</p>
-                <p><strong>Status code :</strong> {$statusCode}</p>
-                <p><strong>Url (sans info après '?') :</strong> {$url}</p>
-                <p><strong>Message :</strong> {$exception->getMessage()}</p>
-                <p><strong>Fichier :</strong> {$exception->getFile()}</p>
-                <p><strong>Ligne :</strong> {$exception->getLine()}</p>
-                <pre><strong>Trace :</strong><br>{$exception->getTraceAsString()}</pre>
-            ")
+            ->subject(sprintf(
+                "[%s] Nouvelle erreur détectée (%d) - Application %s - %s",
+                $this->safeSubject($type),
+                $statusCode,
+                $this->safeSubject(Constants::NAME_APPLICATION),
+                $this->safeSubject($this->environment)
+            ))
+            ->html(sprintf(
+                "<h2>Erreur détectée de type : %s</h2>
+                 <p><strong>Application :</strong> %s</p>
+                 <p><strong>Environnement :</strong> %s</p>
+                 <p><strong>Message :</strong> %s</p>
+                 <p><strong>Status code :</strong> %s</p>
+                 <p><strong>URL (sans info après le '?') :</strong> %s</p>
+                 <p><strong>Fichier :</strong> %s</p>
+                 <p><strong>Ligne :</strong> %d</p>
+                 <pre><strong>Trace :</strong><br> %s</pre>",
+                $this->htmlSpecialCharsSafe($type),
+                $this->htmlSpecialCharsSafe(Constants::NAME_APPLICATION),
+                $this->htmlSpecialCharsSafe($this->environment),
+                $this->htmlSpecialCharsSafe($exception->getMessage()),
+                $statusCode,
+                $this->htmlSpecialCharsSafe($url),
+                $this->htmlSpecialCharsSafe($exception->getFile()),
+                $exception->getLine(),
+                $this->htmlSpecialCharsSafe($exception->getTraceAsString())
+            ))
         ;
 
         try {
             $this->mailer->getMailer()->send($email);
         } catch (\Throwable $error) {
-            # dernier rempart : ne rien faire
-            # empêche de créer une boucle infinit d'erreur, si le mail ne fonctionne pas
+            # dernier rempart : empêche une boucle infinie si le mailer échoue
+            # Log de secours avec lastError()
+            $this->lastError($exception, $error, "Mail");
         }
     }
 
@@ -428,6 +458,46 @@ class ExceptionSubscriber implements EventSubscriberInterface
         } finally {
             $lock->release();
         }
+    }
+
+    /**
+     * Dernier rempart : écrit dans error_log() si logger ou mailer échoue.
+     *
+     * error_log() écrit là où PHP est configuré pour écrire les erreurs sans générer une nouvelle exception. 
+     * 
+     * Exemple dans serveur ubuntu ou dans le contenaire docker : 
+     *     -> /var/log/apache2/error.log 
+     *     -> ou /var/log/apache2/app_error.log 
+     *     -> ou /var/log/php7.x-fpm.log 
+     *     -> ou /var/log/php/error.log 
+     * 
+     * Exemple commande docker : docker logs <container_name>
+     */
+    private function lastError(
+        \Throwable $exception,
+        \Throwable $error,
+        string $name
+    ): void 
+    {
+        @error_log(sprintf(
+            "[ExceptionSubscriber CRITICAL][%s] %s failed: %s in %s:%d | Other exception: %s",
+            $this->environment,
+            $name,
+            $error->getMessage(),
+            $error->getFile(),
+            $error->getLine(),
+            $exception->getMessage()
+        ));
+    }
+
+    private function htmlSpecialCharsSafe(string $string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    private function safeSubject(string $value): string
+    {
+        return trim(preg_replace('/[\r\n]+/', ' ', $value));
     }
 }
 ```
