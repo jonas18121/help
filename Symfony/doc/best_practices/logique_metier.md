@@ -72,7 +72,8 @@ Dans le Service :
 class UserService
 {
     public function __construct(
-        private UserManager $userManager
+        private UserManager $userManager,
+        private MailerInterface $mailer
     ) {}
 
     public function create(string $email, string $plainPassword): void
@@ -86,6 +87,14 @@ class UserService
         }
 
         $this->userManager->createUser($email, $plainPassword);
+        
+        // Bonus : envoyer un mail de bienvenue
+        $this->mailer->send(
+            (new Email())
+                ->to($email)
+                ->subject('Bienvenue !')
+                ->text('Merci pour votre inscription.')
+        );
     }
 }
 ```
@@ -114,14 +123,6 @@ class UserManager
         $user->setPassword($this->hasher->hashPassword($user, $plainPassword));
 
         $this->userRepository->save($user);
-
-        // Bonus : envoyer un mail de bienvenue
-        $this->mailer->send(
-            (new Email())
-                ->to($email)
-                ->subject('Bienvenue !')
-                ->text('Merci pour votre inscription.')
-        );
     }
 }
 ```
@@ -179,6 +180,6 @@ UserRepository (accès DB)
 | Composant     | Rôle                                                                      |
 | ------------- |---------------------------------------------------------------------------|
 | Controller    | Récupère la requête, appelle un service, retourne la réponse              |
-| Service       | Orchestration métier (validation, appels aux managers)                    |
-| Manager       | Exécute les actions précises sur l'entité (création, hashing, envoi mail) |
+| Service       | Orchestration métier (validation, appels aux managers, envoi mail)                    |
+| Manager       | Exécute les actions précises sur l'entité (création, hashing) |
 | Repository    | Communication avec la BDD                                                 |
